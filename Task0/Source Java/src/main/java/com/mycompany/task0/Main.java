@@ -8,7 +8,13 @@ public class Main {
     private static Connection co;
     private static final Scanner S = new Scanner(System.in);
     private static int operation;
+    private static boolean end = false;
     
+    private static final String DBIp = "localhost";
+    private static final String DBPort = "3306";
+    private static final String DBUser = "root";
+    private static final String DBPass = "root";
+    private static final String DBName = "";
     
     static{
         try{
@@ -16,13 +22,6 @@ public class Main {
         }
         catch(SQLException e) {e.printStackTrace(System.out);}
     }
-    
-    private void addRating(){}
-    private void showUsers(){}
-    private void showFilms(){}
-    private void modifyRating(){}
-    private void deleteRating(){}
-    
     
     
     public static void main(String[] args){
@@ -33,9 +32,10 @@ public class Main {
                 + "2. Show users list \n"
                 + "3. Show films list \n"
                 + "4. Modify rating \n"
-                + "5. Delete user");
+                + "5. Delete user\n"
+                + "0. Exit application");
         
-        while(true){
+        while(!end){
             System.out.println("Select the command (integer) plus argument nedeed:");
             
             operation = S.nextInt();
@@ -44,22 +44,46 @@ public class Main {
                 // TODO:
                 // aggiungere argomenti necessari ai metodi
                 // prima di leggere gli argomenti necessari stampare indicazioni
-                
+                case 0:
+                    end = true;
+                    break;
                 case 1: //{leggo argomenti 
-                    //addRating(); break;}
+                    addRating();
+                    break;
                 case 2: //{
-                    //showUsers(); break;}
+                    showUsers();
+                    break;
                 case 3: //{
-                    //showFilms(); break;} ricorda di mettere anche la media delle valutazioni
+                    showFilms(); 
+                    break;
                 case 4: //{ leggo argomenti
-                    //modifyRating(); break;}
+                    modifyRating(); 
+                    break;
                 case 5: //{ leggo argomenti
-                    //deleteRating(); break;}
-                default: System.out.println("Comando non riconosciuto!!!");
+                    deleteRating(); 
+                    break;
+                default: 
+                    System.out.println("Insert a not valid command!!!");
+                    break;
            }
         }
         
     }
     
+    private static void addRating(){
+        System.out.println("[Add rating] This function must be implemented");
+    }
+    private static void showFilms(){
+        System.out.println("[Show films list] This function must be implemented");
+    }
+    private static void showUsers(){
+        System.out.println("[Show users list] This function must be implemented");
+    }
+    private static void modifyRating(){
+        System.out.println("[Modify rating] This function must be implemented");
+    }
+    private static void deleteRating(){
+        System.out.println("[Delete rating] This function must be implemented");
+    }
     
 }
