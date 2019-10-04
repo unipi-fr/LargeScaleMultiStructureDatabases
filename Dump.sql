@@ -1,8 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `movieDB` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `movieDB`;
--- MySQL dump 10.13  Distrib 8.0.17, for macos10.14 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `moviedb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `moviedb`;
+-- MySQL dump 10.13  Distrib 8.0.17, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: movieDB
+-- Host: 127.0.0.1    Database: moviedb
 -- ------------------------------------------------------
 -- Server version	8.0.17
 
@@ -18,122 +18,122 @@ USE `movieDB`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `Acting`
+-- Table structure for table `acting`
 --
 
-DROP TABLE IF EXISTS `Acting`;
+DROP TABLE IF EXISTS `acting`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `Acting` (
+CREATE TABLE `acting` (
   `actorFK` int(11) NOT NULL,
   `filmFK` int(11) NOT NULL,
   `role` varchar(45) DEFAULT NULL,
-  KEY `fk_Acting_Actor1_idx` (`actorFK`),
-  KEY `fk_Acting_Film1_idx` (`filmFK`),
-  CONSTRAINT `fk_Acting_Actor1` FOREIGN KEY (`actorFK`) REFERENCES `actor` (`idActor`),
-  CONSTRAINT `fk_Acting_Film1` FOREIGN KEY (`filmFK`) REFERENCES `film` (`idFilm`)
+  KEY `fk_Actor_idx` (`actorFK`),
+  KEY `fk_Film_idx` (`filmFK`),
+  CONSTRAINT `fk_Actor` FOREIGN KEY (`actorFK`) REFERENCES `actor` (`idActor`),
+  CONSTRAINT `fk_Film` FOREIGN KEY (`filmFK`) REFERENCES `film` (`idFilm`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Acting`
+-- Dumping data for table `acting`
 --
 
-LOCK TABLES `Acting` WRITE;
-/*!40000 ALTER TABLE `Acting` DISABLE KEYS */;
-INSERT INTO `Acting` VALUES (4,2,'Protagonist'),(3,1,'Protagonist'),(2,3,'Co-protagonist'),(1,4,'Protagonist'),(1,3,'Protagonist');
-/*!40000 ALTER TABLE `Acting` ENABLE KEYS */;
+LOCK TABLES `acting` WRITE;
+/*!40000 ALTER TABLE `acting` DISABLE KEYS */;
+INSERT INTO `acting` VALUES (4,2,'Protagonist'),(3,1,'Protagonist'),(2,3,'Co-protagonist'),(1,4,'Protagonist'),(1,3,'Protagonist');
+/*!40000 ALTER TABLE `acting` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `Actor`
+-- Table structure for table `actor`
 --
 
-DROP TABLE IF EXISTS `Actor`;
+DROP TABLE IF EXISTS `actor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `Actor` (
-  `idActor` int(11) NOT NULL,
+CREATE TABLE `actor` (
+  `idActor` int(11) NOT NULL AUTO_INCREMENT,
   `firstName` varchar(45) NOT NULL,
   `secondName` varchar(45) NOT NULL,
   `age` int(11) DEFAULT NULL,
   PRIMARY KEY (`idActor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Actor`
+-- Dumping data for table `actor`
 --
 
-LOCK TABLES `Actor` WRITE;
-/*!40000 ALTER TABLE `Actor` DISABLE KEYS */;
-INSERT INTO `Actor` VALUES (1,'Leonardo','Di Caprio',44),(2,'Mia','Khalifa',26),(3,'Zlatan','Ibrahimovic',38),(4,'Nino','Frassica',NULL);
-/*!40000 ALTER TABLE `Actor` ENABLE KEYS */;
+LOCK TABLES `actor` WRITE;
+/*!40000 ALTER TABLE `actor` DISABLE KEYS */;
+INSERT INTO `actor` VALUES (1,'Leonardo','Di Caprio',44),(2,'Mia','Khalifa',26),(3,'Zlatan','Ibrahimovic',38),(4,'Nino','Frassica',68);
+/*!40000 ALTER TABLE `actor` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `Film`
+-- Table structure for table `film`
 --
 
-DROP TABLE IF EXISTS `Film`;
+DROP TABLE IF EXISTS `film`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `Film` (
-  `idFilm` int(11) NOT NULL,
+CREATE TABLE `film` (
+  `idFilm` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(45) DEFAULT NULL,
   `publishDate` date DEFAULT NULL,
   `category` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idFilm`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Film`
+-- Dumping data for table `film`
 --
 
-LOCK TABLES `Film` WRITE;
-/*!40000 ALTER TABLE `Film` DISABLE KEYS */;
-INSERT INTO `Film` VALUES (1,'Joker','0002-10-19','Drama'),(2,'Avengers','2025-04-19','Action'),(3,'Wanted','2007-12-17','Horror'),(4,'Albakiara','2008-10-24','Drama');
-/*!40000 ALTER TABLE `Film` ENABLE KEYS */;
+LOCK TABLES `film` WRITE;
+/*!40000 ALTER TABLE `film` DISABLE KEYS */;
+INSERT INTO `film` VALUES (1,'Joker','0002-10-19','Drama'),(2,'Avengers','2025-04-19','Action'),(3,'Wanted','2007-12-17','Horror'),(4,'Albakiara','2008-10-24','Drama');
+/*!40000 ALTER TABLE `film` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `Rating`
+-- Table structure for table `rating`
 --
 
-DROP TABLE IF EXISTS `Rating`;
+DROP TABLE IF EXISTS `rating`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `Rating` (
+CREATE TABLE `rating` (
   `userFK` varchar(45) NOT NULL,
   `filmFK` int(11) NOT NULL,
   `rate` varchar(45) DEFAULT NULL,
   KEY `fk_Rating_User_idx` (`userFK`),
-  KEY `fk_Rating_Film1_idx` (`filmFK`),
-  CONSTRAINT `fk_Rating_Film1` FOREIGN KEY (`filmFK`) REFERENCES `film` (`idFilm`),
+  KEY `fk_Film_idx` (`filmFK`),
+  CONSTRAINT `fk_Film_Rated` FOREIGN KEY (`filmFK`) REFERENCES `film` (`idFilm`),
   CONSTRAINT `fk_Rating_User` FOREIGN KEY (`userFK`) REFERENCES `user` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Rating`
+-- Dumping data for table `rating`
 --
 
-LOCK TABLES `Rating` WRITE;
-/*!40000 ALTER TABLE `Rating` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Rating` ENABLE KEYS */;
+LOCK TABLES `rating` WRITE;
+/*!40000 ALTER TABLE `rating` DISABLE KEYS */;
+/*!40000 ALTER TABLE `rating` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `User`
+-- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `User`;
+DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `User` (
+CREATE TABLE `user` (
   `username` varchar(45) NOT NULL,
-  `fisrtName` varchar(45) NOT NULL,
+  `firstName` varchar(45) NOT NULL,
   `secondName` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL,
@@ -142,22 +142,14 @@ CREATE TABLE `User` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `User`
+-- Dumping data for table `user`
 --
 
-LOCK TABLES `User` WRITE;
-/*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES ('andrè','Andrea','Tubak','andrea@boh.com','1234'),('DaEliminare','boh','boh^2','tizio@caio.sempronio','inutile'),('fraronck','Francesco','Ronchieri','francesco@hotmail.mo','56789'),('mazzorca','Alessandro','Madonna','mazzorca96@gmail.com','pass1'),('stefanoP','Stefano','Petrocchi','stefanoP@gmeil.com','tizio1');
-/*!40000 ALTER TABLE `User` ENABLE KEYS */;
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES ('andrè','Andrea','Tubak','andrea@boh.com','1234'),('DaEliminare','boh','boh^2','tizio@caio.sempronio','inutile'),('fraronk','Francesco','Ronchieri','francesco@hotmail.mo','56789'),('mazzorca','Alessandro','Madonna','mazzorca96@gmail.com','pass1'),('stefanoP','Stefano','Petrocchi','stefanoP@gmeil.com','tizio1');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping events for database 'movieDB'
---
-
---
--- Dumping routines for database 'movieDB'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -168,4 +160,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-04 17:34:44
+-- Dump completed on 2019-10-04 23:37:53
