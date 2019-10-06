@@ -69,7 +69,13 @@ public class Main {
                     stampaLista(film);
                     break;
                 case 4: //{ leggo argomenti
-                    modifyRating(); 
+                    System.out.println("Insert username:");
+                    u = S.next();
+                    System.out.println("Insert film:");
+                    f = S.next();
+                    System.out.println("Insert new rating (integer [1,5]):");
+                    r = S.nextInt();
+                    //modifyRating(u,f,r); 
                     break;
                 case 5: //{ leggo argomenti
                     System.out.println("Wich user do you want delete (insert the username):");
@@ -122,15 +128,27 @@ public class Main {
                 ){
             ps.setString(1, film);
             ResultSet rs = ps.executeQuery();
+            if(rs.next()==false){
+                //LANCIARE ECCEZIONE APPROPRIATA
+            }
             filmPK = rs.getInt("idFilm");
+            System.out.println("DEBUG| filmPK: "+filmPK);
         }
        // if I can't find the PK of the film better to shut down th method
         catch(SQLException e){e.printStackTrace(System.out); return;} 
         
-        
-        // DA FINIRE!!! -> Completare inserimento
-        //  Perchè rate nella tabella rating è un VARCHAR(45)????
-        
+        //Inserisco la riga
+        try(
+                PreparedStatement ps = co.prepareStatement("INSERT INTO rating(Username,idFilm,rate) VALUES (?,?,?)");   
+           ){
+            ps.setString(1,user);
+            ps.setInt(2,filmPK);
+            ps.setInt(3, rating);
+            
+            int insertedRows = ps.executeUpdate();
+            System.out.println("DEBUG| Righe inserite: "+insertedRows);
+        }
+        catch(SQLException e){e.printStackTrace(System.out); return;}
         
     }
     
