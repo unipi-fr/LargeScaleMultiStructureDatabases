@@ -72,7 +72,9 @@ public class Main {
                     modifyRating(); 
                     break;
                 case 5: //{ leggo argomenti
-                    deleteRating(); 
+                    System.out.println("Wich user do you want delete (insert the username):");
+                    String username = S.next();
+                    deleteUser(username); 
                     break;
                 default: 
                     System.out.println("Insert a not valid command!!!");
@@ -172,8 +174,17 @@ public class Main {
     }
     
     
-    private static void deleteRating(){
-        System.out.println("[Delete rating] This function must be implemented");
+    private static void deleteUser(String username){
+        try(
+                PreparedStatement ps = co.prepareStatement("DELETE FROM user WHERE username = ? ;");
+                ){
+            ps.setString(1, username);
+            int r = ps.executeUpdate();
+                
+        }catch(SQLException SQLe){SQLe.printStackTrace(System.out); return;}
+        catch(Exception e){ e.printStackTrace(System.out); return; }
+                             
+        System.out.println("User deleted successfully");
     }
     
 }
