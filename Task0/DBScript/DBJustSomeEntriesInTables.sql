@@ -109,9 +109,7 @@ CREATE TABLE `Acting` (
   `idFilm` int(11) NOT NULL,
   `role` varchar(45) DEFAULT NULL,
   KEY `fk_Actor_idx` (`idActor`),
-  KEY `fk_Film_idx` (`idFilm`),
-  CONSTRAINT `fk_Actor` FOREIGN KEY (`idActor`) REFERENCES `Actor` (`idActor`),
-  CONSTRAINT `fk_Film` FOREIGN KEY (`idFilm`) REFERENCES `Film` (`idFilm`)
+  KEY `fk_Film_idx` (`idFilm`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -138,11 +136,9 @@ DROP TABLE IF EXISTS `Rating`;
 CREATE TABLE `Rating` (
   `idUser` varchar(45) NOT NULL,
   `idFilm` int(11) NOT NULL,
-  `rate` varchar(45) DEFAULT NULL,
+  `rate` int(11) DEFAULT NULL,
   KEY `fk_Rating_User_idx` (`idUser`),
-  KEY `fk_Film_idx` (`idFilm`),
-  CONSTRAINT `fk_Film_Rated` FOREIGN KEY (`idFilm`) REFERENCES `Film` (`idFilm`),
-  CONSTRAINT `fk_Rating_User` FOREIGN KEY (`idUser`) REFERENCES `User` (`Username`)
+  KEY `fk_Film_idx` (`idFilm`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
