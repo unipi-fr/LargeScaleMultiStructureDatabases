@@ -26,7 +26,7 @@ DROP TABLE IF EXISTS `Film`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Film` (
   `idFilm` int(11) NOT NULL AUTO_INCREMENT,
-  `Name` varchar(45) DEFAULT NULL,
+  `name` varchar(45) NOT NULL,
   `publishDate` date DEFAULT NULL,
   `category` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idFilm`)
@@ -51,13 +51,13 @@ DROP TABLE IF EXISTS `Rating`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Rating` (
-  `Username` varchar(45) NOT NULL,
+  `username` varchar(45) NOT NULL,
   `idFilm` int(11) NOT NULL,
   `rate` int(11) DEFAULT NULL,
-  KEY `fk_Rating_User_idx` (`Username`),
+  KEY `fk_Rating_User_idx` (`username`),
   KEY `fk_Film_idx` (`idFilm`),
   CONSTRAINT `fk_Film_Rated` FOREIGN KEY (`idFilm`) REFERENCES `film` (`idFilm`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_Rating_User` FOREIGN KEY (`Username`) REFERENCES `user` (`Username`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_Rating_User` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -78,13 +78,13 @@ DROP TABLE IF EXISTS `User`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `User` (
-  `Username` varchar(45) NOT NULL,
+  `username` varchar(45) NOT NULL,
   `firstName` varchar(45) NOT NULL,
   `secondName` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL,
   `accountLevel` int(11) NOT NULL,
-  PRIMARY KEY (`Username`)
+  PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -115,4 +115,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-07 15:46:36
+-- Dump completed on 2019-10-07 16:04:26
