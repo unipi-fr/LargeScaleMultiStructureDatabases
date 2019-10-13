@@ -67,19 +67,19 @@ DROP TABLE IF EXISTS `PisaFlixDB`.`Film_Comment` ;
 
 CREATE TABLE IF NOT EXISTS `PisaFlixDB`.`Film_Comment` (
   `timestamp` TIMESTAMP NOT NULL,
-  `User_idUser` INT UNSIGNED NOT NULL,
-  `Film_idFilm` INT UNSIGNED NOT NULL,
+  `idUser` INT UNSIGNED NOT NULL,
+  `idFilm` INT UNSIGNED NOT NULL,
   `text` TEXT NOT NULL,
-  PRIMARY KEY (`timestamp`, `Film_idFilm`, `User_idUser`),
-  INDEX `fk_Film_Comment_User_idx` (`User_idUser` ASC),
-  INDEX `fk_Film_Comment_Film1_idx` (`Film_idFilm` ASC),
+  PRIMARY KEY (`timestamp`, `idFilm`, `idUser`),
+  INDEX `fk_Film_Comment_User_idx` (`idUser` ASC),
+  INDEX `fk_Film_Comment_Film1_idx` (`idFilm` ASC),
   CONSTRAINT `fk_Film_Comment_User`
-    FOREIGN KEY (`User_idUser`)
+    FOREIGN KEY (`idUser`)
     REFERENCES `PisaFlixDB`.`User` (`idUser`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Film_Comment_Film1`
-    FOREIGN KEY (`Film_idFilm`)
+    FOREIGN KEY (`idFilm`)
     REFERENCES `PisaFlixDB`.`Film` (`idFilm`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -93,19 +93,19 @@ DROP TABLE IF EXISTS `PisaFlixDB`.`Cinema_Comment` ;
 
 CREATE TABLE IF NOT EXISTS `PisaFlixDB`.`Cinema_Comment` (
   `timestamp` TIMESTAMP NOT NULL,
-  `User_idUser` INT UNSIGNED NOT NULL,
-  `Cinema_idCinema` INT UNSIGNED NOT NULL,
+  `idUser` INT UNSIGNED NOT NULL,
+  `idCinema` INT UNSIGNED NOT NULL,
   `text` TEXT NOT NULL,
-  PRIMARY KEY (`timestamp`, `User_idUser`, `Cinema_idCinema`),
-  INDEX `fk_Cinema_Comment_User1_idx` (`User_idUser` ASC),
-  INDEX `fk_Cinema_Comment_Cinema1_idx` (`Cinema_idCinema` ASC),
+  PRIMARY KEY (`timestamp`, `idUser`, `idCinema`),
+  INDEX `fk_Cinema_Comment_User1_idx` (`idUser` ASC),
+  INDEX `fk_Cinema_Comment_Cinema1_idx` (`idCinema` ASC),
   CONSTRAINT `fk_Cinema_Comment_User1`
-    FOREIGN KEY (`User_idUser`)
+    FOREIGN KEY (`idUser`)
     REFERENCES `PisaFlixDB`.`User` (`idUser`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Cinema_Comment_Cinema1`
-    FOREIGN KEY (`Cinema_idCinema`)
+    FOREIGN KEY (`idCinema`)
     REFERENCES `PisaFlixDB`.`Cinema` (`idCinema`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -118,18 +118,18 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `PisaFlixDB`.`Cinema_Rating` ;
 
 CREATE TABLE IF NOT EXISTS `PisaFlixDB`.`Cinema_Rating` (
-  `User_idUser` INT UNSIGNED NOT NULL,
-  `Cinema_idCinema` INT UNSIGNED NOT NULL,
+  `idUser` INT UNSIGNED NOT NULL,
+  `idCinema` INT UNSIGNED NOT NULL,
   `rate` TINYINT UNSIGNED NOT NULL,
-  PRIMARY KEY (`User_idUser`, `Cinema_idCinema`),
-  INDEX `fk_Cinema_Rating_Cinema1_idx` (`Cinema_idCinema` ASC),
+  PRIMARY KEY (`idUser`, `idCinema`),
+  INDEX `fk_Cinema_Rating_Cinema1_idx` (`idCinema` ASC),
   CONSTRAINT `fk_Cinema_Rating_User1`
-    FOREIGN KEY (`User_idUser`)
+    FOREIGN KEY (`idUser`)
     REFERENCES `PisaFlixDB`.`User` (`idUser`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Cinema_Rating_Cinema1`
-    FOREIGN KEY (`Cinema_idCinema`)
+    FOREIGN KEY (`idCinema`)
     REFERENCES `PisaFlixDB`.`Cinema` (`idCinema`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -142,18 +142,18 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `PisaFlixDB`.`Film_Rating` ;
 
 CREATE TABLE IF NOT EXISTS `PisaFlixDB`.`Film_Rating` (
-  `User_idUser` INT UNSIGNED NOT NULL,
-  `Film_idFilm` INT UNSIGNED NOT NULL,
+  `idUser` INT UNSIGNED NOT NULL,
+  `idFilm` INT UNSIGNED NOT NULL,
   `rate` TINYINT UNSIGNED NOT NULL,
-  PRIMARY KEY (`User_idUser`, `Film_idFilm`),
-  INDEX `fk_Film_Rating_Film1_idx` (`Film_idFilm` ASC),
+  PRIMARY KEY (`idUser`, `idFilm`),
+  INDEX `fk_Film_Rating_Film1_idx` (`idFilm` ASC),
   CONSTRAINT `fk_Film_Rating_User1`
-    FOREIGN KEY (`User_idUser`)
+    FOREIGN KEY (`idUser`)
     REFERENCES `PisaFlixDB`.`User` (`idUser`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Film_Rating_Film1`
-    FOREIGN KEY (`Film_idFilm`)
+    FOREIGN KEY (`idFilm`)
     REFERENCES `PisaFlixDB`.`Film` (`idFilm`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -168,18 +168,18 @@ DROP TABLE IF EXISTS `PisaFlixDB`.`Projection` ;
 CREATE TABLE IF NOT EXISTS `PisaFlixDB`.`Projection` (
   `date` DATE NOT NULL,
   `room` INT UNSIGNED NOT NULL,
-  `Film_idFilm` INT UNSIGNED NOT NULL,
-  `Cinema_idCinema` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`date`, `room`, `Film_idFilm`, `Cinema_idCinema`),
-  INDEX `fk_Projection_Film1_idx` (`Film_idFilm` ASC),
-  INDEX `fk_Projection_Cinema1_idx` (`Cinema_idCinema` ASC),
+  `idFilm` INT UNSIGNED NOT NULL,
+  `idCinema` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`date`, `room`, `idFilm`, `idCinema`),
+  INDEX `fk_Projection_Film1_idx` (`idFilm` ASC),
+  INDEX `fk_Projection_Cinema1_idx` (`idCinema` ASC),
   CONSTRAINT `fk_Projection_Film1`
-    FOREIGN KEY (`Film_idFilm`)
+    FOREIGN KEY (`idFilm`)
     REFERENCES `PisaFlixDB`.`Film` (`idFilm`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Projection_Cinema1`
-    FOREIGN KEY (`Cinema_idCinema`)
+    FOREIGN KEY (`idCinema`)
     REFERENCES `PisaFlixDB`.`Cinema` (`idCinema`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
