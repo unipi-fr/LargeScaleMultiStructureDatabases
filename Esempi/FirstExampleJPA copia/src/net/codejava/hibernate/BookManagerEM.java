@@ -119,11 +119,11 @@ public class BookManagerEM {
         manager.setup();
   
         manager.create();
-  // manager.read(1);
-   //  manager.update(1);
-     //manager.read(1);
- //  manager.delete(1);
- //  manager.create();
+        manager.read(1);
+        manager.update(1);
+        manager.read(1);
+        manager.delete(1);
+        manager.create();
         manager.exit();
         System.out.println("Finished");
     	
