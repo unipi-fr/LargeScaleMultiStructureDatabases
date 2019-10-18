@@ -5,7 +5,6 @@
  */
 package Main;
 
-import java.sql.*;
 import java.util.*;
 
 /**
@@ -14,31 +13,14 @@ import java.util.*;
  */
 public class Main {  //HO RICOPIATO TUTTO DALLA TASK 0 VA MODIFICATO
         
-    private static Connection co;
     private static final Scanner S = new Scanner(System.in);
     private static int operation;
     private static boolean end = false;
     
-    private static final String DBIp = "localhost";
-    private static final String DBPort = "3306";
-    private static final String DBUser = "root";
-    private static final String DBPass = "root";
-    private static final String DBName = "moviedb";
-    
-    static{
-        try{
-        co = DriverManager.getConnection("jdbc:mysql://" +
-                DBIp + ":" + DBPort + "/" + DBName + "?useUnicode=true&"
-                        + "useJDBCCompliantTimezoneShift=true&"
-                        + "useLegacyDatetimeCode=false&serverTimezone=UTC"
-                , DBUser, DBPass);
-        }
-        catch(SQLException e) {e.printStackTrace(System.out);}
-    }
-    
     
     public static void main(String[] args){
         
+        /*
         System.out.println(
                 "List of possible actions: \n"
                 + "1. Add new rating \n"
@@ -212,6 +194,7 @@ public class Main {  //HO RICOPIATO TUTTO DALLA TASK 0 VA MODIFICATO
         catch(Exception e){ e.printStackTrace(System.out); return; }
                              
         System.out.println("User deleted successfully");
+        */
     }
     
 }
