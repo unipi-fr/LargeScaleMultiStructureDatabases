@@ -19,7 +19,7 @@ public class Main {  //HO RICOPIATO TUTTO DALLA TASK 0 VA MODIFICATO
 
     }
  
-    public void exit() {
+    public static void exit() {
     	factory.close();
     }
     
@@ -32,20 +32,17 @@ public class Main {  //HO RICOPIATO TUTTO DALLA TASK 0 VA MODIFICATO
 	    	entityManager = factory.createEntityManager();
 	        entityManager.getTransaction().begin();
 	        User user = entityManager.find(User.class, userId);
-	
-                
-	        System.out.println(user.toString());
-	        System.out.println("User retrieved");
-     
+                if(user == null){System.out.println("User not found!");}
+                else{
+                    System.out.println(user.toString());
+                    System.out.println("User retrieved");
+                }
 		} catch (Exception ex) {
 			ex.printStackTrace(System.out);
 			System.out.println("A problem occurred in retriving a user!");
-
 		} finally {
 			entityManager.close();
-		}       
-
-     
+		}
     }
     
     
@@ -54,14 +51,11 @@ public class Main {  //HO RICOPIATO TUTTO DALLA TASK 0 VA MODIFICATO
         
         
        setup();
-       read(1);
-        
-        
-        
-        
-        
        
-        
+       for(int i = 1; i <103; i++ ){
+       read(i);
+    }
+       exit();
         
     }
     
