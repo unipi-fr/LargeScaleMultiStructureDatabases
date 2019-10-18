@@ -1,4 +1,4 @@
-package PisaFlix;
+package Main;
 
 
 import javax.persistence.*;
