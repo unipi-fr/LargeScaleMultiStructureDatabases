@@ -1,8 +1,14 @@
-
-package Main;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package PisaFlix;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,17 +16,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 
-
+/**
+ *
+ * @author alessandromadonna
+ */
 @Entity
-@Table(name = "user")
-@XmlRootElement
+@Table(name = "User")
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findByIdUser", query = "SELECT u FROM User u WHERE u.idUser = :idUser"),
     @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
+    @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
     @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
     @NamedQuery(name = "User.findByFirstName", query = "SELECT u FROM User u WHERE u.firstName = :firstName"),
     @NamedQuery(name = "User.findBySecondName", query = "SELECT u FROM User u WHERE u.secondName = :secondName"),
@@ -48,6 +57,14 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "privilegeLevel")
     private int privilegeLevel;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Collection<FilmComment> filmCommentCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Collection<FilmRating> filmRatingCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Collection<CinemaComment> cinemaCommentCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Collection<CinemaRating> cinemaRatingCollection;
 
     public User() {
     }
@@ -119,6 +136,38 @@ public class User implements Serializable {
         this.privilegeLevel = privilegeLevel;
     }
 
+    public Collection<FilmComment> getFilmCommentCollection() {
+        return filmCommentCollection;
+    }
+
+    public void setFilmCommentCollection(Collection<FilmComment> filmCommentCollection) {
+        this.filmCommentCollection = filmCommentCollection;
+    }
+
+    public Collection<FilmRating> getFilmRatingCollection() {
+        return filmRatingCollection;
+    }
+
+    public void setFilmRatingCollection(Collection<FilmRating> filmRatingCollection) {
+        this.filmRatingCollection = filmRatingCollection;
+    }
+
+    public Collection<CinemaComment> getCinemaCommentCollection() {
+        return cinemaCommentCollection;
+    }
+
+    public void setCinemaCommentCollection(Collection<CinemaComment> cinemaCommentCollection) {
+        this.cinemaCommentCollection = cinemaCommentCollection;
+    }
+
+    public Collection<CinemaRating> getCinemaRatingCollection() {
+        return cinemaRatingCollection;
+    }
+
+    public void setCinemaRatingCollection(Collection<CinemaRating> cinemaRatingCollection) {
+        this.cinemaRatingCollection = cinemaRatingCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -141,11 +190,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "Main.User{ "
-                + "\tidUser=" + idUser+"\n"
-                + "\tUsername=" + this.username+"\n"
-                + "}";
-        
+        return "PisaFlix.User[ idUser=" + idUser + " ]";
     }
     
 }
