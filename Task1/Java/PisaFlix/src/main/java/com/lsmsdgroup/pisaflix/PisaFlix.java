@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.lsmsdgroup.pisaflix2;
+package com.lsmsdgroup.pisaflix;
 
 import java.util.Scanner;
 import javax.persistence.EntityManager;
