@@ -4,12 +4,9 @@ public class PisaFlix {
 
     public static void main(String[] args){
         DBManager.setup();
-       
-        for(int i = 1; i <103; i++ ){
-            DBManager.UserManager.read(i);
-        }
         
-        DBManager.FilmManager.read(1);
+        DBManager.UserManager.create("prova", "prova12345", 0);
+        DBManager.UserManager.update(102,"provaModificata", "prova12345", 0);
         DBManager.exit();
     }
 }

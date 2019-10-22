@@ -40,11 +40,78 @@ public class DBManager {
 	    } finally {
 			entityManager.close();
 	    }
-        } 
+        }
+        
+        public static void create(String username, String password, int privilegeLevel ) {
+            // code to create a user
+            System.out.println("Creating a new user");
+
+            User user = new User();
+            user.setUsername(username);
+            user.setPassword(password);
+            user.setPrivilegeLevel(privilegeLevel);
+            try {   
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                entityManager.persist(user);
+                entityManager.getTransaction().commit();
+                System.out.println("User Added");
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.out.println("A problem occurred in creating the user!");
+            } finally {
+                entityManager.close();
+
+            }       
+        }
+        
+        public static void delete(int userId) {
+        // code to delete a user
+        System.out.println("Removing a User");
+        try {
+            entityManager = factory.createEntityManager();
+            entityManager.getTransaction().begin();
+            User reference = entityManager.getReference(User.class, userId);          
+            entityManager.remove(reference);
+			entityManager.getTransaction().commit();
+
+            System.out.println("User removed");
+            } catch (Exception ex) {
+                    ex.printStackTrace();           
+                    System.out.println("A problem occurred in removing a User!");
+            } finally {
+                    entityManager.close();
+            }
+        }
+        public static void update(int userId, String username, String password, int privilegeLevel) {
+            // code to update a user
+            System.out.println("Updating a user");
+
+		User user = new User(userId);
+                user.setUsername(username);
+                user.setPassword(password);
+                user.setPrivilegeLevel(privilegeLevel);
+		
+		try {
+			entityManager = factory.createEntityManager();
+			entityManager.getTransaction().begin();
+			entityManager.merge(user);
+			entityManager.getTransaction().commit();
+			System.out.println("User updated");
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("A problem occurred in updating a user!");
+
+		} finally {
+			entityManager.close();
+		}
+        }
     }
     
     public static class FilmManager{
-        public static void read(int filmId) {
+        public static void read(long filmId) {
         // code to get a user
         System.out.println("Getting a User");
         
