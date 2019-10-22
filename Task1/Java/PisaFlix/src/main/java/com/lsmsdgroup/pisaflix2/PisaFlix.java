@@ -1,12 +1,21 @@
-package PisaFlix;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.lsmsdgroup.pisaflix2;
 
+import java.util.Scanner;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
-import javax.persistence.*;
-import java.util.*;
+/**
+ *
+ * @author FraRonk
+ */
+public class PisaFlix {
 
-
-public class Main {  //HO RICOPIATO TUTTO DALLA TASK 0 VA MODIFICATO
-        
     private static final Scanner S = new Scanner(System.in);
     private static int operation;
     private static final boolean end = false;
@@ -15,7 +24,7 @@ public class Main {  //HO RICOPIATO TUTTO DALLA TASK 0 VA MODIFICATO
     
     
     public static void setup() {
-    	 factory = Persistence.createEntityManagerFactory("PisaFlixDB");
+    	 factory = Persistence.createEntityManagerFactory("pisaflixdb");
 
     }
  
@@ -60,4 +69,3 @@ public class Main {  //HO RICOPIATO TUTTO DALLA TASK 0 VA MODIFICATO
     }
     
 }
-
