@@ -21,7 +21,7 @@ public class DBManager {
     
     
     public static class UserManager{
-        private static void read(int userId) {
+        public static void read(int userId) {
         // code to get a user
         System.out.println("Getting a User");
         
@@ -44,7 +44,7 @@ public class DBManager {
     }
     
     public static class FilmManager{
-        private static void read(int filmId) {
+        public static void read(int filmId) {
         // code to get a user
         System.out.println("Getting a User");
         
@@ -65,20 +65,5 @@ public class DBManager {
 	    }
         } 
     }
-    
-    
-    
-    public static void main(String[] args){
-        
-        
-        setup();
-       
-        for(int i = 1; i <103; i++ ){
-            DBManager.UserManager.read(i);
-        }
-        DBManager.FilmManager.read(1);
-        exit();
-        
-    }
-    
+
 }
