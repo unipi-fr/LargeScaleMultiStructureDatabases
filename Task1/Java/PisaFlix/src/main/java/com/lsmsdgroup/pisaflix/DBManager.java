@@ -1,24 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.lsmsdgroup.pisaflix;
 
-import java.util.Scanner;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-/**
- *
- * @author FraRonk
- */
-public class PisaFlix {
+public class DBManager {
 
-    private static final Scanner S = new Scanner(System.in);
-    private static int operation;
-    private static final boolean end = false;
     private static EntityManagerFactory factory;
     private static EntityManager entityManager;
     
@@ -33,7 +20,8 @@ public class PisaFlix {
     }
     
     
-     public static void read(int userId) {
+    public static class UserManager{
+        private static void read(int userId) {
         // code to get a user
         System.out.println("Getting a User");
         
@@ -46,12 +34,36 @@ public class PisaFlix {
                     System.out.println(user.toString());
                     System.out.println("User retrieved");
                 }
-		} catch (Exception ex) {
+            } catch (Exception ex) {
 			ex.printStackTrace(System.out);
 			System.out.println("A problem occurred in retriving a user!");
-		} finally {
+	    } finally {
 			entityManager.close();
-		}
+	    }
+        } 
+    }
+    
+    public static class FilmManager{
+        private static void read(int filmId) {
+        // code to get a user
+        System.out.println("Getting a User");
+        
+        try {
+	    	entityManager = factory.createEntityManager();
+	        entityManager.getTransaction().begin();
+	        Film film = entityManager.find(Film.class, filmId);
+                if(film == null){System.out.println("film not found!");}
+                else{
+                    System.out.println(film.toString());
+                    System.out.println("Film retrieved");
+                }
+            } catch (Exception ex) {
+			ex.printStackTrace(System.out);
+			System.out.println("A problem occurred in retriving a film!");
+	    } finally {
+			entityManager.close();
+	    }
+        } 
     }
     
     
@@ -59,12 +71,13 @@ public class PisaFlix {
     public static void main(String[] args){
         
         
-       setup();
+        setup();
        
-       for(int i = 1; i <103; i++ ){
-       read(i);
-    }
-       exit();
+        for(int i = 1; i <103; i++ ){
+            DBManager.UserManager.read(i);
+        }
+        DBManager.FilmManager.read(1);
+        exit();
         
     }
     
