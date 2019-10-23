@@ -3,10 +3,12 @@ package com.lsmsdgroup.pisaflix;
 public class PisaFlix {
 
     public static void main(String[] args){
-        DBManager.setup();
-        
-        DBManager.UserManager.create("prova", "prova12345", 0);
-        DBManager.UserManager.update(102,"provaModificata", "prova12345", 0);
+        try{
+            DBManager.setup();
+        }catch(Exception ex){
+	    System.out.println("Error during DB setup!");
+        }
+        DBManager.UserManager.getAllUsers();
         DBManager.exit();
     }
 }

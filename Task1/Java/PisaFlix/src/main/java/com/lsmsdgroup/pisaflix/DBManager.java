@@ -1,5 +1,6 @@
 package com.lsmsdgroup.pisaflix;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -107,6 +108,28 @@ public class DBManager {
 		} finally {
 			entityManager.close();
 		}
+        }
+        
+        public static List<User> getAllUsers(){
+            // code to retrieve all users
+            System.out.println("Retrieving users");
+             try {
+                entityManager = factory.createEntityManager();
+	        entityManager.getTransaction().begin();
+	        List<User> users = entityManager.createQuery("SELECT u FROM com.lsmsdgroup.pisaflix.User u").getResultList();
+                if(users == null){System.out.println("No user present!");}
+                else{
+                    System.out.println(users.toString());
+                    System.out.println("Users retrieved");
+                    return users;
+                }
+            } catch (Exception ex) {
+			ex.printStackTrace(System.out);
+			System.out.println("A problem occurred in retriving a user!");
+	    } finally {
+			entityManager.close();
+	    }
+            return null;
         }
     }
     
