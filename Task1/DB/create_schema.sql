@@ -138,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `PisaFlix`.`Projection` (
   CONSTRAINT `fk_Projection_Film1`
     FOREIGN KEY (`idFilm`)
     REFERENCES `PisaFlix`.`Film` (`idFilm`)
-    ON DELETE CASCADE
+    ON DELETE SET NULL
     ON UPDATE CASCADE,
   CONSTRAINT `fk_Projection_Cinema1`
     FOREIGN KEY (`idCinema`)
