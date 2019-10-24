@@ -128,7 +128,7 @@ DROP TABLE IF EXISTS `PisaFlix`.`Projection` ;
 
 CREATE TABLE IF NOT EXISTS `PisaFlix`.`Projection` (
   `idProjection` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `date` DATE NOT NULL,
+  `dateTime` DATETIME NOT NULL,
   `room` INT UNSIGNED NOT NULL,
   `idFilm` INT UNSIGNED NULL,
   `idCinema` INT UNSIGNED NOT NULL,
