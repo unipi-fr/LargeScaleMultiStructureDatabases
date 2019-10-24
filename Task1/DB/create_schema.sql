@@ -79,7 +79,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `PisaFlix`.`Cinema_has_Rating` ;
 
 CREATE TABLE IF NOT EXISTS `PisaFlix`.`Cinema_has_Rating` (
-  `idUser` INT UNSIGNED NULL,
+  `idUser` INT UNSIGNED NOT NULL,
   `idCinema` INT UNSIGNED NOT NULL,
   `rate` TINYINT UNSIGNED NOT NULL,
   PRIMARY KEY (`idUser`, `idCinema`),
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `PisaFlix`.`Cinema_has_Rating` (
   CONSTRAINT `fk_Cinema_Rating_User1`
     FOREIGN KEY (`idUser`)
     REFERENCES `PisaFlix`.`User` (`idUser`)
-    ON DELETE SET NULL
+    ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_Cinema_Rating_Cinema1`
     FOREIGN KEY (`idCinema`)
@@ -103,7 +103,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `PisaFlix`.`Film_has_Rating` ;
 
 CREATE TABLE IF NOT EXISTS `PisaFlix`.`Film_has_Rating` (
-  `idUser` INT UNSIGNED NULL,
+  `idUser` INT UNSIGNED NOT NULL,
   `idFilm` INT UNSIGNED NOT NULL,
   `rate` TINYINT UNSIGNED NOT NULL,
   PRIMARY KEY (`idUser`, `idFilm`),
@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `PisaFlix`.`Film_has_Rating` (
   CONSTRAINT `fk_Film_Rating_User1`
     FOREIGN KEY (`idUser`)
     REFERENCES `PisaFlix`.`User` (`idUser`)
-    ON DELETE SET NULL
+    ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_Film_Rating_Film1`
     FOREIGN KEY (`idFilm`)
@@ -134,11 +134,11 @@ CREATE TABLE IF NOT EXISTS `PisaFlix`.`Projection` (
   `idCinema` INT UNSIGNED NOT NULL,
   INDEX `fk_Projection_Film1_idx` (`idFilm` ASC),
   INDEX `fk_Projection_Cinema1_idx` (`idCinema` ASC),
-  PRIMARY KEY (`idProjection`, `idCinema`, `idFilm`),
+  PRIMARY KEY (`idProjection`),
   CONSTRAINT `fk_Projection_Film1`
     FOREIGN KEY (`idFilm`)
     REFERENCES `PisaFlix`.`Film` (`idFilm`)
-    ON DELETE SET NULL
+    ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_Projection_Cinema1`
     FOREIGN KEY (`idCinema`)
