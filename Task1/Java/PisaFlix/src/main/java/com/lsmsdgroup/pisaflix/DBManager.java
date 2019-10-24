@@ -10,18 +10,19 @@ public class DBManager {
     private static EntityManagerFactory factory;
     private static EntityManager entityManager;
     
-    
     public static void setup() {
     	 factory = Persistence.createEntityManagerFactory("pisaflixdb");
 
     }
- 
+    
     public static void exit() {
     	factory.close();
     }
     
     
+    
     public static class UserManager{
+        
         public static void read(int userId) {
         // code to get a user
         System.out.println("Getting a User");
@@ -85,6 +86,7 @@ public class DBManager {
                     entityManager.close();
             }
         }
+        
         public static void update(int userId, String username, String password, int privilegeLevel) {
             // code to update a user
             System.out.println("Updating a user");
@@ -131,7 +133,9 @@ public class DBManager {
 	    }
             return null;
         }
+        
     }
+    
     
     public static class FilmManager{
         public static void read(long filmId) {
