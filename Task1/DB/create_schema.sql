@@ -18,11 +18,13 @@ CREATE TABLE IF NOT EXISTS `PisaFlix`.`User` (
   `idUser` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
-  `email` VARCHAR(45) NULL,
-  `firstName` VARCHAR(45) NULL,
-  `lastName` VARCHAR(45) NULL,
+  `email` VARCHAR(45) NULL DEFAULT NULL,
+  `firstName` VARCHAR(45) NULL DEFAULT NULL,
+  `lastName` VARCHAR(45) NULL DEFAULT NULL,
   `privilegeLevel` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`idUser`))
+  PRIMARY KEY (`idUser`),
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC),
+  UNIQUE INDEX `idUser_UNIQUE` (`idUser` ASC))
 ENGINE = InnoDB;
 
 
@@ -35,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `PisaFlix`.`Film` (
   `idFilm` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(45) NOT NULL,
   `publicationDate` DATE NOT NULL,
-  `description` TEXT NULL,
+  `description` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`idFilm`))
 ENGINE = InnoDB;
 
@@ -62,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `PisaFlix`.`Comment` (
   `idComment` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `timestamp` TIMESTAMP NOT NULL,
   `text` TEXT NOT NULL,
-  `idUser` INT UNSIGNED NULL,
+  `idUser` INT UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`idComment`),
   INDEX `fk_Comment_User1_idx` (`idUser` ASC),
   CONSTRAINT `fk_Comment_User1`
@@ -82,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `PisaFlix`.`Projection` (
   `idProjection` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `dateTime` DATETIME NOT NULL,
   `room` INT UNSIGNED NOT NULL,
-  `idFilm` INT UNSIGNED NULL,
+  `idFilm` INT UNSIGNED NULL DEFAULT NULL,
   `idCinema` INT UNSIGNED NOT NULL,
   INDEX `fk_Projection_Film1_idx` (`idFilm` ASC),
   INDEX `fk_Projection_Cinema1_idx` (`idCinema` ASC),
