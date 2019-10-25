@@ -117,17 +117,17 @@ public class DBManager {
             // code to retrieve all users
             System.out.println("Retrieving users");
 
-            List<User> users = null;
-            
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
-                users = entityManager.createQuery("SELECT u FROM com.lsmsdgroup.pisaflix.User u").getResultList();
-                if (users == null)
+                List<User> users = entityManager.createQuery("SELECT u FROM com.lsmsdgroup.pisaflix.User u").getResultList();
+                if (users == null) {
                     System.out.println("No user present!");
-                else
+                } else {
+                    System.out.println(users.toString());
                     System.out.println("Users retrieved");
                     return users;
+                }
             } catch (Exception ex) {
                 ex.printStackTrace(System.out);
                 System.out.println("A problem occurred in retriving a user!");
