@@ -1,6 +1,6 @@
 package com.lsmsdgroup.pisaflix;
 
-import java.util.List;
+import java.util.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -120,7 +120,7 @@ public class DBManager {
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
-                List<User> users = entityManager.createQuery("SELECT u FROM com.lsmsdgroup.pisaflix.User u").getResultList();
+                List<User> users = entityManager.createQuery("SELECT u FROM User u").getResultList();
                 if (users == null) {
                     System.out.println("No user present!");
                 } else {
@@ -143,40 +143,58 @@ public class DBManager {
     public static class FilmManager {
 
         public static Film getById(long filmId){
-            Film film = null;
-            
+        public static void read(long filmId) {
+            // code to get a user
+            System.out.println("Getting a User");
+
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
-                film = entityManager.find(Film.class, filmId);
-                
+                Film film = entityManager.find(Film.class, filmId);
+                if (film == null) {
+                    System.out.println("film not found!");
+                } else {
+                    System.out.println(film.toString());
+                    System.out.println("Film retrieved");
+                }
             } catch (Exception ex) {
                 ex.printStackTrace(System.out);
                 System.out.println("A problem occurred in retriving a film!");
             } finally {
                 entityManager.close();
             }
-            
             return film;
         }
         
-        public static List<Film> getAll(){
-            List<Film> films = null;
-            
+
+    }
+    
+    public static class CinemaManager{
+        
+        public static void create(String name, String address) {
+            // code to create a cinema
+            System.out.println("Creating a new cinema");
+
+            Cinema cinema = new Cinema();
+            cinema.setName(name);
+            cinema.setAddress(address);
+
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
-                
-                films = entityManager.createQuery("FROM Film").getResultList();
+                entityManager.persist(cinema);
+                entityManager.getTransaction().commit();
+
+                System.out.println("Cinema Added");
             } catch (Exception ex) {
-                ex.printStackTrace(System.out);
+                ex.printStackTrace();
+                System.out.println("A problem occurred in creating the cinema!");
             } finally {
                 entityManager.close();
-            }
-            
-            return films;
-        }
 
+            }
+        }
+        
     }
 
 }
