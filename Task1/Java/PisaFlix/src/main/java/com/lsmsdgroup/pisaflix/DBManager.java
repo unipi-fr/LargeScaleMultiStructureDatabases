@@ -11,7 +11,7 @@ public class DBManager {
     private static EntityManager entityManager;
 
     public static void setup() {
-        factory = Persistence.createEntityManagerFactory("pisaflixdb");
+        factory = Persistence.createEntityManagerFactory("PisaFlix");
 
     }
 
