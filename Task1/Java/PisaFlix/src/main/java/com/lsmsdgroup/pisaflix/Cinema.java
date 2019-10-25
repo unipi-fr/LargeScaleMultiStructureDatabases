@@ -1,9 +1,32 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.lsmsdgroup.pisaflix;
 
 import java.io.Serializable;
 import java.util.Collection;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+/**
+ *
+ * @author alessandromadonna
+ */
 @Entity
 @Table(name = "Cinema")
 @NamedQueries({
@@ -11,34 +34,28 @@ import javax.persistence.*;
 public class Cinema implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idCinema")
     private Integer idCinema;
-
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
-
     @Basic(optional = false)
     @Column(name = "address")
     private String address;
-
     @JoinTable(name = "Favorite_Cinema", joinColumns = {
         @JoinColumn(name = "idCinema", referencedColumnName = "idCinema")}, inverseJoinColumns = {
         @JoinColumn(name = "idUser", referencedColumnName = "idUser")})
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Collection<User> userCollection;
-
     @JoinTable(name = "Cinema_has_Comment", joinColumns = {
         @JoinColumn(name = "idCinema", referencedColumnName = "idCinema")}, inverseJoinColumns = {
         @JoinColumn(name = "idComment", referencedColumnName = "idComment")})
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Comment> commentCollection;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCinema")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCinema", fetch = FetchType.EAGER)
     private Collection<Projection> projectionCollection;
 
     public Cinema() {
@@ -126,5 +143,5 @@ public class Cinema implements Serializable {
     public String toString() {
         return "com.lsmsdgroup.pisaflix.Cinema[ idCinema=" + idCinema + " ]";
     }
-
+    
 }
