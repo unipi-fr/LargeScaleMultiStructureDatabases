@@ -10,7 +10,6 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,18 +37,22 @@ public class Projection implements Serializable {
     @Basic(optional = false)
     @Column(name = "idProjection")
     private Integer idProjection;
+    
     @Basic(optional = false)
     @Column(name = "dateTime")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateTime;
+    
     @Basic(optional = false)
     @Column(name = "room")
     private int room;
+    
     @JoinColumn(name = "idCinema", referencedColumnName = "idCinema")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private Cinema idCinema;
+    
     @JoinColumn(name = "idFilm", referencedColumnName = "idFilm")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Film idFilm;
 
     public Projection() {

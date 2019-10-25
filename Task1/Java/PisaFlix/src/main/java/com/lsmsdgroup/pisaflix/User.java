@@ -10,7 +10,6 @@ import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,26 +35,35 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "idUser")
     private Integer idUser;
+    
     @Basic(optional = false)
     @Column(name = "username")
     private String username;
+    
     @Basic(optional = false)
     @Column(name = "password")
     private String password;
+    
     @Column(name = "email")
     private String email;
+    
     @Column(name = "firstName")
     private String firstName;
+    
     @Column(name = "lastName")
     private String lastName;
+    
     @Basic(optional = false)
     @Column(name = "privilegeLevel")
     private int privilegeLevel;
-    @ManyToMany(mappedBy = "userCollection", fetch = FetchType.EAGER)
-    private Collection<Film> filmCollection;
-    @ManyToMany(mappedBy = "userCollection", fetch = FetchType.EAGER)
+    
+    @ManyToMany(mappedBy = "userCollection")
     private Collection<Cinema> cinemaCollection;
-    @OneToMany(mappedBy = "idUser", fetch = FetchType.EAGER)
+    
+    @ManyToMany(mappedBy = "userCollection")
+    private Collection<Film> filmCollection;
+    
+    @OneToMany(mappedBy = "idUser")
     private Collection<Comment> commentCollection;
 
     public User() {
@@ -128,20 +136,20 @@ public class User implements Serializable {
         this.privilegeLevel = privilegeLevel;
     }
 
-    public Collection<Film> getFilmCollection() {
-        return filmCollection;
-    }
-
-    public void setFilmCollection(Collection<Film> filmCollection) {
-        this.filmCollection = filmCollection;
-    }
-
     public Collection<Cinema> getCinemaCollection() {
         return cinemaCollection;
     }
 
     public void setCinemaCollection(Collection<Cinema> cinemaCollection) {
         this.cinemaCollection = cinemaCollection;
+    }
+
+    public Collection<Film> getFilmCollection() {
+        return filmCollection;
+    }
+
+    public void setFilmCollection(Collection<Film> filmCollection) {
+        this.filmCollection = filmCollection;
     }
 
     public Collection<Comment> getCommentCollection() {

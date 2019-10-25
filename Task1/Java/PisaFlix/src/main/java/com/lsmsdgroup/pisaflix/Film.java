@@ -11,7 +11,6 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,29 +36,36 @@ import javax.persistence.TemporalType;
 public class Film implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idFilm")
     private Integer idFilm;
+    
     @Basic(optional = false)
     @Column(name = "title")
     private String title;
+    
     @Basic(optional = false)
     @Column(name = "publicationDate")
     @Temporal(TemporalType.DATE)
     private Date publicationDate;
+    
     @Lob
     @Column(name = "description")
     private String description;
-    @JoinTable(name = "Film_has_Rating", joinColumns = {
+    
+    @JoinTable(name = "Favorite_Film", joinColumns = {
         @JoinColumn(name = "idFilm", referencedColumnName = "idFilm")}, inverseJoinColumns = {
         @JoinColumn(name = "idUser", referencedColumnName = "idUser")})
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     private Collection<User> userCollection;
-    @ManyToMany(mappedBy = "filmCollection", fetch = FetchType.EAGER)
+    
+    @ManyToMany(mappedBy = "filmCollection")
     private Collection<Comment> commentCollection;
-    @OneToMany(mappedBy = "idFilm", fetch = FetchType.EAGER)
+    
+    @OneToMany(mappedBy = "idFilm")
     private Collection<Projection> projectionCollection;
 
     public Film() {

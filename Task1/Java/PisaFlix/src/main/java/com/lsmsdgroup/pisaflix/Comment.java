@@ -11,7 +11,6 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,28 +36,34 @@ import javax.persistence.TemporalType;
 public class Comment implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idComment")
     private Integer idComment;
+    
     @Basic(optional = false)
     @Column(name = "timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
+    
     @Basic(optional = false)
     @Lob
     @Column(name = "text")
     private String text;
-    @ManyToMany(mappedBy = "commentCollection", fetch = FetchType.EAGER)
+    
+    @ManyToMany(mappedBy = "commentCollection")
     private Collection<Cinema> cinemaCollection;
+    
     @JoinTable(name = "Film_has_Comment", joinColumns = {
         @JoinColumn(name = "idComment", referencedColumnName = "idComment")}, inverseJoinColumns = {
         @JoinColumn(name = "idFilm", referencedColumnName = "idFilm")})
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     private Collection<Film> filmCollection;
+    
     @JoinColumn(name = "idUser", referencedColumnName = "idUser")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private User idUser;
 
     public Comment() {

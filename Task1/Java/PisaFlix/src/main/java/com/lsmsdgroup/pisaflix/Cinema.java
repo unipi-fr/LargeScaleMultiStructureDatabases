@@ -11,7 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,28 +33,34 @@ import javax.persistence.Table;
 public class Cinema implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idCinema")
     private Integer idCinema;
+    
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
+    
     @Basic(optional = false)
     @Column(name = "address")
     private String address;
+    
+    @JoinTable(name = "Favorite_Cinema", joinColumns = {
+        @JoinColumn(name = "idCinema", referencedColumnName = "idCinema")}, inverseJoinColumns = {
+        @JoinColumn(name = "idUser", referencedColumnName = "idUser")})
+    @ManyToMany
+    private Collection<User> userCollection;
+    
     @JoinTable(name = "Cinema_has_Comment", joinColumns = {
         @JoinColumn(name = "idCinema", referencedColumnName = "idCinema")}, inverseJoinColumns = {
         @JoinColumn(name = "idComment", referencedColumnName = "idComment")})
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     private Collection<Comment> commentCollection;
-    @JoinTable(name = "Cinema_has_Rating", joinColumns = {
-        @JoinColumn(name = "idCinema", referencedColumnName = "idCinema")}, inverseJoinColumns = {
-        @JoinColumn(name = "idUser", referencedColumnName = "idUser")})
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<User> userCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCinema", fetch = FetchType.EAGER)
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCinema")
     private Collection<Projection> projectionCollection;
 
     public Cinema() {
@@ -95,20 +100,20 @@ public class Cinema implements Serializable {
         this.address = address;
     }
 
-    public Collection<Comment> getCommentCollection() {
-        return commentCollection;
-    }
-
-    public void setCommentCollection(Collection<Comment> commentCollection) {
-        this.commentCollection = commentCollection;
-    }
-
     public Collection<User> getUserCollection() {
         return userCollection;
     }
 
     public void setUserCollection(Collection<User> userCollection) {
         this.userCollection = userCollection;
+    }
+
+    public Collection<Comment> getCommentCollection() {
+        return commentCollection;
+    }
+
+    public void setCommentCollection(Collection<Comment> commentCollection) {
+        this.commentCollection = commentCollection;
     }
 
     public Collection<Projection> getProjectionCollection() {
