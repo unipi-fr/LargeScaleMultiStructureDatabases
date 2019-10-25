@@ -9,29 +9,27 @@ public class DBManager {
 
     private static EntityManagerFactory factory;
     private static EntityManager entityManager;
-    
+
     public static void setup() {
-    	 factory = Persistence.createEntityManagerFactory("pisaflixdb");
+        factory = Persistence.createEntityManagerFactory("pisaflixdb");
 
     }
-    
+
     public static void exit() {
-    	factory.close();
+        factory.close();
     }
-    
-    
-    
-    public static class UserManager{
-    
+
+    public static class UserManager {
+
         public static void read(int userId) {
             // code to get a user
             System.out.println("Getting a User");
-        
+
             try {
-	    	entityManager = factory.createEntityManager();
-	        entityManager.getTransaction().begin();
-	        User user = entityManager.find(User.class, userId);
-                if(user == null){
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                User user = entityManager.find(User.class, userId);
+                if (user == null) {
                     System.out.println("User not found!");
                 } else {
                     System.out.println(user.toString());
@@ -40,12 +38,12 @@ public class DBManager {
             } catch (Exception ex) {
                 ex.printStackTrace(System.out);
                 System.out.println("A problem occurred in retriving a user!");
-	    } finally {
+            } finally {
                 entityManager.close();
-	    }
+            }
         }
-        
-        public static void create(String username, String password, int privilegeLevel ) {
+
+        public static void create(String username, String password, int privilegeLevel) {
             // code to create a user
             System.out.println("Creating a new user");
 
@@ -53,13 +51,13 @@ public class DBManager {
             user.setUsername(username);
             user.setPassword(password);
             user.setPrivilegeLevel(privilegeLevel);
-            
-            try {   
+
+            try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
                 entityManager.persist(user);
                 entityManager.getTransaction().commit();
-                
+
                 System.out.println("User Added");
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -67,29 +65,29 @@ public class DBManager {
             } finally {
                 entityManager.close();
 
-            }       
+            }
         }
-        
+
         public static void delete(int userId) {
             // code to delete a user
             System.out.println("Removing a User");
-            
+
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
-                User reference = entityManager.getReference(User.class, userId);          
+                User reference = entityManager.getReference(User.class, userId);
                 entityManager.remove(reference);
                 entityManager.getTransaction().commit();
 
                 System.out.println("User removed");
             } catch (Exception ex) {
-                    ex.printStackTrace();           
-                    System.out.println("A problem occurred in removing a User!");
+                ex.printStackTrace();
+                System.out.println("A problem occurred in removing a User!");
             } finally {
-                    entityManager.close();
+                entityManager.close();
             }
         }
-        
+
         public static void update(int userId, String username, String password, int privilegeLevel) {
             // code to update a user
             System.out.println("Updating a user");
@@ -114,16 +112,16 @@ public class DBManager {
                 entityManager.close();
             }
         }
-        
-        public static List<User> getAllUsers(){
+
+        public static List<User> getAllUsers() {
             // code to retrieve all users
             System.out.println("Retrieving users");
-            
+
             try {
                 entityManager = factory.createEntityManager();
-	        entityManager.getTransaction().begin();
-	        List<User> users = entityManager.createQuery("SELECT u FROM com.lsmsdgroup.pisaflix.User u").getResultList();
-                if(users == null) {
+                entityManager.getTransaction().begin();
+                List<User> users = entityManager.createQuery("SELECT u FROM com.lsmsdgroup.pisaflix.User u").getResultList();
+                if (users == null) {
                     System.out.println("No user present!");
                 } else {
                     System.out.println(users.toString());
@@ -133,27 +131,26 @@ public class DBManager {
             } catch (Exception ex) {
                 ex.printStackTrace(System.out);
                 System.out.println("A problem occurred in retriving a user!");
-	    } finally {
+            } finally {
                 entityManager.close();
-	    }
-            
+            }
+
             return null;
         }
-        
+
     }
-    
-    
-    public static class FilmManager{
-        
+
+    public static class FilmManager {
+
         public static void read(long filmId) {
             // code to get a user
             System.out.println("Getting a User");
-        
+
             try {
-	    	entityManager = factory.createEntityManager();
-	        entityManager.getTransaction().begin();
-	        Film film = entityManager.find(Film.class, filmId);
-                if(film == null) {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                Film film = entityManager.find(Film.class, filmId);
+                if (film == null) {
                     System.out.println("film not found!");
                 } else {
                     System.out.println(film.toString());
@@ -162,11 +159,11 @@ public class DBManager {
             } catch (Exception ex) {
                 ex.printStackTrace(System.out);
                 System.out.println("A problem occurred in retriving a film!");
-	    } finally {
+            } finally {
                 entityManager.close();
-	    }
-        } 
-        
+            }
+        }
+
     }
 
 }
