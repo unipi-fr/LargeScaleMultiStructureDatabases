@@ -10,10 +10,11 @@ public class PisaFlix {
         LogManager.getLogManager().getLogger("").setLevel(Level.OFF);
         
         DBManager.setup();
-        DBManager.UserManager.getAllUsers();
+        DBManager.FilmManager.delete(9);
+        //DBManager.UserManager.getAllUsers();
         DBManager.exit();
         //List<Film> films = DBManager.FilmManager.getAll();
-       /* Film film = DBManager.FilmManager.getById(1);
+        /*Film film = DBManager.FilmManager.getById(1);
         DBManager.exit();
         
         for(User user: film.getUserCollection())

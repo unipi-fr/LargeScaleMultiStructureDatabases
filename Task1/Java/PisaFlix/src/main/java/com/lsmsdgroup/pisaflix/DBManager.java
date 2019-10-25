@@ -142,29 +142,91 @@ public class DBManager {
 
     public static class FilmManager {
 
-        public static Film getById(long filmId){
-            // code to get a user
-            System.out.println("Getting a User");
+        public static Film getById(int filmId){
             Film film = null;
+            
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
                 film = entityManager.find(Film.class, filmId);
-                if (film == null) {
-                    System.out.println("film not found!");
-                } else {
-                    System.out.println(film.toString());
-                    System.out.println("Film retrieved");
-                }
+                
             } catch (Exception ex) {
                 ex.printStackTrace(System.out);
                 System.out.println("A problem occurred in retriving a film!");
             } finally {
                 entityManager.close();
             }
+            
             return film;
         }
         
+        public static List<Film> getAll(){
+            List<Film> films = null;
+            
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                
+                films = entityManager.createQuery("FROM Film").getResultList();
+            } catch (Exception ex) {
+                ex.printStackTrace(System.out);
+            } finally {
+                entityManager.close();
+            }
+            
+            return films;
+        }
+        
+        public static void add(String title, Date publicationDate, String description){
+            Film film = new Film();
+            film.setTitle(title);
+            film.setDescription(description);
+            film.setPublicationDate(publicationDate);
+            
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                entityManager.persist(film);
+                entityManager.getTransaction().commit();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            } finally {
+                entityManager.close();
+            }
+        }
+        
+        public static void update(int idFilm, String title, Date publicationDate, String description){
+            Film film = new Film(idFilm);
+            film.setTitle(title);
+            film.setDescription(description);
+            film.setPublicationDate(publicationDate); 
+            
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                entityManager.merge(film);
+                entityManager.getTransaction().commit();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            } finally {
+                entityManager.close();
+            }
+        }
+        
+        public static void delete(int idFilm){
+            
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                Film reference = entityManager.getReference(Film.class, idFilm);
+                entityManager.remove(reference);
+                entityManager.getTransaction().commit();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            } finally {
+                entityManager.close();
+            } 
+        }
 
     }
     
