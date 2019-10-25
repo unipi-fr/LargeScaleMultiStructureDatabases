@@ -33,33 +33,33 @@ import javax.persistence.Table;
 public class Cinema implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idCinema")
     private Integer idCinema;
-    
+
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
-    
+
     @Basic(optional = false)
     @Column(name = "address")
     private String address;
-    
+
     @JoinTable(name = "Favorite_Cinema", joinColumns = {
         @JoinColumn(name = "idCinema", referencedColumnName = "idCinema")}, inverseJoinColumns = {
         @JoinColumn(name = "idUser", referencedColumnName = "idUser")})
     @ManyToMany
     private Collection<User> userCollection;
-    
+
     @JoinTable(name = "Cinema_has_Comment", joinColumns = {
         @JoinColumn(name = "idCinema", referencedColumnName = "idCinema")}, inverseJoinColumns = {
         @JoinColumn(name = "idComment", referencedColumnName = "idComment")})
     @ManyToMany
     private Collection<Comment> commentCollection;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCinema")
     private Collection<Projection> projectionCollection;
 
@@ -148,5 +148,5 @@ public class Cinema implements Serializable {
     public String toString() {
         return "com.lsmsdgroup.pisaflix.Cinema[ idCinema=" + idCinema + " ]";
     }
-    
+
 }
