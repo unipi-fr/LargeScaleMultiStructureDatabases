@@ -143,14 +143,13 @@ public class DBManager {
     public static class FilmManager {
 
         public static Film getById(long filmId){
-        public static void read(long filmId) {
             // code to get a user
             System.out.println("Getting a User");
-
+            Film film = null;
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
-                Film film = entityManager.find(Film.class, filmId);
+                film = entityManager.find(Film.class, filmId);
                 if (film == null) {
                     System.out.println("film not found!");
                 } else {
