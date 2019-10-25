@@ -10,6 +10,9 @@
     <class>com.lsmsdgroup.pisaflix.Film</class>
     <class>com.lsmsdgroup.pisaflix.User</class>
     <class>com.lsmsdgroup.pisaflix.Cinema</class>
+    <class>com.lsmsdgroup.pisaflix.FilmhasRating</class>
+    <class>com.lsmsdgroup.pisaflix.CinemahasRating</class>
+    <class>com.lsmsdgroup.pisaflix.Comment</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/PisaFlixDB?serverTimezone=UTC"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

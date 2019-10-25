@@ -1,17 +1,39 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.lsmsdgroup.pisaflix;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+/**
+ *
+ * @author alessandromadonna
+ */
 @Entity
 @Table(name = "Film")
 @NamedQueries({
-    @NamedQuery(name = "Film.findAll", query = "SELECT f FROM Film f"),
-    @NamedQuery(name = "Film.findByIdFilm", query = "SELECT f FROM Film f WHERE f.idFilm = :idFilm"),
-    @NamedQuery(name = "Film.findByTitle", query = "SELECT f FROM Film f WHERE f.title = :title"),
-    @NamedQuery(name = "Film.findByPublicationDate", query = "SELECT f FROM Film f WHERE f.publicationDate = :publicationDate")})
+    @NamedQuery(name = "Film.findAll", query = "SELECT f FROM Film f")})
 public class Film implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,11 +52,14 @@ public class Film implements Serializable {
     @Lob
     @Column(name = "description")
     private String description;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "film")
-    private Collection<FilmComment> filmCommentCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "film")
-    private Collection<FilmRating> filmRatingCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "film")
+    @JoinTable(name = "Film_has_Rating", joinColumns = {
+        @JoinColumn(name = "idFilm", referencedColumnName = "idFilm")}, inverseJoinColumns = {
+        @JoinColumn(name = "idUser", referencedColumnName = "idUser")})
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<User> userCollection;
+    @ManyToMany(mappedBy = "filmCollection", fetch = FetchType.EAGER)
+    private Collection<Comment> commentCollection;
+    @OneToMany(mappedBy = "idFilm", fetch = FetchType.EAGER)
     private Collection<Projection> projectionCollection;
 
     public Film() {
@@ -82,20 +107,20 @@ public class Film implements Serializable {
         this.description = description;
     }
 
-    public Collection<FilmComment> getFilmCommentCollection() {
-        return filmCommentCollection;
+    public Collection<User> getUserCollection() {
+        return userCollection;
     }
 
-    public void setFilmCommentCollection(Collection<FilmComment> filmCommentCollection) {
-        this.filmCommentCollection = filmCommentCollection;
+    public void setUserCollection(Collection<User> userCollection) {
+        this.userCollection = userCollection;
     }
 
-    public Collection<FilmRating> getFilmRatingCollection() {
-        return filmRatingCollection;
+    public Collection<Comment> getCommentCollection() {
+        return commentCollection;
     }
 
-    public void setFilmRatingCollection(Collection<FilmRating> filmRatingCollection) {
-        this.filmRatingCollection = filmRatingCollection;
+    public void setCommentCollection(Collection<Comment> commentCollection) {
+        this.commentCollection = commentCollection;
     }
 
     public Collection<Projection> getProjectionCollection() {
@@ -128,7 +153,7 @@ public class Film implements Serializable {
 
     @Override
     public String toString() {
-        return "PisaFlix.Film[ idFilm=" + idFilm + " ]";
+        return "com.lsmsdgroup.pisaflix.Film[ idFilm=" + idFilm + " ]";
     }
     
 }

@@ -1,20 +1,41 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.lsmsdgroup.pisaflix;
 
 import java.io.Serializable;
 import java.util.Collection;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+/**
+ *
+ * @author alessandromadonna
+ */
 @Entity
 @Table(name = "Cinema")
 @NamedQueries({
-    @NamedQuery(name = "Cinema.findAll", query = "SELECT c FROM Cinema c"),
-    @NamedQuery(name = "Cinema.findByIdCinema", query = "SELECT c FROM Cinema c WHERE c.idCinema = :idCinema"),
-    @NamedQuery(name = "Cinema.findByName", query = "SELECT c FROM Cinema c WHERE c.name = :name"),
-    @NamedQuery(name = "Cinema.findByAddress", query = "SELECT c FROM Cinema c WHERE c.address = :address")})
+    @NamedQuery(name = "Cinema.findAll", query = "SELECT c FROM Cinema c")})
 public class Cinema implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idCinema")
     private Integer idCinema;
@@ -24,12 +45,18 @@ public class Cinema implements Serializable {
     @Basic(optional = false)
     @Column(name = "address")
     private String address;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cinema")
+    @JoinTable(name = "Cinema_has_Comment", joinColumns = {
+        @JoinColumn(name = "idCinema", referencedColumnName = "idCinema")}, inverseJoinColumns = {
+        @JoinColumn(name = "idComment", referencedColumnName = "idComment")})
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<Comment> commentCollection;
+    @JoinTable(name = "Cinema_has_Rating", joinColumns = {
+        @JoinColumn(name = "idCinema", referencedColumnName = "idCinema")}, inverseJoinColumns = {
+        @JoinColumn(name = "idUser", referencedColumnName = "idUser")})
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<User> userCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCinema", fetch = FetchType.EAGER)
     private Collection<Projection> projectionCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cinema")
-    private Collection<CinemaComment> cinemaCommentCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cinema")
-    private Collection<CinemaRating> cinemaRatingCollection;
 
     public Cinema() {
     }
@@ -68,28 +95,28 @@ public class Cinema implements Serializable {
         this.address = address;
     }
 
+    public Collection<Comment> getCommentCollection() {
+        return commentCollection;
+    }
+
+    public void setCommentCollection(Collection<Comment> commentCollection) {
+        this.commentCollection = commentCollection;
+    }
+
+    public Collection<User> getUserCollection() {
+        return userCollection;
+    }
+
+    public void setUserCollection(Collection<User> userCollection) {
+        this.userCollection = userCollection;
+    }
+
     public Collection<Projection> getProjectionCollection() {
         return projectionCollection;
     }
 
     public void setProjectionCollection(Collection<Projection> projectionCollection) {
         this.projectionCollection = projectionCollection;
-    }
-
-    public Collection<CinemaComment> getCinemaCommentCollection() {
-        return cinemaCommentCollection;
-    }
-
-    public void setCinemaCommentCollection(Collection<CinemaComment> cinemaCommentCollection) {
-        this.cinemaCommentCollection = cinemaCommentCollection;
-    }
-
-    public Collection<CinemaRating> getCinemaRatingCollection() {
-        return cinemaRatingCollection;
-    }
-
-    public void setCinemaRatingCollection(Collection<CinemaRating> cinemaRatingCollection) {
-        this.cinemaRatingCollection = cinemaRatingCollection;
     }
 
     @Override
@@ -114,7 +141,7 @@ public class Cinema implements Serializable {
 
     @Override
     public String toString() {
-        return "PisaFlix.Cinema[ idCinema=" + idCinema + " ]";
+        return "com.lsmsdgroup.pisaflix.Cinema[ idCinema=" + idCinema + " ]";
     }
     
 }

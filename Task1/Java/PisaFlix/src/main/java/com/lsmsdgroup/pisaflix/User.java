@@ -1,20 +1,33 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.lsmsdgroup.pisaflix;
 
 import java.io.Serializable;
 import java.util.Collection;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+/**
+ *
+ * @author alessandromadonna
+ */
 @Entity
 @Table(name = "User")
 @NamedQueries({
-    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-    @NamedQuery(name = "User.findByIdUser", query = "SELECT u FROM User u WHERE u.idUser = :idUser"),
-    @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
-    @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
-    @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
-    @NamedQuery(name = "User.findByFirstName", query = "SELECT u FROM User u WHERE u.firstName = :firstName"),
-    @NamedQuery(name = "User.findBySecondName", query = "SELECT u FROM User u WHERE u.secondName = :secondName"),
-    @NamedQuery(name = "User.findByPrivilegeLevel", query = "SELECT u FROM User u WHERE u.privilegeLevel = :privilegeLevel")})
+    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -33,19 +46,17 @@ public class User implements Serializable {
     private String email;
     @Column(name = "firstName")
     private String firstName;
-    @Column(name = "secondName")
-    private String secondName;
+    @Column(name = "lastName")
+    private String lastName;
     @Basic(optional = false)
     @Column(name = "privilegeLevel")
     private int privilegeLevel;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Collection<FilmComment> filmCommentCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Collection<FilmRating> filmRatingCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Collection<CinemaComment> cinemaCommentCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Collection<CinemaRating> cinemaRatingCollection;
+    @ManyToMany(mappedBy = "userCollection", fetch = FetchType.EAGER)
+    private Collection<Film> filmCollection;
+    @ManyToMany(mappedBy = "userCollection", fetch = FetchType.EAGER)
+    private Collection<Cinema> cinemaCollection;
+    @OneToMany(mappedBy = "idUser", fetch = FetchType.EAGER)
+    private Collection<Comment> commentCollection;
 
     public User() {
     }
@@ -101,12 +112,12 @@ public class User implements Serializable {
         this.firstName = firstName;
     }
 
-    public String getSecondName() {
-        return secondName;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public int getPrivilegeLevel() {
@@ -117,36 +128,28 @@ public class User implements Serializable {
         this.privilegeLevel = privilegeLevel;
     }
 
-    public Collection<FilmComment> getFilmCommentCollection() {
-        return filmCommentCollection;
+    public Collection<Film> getFilmCollection() {
+        return filmCollection;
     }
 
-    public void setFilmCommentCollection(Collection<FilmComment> filmCommentCollection) {
-        this.filmCommentCollection = filmCommentCollection;
+    public void setFilmCollection(Collection<Film> filmCollection) {
+        this.filmCollection = filmCollection;
     }
 
-    public Collection<FilmRating> getFilmRatingCollection() {
-        return filmRatingCollection;
+    public Collection<Cinema> getCinemaCollection() {
+        return cinemaCollection;
     }
 
-    public void setFilmRatingCollection(Collection<FilmRating> filmRatingCollection) {
-        this.filmRatingCollection = filmRatingCollection;
+    public void setCinemaCollection(Collection<Cinema> cinemaCollection) {
+        this.cinemaCollection = cinemaCollection;
     }
 
-    public Collection<CinemaComment> getCinemaCommentCollection() {
-        return cinemaCommentCollection;
+    public Collection<Comment> getCommentCollection() {
+        return commentCollection;
     }
 
-    public void setCinemaCommentCollection(Collection<CinemaComment> cinemaCommentCollection) {
-        this.cinemaCommentCollection = cinemaCommentCollection;
-    }
-
-    public Collection<CinemaRating> getCinemaRatingCollection() {
-        return cinemaRatingCollection;
-    }
-
-    public void setCinemaRatingCollection(Collection<CinemaRating> cinemaRatingCollection) {
-        this.cinemaRatingCollection = cinemaRatingCollection;
+    public void setCommentCollection(Collection<Comment> commentCollection) {
+        this.commentCollection = commentCollection;
     }
 
     @Override
@@ -171,7 +174,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "PisaFlix.User[ idUser=" + idUser + " ]";
+        return "com.lsmsdgroup.pisaflix.User[ idUser=" + idUser + " ]";
     }
     
 }
