@@ -74,54 +74,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `PisaFlix`.`Cinema_has_Rating`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `PisaFlix`.`Cinema_has_Rating` ;
-
-CREATE TABLE IF NOT EXISTS `PisaFlix`.`Cinema_has_Rating` (
-  `idUser` INT UNSIGNED NOT NULL,
-  `idCinema` INT UNSIGNED NOT NULL,
-  `rate` TINYINT UNSIGNED NOT NULL,
-  PRIMARY KEY (`idUser`, `idCinema`),
-  INDEX `fk_Cinema_Rating_Cinema1_idx` (`idCinema` ASC),
-  CONSTRAINT `fk_Cinema_Rating_User1`
-    FOREIGN KEY (`idUser`)
-    REFERENCES `PisaFlix`.`User` (`idUser`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_Cinema_Rating_Cinema1`
-    FOREIGN KEY (`idCinema`)
-    REFERENCES `PisaFlix`.`Cinema` (`idCinema`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `PisaFlix`.`Film_has_Rating`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `PisaFlix`.`Film_has_Rating` ;
-
-CREATE TABLE IF NOT EXISTS `PisaFlix`.`Film_has_Rating` (
-  `idUser` INT UNSIGNED NOT NULL,
-  `idFilm` INT UNSIGNED NOT NULL,
-  `rate` TINYINT UNSIGNED NOT NULL,
-  PRIMARY KEY (`idUser`, `idFilm`),
-  INDEX `fk_Film_Rating_Film1_idx` (`idFilm` ASC),
-  CONSTRAINT `fk_Film_Rating_User1`
-    FOREIGN KEY (`idUser`)
-    REFERENCES `PisaFlix`.`User` (`idUser`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_Film_Rating_Film1`
-    FOREIGN KEY (`idFilm`)
-    REFERENCES `PisaFlix`.`Film` (`idFilm`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `PisaFlix`.`Projection`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `PisaFlix`.`Projection` ;
@@ -157,8 +109,8 @@ CREATE TABLE IF NOT EXISTS `PisaFlix`.`Film_has_Comment` (
   `idFilm` INT UNSIGNED NOT NULL,
   `idComment` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`idFilm`, `idComment`),
-  INDEX `fk_Film_has_Comment_Comment1_idx` (`idComment` ASC),
   INDEX `fk_Film_has_Comment_Film1_idx` (`idFilm` ASC),
+  INDEX `fk_Film_has_Comment_Comment1_idx` (`idComment` ASC),
   CONSTRAINT `fk_Film_has_Comment_Film1`
     FOREIGN KEY (`idFilm`)
     REFERENCES `PisaFlix`.`Film` (`idFilm`)
@@ -167,8 +119,8 @@ CREATE TABLE IF NOT EXISTS `PisaFlix`.`Film_has_Comment` (
   CONSTRAINT `fk_Film_has_Comment_Comment1`
     FOREIGN KEY (`idComment`)
     REFERENCES `PisaFlix`.`Comment` (`idComment`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -181,8 +133,8 @@ CREATE TABLE IF NOT EXISTS `PisaFlix`.`Cinema_has_Comment` (
   `idCinema` INT UNSIGNED NOT NULL,
   `idComment` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`idCinema`, `idComment`),
-  INDEX `fk_Cinema_has_Comment_Comment1_idx` (`idComment` ASC),
   INDEX `fk_Cinema_has_Comment_Cinema1_idx` (`idCinema` ASC),
+  INDEX `fk_Cinema_has_Comment_Comment1_idx` (`idComment` ASC),
   CONSTRAINT `fk_Cinema_has_Comment_Cinema1`
     FOREIGN KEY (`idCinema`)
     REFERENCES `PisaFlix`.`Cinema` (`idCinema`)
@@ -191,6 +143,53 @@ CREATE TABLE IF NOT EXISTS `PisaFlix`.`Cinema_has_Comment` (
   CONSTRAINT `fk_Cinema_has_Comment_Comment1`
     FOREIGN KEY (`idComment`)
     REFERENCES `PisaFlix`.`Comment` (`idComment`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `PisaFlix`.`Favorite_Cinema`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `PisaFlix`.`Favorite_Cinema` ;
+
+CREATE TABLE IF NOT EXISTS `PisaFlix`.`Favorite_Cinema` (
+  `idCinema` INT UNSIGNED NOT NULL,
+  `idUser` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`idCinema`, `idUser`),
+  INDEX `fk_Favorite_Cinema_User1_idx` (`idUser` ASC),
+  CONSTRAINT `fk_Favorite_Cinema_Cinema1`
+    FOREIGN KEY (`idCinema`)
+    REFERENCES `PisaFlix`.`Cinema` (`idCinema`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Favorite_Cinema_User1`
+    FOREIGN KEY (`idUser`)
+    REFERENCES `PisaFlix`.`User` (`idUser`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `PisaFlix`.`Favorite_Film`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `PisaFlix`.`Favorite_Film` ;
+
+CREATE TABLE IF NOT EXISTS `PisaFlix`.`Favorite_Film` (
+  `idFilm` INT UNSIGNED NOT NULL,
+  `idUser` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`idFilm`, `idUser`),
+  INDEX `fk_Film_has_User_User1_idx` (`idUser` ASC),
+  INDEX `fk_Film_has_User_Film1_idx` (`idFilm` ASC),
+  CONSTRAINT `fk_Film_has_User_Film1`
+    FOREIGN KEY (`idFilm`)
+    REFERENCES `PisaFlix`.`Film` (`idFilm`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Film_has_User_User1`
+    FOREIGN KEY (`idUser`)
+    REFERENCES `PisaFlix`.`User` (`idUser`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
