@@ -1,10 +1,35 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.lsmsdgroup.pisaflix;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+/**
+ *
+ * @author alessandromadonna
+ */
 @Entity
 @Table(name = "Film")
 @NamedQueries({
@@ -12,36 +37,29 @@ import javax.persistence.*;
 public class Film implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idFilm")
     private Integer idFilm;
-    
     @Basic(optional = false)
     @Column(name = "title")
     private String title;
-    
     @Basic(optional = false)
     @Column(name = "publicationDate")
     @Temporal(TemporalType.DATE)
     private Date publicationDate;
-    
     @Lob
     @Column(name = "description")
     private String description;
-    
     @JoinTable(name = "Favorite_Film", joinColumns = {
         @JoinColumn(name = "idFilm", referencedColumnName = "idFilm")}, inverseJoinColumns = {
         @JoinColumn(name = "idUser", referencedColumnName = "idUser")})
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Collection<User> userCollection;
-    
-    @ManyToMany(mappedBy = "filmCollection")
+    @ManyToMany(mappedBy = "filmCollection", fetch = FetchType.EAGER)
     private Collection<Comment> commentCollection;
-    
-    @OneToMany(mappedBy = "idFilm")
+    @OneToMany(mappedBy = "idFilm", fetch = FetchType.EAGER)
     private Collection<Projection> projectionCollection;
 
     public Film() {
@@ -135,7 +153,10 @@ public class Film implements Serializable {
 
     @Override
     public String toString() {
-        return "com.lsmsdgroup.pisaflix.Film[ idFilm=" + idFilm + " ]";
+        return "[ id=" + idFilm + " ]\n"
+                + "title: " + title + "\n"
+                + "PubDate: "+ publicationDate + "\n"
+                + "Descrption: " + description + "\n";
     }
     
 }

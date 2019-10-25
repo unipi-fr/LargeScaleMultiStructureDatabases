@@ -142,26 +142,39 @@ public class DBManager {
 
     public static class FilmManager {
 
-        public static void read(long filmId) {
-            // code to get a user
-            System.out.println("Getting a User");
-
+        public static Film getById(long filmId){
+            Film film = null;
+            
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
-                Film film = entityManager.find(Film.class, filmId);
-                if (film == null) {
-                    System.out.println("film not found!");
-                } else {
-                    System.out.println(film.toString());
-                    System.out.println("Film retrieved");
-                }
+                film = entityManager.find(Film.class, filmId);
+                
             } catch (Exception ex) {
                 ex.printStackTrace(System.out);
                 System.out.println("A problem occurred in retriving a film!");
             } finally {
                 entityManager.close();
             }
+            
+            return film;
+        }
+        
+        public static List<Film> getAll(){
+            List<Film> films = null;
+            
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                
+                films = entityManager.createQuery("FROM Film").getResultList();
+            } catch (Exception ex) {
+                ex.printStackTrace(System.out);
+            } finally {
+                entityManager.close();
+            }
+            
+            return films;
         }
 
     }
