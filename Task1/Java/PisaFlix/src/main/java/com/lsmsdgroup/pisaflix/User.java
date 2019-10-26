@@ -36,10 +36,10 @@ public class User implements Serializable {
     @Column(name = "privilegeLevel")
     private int privilegeLevel;
     
-    @ManyToMany(mappedBy = "userCollection", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "userCollection", fetch = FetchType.EAGER,cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     private Collection<Cinema> cinemaCollection;
     
-    @ManyToMany(mappedBy = "userCollection", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "userCollection", fetch = FetchType.EAGER,cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     private Collection<Film> filmCollection;
     
     @OneToMany(mappedBy = "idUser", fetch = FetchType.EAGER,cascade = CascadeType.ALL)

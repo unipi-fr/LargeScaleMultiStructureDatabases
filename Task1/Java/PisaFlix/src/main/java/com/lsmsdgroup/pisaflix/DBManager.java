@@ -112,7 +112,7 @@ public class DBManager {
             }
         }
 
-        public static List<User> getAllUsers() {
+        public static List<User> getAll() {
             // code to retrieve all users
             System.out.println("Retrieving users");
             List<User> users = null;
@@ -233,7 +233,6 @@ public class DBManager {
                 entityManager.getTransaction().begin();
                 entityManager.persist(cinema);
                 entityManager.getTransaction().commit();
-                System.out.println("Cinema Added");
             } catch (Exception ex) {
                 ex.printStackTrace();
                 System.out.println("A problem occurred in creating the cinema!");
@@ -255,6 +254,22 @@ public class DBManager {
                 entityManager.close();
             }       
             return cinema;
+        }
+        
+        public static void delete(int cinemaId) {
+            // code to delete a cinema
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                Cinema reference = entityManager.getReference(Cinema.class, cinemaId);
+                entityManager.remove(reference);
+                entityManager.getTransaction().commit();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.out.println("A problem occurred in removing a Cinema!");
+            } finally {
+                entityManager.close();
+            }
         }
         
     }
@@ -315,5 +330,32 @@ public class DBManager {
             }
         }
     
+    }
+    
+    public static class ProjectionManager{
+        
+        public static void create(Date dateTime, int room, Film film, Cinema cinema) {
+            Projection projection = new Projection();
+            projection.setDateTime(dateTime);
+            projection.setRoom(room);
+            projection.setIdCinema(cinema);
+            projection.setIdFilm(film);
+            cinema.getProjectionCollection().add(projection);
+            film.getProjectionCollection().add(projection);
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                entityManager.persist(projection);
+                entityManager.merge(cinema);
+                entityManager.merge(film);
+                entityManager.getTransaction().commit();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.out.println("A problem occurred in creating the projection!");
+            } finally {
+                entityManager.close();
+            }
+        }
+        
     }
 }
