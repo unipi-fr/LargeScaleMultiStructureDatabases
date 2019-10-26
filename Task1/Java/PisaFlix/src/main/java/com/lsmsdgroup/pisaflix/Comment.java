@@ -27,7 +27,10 @@ public class Comment implements Serializable {
     @Column(name = "text")
     private String text;
     
-    @ManyToMany(mappedBy = "commentCollection", fetch = FetchType.EAGER)
+    @JoinTable(name = "Cinema_has_Comment", joinColumns = {
+        @JoinColumn(name = "idComment", referencedColumnName = "idComment")}, inverseJoinColumns = {
+        @JoinColumn(name = "idCinema", referencedColumnName = "idCinema")})
+    @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Cinema> cinemaCollection;
     
     @JoinTable(name = "Film_has_Comment", joinColumns = {

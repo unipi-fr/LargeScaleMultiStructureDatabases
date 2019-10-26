@@ -30,10 +30,7 @@ public class Cinema implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<User> userCollection;
 
-    @JoinTable(name = "Cinema_has_Comment", joinColumns = {
-        @JoinColumn(name = "idCinema", referencedColumnName = "idCinema")}, inverseJoinColumns = {
-        @JoinColumn(name = "idComment", referencedColumnName = "idComment")})
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "cinemaCollection", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Collection<Comment> commentCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCinema", fetch = FetchType.EAGER)

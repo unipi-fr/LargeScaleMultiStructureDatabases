@@ -36,10 +36,10 @@ public class Film implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<User> userCollection;
     
-    @ManyToMany(mappedBy = "filmCollection", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "filmCollection", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Collection<Comment> commentCollection;
     
-    @OneToMany(mappedBy = "idFilm", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idFilm", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Collection<Projection> projectionCollection;
 
     public Film() {

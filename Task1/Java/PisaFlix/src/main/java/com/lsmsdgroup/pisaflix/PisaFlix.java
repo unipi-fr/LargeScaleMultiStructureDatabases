@@ -1,6 +1,6 @@
 package com.lsmsdgroup.pisaflix;
 
-import java.util.List;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 
@@ -10,22 +10,8 @@ public class PisaFlix {
         LogManager.getLogManager().getLogger("").setLevel(Level.OFF);
         
         DBManager.setup();
-        DBManager.FilmManager.delete(9);
-        //DBManager.UserManager.getAllUsers();
-        DBManager.exit();
-        //List<Film> films = DBManager.FilmManager.getAll();
-        /*Film film = DBManager.FilmManager.getById(1);
-        DBManager.exit();
-        
-        for(User user: film.getUserCollection())
-        {
-            System.out.println(user.toString());
-        }
-        
-        /*for(Film film: films)
-        {
-            System.out.println(film.toString());
-        }*/
-       
+        DBManager.CommentManager.createFilmComment("Blablablablabla", DBManager.UserManager.getById(1), DBManager.FilmManager.getById(1));
+        DBManager.CommentManager.createCinemaComment("Blablablablabla", DBManager.UserManager.getById(1), DBManager.CinemaManager.getById(1));
+        DBManager.exit();     
     }
 }

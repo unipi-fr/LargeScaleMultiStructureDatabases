@@ -36,13 +36,13 @@ public class User implements Serializable {
     @Column(name = "privilegeLevel")
     private int privilegeLevel;
     
-    @ManyToMany(mappedBy = "userCollection", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "userCollection", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Collection<Cinema> cinemaCollection;
     
-    @ManyToMany(mappedBy = "userCollection", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "userCollection", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Collection<Film> filmCollection;
     
-    @OneToMany(mappedBy = "idUser", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idUser", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Collection<Comment> commentCollection;
 
     public User() {
@@ -122,6 +122,12 @@ public class User implements Serializable {
     public void setCinemaCollection(Collection<Cinema> cinemaCollection) {
         this.cinemaCollection = cinemaCollection;
     }
+    
+    public void addFavouriteCinema(Cinema cinema){
+        cinemaCollection.add(cinema);
+        cinema.getUserCollection().add(this);
+        DBManager.UserManager.updateFavorites(this);
+    }
 
     public Collection<Film> getFilmCollection() {
         return filmCollection;
@@ -129,6 +135,12 @@ public class User implements Serializable {
 
     public void setFilmCollection(Collection<Film> filmCollection) {
         this.filmCollection = filmCollection;
+    }
+    
+    public void addFavouriteFilm(Film film){
+        filmCollection.add(film);
+        film.getUserCollection().add(this);
+        DBManager.UserManager.updateFavorites(this);
     }
 
     public Collection<Comment> getCommentCollection() {
