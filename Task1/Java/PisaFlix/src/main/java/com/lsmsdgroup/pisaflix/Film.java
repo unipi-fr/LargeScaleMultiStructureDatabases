@@ -3,6 +3,7 @@ package com.lsmsdgroup.pisaflix;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -139,4 +140,31 @@ public class Film implements Serializable {
                 + "Descrption: " + description + "\n";
     }
     
+    public static Film getById(int filmId) {
+        return DBManager.FilmManager.getById(filmId);
+    }
+
+    public static Collection<Film> getAll() {
+        return DBManager.FilmManager.getAll();
+    }
+
+    public static void create(String title, Date publicationDate, String description) {
+        DBManager.FilmManager.create(title, publicationDate, description);
+    }
+
+    public static void update(int idFilm, String title, Date publicationDate, String description) {
+        DBManager.FilmManager.update(idFilm, title, publicationDate, description);
+    }
+    
+     public void updateThis(String title, Date publicationDate, String description) {
+        DBManager.FilmManager.update(this.idFilm, title, publicationDate, description);
+    }
+
+    public static void delete(int idFilm) {
+        DBManager.FilmManager.delete(idFilm);
+    }
+    
+    public void deleteThis() {
+        DBManager.FilmManager.delete(this.idFilm);
+    }
 }

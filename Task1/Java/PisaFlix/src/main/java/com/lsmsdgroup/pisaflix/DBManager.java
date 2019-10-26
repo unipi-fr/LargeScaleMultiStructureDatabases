@@ -43,12 +43,15 @@ public class DBManager {
             return user;
         }
 
-        public static void create(String username, String password, int privilegeLevel) {
+        public static void create(String username, String password, String firstName ,String lastName ,String email, int privilegeLevel) {
             // code to create a user
             User user = new User();
             user.setUsername(username);
             user.setPassword(password);
             user.setPrivilegeLevel(privilegeLevel);
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setEmail(email);
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
@@ -70,7 +73,7 @@ public class DBManager {
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
                 ex.printStackTrace();
-                System.out.println("A problem occurred adding in favorite!");
+                System.out.println("A problem occurred in updating favorites!");
             } finally {
                 entityManager.close();
             }
@@ -92,11 +95,14 @@ public class DBManager {
             }
         }
 
-        public static void update(int userId, String username, String password, int privilegeLevel) {
+        public static void update(int userId, String username,String firstName ,String lastName ,String email, String password, int privilegeLevel) {
             // code to update a user
             User user = new User(userId);
             user.setUsername(username);
             user.setPassword(password);
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setEmail(email);
             user.setPrivilegeLevel(privilegeLevel);
             try {
                 entityManager = factory.createEntityManager();
@@ -119,7 +125,7 @@ public class DBManager {
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
-                users = entityManager.createQuery("SELECT u FROM User u").getResultList();
+                users = entityManager.createQuery("FROM User").getResultList();
                 if (users == null) {
                     System.out.println("User is empty!");
                 }
@@ -219,6 +225,20 @@ public class DBManager {
                 entityManager.close();
             } 
         }
+        
+        public static void updateFavorites(Film film){
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                entityManager.merge(film);
+                entityManager.getTransaction().commit();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.out.println("A problem occurred updating favorites!");
+            } finally {
+                entityManager.close();
+            }
+        }
 
     }
     
@@ -256,17 +276,66 @@ public class DBManager {
             return cinema;
         }
         
-        public static void delete(int cinemaId) {
+        public static void delete(int idCinema) {
             // code to delete a cinema
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
-                Cinema reference = entityManager.getReference(Cinema.class, cinemaId);
+                Cinema reference = entityManager.getReference(Cinema.class, idCinema);
                 entityManager.remove(reference);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
                 ex.printStackTrace();
                 System.out.println("A problem occurred in removing a Cinema!");
+            } finally {
+                entityManager.close();
+            }
+        }
+        
+        public static void update(int idCinema, String name, String address){
+            Cinema cinema = new Cinema(idCinema);
+            cinema.setName(name);
+            cinema.setAddress(address);
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                entityManager.merge(cinema);
+                entityManager.getTransaction().commit();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.out.println("A problem occurred in updating the film!");
+            } finally {
+                entityManager.close();
+            }
+        }
+        
+        public static List<Cinema> getAll(){
+            List<Cinema> cinemas = null;        
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();    
+                cinemas = entityManager.createQuery("FROM Film").getResultList();
+                if (cinemas == null) {
+                    System.out.println("Film is empty!");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace(System.out);
+                System.out.println("A problem occurred in retrieve all films!");
+            } finally {
+                entityManager.close();
+            }  
+            return cinemas;
+        }
+        
+        public static void updateFavorites(Cinema cinema){
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                entityManager.merge(cinema);
+                entityManager.getTransaction().commit();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.out.println("A problem occurred updating favorites!");
             } finally {
                 entityManager.close();
             }
@@ -329,6 +398,53 @@ public class DBManager {
                 entityManager.close();
             }
         }
+        
+        public static void update(int idComment, String text){
+            Comment comment = new Comment(idComment);
+            comment.setText(text);
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                entityManager.merge(comment);
+                entityManager.getTransaction().commit();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.out.println("A problem occurred in updating the Comment!");
+            } finally {
+                entityManager.close();
+            }
+        }
+        
+        public static void delete(int idComment) {
+            // code to delete a cinema
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                Comment reference = entityManager.getReference(Comment.class, idComment);
+                entityManager.remove(reference);
+                entityManager.getTransaction().commit();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.out.println("A problem occurred in removing the Comment!");
+            } finally {
+                entityManager.close();
+            }
+        }
+        
+        public static Comment getById(int commentId){
+            Comment comment = null;      
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                comment = entityManager.find(Comment.class, commentId);
+            } catch (Exception ex) {
+                ex.printStackTrace(System.out);
+                System.out.println("A problem occurred in retriving a comment!");
+            } finally {
+                entityManager.close();
+            } 
+            return comment;
+        }
     
     }
     
@@ -357,5 +473,71 @@ public class DBManager {
             }
         }
         
+        public static void delete(int idProjection) {
+            // code to delete a cinema
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                Projection reference = entityManager.getReference(Projection.class, idProjection);
+                entityManager.remove(reference);
+                entityManager.getTransaction().commit();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.out.println("A problem occurred in removing the Projection!");
+            } finally {
+                entityManager.close();
+            }
+        }
+        
+        public static void update(int idProjection, Date dateTime, int room){
+            Projection projection = new Projection(idProjection);
+            projection.setDateTime(dateTime);
+            projection.setRoom(room);
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                entityManager.merge(projection);
+                entityManager.getTransaction().commit();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.out.println("A problem occurred in updating the projection!");
+            } finally {
+                entityManager.close();
+            }
+        }
+        
+        public static List<Projection> getAll(){
+            List<Projection> projections = null;        
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();    
+                projections = entityManager.createQuery("FROM projection").getResultList();
+                if (projections == null) {
+                    System.out.println("Projection is empty!");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace(System.out);
+                System.out.println("A problem occurred in retrieve all projections!");
+            } finally {
+                entityManager.close();
+            }  
+            return projections;
+        }
+        
+        public static Projection getById(int projectionId){
+            Projection projection = null;      
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                projection = entityManager.find(Projection.class, projectionId);
+            } catch (Exception ex) {
+                ex.printStackTrace(System.out);
+                System.out.println("A problem occurred in retriving a projection!");
+            } finally {
+                entityManager.close();
+            } 
+            return projection;
+        }
+      
     }
 }

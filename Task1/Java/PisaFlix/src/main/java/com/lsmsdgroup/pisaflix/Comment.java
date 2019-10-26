@@ -1,6 +1,7 @@
 package com.lsmsdgroup.pisaflix;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.*;
@@ -10,35 +11,35 @@ import javax.persistence.*;
 public class Comment implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idComment")
     private Integer idComment;
-    
+
     @Basic(optional = false)
     @Column(name = "timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
-    
+
     @Basic(optional = false)
     @Lob
     @Column(name = "text")
     private String text;
-    
+
     @JoinTable(name = "Cinema_has_Comment", joinColumns = {
         @JoinColumn(name = "idComment", referencedColumnName = "idComment")}, inverseJoinColumns = {
         @JoinColumn(name = "idCinema", referencedColumnName = "idCinema")})
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Cinema> cinemaCollection;
-    
+
     @JoinTable(name = "Film_has_Comment", joinColumns = {
         @JoinColumn(name = "idComment", referencedColumnName = "idComment")}, inverseJoinColumns = {
         @JoinColumn(name = "idFilm", referencedColumnName = "idFilm")})
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Film> filmCollection;
-    
+
     @JoinColumn(name = "idUser", referencedColumnName = "idUser")
     @ManyToOne(fetch = FetchType.EAGER)
     private User idUser;
@@ -128,5 +129,33 @@ public class Comment implements Serializable {
     public String toString() {
         return "com.lsmsdgroup.pisaflix.Comment[ idComment=" + idComment + " ]";
     }
+
+    public static void createFilmComment(String text, User user, Film film) {
+        DBManager.CommentManager.createFilmComment(text, user, film);
+    }
+
+    public static void createCinemaComment(String text, User user, Cinema cinema) {
+        DBManager.CommentManager.createCinemaComment(text, user, cinema);
+    }
+
+    public static void update(int idComment, String text) {
+        DBManager.CommentManager.update(idComment, text);
+    }
     
+    public void updateThis(String text) {
+        DBManager.CommentManager.update(this.idComment, text);
+    }
+
+    public static void delete(int idComment) {
+        DBManager.CommentManager.delete(idComment);
+    }
+    
+    public void deleteThis() {
+        DBManager.CommentManager.delete(this.idComment);
+    }
+
+    public static Comment getById(int commentId) {
+        return DBManager.CommentManager.getById(commentId);
+    }
+
 }

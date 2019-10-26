@@ -1,7 +1,9 @@
 package com.lsmsdgroup.pisaflix;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -14,20 +16,20 @@ public class Projection implements Serializable {
     @Basic(optional = false)
     @Column(name = "idProjection")
     private Integer idProjection;
-    
+
     @Basic(optional = false)
     @Column(name = "dateTime")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateTime;
-    
+
     @Basic(optional = false)
     @Column(name = "room")
     private int room;
-    
+
     @JoinColumn(name = "idCinema", referencedColumnName = "idCinema")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Cinema idCinema;
-    
+
     @JoinColumn(name = "idFilm", referencedColumnName = "idFilm")
     @ManyToOne(fetch = FetchType.EAGER)
     private Film idFilm;
@@ -108,6 +110,34 @@ public class Projection implements Serializable {
     @Override
     public String toString() {
         return "com.lsmsdgroup.pisaflix.Projection[ idProjection=" + idProjection + " ]";
+    }
+
+    public static void create(Date dateTime, int room, Film film, Cinema cinema) {
+        DBManager.ProjectionManager.create(dateTime, room, film, cinema);
+    }
+
+    public static void delete(int idProjection) {
+        DBManager.ProjectionManager.delete(idProjection);
+    }
+    
+    public void deleteThis() {
+        DBManager.ProjectionManager.delete(this.idProjection);
+    }
+
+    public static void update(int idProjection, Date dateTime, int room) {
+        DBManager.ProjectionManager.update(idProjection, dateTime, room);
+    }
+    
+    public void updateThis(Date dateTime, int room) {
+        DBManager.ProjectionManager.update(this.idProjection, dateTime, room);
+    }
+
+    public static Collection<Projection> getAll() {
+        return DBManager.ProjectionManager.getAll();
+    }
+
+    public static Projection getById(int projectionId) {
+        return DBManager.ProjectionManager.getById(projectionId);
     }
     
 }

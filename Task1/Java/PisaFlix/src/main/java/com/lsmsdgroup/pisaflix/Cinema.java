@@ -2,6 +2,7 @@ package com.lsmsdgroup.pisaflix;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -120,6 +121,34 @@ public class Cinema implements Serializable {
     @Override
     public String toString() {
         return "com.lsmsdgroup.pisaflix.Cinema[ idCinema=" + idCinema + " ]";
+    }
+    
+    public static void create(String name, String address) {
+        DBManager.CinemaManager.create(name, address);
+    }
+
+    public static Cinema getById(int cinemaId) {
+        return DBManager.CinemaManager.getById(cinemaId);
+    }
+
+    public static void delete(int cinemaId) {
+        DBManager.CinemaManager.delete(cinemaId);
+    }
+    
+    public void deleteThis(int idCinema) {
+        DBManager.CinemaManager.delete(this.idCinema);
+    }
+
+    public static void update(int idCinema, String name, String address) {
+        DBManager.CinemaManager.update(idCinema, name, address);
+    }
+    
+    public void updateThis(String name, String address) {
+        DBManager.CinemaManager.update(this.idCinema, name, address);
+    }
+
+    public static Collection<Cinema> getAll() {
+        return DBManager.CinemaManager.getAll();
     }
 
 }

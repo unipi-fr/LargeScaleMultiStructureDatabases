@@ -2,6 +2,7 @@ package com.lsmsdgroup.pisaflix;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -128,6 +129,13 @@ public class User implements Serializable {
         cinema.getUserCollection().add(this);
         DBManager.UserManager.updateFavorites(this);
     }
+    
+    public void removeFavouriteCinema(Cinema cinema){
+        cinemaCollection.remove(cinema);
+        cinema.getUserCollection().remove(this);
+        DBManager.UserManager.updateFavorites(this);
+        DBManager.CinemaManager.updateFavorites(cinema);
+    }
 
     public Collection<Film> getFilmCollection() {
         return filmCollection;
@@ -141,6 +149,13 @@ public class User implements Serializable {
         filmCollection.add(film);
         film.getUserCollection().add(this);
         DBManager.UserManager.updateFavorites(this);
+    }
+    
+    public void removeFavouriteFilm(Film film){
+        filmCollection.remove(film);
+        film.getUserCollection().remove(this);
+        DBManager.UserManager.updateFavorites(this);
+        DBManager.FilmManager.updateFavorites(film);
     }
 
     public Collection<Comment> getCommentCollection() {
@@ -174,6 +189,34 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "\n User[  idUser=" + idUser + " | Username="+username+" | First Name="+firstName+" | Last Name="+lastName+" | Email="+email+" | Prvilege Level="+privilegeLevel+"] ";
+    }
+    
+    public static User getById(int userId) {
+        return DBManager.UserManager.getById(userId);
+    }
+
+    public static void create(String username, String password, String firstName, String lastName, String email, int privilegeLevel) {
+        DBManager.UserManager.create(username, password, firstName, lastName, email, privilegeLevel);
+    }
+    
+    public static void delete(int userId) {
+        DBManager.UserManager.delete(userId);
+    }
+    
+    public void deleteThis() {
+        delete(this.idUser);
+    }
+
+    public static void update(int userId, String username, String firstName, String lastName, String email, String password, int privilegeLevel) {
+        DBManager.UserManager.update(userId, username, firstName, lastName, email, password, privilegeLevel);
+    }
+    
+    public void updateThis(String username, String firstName, String lastName, String email, String password, int privilegeLevel) {
+        DBManager.UserManager.update(this.idUser, username, firstName, lastName, email, password, privilegeLevel);
+    }
+
+    public static Collection<User> getAll() {
+        return DBManager.UserManager.getAll();
     }
     
 }
