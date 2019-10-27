@@ -1,5 +1,10 @@
 package com.lsmsdgroup.pisaflix;
 
+import com.lsmsdgroup.pisaflix.Entities.Comment;
+import com.lsmsdgroup.pisaflix.Entities.Projection;
+import com.lsmsdgroup.pisaflix.Entities.Cinema;
+import com.lsmsdgroup.pisaflix.Entities.Film;
+import com.lsmsdgroup.pisaflix.Entities.User;
 import java.sql.Timestamp;
 import java.util.*;
 import javax.persistence.EntityManager;
@@ -128,6 +133,25 @@ public class DBManager {
                 users = entityManager.createQuery("FROM User").getResultList();
                 if (users == null) {
                     System.out.println("User is empty!");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace(System.out);
+                System.out.println("A problem occurred in retriving a user!");
+            } finally {
+                entityManager.close();
+            }
+            return users;
+        }
+        
+        public static List<User> getByUsername(String username) {
+            List<User> users = null;
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+//TODO: da vedere se è sicuro <- SQLInjection
+                users = entityManager.createQuery("SELECT u FROM User u WHERE u.username = '"+username+"'").getResultList();
+                if (users == null) {
+                    System.out.println("Users is empty!");
                 }
             } catch (Exception ex) {
                 ex.printStackTrace(System.out);

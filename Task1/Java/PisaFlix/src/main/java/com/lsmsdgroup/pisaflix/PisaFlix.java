@@ -1,9 +1,11 @@
 package com.lsmsdgroup.pisaflix;
 
+import com.lsmsdgroup.pisaflix.Entities.User;
 import java.util.Date;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 public class PisaFlix {
 
@@ -21,8 +23,22 @@ public class PisaFlix {
         //DBManager.UserManager.delete(1);
         //DBManager.FilmManager.delete(1);
         //DBManager.CinemaManager.delete(1);
-        User user = User.getById(1);
-        user.removeFavouriteFilm(DBManager.FilmManager.getById(1));
+        //User user = User.getById(1);
+        //user.removeFavouriteFilm(DBManager.FilmManager.getById(1));
+        try {
+            PisaFlixServices.Authentication.Login("fraronk", "wrong");
+        } catch (PisaFlixServices.Authentication.UserAlredyLoggedException | PisaFlixServices.Authentication.InvalidCredentialsException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        try {
+            PisaFlixServices.Authentication.Login("fraronk", "1234");
+        } catch (PisaFlixServices.Authentication.UserAlredyLoggedException | PisaFlixServices.Authentication.InvalidCredentialsException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        System.out.println(PisaFlixServices.Authentication.getInfoString());
+        
         DBManager.exit();     
     }
 }
