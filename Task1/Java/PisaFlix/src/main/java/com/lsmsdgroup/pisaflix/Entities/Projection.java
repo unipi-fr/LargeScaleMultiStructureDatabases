@@ -120,7 +120,7 @@ public class Projection implements Serializable {
     public static void delete(int idProjection) {
         DBManager.ProjectionManager.delete(idProjection);
     }
-    
+
     public void deleteThis() {
         DBManager.ProjectionManager.delete(this.idProjection);
     }
@@ -128,7 +128,7 @@ public class Projection implements Serializable {
     public static void update(int idProjection, Date dateTime, int room) {
         DBManager.ProjectionManager.update(idProjection, dateTime, room);
     }
-    
+
     public void updateThis(Date dateTime, int room) {
         DBManager.ProjectionManager.update(this.idProjection, dateTime, room);
     }
@@ -140,5 +140,5 @@ public class Projection implements Serializable {
     public static Projection getById(int projectionId) {
         return DBManager.ProjectionManager.getById(projectionId);
     }
-    
+
 }

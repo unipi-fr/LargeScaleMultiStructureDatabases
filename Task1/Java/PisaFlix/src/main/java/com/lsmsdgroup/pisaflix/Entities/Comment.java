@@ -142,7 +142,7 @@ public class Comment implements Serializable {
     public static void update(int idComment, String text) {
         DBManager.CommentManager.update(idComment, text);
     }
-    
+
     public void updateThis(String text) {
         DBManager.CommentManager.update(this.idComment, text);
     }
@@ -150,7 +150,7 @@ public class Comment implements Serializable {
     public static void delete(int idComment) {
         DBManager.CommentManager.delete(idComment);
     }
-    
+
     public void deleteThis() {
         DBManager.CommentManager.delete(this.idComment);
     }

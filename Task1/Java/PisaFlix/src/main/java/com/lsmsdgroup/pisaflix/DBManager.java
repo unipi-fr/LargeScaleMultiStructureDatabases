@@ -48,7 +48,7 @@ public class DBManager {
             return user;
         }
 
-        public static void create(String username, String password, String firstName ,String lastName ,String email, int privilegeLevel) {
+        public static void create(String username, String password, String firstName, String lastName, String email, int privilegeLevel) {
             // code to create a user
             User user = new User();
             user.setUsername(username);
@@ -57,6 +57,7 @@ public class DBManager {
             user.setFirstName(firstName);
             user.setLastName(lastName);
             user.setEmail(email);
+            
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
@@ -69,8 +70,8 @@ public class DBManager {
                 entityManager.close();
             }
         }
-        
-        public static void updateFavorites(User user){
+
+        public static void updateFavorites(User user) {
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
@@ -100,7 +101,7 @@ public class DBManager {
             }
         }
 
-        public static void update(int userId, String username,String firstName ,String lastName ,String email, String password, int privilegeLevel) {
+        public static void update(int userId, String username, String firstName, String lastName, String email, String password, int privilegeLevel) {
             // code to update a user
             User user = new User(userId);
             user.setUsername(username);
@@ -142,14 +143,14 @@ public class DBManager {
             }
             return users;
         }
-        
+
         public static List<User> getByUsername(String username) {
             List<User> users = null;
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
-//TODO: da vedere se è sicuro <- SQLInjection
-                users = entityManager.createQuery("SELECT u FROM User u WHERE u.username = '"+username+"'").getResultList();
+                //TODO: da vedere se è sicuro <- SQLInjection
+                users = entityManager.createQuery("SELECT u FROM User u WHERE u.username = '" + username + "'").getResultList();
                 if (users == null) {
                     System.out.println("Users is empty!");
                 }
@@ -161,13 +162,13 @@ public class DBManager {
             }
             return users;
         }
-        
+
     }
 
     public static class FilmManager {
 
-        public static Film getById(int filmId){
-            Film film = null;      
+        public static Film getById(int filmId) {
+            Film film = null;
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
@@ -177,15 +178,15 @@ public class DBManager {
                 System.out.println("A problem occurred in retriving a film!");
             } finally {
                 entityManager.close();
-            } 
+            }
             return film;
         }
-        
-        public static List<Film> getAll(){
-            List<Film> films = null;        
+
+        public static List<Film> getAll() {
+            List<Film> films = null;
             try {
                 entityManager = factory.createEntityManager();
-                entityManager.getTransaction().begin();    
+                entityManager.getTransaction().begin();
                 films = entityManager.createQuery("FROM Film").getResultList();
                 if (films == null) {
                     System.out.println("Film is empty!");
@@ -195,15 +196,15 @@ public class DBManager {
                 System.out.println("A problem occurred in retrieve all films!");
             } finally {
                 entityManager.close();
-            }  
+            }
             return films;
         }
-        
-        public static void create(String title, Date publicationDate, String description){
+
+        public static void create(String title, Date publicationDate, String description) {
             Film film = new Film();
             film.setTitle(title);
             film.setDescription(description);
-            film.setPublicationDate(publicationDate);           
+            film.setPublicationDate(publicationDate);
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
@@ -216,12 +217,12 @@ public class DBManager {
                 entityManager.close();
             }
         }
-        
-        public static void update(int idFilm, String title, Date publicationDate, String description){
+
+        public static void update(int idFilm, String title, Date publicationDate, String description) {
             Film film = new Film(idFilm);
             film.setTitle(title);
             film.setDescription(description);
-            film.setPublicationDate(publicationDate); 
+            film.setPublicationDate(publicationDate);
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
@@ -234,8 +235,8 @@ public class DBManager {
                 entityManager.close();
             }
         }
-        
-        public static void delete(int idFilm){
+
+        public static void delete(int idFilm) {
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
@@ -247,10 +248,10 @@ public class DBManager {
                 System.out.println("A problem occurred in deleting the film!");
             } finally {
                 entityManager.close();
-            } 
+            }
         }
-        
-        public static void updateFavorites(Film film){
+
+        public static void updateFavorites(Film film) {
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
@@ -265,9 +266,9 @@ public class DBManager {
         }
 
     }
-    
-    public static class CinemaManager{
-        
+
+    public static class CinemaManager {
+
         public static void create(String name, String address) {
             Cinema cinema = new Cinema();
             cinema.setName(name);
@@ -284,22 +285,22 @@ public class DBManager {
                 entityManager.close();
             }
         }
-        
-        public static Cinema getById(int cinemaId){
-            Cinema cinema = null;      
+
+        public static Cinema getById(int cinemaId) {
+            Cinema cinema = null;
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
-                cinema = entityManager.find(Cinema.class, cinemaId);       
+                cinema = entityManager.find(Cinema.class, cinemaId);
             } catch (Exception ex) {
                 ex.printStackTrace(System.out);
                 System.out.println("A problem occurred in retriving a film!");
             } finally {
                 entityManager.close();
-            }       
+            }
             return cinema;
         }
-        
+
         public static void delete(int idCinema) {
             // code to delete a cinema
             try {
@@ -315,8 +316,8 @@ public class DBManager {
                 entityManager.close();
             }
         }
-        
-        public static void update(int idCinema, String name, String address){
+
+        public static void update(int idCinema, String name, String address) {
             Cinema cinema = new Cinema(idCinema);
             cinema.setName(name);
             cinema.setAddress(address);
@@ -332,12 +333,12 @@ public class DBManager {
                 entityManager.close();
             }
         }
-        
-        public static List<Cinema> getAll(){
-            List<Cinema> cinemas = null;        
+
+        public static List<Cinema> getAll() {
+            List<Cinema> cinemas = null;
             try {
                 entityManager = factory.createEntityManager();
-                entityManager.getTransaction().begin();    
+                entityManager.getTransaction().begin();
                 cinemas = entityManager.createQuery("FROM Film").getResultList();
                 if (cinemas == null) {
                     System.out.println("Film is empty!");
@@ -347,11 +348,11 @@ public class DBManager {
                 System.out.println("A problem occurred in retrieve all films!");
             } finally {
                 entityManager.close();
-            }  
+            }
             return cinemas;
         }
-        
-        public static void updateFavorites(Cinema cinema){
+
+        public static void updateFavorites(Cinema cinema) {
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
@@ -364,12 +365,12 @@ public class DBManager {
                 entityManager.close();
             }
         }
-        
+
     }
 
-    public static class CommentManager{
-        
-        public static void createFilmComment(String text, User user, Film film){
+    public static class CommentManager {
+
+        public static void createFilmComment(String text, User user, Film film) {
             Comment comment = new Comment();
             comment.setText(text);
             comment.setTimestamp(new Date());
@@ -380,7 +381,7 @@ public class DBManager {
             filmCollection.add(film);
             comment.setFilmCollection(filmCollection);
             comment.setIdUser(user);
-            
+
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
@@ -395,8 +396,8 @@ public class DBManager {
                 entityManager.close();
             }
         }
-        
-        public static void createCinemaComment(String text, User user, Cinema cinema){
+
+        public static void createCinemaComment(String text, User user, Cinema cinema) {
             Comment comment = new Comment();
             comment.setText(text);
             comment.setTimestamp(new Date());
@@ -407,7 +408,7 @@ public class DBManager {
             cinemaCollection.add(cinema);
             comment.setCinemaCollection(cinemaCollection);
             comment.setIdUser(user);
-            
+
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
@@ -422,8 +423,8 @@ public class DBManager {
                 entityManager.close();
             }
         }
-        
-        public static void update(int idComment, String text){
+
+        public static void update(int idComment, String text) {
             Comment comment = new Comment(idComment);
             comment.setText(text);
             try {
@@ -438,7 +439,7 @@ public class DBManager {
                 entityManager.close();
             }
         }
-        
+
         public static void delete(int idComment) {
             // code to delete a cinema
             try {
@@ -454,9 +455,9 @@ public class DBManager {
                 entityManager.close();
             }
         }
-        
-        public static Comment getById(int commentId){
-            Comment comment = null;      
+
+        public static Comment getById(int commentId) {
+            Comment comment = null;
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
@@ -466,14 +467,14 @@ public class DBManager {
                 System.out.println("A problem occurred in retriving a comment!");
             } finally {
                 entityManager.close();
-            } 
+            }
             return comment;
         }
-    
+
     }
-    
-    public static class ProjectionManager{
-        
+
+    public static class ProjectionManager {
+
         public static void create(Date dateTime, int room, Film film, Cinema cinema) {
             Projection projection = new Projection();
             projection.setDateTime(dateTime);
@@ -496,7 +497,7 @@ public class DBManager {
                 entityManager.close();
             }
         }
-        
+
         public static void delete(int idProjection) {
             // code to delete a cinema
             try {
@@ -512,8 +513,8 @@ public class DBManager {
                 entityManager.close();
             }
         }
-        
-        public static void update(int idProjection, Date dateTime, int room){
+
+        public static void update(int idProjection, Date dateTime, int room) {
             Projection projection = new Projection(idProjection);
             projection.setDateTime(dateTime);
             projection.setRoom(room);
@@ -529,12 +530,12 @@ public class DBManager {
                 entityManager.close();
             }
         }
-        
-        public static List<Projection> getAll(){
-            List<Projection> projections = null;        
+
+        public static List<Projection> getAll() {
+            List<Projection> projections = null;
             try {
                 entityManager = factory.createEntityManager();
-                entityManager.getTransaction().begin();    
+                entityManager.getTransaction().begin();
                 projections = entityManager.createQuery("FROM projection").getResultList();
                 if (projections == null) {
                     System.out.println("Projection is empty!");
@@ -544,12 +545,12 @@ public class DBManager {
                 System.out.println("A problem occurred in retrieve all projections!");
             } finally {
                 entityManager.close();
-            }  
+            }
             return projections;
         }
-        
-        public static Projection getById(int projectionId){
-            Projection projection = null;      
+
+        public static Projection getById(int projectionId) {
+            Projection projection = null;
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
@@ -559,9 +560,9 @@ public class DBManager {
                 System.out.println("A problem occurred in retriving a projection!");
             } finally {
                 entityManager.close();
-            } 
+            }
             return projection;
         }
-      
+
     }
 }

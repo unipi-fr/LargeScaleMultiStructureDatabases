@@ -16,35 +16,35 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "idUser")
     private Integer idUser;
-    
+
     @Basic(optional = false)
     @Column(name = "username")
     private String username;
-    
+
     @Basic(optional = false)
     @Column(name = "password")
     private String password;
-    
+
     @Column(name = "email")
     private String email;
-    
+
     @Column(name = "firstName")
     private String firstName;
-    
+
     @Column(name = "lastName")
     private String lastName;
-    
+
     @Basic(optional = false)
     @Column(name = "privilegeLevel")
     private int privilegeLevel;
-    
-    @ManyToMany(mappedBy = "userCollection", fetch = FetchType.EAGER,cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+
+    @ManyToMany(mappedBy = "userCollection", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Collection<Cinema> cinemaCollection;
-    
-    @ManyToMany(mappedBy = "userCollection", fetch = FetchType.EAGER,cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+
+    @ManyToMany(mappedBy = "userCollection", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Collection<Film> filmCollection;
-    
-    @OneToMany(mappedBy = "idUser", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "idUser", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Collection<Comment> commentCollection;
 
     public User() {
@@ -124,14 +124,14 @@ public class User implements Serializable {
     public void setCinemaCollection(Collection<Cinema> cinemaCollection) {
         this.cinemaCollection = cinemaCollection;
     }
-    
-    public void addFavouriteCinema(Cinema cinema){
+
+    public void addFavouriteCinema(Cinema cinema) {
         cinemaCollection.add(cinema);
         cinema.getUserCollection().add(this);
         DBManager.UserManager.updateFavorites(this);
     }
-    
-    public void removeFavouriteCinema(Cinema cinema){
+
+    public void removeFavouriteCinema(Cinema cinema) {
         cinemaCollection.remove(cinema);
         cinema.getUserCollection().remove(this);
         DBManager.UserManager.updateFavorites(this);
@@ -145,14 +145,14 @@ public class User implements Serializable {
     public void setFilmCollection(Collection<Film> filmCollection) {
         this.filmCollection = filmCollection;
     }
-    
-    public void addFavouriteFilm(Film film){
+
+    public void addFavouriteFilm(Film film) {
         filmCollection.add(film);
         film.getUserCollection().add(this);
         DBManager.UserManager.updateFavorites(this);
     }
-    
-    public void removeFavouriteFilm(Film film){
+
+    public void removeFavouriteFilm(Film film) {
         filmCollection.remove(film);
         film.getUserCollection().remove(this);
         DBManager.UserManager.updateFavorites(this);
@@ -189,9 +189,9 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "\n User[  idUser=" + idUser + " | Username="+username+" | First Name="+firstName+" | Last Name="+lastName+" | Email="+email+" | Prvilege Level="+privilegeLevel+"] ";
+        return "\n User[  idUser=" + idUser + " | Username=" + username + " | First Name=" + firstName + " | Last Name=" + lastName + " | Email=" + email + " | Prvilege Level=" + privilegeLevel + "] ";
     }
-    
+
     public static User getById(int userId) {
         return DBManager.UserManager.getById(userId);
     }
@@ -199,11 +199,11 @@ public class User implements Serializable {
     public static void create(String username, String password, String firstName, String lastName, String email, int privilegeLevel) {
         DBManager.UserManager.create(username, password, firstName, lastName, email, privilegeLevel);
     }
-    
+
     public static void delete(int userId) {
         DBManager.UserManager.delete(userId);
     }
-    
+
     public void deleteThis() {
         delete(this.idUser);
     }
@@ -211,7 +211,7 @@ public class User implements Serializable {
     public static void update(int userId, String username, String firstName, String lastName, String email, String password, int privilegeLevel) {
         DBManager.UserManager.update(userId, username, firstName, lastName, email, password, privilegeLevel);
     }
-    
+
     public void updateThis(String username, String firstName, String lastName, String email, String password, int privilegeLevel) {
         DBManager.UserManager.update(this.idUser, username, firstName, lastName, email, password, privilegeLevel);
     }
@@ -219,5 +219,5 @@ public class User implements Serializable {
     public static Collection<User> getAll() {
         return DBManager.UserManager.getAll();
     }
-    
+
 }

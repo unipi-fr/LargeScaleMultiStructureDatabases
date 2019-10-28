@@ -32,7 +32,7 @@ public class Cinema implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<User> userCollection;
 
-    @ManyToMany(mappedBy = "cinemaCollection", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "cinemaCollection", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Collection<Comment> commentCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCinema", fetch = FetchType.EAGER)
@@ -123,7 +123,7 @@ public class Cinema implements Serializable {
     public String toString() {
         return "com.lsmsdgroup.pisaflix.Cinema[ idCinema=" + idCinema + " ]";
     }
-    
+
     public static void create(String name, String address) {
         DBManager.CinemaManager.create(name, address);
     }
@@ -135,7 +135,7 @@ public class Cinema implements Serializable {
     public static void delete(int cinemaId) {
         DBManager.CinemaManager.delete(cinemaId);
     }
-    
+
     public void deleteThis(int idCinema) {
         DBManager.CinemaManager.delete(this.idCinema);
     }
@@ -143,7 +143,7 @@ public class Cinema implements Serializable {
     public static void update(int idCinema, String name, String address) {
         DBManager.CinemaManager.update(idCinema, name, address);
     }
-    
+
     public void updateThis(String name, String address) {
         DBManager.CinemaManager.update(this.idCinema, name, address);
     }

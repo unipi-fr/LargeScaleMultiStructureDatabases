@@ -12,36 +12,36 @@ import javax.persistence.*;
 public class Film implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idFilm")
     private Integer idFilm;
-    
+
     @Basic(optional = false)
     @Column(name = "title")
     private String title;
-    
+
     @Basic(optional = false)
     @Column(name = "publicationDate")
     @Temporal(TemporalType.DATE)
     private Date publicationDate;
-    
+
     @Lob
     @Column(name = "description")
     private String description;
-    
+
     @JoinTable(name = "Favorite_Film", joinColumns = {
         @JoinColumn(name = "idFilm", referencedColumnName = "idFilm")}, inverseJoinColumns = {
         @JoinColumn(name = "idUser", referencedColumnName = "idUser")})
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<User> userCollection;
-    
-    @ManyToMany(mappedBy = "filmCollection", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+
+    @ManyToMany(mappedBy = "filmCollection", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Collection<Comment> commentCollection;
-    
-    @OneToMany(mappedBy = "idFilm", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "idFilm", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Collection<Projection> projectionCollection;
 
     public Film() {
@@ -137,10 +137,10 @@ public class Film implements Serializable {
     public String toString() {
         return "[ id=" + idFilm + " ]\n"
                 + "title: " + title + "\n"
-                + "PubDate: "+ publicationDate + "\n"
+                + "PubDate: " + publicationDate + "\n"
                 + "Descrption: " + description + "\n";
     }
-    
+
     public static Film getById(int filmId) {
         return DBManager.FilmManager.getById(filmId);
     }
@@ -156,15 +156,15 @@ public class Film implements Serializable {
     public static void update(int idFilm, String title, Date publicationDate, String description) {
         DBManager.FilmManager.update(idFilm, title, publicationDate, description);
     }
-    
-     public void updateThis(String title, Date publicationDate, String description) {
+
+    public void updateThis(String title, Date publicationDate, String description) {
         DBManager.FilmManager.update(this.idFilm, title, publicationDate, description);
     }
 
     public static void delete(int idFilm) {
         DBManager.FilmManager.delete(idFilm);
     }
-    
+
     public void deleteThis() {
         DBManager.FilmManager.delete(this.idFilm);
     }
