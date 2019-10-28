@@ -100,6 +100,10 @@ public class DBManager {
                 entityManager.close();
             }
         }
+        
+        static void update(User u) {
+            update(u.getIdUser(), u.getUsername(), u.getFirstName(), u.getLastName(), u.getEmail(), u.getPassword(), u.getPrivilegeLevel());
+        }
 
         public static void update(int userId, String username, String firstName, String lastName, String email, String password, int privilegeLevel) {
             // code to update a user

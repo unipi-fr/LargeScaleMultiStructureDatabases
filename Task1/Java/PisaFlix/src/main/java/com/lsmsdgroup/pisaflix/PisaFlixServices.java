@@ -5,7 +5,7 @@
  */
 package com.lsmsdgroup.pisaflix;
 
-import com.lsmsdgroup.pisaflix.Entities.User;
+import com.lsmsdgroup.pisaflix.Entities.*;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -106,5 +106,60 @@ public class PisaFlixServices {
             }
         }
 
+    }
+    public static class UserManager{
+        
+        public static void deleteLoggedAccount() throws UserNotLoggedException, InvalidPrivilegeLevelException{
+            deleteUserAccount(Authentication.loggedUser);
+            
+        }
+        
+        public static void deleteUserAccount(User u) throws UserNotLoggedException, InvalidPrivilegeLevelException{
+            if(!Authentication.isUserLogged()){
+                throw new UserNotLoggedException("You must be logged in order to delete accounts");
+            }
+            
+            if(Authentication.loggedUser.getIdUser()!= u.getIdUser() && Authentication.loggedUser.getPrivilegeLevel()<3 ){
+                throw new InvalidPrivilegeLevelException("You must have administrator privileges in order to delete other user accounts");
+            }
+            DBManager.UserManager.delete(u.getIdUser());
+            if(Authentication.loggedUser.getIdUser() == u.getIdUser()){
+                Authentication.Logout();
+            }
+        }
+        
+        public static void changeUserPrivileges(User u, int newPrivilegeLevel) throws UserNotLoggedException, InvalidPrivilegeLevelException{
+            if(!Authentication.isUserLogged()){
+                throw new UserNotLoggedException("You must be logged in order to change account privileges");
+            }
+            if(newPrivilegeLevel < 0){
+                throw new InvalidPrivilegeLevelException("Privilege level must me greater or equal than 0");
+            }
+            if(newPrivilegeLevel > Authentication.loggedUser.getPrivilegeLevel()){
+                throw new InvalidPrivilegeLevelException("You can't set privileges greater than yours");
+            }
+            u.setPrivilegeLevel(newPrivilegeLevel);
+            DBManager.UserManager.update(u);
+        }
+        
+        public static class UserNotLoggedException extends Exception {
+
+            public UserNotLoggedException(String errorMessage) {
+                super(errorMessage);
+            }
+        }
+        
+        public static class InvalidPrivilegeLevelException extends Exception {
+
+            public InvalidPrivilegeLevelException(String errorMessage) {
+                super(errorMessage);
+            }
+        }
+        public static class InvalidPrivilegeLevelValueException extends Exception {
+
+            public InvalidPrivilegeLevelValueException(String errorMessage) {
+                super(errorMessage);
+            }
+        }
     }
 }
