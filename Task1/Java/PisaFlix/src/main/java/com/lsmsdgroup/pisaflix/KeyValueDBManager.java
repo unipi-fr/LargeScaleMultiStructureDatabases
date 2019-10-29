@@ -22,6 +22,14 @@ public class KeyValueDBManager {
             Logger.getLogger(KeyValueDBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void stop(){
+        try {
+            levelDBStore.close();
+        } catch (IOException ex) {
+            Logger.getLogger(KeyValueDBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public void put(String key, String value) {
         levelDBStore.put(bytes(key), bytes(value));

@@ -155,5 +155,6 @@ public class PisaFlix {
         db.start();
         db.put("ermellino", "rabanelli");
         System.out.println(db.get("ermellino"));
+        db.stop();
     }
 }
