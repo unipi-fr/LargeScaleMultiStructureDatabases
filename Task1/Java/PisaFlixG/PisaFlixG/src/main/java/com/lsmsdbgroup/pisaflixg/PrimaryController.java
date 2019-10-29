@@ -1,4 +1,4 @@
-package com.lsmsdbgroup.GUI;
+package com.lsmsdbgroup.pisaflixg;
 
 import java.io.IOException;
 import javafx.fxml.FXML;
