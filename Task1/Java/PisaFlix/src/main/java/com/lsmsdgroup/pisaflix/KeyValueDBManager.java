@@ -72,19 +72,19 @@ public class KeyValueDBManager {
     }
 
     public void createCinemaComment(String text, User user, Cinema cinema) {
-
+        //DA FARE
     }
 
-    public void update(int idComment, String text) {
-
+    public void updateComment(int idComment, String text) {
+        //DA FARE
     }
 
-    public void delete(int idComment) {
-
+    public void deleteComment(int idComment) {
+        //DA FARE 
     }
 
     public Comment getCommentById(int commentId) {
-        String value = get(String.valueOf("comment:" +commentId));
+        String value = get(String.valueOf("comment:" + commentId));
         String[] field = value.split(":");
         try {
             return new Comment(commentId, dateFormat.parse(field[7]), field[5]);
