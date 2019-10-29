@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import org.iq80.leveldb.DB;
 import static org.iq80.leveldb.impl.Iq80DBFactory.factory;
 import org.iq80.leveldb.Options;
+import org.iq80.leveldb.impl.Iq80DBFactory;
 import static org.iq80.leveldb.impl.Iq80DBFactory.bytes;
 
 public class KeyValueDBManager {
@@ -34,7 +35,7 @@ public class KeyValueDBManager {
     public String get(String key) {
         byte[] value = levelDBStore.get(bytes(key));
         if(value != null){
-            return Base64.getEncoder().encodeToString(value);  
+            return Iq80DBFactory.asString(value); 
         }else{
             System.out.println("Chiave non trovata");
             return null;
