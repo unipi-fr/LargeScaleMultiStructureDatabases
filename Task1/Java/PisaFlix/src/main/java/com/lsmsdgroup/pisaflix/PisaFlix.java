@@ -146,14 +146,10 @@ public class PisaFlix {
     }
 
     public static void main(String[] args){
-        /*LogManager.getLogManager().getLogger("").setLevel(Level.OFF);
+        LogManager.getLogManager().getLogger("").setLevel(Level.OFF);
         DBManager.setup();
         mainMenu();
         
-        DBManager.exit();*/
-        KeyValueDBManager db = new KeyValueDBManager();
-        db.start();
-        db.put("albicocche", "rabanelli");
-        System.out.println(db.get("albicocche"));
+        DBManager.exit();     
     }
 }
