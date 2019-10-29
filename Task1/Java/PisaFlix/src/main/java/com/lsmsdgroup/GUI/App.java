@@ -1,4 +1,4 @@
-package com.lsmsdbgroup.pisaflixg;
+package com.lsmsdgroup.GUI;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
