@@ -128,7 +128,7 @@ public class Comment implements Serializable {
 
     @Override
     public String toString() {
-        return "com.lsmsdgroup.pisaflix.Comment[ idComment=" + idComment + " ]";
+        return "[ idComment=" + idComment + " ]\n"+"timestamp:"+getTimestamp().toString()+"\ntext:"+getText();
     }
 
     public static void createFilmComment(String text, User user, Film film) {
