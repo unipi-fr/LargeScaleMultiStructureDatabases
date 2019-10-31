@@ -15,10 +15,11 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
+    private static MainPageController mpc;
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("Login"), 640, 480);
+        scene = new Scene(loadFXML("MainPage"), 640, 480);
         stage.setScene(scene);
         stage.show();
     }
@@ -32,6 +33,14 @@ public class App extends Application {
         return fxmlLoader.load();
     }
 
+    public static void setMainPageController(MainPageController m){
+        mpc = m;
+    }
+    
+    public static void setMainPane(String fxml){
+        mpc.setMainPane(fxml);
+    }
+    
     public static void main(String[] args) {
         //DBManager.setup();
         launch();
