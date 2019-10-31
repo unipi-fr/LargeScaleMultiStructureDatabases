@@ -69,7 +69,7 @@ public class PisaFlixServices {
 
         public static String getInfoString() {
             if (isUserLogged()) {
-                return "Logged as: " + loggedUser.toString();
+                return "Logged as: " + loggedUser.getUsername();
             } else {
                 return "User not logged";
             }

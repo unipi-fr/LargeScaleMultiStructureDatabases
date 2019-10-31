@@ -1,5 +1,6 @@
 package com.lsmsdgroup.pisaflix;
 
+import com.lsmsdbgroup.pisaflixg.App;
 import com.lsmsdgroup.pisaflix.Entities.*;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -148,7 +149,8 @@ public class PisaFlix {
     public static void main(String[] args){
         LogManager.getLogManager().getLogger("").setLevel(Level.OFF);
         DBManager.setup();
-        mainMenu();
+        //mainMenu();
+        App.main(args);
         DBManager.exit();
         /*
         KeyValueDBManager db = new KeyValueDBManager();
