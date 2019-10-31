@@ -146,16 +146,17 @@ public class PisaFlix {
     }
 
     public static void main(String[] args){
-        /*LogManager.getLogManager().getLogger("").setLevel(Level.OFF);
+        LogManager.getLogManager().getLogger("").setLevel(Level.OFF);
         DBManager.setup();
         mainMenu();
         DBManager.exit();
-  */
+        /*
         KeyValueDBManager db = new KeyValueDBManager();
         db.start();
         db.createFilmComment("hevbuehrvbuebv", new User(11), new Film(21));
         Comment comment = db.getCommentById(1);
         System.out.println(comment.toString());
         db.stop();
+*/
     }
 }

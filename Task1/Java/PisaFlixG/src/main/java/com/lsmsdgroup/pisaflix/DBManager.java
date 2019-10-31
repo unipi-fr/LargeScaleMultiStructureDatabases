@@ -5,13 +5,10 @@ import com.lsmsdgroup.pisaflix.Entities.Projection;
 import com.lsmsdgroup.pisaflix.Entities.Cinema;
 import com.lsmsdgroup.pisaflix.Entities.Film;
 import com.lsmsdgroup.pisaflix.Entities.User;
-import java.sql.Timestamp;
 import java.util.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
-import org.hibernate.Session;
 
 public class DBManager {
 
