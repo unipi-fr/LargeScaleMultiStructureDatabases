@@ -1,10 +1,10 @@
-package com.lsmsdgroup.pisaflix;
+package com.lsmsdbgroup.pisaflix;
 
-import com.lsmsdgroup.pisaflix.Entities.Comment;
-import com.lsmsdgroup.pisaflix.Entities.Projection;
-import com.lsmsdgroup.pisaflix.Entities.Cinema;
-import com.lsmsdgroup.pisaflix.Entities.Film;
-import com.lsmsdgroup.pisaflix.Entities.User;
+import com.lsmsdbgroup.pisaflix.Entities.Comment;
+import com.lsmsdbgroup.pisaflix.Entities.Projection;
+import com.lsmsdbgroup.pisaflix.Entities.Cinema;
+import com.lsmsdbgroup.pisaflix.Entities.Film;
+import com.lsmsdbgroup.pisaflix.Entities.User;
 import java.util.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

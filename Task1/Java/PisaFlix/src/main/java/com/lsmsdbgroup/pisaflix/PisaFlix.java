@@ -1,7 +1,6 @@
-package com.lsmsdgroup.pisaflix;
+package com.lsmsdbgroup.pisaflix;
 
 import com.lsmsdbgroup.pisaflixg.App;
-import com.lsmsdgroup.pisaflix.Entities.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;

@@ -1,6 +1,6 @@
 package com.lsmsdbgroup.pisaflixg;
 
-import com.lsmsdgroup.pisaflix.DBManager;
+import com.lsmsdbgroup.pisaflix.DBManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.lsmsdgroup.pisaflix;
+package com.lsmsdbgroup.pisaflix;
 
-import com.lsmsdgroup.pisaflix.Entities.*;
+import com.lsmsdbgroup.pisaflix.Entities.User;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

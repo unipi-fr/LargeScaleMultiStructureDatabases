@@ -1,6 +1,6 @@
-package com.lsmsdgroup.pisaflix.Entities;
+package com.lsmsdbgroup.pisaflix.Entities;
 
-import com.lsmsdgroup.pisaflix.DBManager;
+import com.lsmsdbgroup.pisaflix.DBManager;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;

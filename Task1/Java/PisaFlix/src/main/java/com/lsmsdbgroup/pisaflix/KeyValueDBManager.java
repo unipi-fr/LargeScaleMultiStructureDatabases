@@ -1,6 +1,9 @@
-package com.lsmsdgroup.pisaflix;
+package com.lsmsdbgroup.pisaflix;
 
-import com.lsmsdgroup.pisaflix.Entities.*;
+import com.lsmsdbgroup.pisaflix.Entities.Comment;
+import com.lsmsdbgroup.pisaflix.Entities.Film;
+import com.lsmsdbgroup.pisaflix.Entities.User;
+import com.lsmsdbgroup.pisaflix.Entities.Cinema;
 import java.io.File;
 import java.io.IOException;
 import static java.lang.Integer.parseInt;
