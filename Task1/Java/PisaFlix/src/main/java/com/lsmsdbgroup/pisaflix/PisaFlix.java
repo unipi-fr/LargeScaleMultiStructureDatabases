@@ -1,16 +1,10 @@
 package com.lsmsdbgroup.pisaflix;
 
+import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflixg.App;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
 public class PisaFlix {
     
@@ -151,13 +145,18 @@ public class PisaFlix {
         //mainMenu();
         App.main(args);
         DBManager.exit();
-        /*
+        
         KeyValueDBManager db = new KeyValueDBManager();
         db.start();
-        db.createFilmComment("hevbuehrvbuebv", new User(11), new Film(21));
-        Comment comment = db.getCommentById(1);
-        System.out.println(comment.toString());
+        //db.createCinemaComment("Cinema spettacolare!!", new User(11), new Cinema(21));
+        
+        Comment commentoAux ;
+        int i=1;
+        while (true){
+            commentoAux = db.getCommentById(i++);
+            if(commentoAux != null) System.out.println(commentoAux.toString());
+            else break;
+        }
         db.stop();
-*/
     }
 }

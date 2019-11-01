@@ -3,7 +3,6 @@ package com.lsmsdbgroup.pisaflix.Entities;
 import com.lsmsdbgroup.pisaflix.DBManager;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
 import javax.persistence.*;
 
 @Entity

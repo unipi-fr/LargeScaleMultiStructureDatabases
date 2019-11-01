@@ -6,7 +6,6 @@ import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.Entities.Cinema;
 import java.io.File;
 import java.io.IOException;
-import static java.lang.Integer.parseInt;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,6 +22,7 @@ public class KeyValueDBManager {
 
     DB levelDBStore;
     Options options = new Options();
+    
     DateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY HH.mm.ss");
 
     public void start() { //Sono obbligato a metterle non statiche
@@ -75,7 +75,9 @@ public class KeyValueDBManager {
     }
 
     public void createCinemaComment(String text, User user, Cinema cinema) {
-        //DA FARE
+        int idComment = Integer.parseInt(get("setting:lastCommentKey")) + 1;
+        put("comment:" + String.valueOf(idComment), "user:" + user.getIdUser().toString() + ":cinema:" + cinema.getIdCinema().toString() + ":text:" + text + ":timestamp:" + dateFormat.format(new Date()));
+        put("setting:lastCommentKey", String.valueOf(idComment));
     }
 
     public void updateComment(int idComment, String text) {
@@ -88,6 +90,8 @@ public class KeyValueDBManager {
 
     public Comment getCommentById(int commentId) {
         String value = get(String.valueOf("comment:" + commentId));
+        if(value == null) return null;
+        
         String[] field = value.split(":");
         try {
             return new Comment(commentId, dateFormat.parse(field[7]), field[5]);
