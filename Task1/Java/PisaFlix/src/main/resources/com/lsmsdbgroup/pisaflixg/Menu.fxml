@@ -7,10 +7,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.MenuController">
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.MenuController">
    <children>
-      <Button fx:id="filmsButton" defaultButton="true" mnemonicParsing="false" onAction="#clickFilmsButton" text="Films" />
-      <Button fx:id="cinemasButton" defaultButton="true" mnemonicParsing="false" onAction="#clickCinemasButton" text="Cinemas" />
-      <Button fx:id="projectionButton" defaultButton="true" mnemonicParsing="false" onAction="#clickProjectionsButton" text="Projections" />
+      <Button fx:id="filmsButton" defaultButton="true" mnemonicParsing="false" onAction="#clickFilmsButton" prefHeight="30.0" text="Films" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Button fx:id="cinemasButton" defaultButton="true" layoutY="40.0" mnemonicParsing="false" onAction="#clickCinemasButton" prefHeight="30.0" prefWidth="79.0" text="Cinemas" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Button fx:id="projectionButton" defaultButton="true" layoutY="80.0" mnemonicParsing="false" onAction="#clickProjectionsButton" prefHeight="30.0" text="Projections" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
    </children>
-</VBox>
+</AnchorPane>

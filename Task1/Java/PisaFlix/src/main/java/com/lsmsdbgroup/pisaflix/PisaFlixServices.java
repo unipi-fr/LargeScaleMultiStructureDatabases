@@ -5,7 +5,7 @@
  */
 package com.lsmsdbgroup.pisaflix;
 
-import com.lsmsdbgroup.pisaflix.Entities.User;
+import com.lsmsdbgroup.pisaflix.Entities.*;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -107,6 +107,17 @@ public class PisaFlixServices {
         }
 
     }
+    
+    public static class FilmManager{
+        public static List<Film> getAll(){
+            List<Film> films = null;
+            
+            films = DBManager.FilmManager.getAll();
+            
+            return films;
+        }
+    }
+    
     public static class UserManager{
         
         public static void deleteLoggedAccount() throws UserNotLoggedException, InvalidPrivilegeLevelException{
