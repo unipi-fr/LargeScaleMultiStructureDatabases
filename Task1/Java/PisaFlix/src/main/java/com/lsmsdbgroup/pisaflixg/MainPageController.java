@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 
 /**
  * FXML Controller class
@@ -24,17 +24,18 @@ import javafx.scene.layout.Pane;
 public class MainPageController implements Initializable {
 
     @FXML
-    private Pane menuPane;
+    private StackPane menuStackPane;
     @FXML
-    private Pane loginPane;
+    private StackPane loginStackPane;
     @FXML
-    private Pane mainPane;
+    private StackPane mainStackPane;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         App.setMainPageController(this);
-        setPane(loginPane, "Login");
-        setPane(mainPane, "primary");
+        setPane(menuStackPane, "Menu");
+        setPane(loginStackPane, "Login");
+        setPane(mainStackPane, "primary");
     }
 
     private void setPane(Pane pane, String fxml){
@@ -53,7 +54,7 @@ public class MainPageController implements Initializable {
     }
     
     public void setMainPane(String fxml){
-        setPane(mainPane,fxml);
+        setPane(mainStackPane,fxml);
     }
     
 }

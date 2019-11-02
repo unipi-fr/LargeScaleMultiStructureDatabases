@@ -26,9 +26,11 @@ public class LoginController implements Initializable {
     @FXML
     private TextField usernameTextField;
     @FXML
-    private TextField passwordTextField;
+    private PasswordField passwordTextField;
     @FXML
     private Button loginButton;
+    @FXML
+    private Button registerButton;
     @FXML
     private Label loginStatusLabel;
     @FXML
@@ -49,6 +51,8 @@ public class LoginController implements Initializable {
         this.passwordTextField.setManaged(!logged);
         this.loginButton.setVisible(!logged);
         this.loginButton.setManaged(!logged);
+        this.registerButton.setVisible(!logged);
+        this.registerButton.setManaged(!logged);
         
         if(logged){
             this.loginStatusLabel.setText(PisaFlixServices.Authentication.getInfoString());
@@ -77,6 +81,12 @@ public class LoginController implements Initializable {
         }
         update();
     }
+    
+    @FXML
+    private void clickRegisterButton(){
+        App.setMainPane("Registration");
+    }
+
     
     @FXML
     private void clickLogoutButton(){       
