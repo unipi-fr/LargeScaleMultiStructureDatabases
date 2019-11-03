@@ -146,17 +146,29 @@ public class PisaFlix {
         App.main(args);
         DBManager.exit();
         
-        /*KeyValueDBManager db = new KeyValueDBManager();
+        KeyValueDBManager db = new KeyValueDBManager();
         db.start();
         //db.createCinemaComment("Cinema spettacolare!!", new User(11), new Cinema(21));
+        //db.createProjection(new Date(), 3, new Cinema(21), new Film(69));
+
+        //String prova = "roba";
+        //db.updateComment(2, prova);
         
         Comment commentoAux ;
         int i=1;
-        while (true){
+        while (i<10){
             commentoAux = db.getCommentById(i++);
             if(commentoAux != null) System.out.println(commentoAux.toString());
-            else break;
         }
-        db.stop();*/
+        
+        //db.updateProjection(3, new Date(), 2);
+          Projection projectionAux ;
+        i=1;
+        while (i<10){
+            projectionAux = db.getProjectionById(i++);
+            if(projectionAux != null) System.out.println(projectionAux.toString());
+        }
+        
+        db.stop();
     }
 }
