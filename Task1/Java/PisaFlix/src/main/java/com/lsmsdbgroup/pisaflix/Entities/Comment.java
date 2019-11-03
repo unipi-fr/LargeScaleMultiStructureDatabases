@@ -2,7 +2,6 @@ package com.lsmsdbgroup.pisaflix.Entities;
 
 import com.lsmsdbgroup.pisaflix.DBManager;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.*;
@@ -128,7 +127,7 @@ public class Comment implements Serializable {
 
     @Override
     public String toString() {
-        return "[ idComment=" + idComment + " ]\n"+"timestamp:"+getTimestamp().toString()+"\ntext:"+getText();
+        return "[ idComment=" + idComment + " ]\n"+"timestamp:"+timestamp.toString()+"\ntext:"+text;
     }
 
     public static void createFilmComment(String text, User user, Film film) {

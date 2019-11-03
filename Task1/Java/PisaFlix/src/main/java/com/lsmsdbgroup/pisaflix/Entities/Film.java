@@ -4,7 +4,6 @@ import com.lsmsdbgroup.pisaflix.DBManager;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.*;
 
 @Entity

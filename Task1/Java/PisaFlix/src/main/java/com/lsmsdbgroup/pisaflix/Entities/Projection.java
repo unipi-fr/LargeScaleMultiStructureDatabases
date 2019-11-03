@@ -4,7 +4,6 @@ import com.lsmsdbgroup.pisaflix.DBManager;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -110,7 +109,7 @@ public class Projection implements Serializable {
 
     @Override
     public String toString() {
-        return "com.lsmsdgroup.pisaflix.Projection[ idProjection=" + idProjection + " ]";
+        return "idProjection=" + idProjection + " ]\ndateTime:" + dateTime.toString() + "\nroom:" + room;
     }
 
     public static void create(Date dateTime, int room, Film film, Cinema cinema) {
