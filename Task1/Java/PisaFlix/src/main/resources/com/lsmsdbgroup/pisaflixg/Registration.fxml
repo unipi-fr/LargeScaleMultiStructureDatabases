@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,13 +8,27 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.RegistrationController">
    <children>
-      <Label text="Registration must to be finished" textAlignment="CENTER">
+      <Label text="Registration" textAlignment="CENTER">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
+      <TextField fx:id="usernameTextField" promptText="Username" />
+      <TextField fx:id="emailTextField" promptText="Email" />
+      <PasswordField fx:id="passPasswordField" promptText="Password" />
+      <PasswordField fx:id="repeatPassPasswordField" promptText="Repeat Password" />
+      <TextField fx:id="firstNameTextField" promptText="First Name" />
+      <TextField fx:id="lastNameTextField" promptText="Last Name" />
+      <Button fx:id="registerButton" defaultButton="true" mnemonicParsing="false" onAction="#clickRegisterButton" styleClass="button-raised" text="Register" />
+      <Label fx:id="successLabel" text="Registered successfully!" textFill="#00ab1a">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
    </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
 </VBox>
