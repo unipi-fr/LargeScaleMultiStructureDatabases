@@ -23,4 +23,9 @@ public class FilmCardController implements Initializable {
         titleLabel.setText(titleProperty.get());
     }
     
+    @FXML
+    private void showFilm(){     
+        App.setMainPane("Primary");
+    }
+    
 }
