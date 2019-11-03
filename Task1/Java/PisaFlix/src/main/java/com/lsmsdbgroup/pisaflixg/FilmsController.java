@@ -31,12 +31,12 @@ public class FilmsController implements Initializable {
         populateScrollPane(films);
     }
     
-    private Pane createFilmCardPane(String title){
+    private Pane createFilmCardPane(String title, int id){
         Pane pane = new Pane();
         
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmCard.fxml"));
-            FilmCardController fcc = new FilmCardController(title);
+            FilmCardController fcc = new FilmCardController(title, id);
             loader.setController(fcc);
             pane = loader.load();
         } catch (IOException ex) {
@@ -49,11 +49,13 @@ public class FilmsController implements Initializable {
     public void populateScrollPane(List<Film> films){
         Pane pane = new Pane();
         String title;
+        int id;
         
         int i = 0;
         for(Film film: films){
             title = film.getTitle();
-            pane = createFilmCardPane(title);
+            id = film.getIdFilm();
+            pane = createFilmCardPane(title, id);
             tilePane.getChildren().add(pane);
         }
     }

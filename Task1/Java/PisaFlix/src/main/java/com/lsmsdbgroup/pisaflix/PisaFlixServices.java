@@ -116,6 +116,14 @@ public class PisaFlixServices {
             
             return films;
         }
+        
+        public static Film getById(int id){
+            Film film;
+            
+            film = DBManager.FilmManager.getById(id);
+            
+            return film;
+        }
     }
     
     public static class UserManager{

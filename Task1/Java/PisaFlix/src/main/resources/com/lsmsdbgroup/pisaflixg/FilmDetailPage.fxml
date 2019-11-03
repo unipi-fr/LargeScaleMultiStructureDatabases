@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="450.0" prefWidth="500.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.FilmDetailPageController">
+   <children>
+      <Label fx:id="titleLabel" alignment="CENTER" layoutX="38.0" layoutY="14.0" text="Title" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="moviePosterImageView" fitHeight="120.0" fitWidth="150.0" layoutX="294.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="44.0" />
+      <Label fx:id="publishDateLabel" layoutX="28.0" layoutY="54.0" text="Publish Date" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="44.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="descriptionArea" layoutY="64.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="64.0" />
+      <ScrollPane fx:id="commentScrollPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="164.0">
+         <content>
+            <VBox fx:id="commentVBox" prefHeight="284.0" prefWidth="348.0" />
+         </content>
+      </ScrollPane>
+      <TextArea fx:id="commentArea" layoutX="300.0" layoutY="207.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0" />
+      <Button fx:id="commentButton" layoutX="350.0" layoutY="407.0" mnemonicParsing="false" text="Comment" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="425.0" />
+      <HBox fx:id="preferiteHBox" layoutX="300.0" layoutY="125.0" prefHeight="61.0" prefWidth="150.0" AnchorPane.bottomAnchor="250.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="164.0">
+         <children>
+            <Button fx:id="preferiteButton" mnemonicParsing="false" prefHeight="39.0" prefWidth="103.0" text="Add to Preferite" />
+            <ListView fx:id="preferiteLabel" prefHeight="61.0" prefWidth="47.0" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
