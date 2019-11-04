@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,13 +8,23 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label text="Projection must be implemented">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
+      <HBox prefHeight="50.0" prefWidth="200.0">
+         <children>
+            <DatePicker prefHeight="30.0" prefWidth="140.0" promptText="Scegli la data" />
+            <ComboBox fx:id="cinemaCombo" prefHeight="30.0" prefWidth="140.0" promptText="Cinema" />
+            <ComboBox fx:id="filmCombo" prefHeight="30.0" prefWidth="140.0" promptText="Film" />
+            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="Search" />
+         </children>
+      </HBox>
+      <TableView fx:id="projectionTable" prefHeight="400.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="dataCol" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="DataTime" />
+          <TableColumn fx:id="roomCol" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Room" />
+            <TableColumn fx:id="cinemaCol" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Cinema" />
+            <TableColumn fx:id="filmCol" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Film" />
+        </columns>
+      </TableView>
    </children>
 </VBox>

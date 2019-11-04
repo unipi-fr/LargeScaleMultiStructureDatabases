@@ -156,6 +156,17 @@ public class PisaFlixServices {
         }
     }
     
+    public static class ProjectionManager {
+        
+        public static List<Projection> queryProjections(int cinemaId, int filmId){
+            List<Projection> projections;
+            
+            projections = DBManager.ProjectionManager.queryProjection(cinemaId, filmId);
+            
+            return projections;
+        }
+    }
+    
     public static class UserManager{
         
         public static void deleteLoggedAccount() throws UserNotLoggedException, InvalidPrivilegeLevelException{

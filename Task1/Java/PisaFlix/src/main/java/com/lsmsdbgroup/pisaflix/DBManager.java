@@ -564,6 +564,37 @@ public class DBManager {
             }
             return projection;
         }
+        
+        public static List<Projection> queryProjection(int cinemaId, int filmId){
+            List<Projection> projections = null;
+            
+            String query = "SELECT p FROM Projection p";
+            if(cinemaId != -1)
+            {
+                query += "WHERE p.idCinema = " + cinemaId;
+                if(filmId != -1)
+                    query += " and p.idFilm = " + filmId;
+            } else {
+                if(filmId != -1)
+                    query += " WHERE p.idFilm = " + filmId;
+            }
+                
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                projections = entityManager.createQuery(query).getResultList();
+                if (projections == null) {
+                    System.out.println("Users is empty!");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace(System.out);
+                System.out.println("A problem occurred in retriving a user!");
+            } finally {
+                entityManager.close();
+            }
+            
+            return projections;
+        }
 
     }
 }
