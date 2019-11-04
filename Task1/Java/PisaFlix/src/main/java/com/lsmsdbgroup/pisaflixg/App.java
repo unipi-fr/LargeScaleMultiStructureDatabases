@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import javafx.scene.layout.Pane;
 
 public class App extends Application {
 
@@ -35,6 +36,10 @@ public class App extends Application {
     
     public static void setMainPane(String fxml){
         mpc.setMainPane(fxml);
+    }
+    
+    public static void setMainPane(Pane pane){
+        mpc.setMainPane(pane);
     }
     
     public static void main(String[] args) {

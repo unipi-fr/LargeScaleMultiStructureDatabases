@@ -39,12 +39,16 @@ public class FilmCardController implements Initializable {
     private void showFilm(){
         Film film = PisaFlixServices.FilmManager.getById(filmId);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
+        
+        AnchorPane anchorPane = null;
+        
         try {
-            AnchorPane anchorPane = loader.load();
+            anchorPane = loader.load();
         } catch (IOException ex) {
+            System.out.println("hello");
             System.out.println(ex.getMessage());
         }
-        /*
+        
         FilmDetailPageController fdc = loader.getController();
         
         fdc.setTitleLabel(film.getTitle());
@@ -55,9 +59,9 @@ public class FilmCardController implements Initializable {
         
         for(Comment comment: comments){
             fdc.addComment(comment.getText());
-        }*/
+        }
         
-        //App.setMainPane("FilmDetail");
+        App.setMainPane(anchorPane);
     }
     
 }

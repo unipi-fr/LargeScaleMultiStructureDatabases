@@ -33,7 +33,7 @@
       <HBox fx:id="preferiteHBox" layoutX="300.0" layoutY="125.0" prefHeight="61.0" prefWidth="150.0" AnchorPane.bottomAnchor="250.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="164.0">
          <children>
             <Button fx:id="preferiteButton" mnemonicParsing="false" prefHeight="39.0" prefWidth="103.0" text="Add to Preferite" />
-            <ListView fx:id="preferiteLabel" prefHeight="61.0" prefWidth="47.0" />
+            <Label fx:id="preferiteLabel" prefHeight="61.0" prefWidth="47.0" />
          </children>
       </HBox>
    </children>

@@ -1,11 +1,5 @@
 package com.lsmsdbgroup.pisaflixg;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,11 +10,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.*;
 
-/**
- * FXML Controller class
- *
- * @author FraRonk
- */
 public class MainPageController implements Initializable {
 
     @FXML
@@ -49,12 +38,21 @@ public class MainPageController implements Initializable {
             }
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
-        }
-        
+        }   
+    }
+    
+    private void setPane(Pane paneParent, Pane paneChild){
+        paneParent.getChildren().clear();
+        paneParent.getChildren().add(paneChild);
     }
     
     public void setMainPane(String fxml){
         setPane(mainStackPane,fxml);
+    }
+    
+    public void setMainPane(Pane pane)
+    {
+        setPane(mainStackPane, pane);
     }
     
 }
