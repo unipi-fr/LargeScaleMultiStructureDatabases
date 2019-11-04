@@ -24,7 +24,7 @@ public class MainPageController implements Initializable {
         App.setMainPageController(this);
         setPane(menuStackPane, "Menu");
         setPane(loginStackPane, "Login");
-        setPane(mainStackPane, "primary");
+        setPane(mainStackPane, "Primary");
     }
 
     private void setPane(Pane pane, String fxml){

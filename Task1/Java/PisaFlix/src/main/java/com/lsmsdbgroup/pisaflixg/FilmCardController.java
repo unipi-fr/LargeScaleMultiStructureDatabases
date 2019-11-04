@@ -51,6 +51,8 @@ public class FilmCardController implements Initializable {
         
         FilmDetailPageController fdc = loader.getController();
         
+        fdc.setFilm(film);
+        
         fdc.setTitleLabel(film.getTitle());
         fdc.setPublishDate("03/11/2019");
         fdc.setDescription(film.getDescription());
@@ -60,6 +62,8 @@ public class FilmCardController implements Initializable {
         for(Comment comment: comments){
             fdc.addComment(comment.getText());
         }
+        
+        fdc.setPrefCount(film.getUserCollection().size());
         
         App.setMainPane(anchorPane);
     }

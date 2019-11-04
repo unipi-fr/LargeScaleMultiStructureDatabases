@@ -10,25 +10,25 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="450.0" prefWidth="500.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.FilmDetailPageController">
+<AnchorPane id="AnchorPane" prefHeight="450.0" prefWidth="500.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.CinemaDetailPageController">
    <children>
-      <Label fx:id="titleLabel" alignment="CENTER" layoutX="38.0" layoutY="14.0" text="Title" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="0.0">
+      <Label fx:id="nameLabel" alignment="CENTER" layoutX="38.0" layoutY="14.0" text="Name" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="0.0">
          <font>
             <Font name="System Bold" size="36.0" />
          </font>
       </Label>
-      <ImageView fx:id="moviePosterImageView" fitHeight="164.0" fitWidth="150.0" layoutX="294.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="286.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ImageView fx:id="cinemaImageView" fitHeight="164.0" fitWidth="150.0" layoutX="294.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="286.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
-            <Image url="@../../../img/MoviePoster.jpg" />
+            <Image url="@../../../img/CinemaImg.jpg" />
          </image></ImageView>
-      <Label fx:id="publishDateLabel" layoutX="28.0" layoutY="54.0" text="Publish Date" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="44.0">
+      <Label fx:id="addressLabel" layoutX="28.0" layoutY="54.0" text="Address" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="44.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <ScrollPane fx:id="commentScrollPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="164.0">
+      <ScrollPane fx:id="commentScrollPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="64.0">
          <content>
-            <VBox fx:id="commentVBox" maxWidth="325.0" prefHeight="284.0" prefWidth="340.0" />
+            <VBox fx:id="commentVBox" prefWidth="340.0" />
          </content>
       </ScrollPane>
       <TextArea fx:id="commentArea" editable="false" layoutX="300.0" layoutY="207.0" prefHeight="195.0" prefWidth="200.0" promptText="You must be logged to comment film..." AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="202.0" />
@@ -39,6 +39,5 @@
             <Label fx:id="preferiteLabel" alignment="CENTER" prefHeight="38.0" prefWidth="47.0" />
          </children>
       </HBox>
-      <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="-1.0" layoutY="62.0" text="Description" AnchorPane.bottomAnchor="288.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="62.0" />
    </children>
 </AnchorPane>

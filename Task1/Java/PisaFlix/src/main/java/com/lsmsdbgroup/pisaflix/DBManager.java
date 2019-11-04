@@ -340,13 +340,13 @@ public class DBManager {
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
-                cinemas = entityManager.createQuery("FROM Film").getResultList();
+                cinemas = entityManager.createQuery("FROM Cinema").getResultList();
                 if (cinemas == null) {
-                    System.out.println("Film is empty!");
+                    System.out.println("Cinema is empty!");
                 }
             } catch (Exception ex) {
                 ex.printStackTrace(System.out);
-                System.out.println("A problem occurred in retrieve all films!");
+                System.out.println("A problem occurred in retrieve all cinemas!");
             } finally {
                 entityManager.close();
             }

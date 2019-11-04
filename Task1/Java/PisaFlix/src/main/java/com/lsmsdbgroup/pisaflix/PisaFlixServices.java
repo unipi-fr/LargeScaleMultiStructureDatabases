@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.lsmsdbgroup.pisaflix;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
@@ -14,10 +9,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author FraRonk
- */
 public class PisaFlixServices {
 
     public static class Authentication {
@@ -106,9 +97,13 @@ public class PisaFlixServices {
             }
         }
 
+        public static User getLoggedUser(){
+            return loggedUser;
+        }
     }
     
     public static class FilmManager{
+        
         public static List<Film> getAll(){
             List<Film> films = null;
             
@@ -123,6 +118,41 @@ public class PisaFlixServices {
             film = DBManager.FilmManager.getById(id);
             
             return film;
+        }
+        
+        public static void addComment(String comment, User user, Film film){
+            DBManager.CommentManager.createFilmComment(comment, user, film);
+        }
+        
+        public static void addPreferite(Film film){
+            DBManager.FilmManager.updateFavorites(film);
+        }
+    }
+    
+    public static class CinemaManager{
+        
+        public static List<Cinema> getAll(){
+            List<Cinema> cinemas = null;
+            
+            cinemas = DBManager.CinemaManager.getAll();
+            
+            return cinemas;
+        }
+        
+        public static Cinema getById(int id){
+            Cinema cinema;
+            
+            cinema = DBManager.CinemaManager.getById(id);
+            
+            return cinema;
+        }
+        
+        public static void addComment(String comment, User user, Cinema cinema){
+            DBManager.CommentManager.createCinemaComment(comment, user, cinema);
+        }
+        
+        public static void addPreferite(Cinema cinema){
+            DBManager.CinemaManager.updateFavorites(cinema);
         }
     }
     
