@@ -10,6 +10,7 @@ import javafx.scene.layout.*;
 import com.lsmsdbgroup.pisaflix.PisaFlixServices;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 import javafx.fxml.FXMLLoader;
 
 public class FilmsController implements Initializable {
@@ -26,7 +27,7 @@ public class FilmsController implements Initializable {
     @Override
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
-        List<Film> films = PisaFlixServices.FilmManager.getAll();
+        Set<Film> films = PisaFlixServices.FilmManager.getAll();
         
         populateScrollPane(films);
     }
@@ -46,7 +47,7 @@ public class FilmsController implements Initializable {
         return pane;
     }
     
-    public void populateScrollPane(List<Film> films){
+    public void populateScrollPane(Set<Film> films){
         Pane pane = new Pane();
         String title;
         int id;

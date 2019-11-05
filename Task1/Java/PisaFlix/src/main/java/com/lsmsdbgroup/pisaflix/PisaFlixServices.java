@@ -5,7 +5,7 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,9 +33,9 @@ public class PisaFlixServices {
             }
             
             String hashedPassword = SHA256(password);
-            List<User> tmpList = DBManager.UserManager.getByUsername(username);
+            Set<User> tmpSet = DBManager.UserManager.getByUsername(username);
 
-            for (User u : tmpList) {
+            for (User u : tmpSet) {
                 // TODO: aggiornare il campo password nel DB ad almeno 64 caratteri e sostituire l'if con
                 // if( u.getPassword().equals(hashedPassword) ){
                 if (u.getPassword().equals(password)) {
@@ -104,8 +104,8 @@ public class PisaFlixServices {
     
     public static class FilmManager{
         
-        public static List<Film> getAll(){
-            List<Film> films = null;
+        public static Set<Film> getAll(){
+            Set<Film> films = null;
             
             films = DBManager.FilmManager.getAll();
             
@@ -131,8 +131,8 @@ public class PisaFlixServices {
     
     public static class CinemaManager{
         
-        public static List<Cinema> getAll(){
-            List<Cinema> cinemas = null;
+        public static Set<Cinema> getAll(){
+            Set<Cinema> cinemas = null;
             
             cinemas = DBManager.CinemaManager.getAll();
             
@@ -158,8 +158,8 @@ public class PisaFlixServices {
     
     public static class ProjectionManager {
         
-        public static List<Projection> queryProjections(int cinemaId, int filmId){
-            List<Projection> projections;
+        public static Set<Projection> queryProjections(int cinemaId, int filmId){
+            Set<Projection> projections;
             
             projections = DBManager.ProjectionManager.queryProjection(cinemaId, filmId);
             

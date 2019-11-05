@@ -2,7 +2,9 @@ package com.lsmsdbgroup.pisaflix.Entities;
 
 import com.lsmsdbgroup.pisaflix.DBManager;
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.Set;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import javax.persistence.*;
 
 @Entity
@@ -37,14 +39,14 @@ public class User implements Serializable {
     @Column(name = "privilegeLevel")
     private int privilegeLevel;
 
-    @ManyToMany(mappedBy = "userCollection", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    private Collection<Cinema> cinemaCollection;
+    @ManyToMany(mappedBy = "userSet", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    private Set<Cinema> cinemaSet = new LinkedHashSet<>();
 
-    @ManyToMany(mappedBy = "userCollection", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    private Collection<Film> filmCollection;
+    @ManyToMany(mappedBy = "userSet", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    private Set<Film> filmSet = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "idUser", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Collection<Comment> commentCollection;
+    private Set<Comment> commentSet = new LinkedHashSet<>();
 
     public User() {
     }
@@ -116,54 +118,54 @@ public class User implements Serializable {
         this.privilegeLevel = privilegeLevel;
     }
 
-    public Collection<Cinema> getCinemaCollection() {
-        return cinemaCollection;
+    public Set<Cinema> getCinemaSet() {
+        return cinemaSet;
     }
 
-    public void setCinemaCollection(Collection<Cinema> cinemaCollection) {
-        this.cinemaCollection = cinemaCollection;
+    public void setCinemaSet(Set<Cinema> cinemaSet) {
+        this.cinemaSet = cinemaSet;
     }
 
     public void addFavouriteCinema(Cinema cinema) {
-        cinemaCollection.add(cinema);
-        cinema.getUserCollection().add(this);
+        cinemaSet.add(cinema);
+        cinema.getUserSet().add(this);
         DBManager.UserManager.updateFavorites(this);
     }
 
     public void removeFavouriteCinema(Cinema cinema) {
-        cinemaCollection.remove(cinema);
-        cinema.getUserCollection().remove(this);
+        cinemaSet.remove(cinema);
+        cinema.getUserSet().remove(this);
         DBManager.UserManager.updateFavorites(this);
         DBManager.CinemaManager.updateFavorites(cinema);
     }
 
-    public Collection<Film> getFilmCollection() {
-        return filmCollection;
+    public Set<Film> getFilmSet() {
+        return filmSet;
     }
 
-    public void setFilmCollection(Collection<Film> filmCollection) {
-        this.filmCollection = filmCollection;
+    public void setFilmSet(Set<Film> filmSet) {
+        this.filmSet = filmSet;
     }
 
     public void addFavouriteFilm(Film film) {
-        filmCollection.add(film);
-        film.getUserCollection().add(this);
+        filmSet.add(film);
+        film.getUserSet().add(this);
         DBManager.UserManager.updateFavorites(this);
     }
 
     public void removeFavouriteFilm(Film film) {
-        filmCollection.remove(film);
-        film.getUserCollection().remove(this);
+        filmSet.remove(film);
+        film.getUserSet().remove(this);
         DBManager.UserManager.updateFavorites(this);
         DBManager.FilmManager.updateFavorites(film);
     }
 
-    public Collection<Comment> getCommentCollection() {
-        return commentCollection;
+    public Set<Comment> getCommentSet() {
+        return commentSet;
     }
 
-    public void setCommentCollection(Collection<Comment> commentCollection) {
-        this.commentCollection = commentCollection;
+    public void setCommentSet(Set<Comment> commentSet) {
+        this.commentSet = commentSet;
     }
 
     @Override
@@ -215,7 +217,7 @@ public class User implements Serializable {
         DBManager.UserManager.update(this.idUser, username, firstName, lastName, email, password, privilegeLevel);
     }
 
-    public static Collection<User> getAll() {
+    public static Set<User> getAll() {
         return DBManager.UserManager.getAll();
     }
 

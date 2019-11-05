@@ -37,8 +37,8 @@ public class ProjectionsController implements Initializable {
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        List<Film> films = PisaFlixServices.FilmManager.getAll();
-        List<Cinema> cinemas = PisaFlixServices.CinemaManager.getAll();
+        Set<Film> films = PisaFlixServices.FilmManager.getAll();
+        Set<Cinema> cinemas = PisaFlixServices.CinemaManager.getAll();
         
         for(Film film: films){
             filmCombo.getItems().add(film.getIdFilm() + ":" + film.getTitle());
@@ -75,7 +75,7 @@ public class ProjectionsController implements Initializable {
     private List<ProjectionRow> getItemsToAdd(int cinemaId, int filmId, String cinema, String film){
         List<ProjectionRow> projectionRows = new ArrayList<ProjectionRow>();
         
-        List<Projection> projections = PisaFlixServices.ProjectionManager.queryProjections(cinemaId, filmId);
+        List<Projection> projections = new ArrayList<>(PisaFlixServices.ProjectionManager.queryProjections(cinemaId, filmId));
         
         for(Projection projection: projections){
             ProjectionRow pr = new ProjectionRow();

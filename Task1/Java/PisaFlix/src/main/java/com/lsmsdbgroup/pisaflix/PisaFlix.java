@@ -146,7 +146,7 @@ public class PisaFlix {
         App.main(args);
         DBManager.exit();
         
-        KeyValueDBManager db = new KeyValueDBManager();
+       /* KeyValueDBManager db = new KeyValueDBManager();
         db.start();
         //db.createCinemaComment("Cinema spettacolare!!", new User(11), new Cinema(21));
         //db.createProjection(new Date(), 3, new Cinema(21), new Film(69));
@@ -169,6 +169,6 @@ public class PisaFlix {
             if(projectionAux != null) System.out.println(projectionAux.toString());
         }
         
-        db.stop();
+        db.stop();*/
     }
 }

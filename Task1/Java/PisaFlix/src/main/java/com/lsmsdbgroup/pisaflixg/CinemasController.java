@@ -4,6 +4,7 @@ import com.lsmsdbgroup.pisaflix.Entities.Cinema;
 import com.lsmsdbgroup.pisaflix.PisaFlixServices;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -25,7 +26,7 @@ public class CinemasController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        List<Cinema> cinemas = PisaFlixServices.CinemaManager.getAll();
+        List<Cinema> cinemas = new ArrayList<>(PisaFlixServices.CinemaManager.getAll());
         
         populateScrollPane(cinemas);
     }

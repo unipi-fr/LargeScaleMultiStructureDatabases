@@ -2,7 +2,9 @@ package com.lsmsdbgroup.pisaflix.Entities;
 
 import com.lsmsdbgroup.pisaflix.DBManager;
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.Set;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import javax.persistence.*;
 
 @Entity
@@ -29,13 +31,13 @@ public class Cinema implements Serializable {
         @JoinColumn(name = "idCinema", referencedColumnName = "idCinema")}, inverseJoinColumns = {
         @JoinColumn(name = "idUser", referencedColumnName = "idUser")})
     @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<User> userCollection;
+    private Set<User> userSet = new LinkedHashSet<>();
 
-    @ManyToMany(mappedBy = "cinemaCollection", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Collection<Comment> commentCollection;
+    @ManyToMany(mappedBy = "cinemaSet", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Comment> commentSet = new LinkedHashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCinema", fetch = FetchType.EAGER)
-    private Collection<Projection> projectionCollection;
+    private Set<Projection> projectionSet = new LinkedHashSet<>();
 
     public Cinema() {
     }
@@ -74,28 +76,28 @@ public class Cinema implements Serializable {
         this.address = address;
     }
 
-    public Collection<User> getUserCollection() {
-        return userCollection;
+    public Set<User> getUserSet() {
+        return userSet;
     }
 
-    public void setUserCollection(Collection<User> userCollection) {
-        this.userCollection = userCollection;
+    public void setUserSet(Set<User> userSet) {
+        this.userSet = userSet;
     }
 
-    public Collection<Comment> getCommentCollection() {
-        return commentCollection;
+    public Set<Comment> getCommentSet() {
+        return commentSet;
     }
 
-    public void setCommentCollection(Collection<Comment> commentCollection) {
-        this.commentCollection = commentCollection;
+    public void setCommentSet(Set<Comment> commentSet) {
+        this.commentSet = commentSet;
     }
 
-    public Collection<Projection> getProjectionCollection() {
-        return projectionCollection;
+    public Set<Projection> getProjectionSet() {
+        return projectionSet;
     }
 
-    public void setProjectionCollection(Collection<Projection> projectionCollection) {
-        this.projectionCollection = projectionCollection;
+    public void setProjectionSet(Set<Projection> projectionSet) {
+        this.projectionSet = projectionSet;
     }
 
     @Override
@@ -147,7 +149,7 @@ public class Cinema implements Serializable {
         DBManager.CinemaManager.update(this.idCinema, name, address);
     }
 
-    public static Collection<Cinema> getAll() {
+    public static Set<Cinema> getAll() {
         return DBManager.CinemaManager.getAll();
     }
 

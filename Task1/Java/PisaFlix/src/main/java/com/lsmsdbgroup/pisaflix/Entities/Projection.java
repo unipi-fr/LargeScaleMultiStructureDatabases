@@ -2,7 +2,7 @@ package com.lsmsdbgroup.pisaflix.Entities;
 
 import com.lsmsdbgroup.pisaflix.DBManager;
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.Set;
 import java.util.Date;
 import javax.persistence.*;
 
@@ -132,7 +132,7 @@ public class Projection implements Serializable {
         DBManager.ProjectionManager.update(this.idProjection, dateTime, room);
     }
 
-    public static Collection<Projection> getAll() {
+    public static Set<Projection> getAll() {
         return DBManager.ProjectionManager.getAll();
     }
 

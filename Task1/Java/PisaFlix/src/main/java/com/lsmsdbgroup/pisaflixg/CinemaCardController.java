@@ -5,7 +5,7 @@ import com.lsmsdbgroup.pisaflix.Entities.Comment;
 import com.lsmsdbgroup.pisaflix.PisaFlixServices;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collection;
+import java.util.Set;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -55,13 +55,13 @@ public class CinemaCardController implements Initializable {
         cdc.setNameLabel(cinema.getName());
         cdc.setAddress(cinema.getAddress());
         
-        Collection<Comment> comments = cinema.getCommentCollection();
+        Set<Comment> comments = cinema.getCommentSet();
         
         for(Comment comment: comments){
             cdc.addComment(comment.getText());
         }
         
-        cdc.setPrefCount(cinema.getUserCollection().size());
+        cdc.setPrefCount(cinema.getUserSet().size());
         
         App.setMainPane(anchorPane);
     }
