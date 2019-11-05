@@ -78,50 +78,100 @@ public class KeyValueDBManager {
 
     
     public void createFilmComment(String text, User user, Film film) {
+        
+        // controllo dati inseriti
+        if(text == null || user == null || film == null){
+            System.err.println("the data given to createFilmComment is not valid");
+            return;
+        }
+        
         int idComment = Integer.parseInt(get("setting:lastCommentKey")) + 1;
-        put("comment:" + String.valueOf(idComment), "user:" + user.getIdUser().toString() + ":film:" + film.getIdFilm().toString() + ":text:" + text + ":timestamp:" + dateFormat.format(new Date()));
+       
+        // la chiave per accedere ai vari campi è, ad es "comment:1:user"
+        put("comment:" + idComment + ":" + "user", user.getIdUser().toString());
+        put("comment:" + idComment + ":" + "film", film.getIdFilm().toString());
+        put("comment:" + idComment + ":" + "text", text);
+        put("comment:" + idComment + ":" + "timestamp", dateFormat.format(new Date()));
+        
+        String listaIdCommenti = get("film:" + film.getIdFilm().toString() + "comments");
+        
+        if(listaIdCommenti == null){ // non esiste, me la creo
+            put("film:" + film.getIdFilm().toString() + "comments", String.valueOf(idComment));
+            return;
+        }
+        
+        // altrimenti mi limito ad appendere ":idComment"
+        listaIdCommenti = listaIdCommenti.concat(":" + String.valueOf(idComment));
+        delete("film:" + film.getIdFilm().toString() + "comments");
+        put("film:" + film.getIdFilm().toString() + "comments", listaIdCommenti);
+        
         put("setting:lastCommentKey", String.valueOf(idComment));
     }
 
-    
+    // da fare
     public void createCinemaComment(String text, User user, Cinema cinema) {
+        
+        
+        /*
+            int idComment = Integer.parseInt(get("setting:lastCommentKey")) + 1;
+            put("comment:" + String.valueOf(idComment), "user:" + user.getIdUser().toString() + ":cinema:" + cinema.getIdCinema().toString() + ":text:" + text + ":timestamp:" + dateFormat.format(new Date()));
+            put("setting:lastCommentKey", String.valueOf(idComment));
+        
+        */
+        /*
+          // controllo dati inseriti
+        if(text == null || user == null || film == null){
+            System.err.println("the data given to createFilmComment is not valid");
+            return;
+        }
+        
         int idComment = Integer.parseInt(get("setting:lastCommentKey")) + 1;
-        put("comment:" + String.valueOf(idComment), "user:" + user.getIdUser().toString() + ":cinema:" + cinema.getIdCinema().toString() + ":text:" + text + ":timestamp:" + dateFormat.format(new Date()));
+       
+        // la chiave per accedere ai vari campi è, ad es "comment:1:user"
+        put("comment:" + idComment + ":" + "user", user.getIdUser().toString());
+        put("comment:" + idComment + ":" + "film", film.getIdFilm().toString());
+        put("comment:" + idComment + ":" + "text", text);
+        put("comment:" + idComment + ":" + "timestamp", dateFormat.format(new Date()));
+        
+        String listaIdCommenti = get("film:" + film.getIdFilm().toString() + "comments");
+        
+        if(listaIdCommenti == null){ // non esiste, me la creo
+            put("film:" + film.getIdFilm().toString() + "comments", String.valueOf(idComment));
+            return;
+        }
+        
+        // altrimenti mi limito ad appendere ":idComment"
+        listaIdCommenti = listaIdCommenti.concat(":" + String.valueOf(idComment));
+        delete("film:" + film.getIdFilm().toString() + "comments");
+        put("film:" + film.getIdFilm().toString() + "comments", listaIdCommenti);
+        
         put("setting:lastCommentKey", String.valueOf(idComment));
+        */
     }
-
+    
     
     public void updateComment(int commentId, String text) {
-        Comment comment = getCommentById(commentId);
-        String content = get(String.valueOf("comment:" + commentId));
         
-        if(comment == null || text == null || content == null) {
+        String oldText = get("comment:" + commentId + ":" + "text");
+        
+        if(text == null || oldText == null) {
             System.out.println("Comment: " + commentId + " not updated");
             return;
         }
         
-        deleteComment(commentId);
-        String[] field = content.split(":");
-        field[5] = text;
-        field[7] = dateFormat.format(new Date());
-        
-        content = "user:" + field[1] + ":film:" + field[3] + ":text:" + field[5] + ":timestamp:" + field[7];
-        put("comment:" + String.valueOf(commentId), content);
-        
+        delete("comment:" + commentId + ":" + "text");
+        put("comment:" + commentId + ":" + "text", text);
     }
 
+    // da fare
     public void deleteComment(int commentId) {
         
-        Comment comment = getCommentById(commentId);
-        if(comment == null) {
-            System.out.println("Comment: " + commentId + " not deleted");
-            return;
-        }
-        delete(String.valueOf("comment:" + commentId));
-        System.out.println("Comment: " + commentId + " deleted");
+        // controllare che il commento esista, cancella tutte le tuple,
+        // prendi l'indice dei commenti associati film e cancella quello 
+        // del commento eliminato (ovviamente reinserisci il nuovo indice)
     }
 
-    
+    // da fare
     public Comment getCommentById(int commentId) {
         String value = get(String.valueOf("comment:" + commentId));
         if(value == null) return null;
@@ -137,7 +187,7 @@ public class KeyValueDBManager {
     
     // parte projection 
     
-    
+    // da fare
     public void createProjection(Date dateTime, int room, Cinema cinema, Film film){
         int idProjection = Integer.parseInt(get("setting:lastProjectionKey")) + 1;
         put("projection:" + String.valueOf(idProjection), "dateTime:" + dateFormat.format(dateTime) + ":room:" + String.valueOf(room) + ":cinema:" + cinema.getIdCinema().toString() + ":film:" + film.getIdFilm().toString());
@@ -145,7 +195,7 @@ public class KeyValueDBManager {
     
     }
     
-    
+    // da fare
     public void updateProjection(int projectionId, Date dateTime, int room){
     
         Projection projection = getProjectionById(projectionId);
@@ -166,6 +216,7 @@ public class KeyValueDBManager {
         put("projection:" + String.valueOf(projectionId), content);
     }
     
+    // da fare
     public void deleteProjection(int projectionId){
        
         Projection projection = getProjectionById(projectionId);
@@ -178,7 +229,8 @@ public class KeyValueDBManager {
     
     }
     
-    public Projection getProjectionById(int projectionId){
+    // da fare
+    public Projection getProjectionById(int projectionId){ 
         String value = get(String.valueOf("projection:" + projectionId));
             if(value == null) return null;
 
