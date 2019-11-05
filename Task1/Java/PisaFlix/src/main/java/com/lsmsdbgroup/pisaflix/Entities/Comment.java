@@ -2,8 +2,9 @@ package com.lsmsdbgroup.pisaflix.Entities;
 
 import com.lsmsdbgroup.pisaflix.DBManager;
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.Set;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import javax.persistence.*;
 
 @Entity
@@ -32,13 +33,13 @@ public class Comment implements Serializable {
         @JoinColumn(name = "idComment", referencedColumnName = "idComment")}, inverseJoinColumns = {
         @JoinColumn(name = "idCinema", referencedColumnName = "idCinema")})
     @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<Cinema> cinemaCollection;
+    private Set<Cinema> cinemaSet = new LinkedHashSet<>();
 
     @JoinTable(name = "Film_has_Comment", joinColumns = {
         @JoinColumn(name = "idComment", referencedColumnName = "idComment")}, inverseJoinColumns = {
         @JoinColumn(name = "idFilm", referencedColumnName = "idFilm")})
     @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<Film> filmCollection;
+    private Set<Film> filmSet = new LinkedHashSet<>();
 
     @JoinColumn(name = "idUser", referencedColumnName = "idUser")
     @ManyToOne(fetch = FetchType.EAGER)
@@ -81,20 +82,20 @@ public class Comment implements Serializable {
         this.text = text;
     }
 
-    public Collection<Cinema> getCinemaCollection() {
-        return cinemaCollection;
+    public Set<Cinema> getCinemaSet() {
+        return cinemaSet;
     }
 
-    public void setCinemaCollection(Collection<Cinema> cinemaCollection) {
-        this.cinemaCollection = cinemaCollection;
+    public void setCinemaSet(Set<Cinema> cinemaSet) {
+        this.cinemaSet = cinemaSet;
     }
 
-    public Collection<Film> getFilmCollection() {
-        return filmCollection;
+    public Set<Film> getFilmSet() {
+        return filmSet;
     }
 
-    public void setFilmCollection(Collection<Film> filmCollection) {
-        this.filmCollection = filmCollection;
+    public void setFilmSet(Set<Film> filmSet) {
+        this.filmSet = filmSet;
     }
 
     public User getIdUser() {

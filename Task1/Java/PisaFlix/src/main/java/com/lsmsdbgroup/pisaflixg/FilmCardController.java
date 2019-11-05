@@ -6,7 +6,7 @@ import com.lsmsdbgroup.pisaflix.PisaFlixServices;
 import java.io.IOException;
 import javafx.beans.property.StringProperty;
 import java.net.URL;
-import java.util.Collection;
+import java.util.Set;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,13 +57,13 @@ public class FilmCardController implements Initializable {
         fdc.setPublishDate("03/11/2019");
         fdc.setDescription(film.getDescription());
         
-        Collection<Comment> comments = film.getCommentCollection();
+        Set<Comment> comments = film.getCommentSet();
         
         for(Comment comment: comments){
             fdc.addComment(comment.getText());
         }
         
-        fdc.setPrefCount(film.getUserCollection().size());
+        fdc.setPrefCount(film.getUserSet().size());
         
         App.setMainPane(anchorPane);
     }

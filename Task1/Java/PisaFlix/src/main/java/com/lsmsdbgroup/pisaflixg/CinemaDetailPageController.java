@@ -6,7 +6,7 @@ import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.PisaFlixServices;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collection;
+import java.util.Set;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -94,7 +94,7 @@ public class CinemaDetailPageController implements Initializable {
     
     public void refreshComment(){
         commentVBox.getChildren().clear();
-        Collection<Comment> comments = cinema.getCommentCollection();
+        Set<Comment> comments = cinema.getCommentSet();
         
         for(Comment comment: comments){
             addComment(comment.getText());
@@ -115,13 +115,13 @@ public class CinemaDetailPageController implements Initializable {
     @FXML
     private void addPreferite() throws IOException {
         User user = PisaFlixServices.Authentication.getLoggedUser();
-        cinema.getUserCollection().add(user);
+        cinema.getUserSet().add(user);
         
         PisaFlixServices.CinemaManager.addPreferite(cinema);
         
         refreshCinema();
         
-        int count = cinema.getUserCollection().size();
+        int count = cinema.getUserSet().size();
         setPrefCount(count);
     }
 }

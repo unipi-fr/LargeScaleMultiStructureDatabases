@@ -125,14 +125,14 @@ public class DBManager {
             }
         }
 
-        public static List<User> getAll() {
+        public static Set<User> getAll() {
             // code to retrieve all users
             System.out.println("Retrieving users");
-            List<User> users = null;
+            Set<User> users = null;
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
-                users = entityManager.createQuery("FROM User").getResultList();
+                users = new LinkedHashSet<>(entityManager.createQuery("FROM User").getResultList());
                 if (users == null) {
                     System.out.println("User is empty!");
                 }
@@ -145,13 +145,13 @@ public class DBManager {
             return users;
         }
 
-        public static List<User> getByUsername(String username) {
-            List<User> users = null;
+        public static Set<User> getByUsername(String username) {
+            Set<User> users = null;
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
                 //TODO: da vedere se è sicuro <- SQLInjection
-                users = entityManager.createQuery("SELECT u FROM User u WHERE u.username = '" + username + "'").getResultList();
+                users = new LinkedHashSet<>(entityManager.createQuery("SELECT u FROM User u WHERE u.username = '" + username + "'").getResultList());
                 if (users == null) {
                     System.out.println("Users is empty!");
                 }
@@ -183,12 +183,12 @@ public class DBManager {
             return film;
         }
 
-        public static List<Film> getAll() {
-            List<Film> films = null;
+        public static Set<Film> getAll() {
+            Set<Film> films = null;
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
-                films = entityManager.createQuery("FROM Film").getResultList();
+                films = new LinkedHashSet<>(entityManager.createQuery("FROM Film").getResultList());
                 if (films == null) {
                     System.out.println("Film is empty!");
                 }
@@ -335,12 +335,12 @@ public class DBManager {
             }
         }
 
-        public static List<Cinema> getAll() {
-            List<Cinema> cinemas = null;
+        public static Set<Cinema> getAll() {
+            Set<Cinema> cinemas = null;
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
-                cinemas = entityManager.createQuery("FROM Cinema").getResultList();
+                cinemas = new LinkedHashSet<>(entityManager.createQuery("FROM Cinema").getResultList());
                 if (cinemas == null) {
                     System.out.println("Cinema is empty!");
                 }
@@ -376,11 +376,11 @@ public class DBManager {
             comment.setText(text);
             comment.setTimestamp(new Date());
 
-            user.getCommentCollection().add(comment);
-            film.getCommentCollection().add(comment);
-            Collection<Film> filmCollection = new ArrayList<>();
-            filmCollection.add(film);
-            comment.setFilmCollection(filmCollection);
+            user.getCommentSet().add(comment);
+            film.getCommentSet().add(comment);
+            Set<Film> filmSet = new LinkedHashSet<>();
+            filmSet.add(film);
+            comment.setFilmSet(filmSet);
             comment.setIdUser(user);
 
             try {
@@ -403,11 +403,11 @@ public class DBManager {
             comment.setText(text);
             comment.setTimestamp(new Date());
 
-            user.getCommentCollection().add(comment);
-            cinema.getCommentCollection().add(comment);
-            Collection<Cinema> cinemaCollection = new ArrayList<>();
-            cinemaCollection.add(cinema);
-            comment.setCinemaCollection(cinemaCollection);
+            user.getCommentSet().add(comment);
+            cinema.getCommentSet().add(comment);
+            Set<Cinema> cinemaSet = new LinkedHashSet<>();
+            cinemaSet.add(cinema);
+            comment.setCinemaSet(cinemaSet);
             comment.setIdUser(user);
 
             try {
@@ -482,8 +482,8 @@ public class DBManager {
             projection.setRoom(room);
             projection.setIdCinema(cinema);
             projection.setIdFilm(film);
-            cinema.getProjectionCollection().add(projection);
-            film.getProjectionCollection().add(projection);
+            cinema.getProjectionSet().add(projection);
+            film.getProjectionSet().add(projection);
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
@@ -532,12 +532,12 @@ public class DBManager {
             }
         }
 
-        public static List<Projection> getAll() {
-            List<Projection> projections = null;
+        public static Set<Projection> getAll() {
+            Set<Projection> projections = null;
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
-                projections = entityManager.createQuery("FROM projection").getResultList();
+                projections = new LinkedHashSet<>(entityManager.createQuery("FROM projection").getResultList());
                 if (projections == null) {
                     System.out.println("Projection is empty!");
                 }
@@ -565,24 +565,34 @@ public class DBManager {
             return projection;
         }
         
-        public static List<Projection> queryProjection(int cinemaId, int filmId){
-            List<Projection> projections = null;
+        public static Set<Projection> queryProjection(int cinemaId, int filmId, String date){
+            Set<Projection> projections = null;
             
             String query = "SELECT p FROM Projection p";
             if(cinemaId != -1)
             {
-                query += "WHERE p.idCinema = " + cinemaId;
+                query += " WHERE p.idCinema = " + cinemaId;
                 if(filmId != -1)
                     query += " and p.idFilm = " + filmId;
+                if(!date.equals("all"))
+                    query += " and dateTime between '" + date + " 00:00:00' and '" + date + " 23:59:59'";
             } else {
                 if(filmId != -1)
+                {
                     query += " WHERE p.idFilm = " + filmId;
+                    if(!date.equals("all"))
+                        query += " and dateTime between '" + date + " 00:00:00' and '" + date + " 23:59:59'";
+                } else {
+                    if(!date.equals("all"))
+                        query += " WHERE dateTime between '" + date + " 00:00:00' and '" + date + " 23:59:59'";
+                }
             }
+            
                 
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
-                projections = entityManager.createQuery(query).getResultList();
+                projections = new LinkedHashSet<>(entityManager.createQuery(query).getResultList());
                 if (projections == null) {
                     System.out.println("Users is empty!");
                 }
