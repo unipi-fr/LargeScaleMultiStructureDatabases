@@ -179,7 +179,10 @@ public class PisaFlixServices {
         public static Set<Projection> queryProjections(int cinemaId, int filmId){
             Set<Projection> projections;
             
-            projections = DBManager.ProjectionManager.queryProjection(cinemaId, filmId);
+        public static Set<Projection> queryProjections(int cinemaId, int filmId, String date){
+            Set<Projection> projections;
+            
+            projections = DBManager.ProjectionManager.queryProjection(cinemaId, filmId, date);
             
             return projections;
         }
