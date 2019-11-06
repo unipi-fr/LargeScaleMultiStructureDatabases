@@ -48,21 +48,21 @@ public class FilmCardController implements Initializable {
             System.out.println(ex.getMessage());
         }
 
-        FilmDetailPageController fdc = loader.getController();
+        FilmDetailPageController filmDetailPageController = loader.getController();
 
-        fdc.setFilm(film);
+        filmDetailPageController.setFilm(film);
 
-        fdc.setTitleLabel(film.getTitle());
-        fdc.setPublishDate("03/11/2019");
-        fdc.setDescription(film.getDescription());
+        filmDetailPageController.setTitleLabel(film.getTitle());
+        filmDetailPageController.setPublishDate("03/11/2019");
+        filmDetailPageController.setDescription(film.getDescription());
 
         Set<Comment> comments = film.getCommentSet();
 
         comments.forEach((comment) -> {
-            fdc.addComment(comment.getText());
+            filmDetailPageController.addComment(comment.getText());
         });
 
-        fdc.setFavoriteCount(film.getUserSet().size());
+        filmDetailPageController.setFavoriteCount(film.getUserSet().size());
 
         App.setMainPane(anchorPane);
     }
