@@ -35,7 +35,7 @@
       <Button fx:id="commentButton" disable="true" layoutX="350.0" layoutY="407.0" maxHeight="27.0" minHeight="27.0" mnemonicParsing="false" onMouseClicked="#addComment" prefHeight="27.0" text="Comment" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="425.0" />
       <HBox fx:id="favoriteHBox" layoutX="300.0" layoutY="125.0" prefHeight="38.0" prefWidth="150.0" AnchorPane.bottomAnchor="250.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="164.0">
          <children>
-            <Button fx:id="favoriteButton" disable="true" mnemonicParsing="false" onMouseClicked="#addFavorite" prefHeight="39.0" prefWidth="103.0" text="Favorite" />
+            <Button fx:id="favoriteButton" disable="true" mnemonicParsing="false" onMouseClicked="#favoriteAddRemove" prefHeight="39.0" prefWidth="103.0" text="Add favorite" />
             <Label fx:id="favoriteLabel" alignment="CENTER" prefHeight="38.0" prefWidth="47.0" />
          </children>
       </HBox>

@@ -130,7 +130,7 @@ public class PisaFlixServices {
             DBManager.UserManager.updateFavorites(user);
         }
         
-        public void removeFavourite(Film film, User user) {
+        public static void removeFavourite(Film film, User user) {
             user.getFilmSet().remove(film);
             film.getUserSet().remove(user);
             DBManager.UserManager.updateFavorites(user);
@@ -166,7 +166,7 @@ public class PisaFlixServices {
             DBManager.UserManager.updateFavorites(user);
         }
         
-        public void removeFavourite(Cinema cinema, User user) {
+        public static void removeFavourite(Cinema cinema, User user) {
             user.getCinemaSet().remove(cinema);
             cinema.getUserSet().remove(user);
             DBManager.UserManager.updateFavorites(user);
@@ -175,9 +175,6 @@ public class PisaFlixServices {
     }
     
     public static class ProjectionManager {
-        
-        public static Set<Projection> queryProjections(int cinemaId, int filmId){
-            Set<Projection> projections;
             
         public static Set<Projection> queryProjections(int cinemaId, int filmId, String date){
             Set<Projection> projections;

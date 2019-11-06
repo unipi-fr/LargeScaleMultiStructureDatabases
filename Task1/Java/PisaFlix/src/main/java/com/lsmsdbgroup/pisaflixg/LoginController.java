@@ -70,6 +70,7 @@ public class LoginController implements Initializable {
             System.out.println(ex.getMessage());
         }
         update();
+        App.setMainPane("WelcomeBack");
     }
     
     @FXML

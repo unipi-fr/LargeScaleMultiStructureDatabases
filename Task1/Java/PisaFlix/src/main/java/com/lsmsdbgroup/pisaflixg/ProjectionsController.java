@@ -91,8 +91,8 @@ public class ProjectionsController implements Initializable {
         projectionTable.getItems().setAll(getItemsToAdd(cinemaId, filmId));
     }
     
-    private List<ProjectionRow> getItemsToAdd(int cinemaId, int filmId){
-        List<ProjectionRow> projectionRows = new ArrayList<ProjectionRow>();
+    private Set<ProjectionRow> getItemsToAdd(int cinemaId, int filmId){
+        Set<ProjectionRow> projectionRows = new LinkedHashSet<>();
         
         LocalDate localDate = datePicker.getValue();
         String dateStr;

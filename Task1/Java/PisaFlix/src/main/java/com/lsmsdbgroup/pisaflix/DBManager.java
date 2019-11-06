@@ -69,6 +69,7 @@ public class DBManager {
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
                 System.out.println("A problem occurred in updating favorites!");
+                ex.printStackTrace();
             } finally {
                 entityManager.close();
             }
@@ -246,6 +247,7 @@ public class DBManager {
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
                 System.out.println("A problem occurred updating favorites!");
+                ex.printStackTrace();
             } finally {
                 entityManager.close();
             }
@@ -539,21 +541,30 @@ public class DBManager {
             return projection;
         }
 
-        public static Set<Projection> queryProjection(int cinemaId, int filmId) {
+        public static Set<Projection> queryProjection(int cinemaId, int filmId, String date) {
             Set<Projection> projections = null;
-
+            
             String query = "SELECT p FROM Projection p";
-            if (cinemaId != -1) {
-                query += "WHERE p.idCinema = " + cinemaId;
-                if (filmId != -1) {
+            if(cinemaId != -1)
+            {
+                query += " WHERE p.idCinema = " + cinemaId;
+                if(filmId != -1)
                     query += " and p.idFilm = " + filmId;
-                }
+                if(!date.equals("all"))
+                    query += " and dateTime between '" + date + " 00:00:00' and '" + date + " 23:59:59'";
             } else {
-                if (filmId != -1) {
+                if(filmId != -1)
+                {
                     query += " WHERE p.idFilm = " + filmId;
+                    if(!date.equals("all"))
+                        query += " and dateTime between '" + date + " 00:00:00' and '" + date + " 23:59:59'";
+                } else {
+                    if(!date.equals("all"))
+                        query += " WHERE dateTime between '" + date + " 00:00:00' and '" + date + " 23:59:59'";
                 }
             }
-
+            
+                
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
@@ -567,7 +578,7 @@ public class DBManager {
             } finally {
                 entityManager.close();
             }
-
+            
             return projections;
         }
 

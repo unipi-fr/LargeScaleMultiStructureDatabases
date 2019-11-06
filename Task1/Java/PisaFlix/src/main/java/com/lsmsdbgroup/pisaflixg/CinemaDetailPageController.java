@@ -86,6 +86,20 @@ public class CinemaDetailPageController implements Initializable {
     public void setCinema(Cinema cinema) {
         this.cinema = cinema;
     }
+    
+    public void setFavoriteButton(){
+        if(PisaFlixServices.Authentication.isUserLogged())
+        {
+            User userLogged = PisaFlixServices.Authentication.getLoggedUser();
+            
+            Set<User> users = cinema.getUserSet();
+            
+            if(users.contains(userLogged))
+            {
+                favoriteButton.setText("Remove favorite");
+            }
+        }
+    }
 
     public void refreshCinema() {
         int id = cinema.getIdCinema();
@@ -113,11 +127,22 @@ public class CinemaDetailPageController implements Initializable {
     }
 
     @FXML
-    private void addFavorite() throws IOException {
+    private void favoriteAddRemove() throws IOException {
+        if(!PisaFlixServices.Authentication.isUserLogged())
+            return;
+        
         User user = PisaFlixServices.Authentication.getLoggedUser();
-
-        PisaFlixServices.CinemaManager.addFavorite(cinema, user);
-
+        
+        if(favoriteButton.getText().equals("Add favorite")){
+            PisaFlixServices.CinemaManager.addFavorite(cinema, user);
+            
+            favoriteButton.setText("Remove favorite");
+        } else {
+            PisaFlixServices.CinemaManager.removeFavourite(cinema, user);
+            
+            favoriteButton.setText("Add favorite");
+        }
+        
         refreshCinema();
 
         setFavoriteCount(cinema.getUserSet().size());

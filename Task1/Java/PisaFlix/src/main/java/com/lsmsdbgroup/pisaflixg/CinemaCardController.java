@@ -51,6 +51,8 @@ public class CinemaCardController implements Initializable {
         CinemaDetailPageController cinemaDetailPageController = loader.getController();
 
         cinemaDetailPageController.setCinema(cinema);
+        
+        cinemaDetailPageController.setFavoriteButton();
 
         cinemaDetailPageController.setNameLabel(cinema.getName());
         cinemaDetailPageController.setAddress(cinema.getAddress());

@@ -87,6 +87,20 @@ public class FilmDetailPageController implements Initializable {
     public void setFilm(Film film) {
         this.film = film;
     }
+    
+    public void setFavoriteButton(){
+        if(PisaFlixServices.Authentication.isUserLogged())
+        {
+            User userLogged = PisaFlixServices.Authentication.getLoggedUser();
+            
+            Set<User> users = film.getUserSet();
+            
+            if(users.contains(userLogged))
+            {
+                favoriteButton.setText("Remove favorite");
+            }
+        }
+    }
 
     public void refreshFilm() {
         int id = film.getIdFilm();
@@ -114,11 +128,22 @@ public class FilmDetailPageController implements Initializable {
     }
 
     @FXML
-    private void addFavorite() throws IOException {
+    private void favoriteAddRemove() throws IOException {
+        if(!PisaFlixServices.Authentication.isUserLogged())
+            return;
+        
         User user = PisaFlixServices.Authentication.getLoggedUser();
-
-        PisaFlixServices.FilmManager.addFavorite(film, user);
-
+        
+        if(favoriteButton.getText().equals("Add favorite")){
+            PisaFlixServices.FilmManager.addFavorite(film, user);
+            
+            favoriteButton.setText("Remove favorite");
+        } else {
+            PisaFlixServices.FilmManager.removeFavourite(film, user);
+            
+            favoriteButton.setText("Add favorite");
+        }
+        
         refreshFilm();
 
         setFavoriteCount(film.getUserSet().size());

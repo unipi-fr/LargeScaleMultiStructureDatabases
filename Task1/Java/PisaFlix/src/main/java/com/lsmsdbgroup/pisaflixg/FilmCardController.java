@@ -44,16 +44,17 @@ public class FilmCardController implements Initializable {
         try {
             anchorPane = loader.load();
         } catch (IOException ex) {
-            System.out.println("hello");
             System.out.println(ex.getMessage());
         }
 
         FilmDetailPageController filmDetailPageController = loader.getController();
 
         filmDetailPageController.setFilm(film);
+        
+        filmDetailPageController.setFavoriteButton();
 
         filmDetailPageController.setTitleLabel(film.getTitle());
-        filmDetailPageController.setPublishDate("03/11/2019");
+        filmDetailPageController.setPublishDate(film.getPublicationDate().toString());
         filmDetailPageController.setDescription(film.getDescription());
 
         Set<Comment> comments = film.getCommentSet();
