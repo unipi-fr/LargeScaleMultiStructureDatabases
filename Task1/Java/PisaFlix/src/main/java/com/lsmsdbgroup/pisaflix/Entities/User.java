@@ -159,7 +159,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "\n User[  idUser=" + idUser + " | Username=" + username + " | First Name=" + firstName + " | Last Name=" + lastName + " | Email=" + email + " | Prvilege Level=" + privilegeLevel + "] ";
+        return "\n User[  idUser=" + idUser + " | Username=" + username + " | First Name=" + firstName + " | Last Name=" + lastName + " | Email=" + email + " | Privilege Level=" + privilegeLevel + "] ";
     }
     /*
     public static User getById(int userId) {

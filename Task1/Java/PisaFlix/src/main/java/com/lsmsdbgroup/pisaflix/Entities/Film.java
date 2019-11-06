@@ -132,7 +132,7 @@ public class Film implements Serializable {
         return "[ id=" + idFilm + " ]\n"
                 + "title: " + title + "\n"
                 + "PubDate: " + publicationDate + "\n"
-                + "Descrption: " + description + "\n";
+                + "Description: " + description + "\n";
     }
     /*
     public static Film getById(int filmId) {

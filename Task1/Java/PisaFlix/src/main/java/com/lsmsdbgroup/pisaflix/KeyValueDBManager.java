@@ -10,10 +10,14 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.iq80.leveldb.DB;
+import org.iq80.leveldb.DBException;
 import static org.iq80.leveldb.impl.Iq80DBFactory.factory;
 import org.iq80.leveldb.Options;
 import org.iq80.leveldb.impl.Iq80DBFactory;
@@ -31,9 +35,10 @@ public class KeyValueDBManager {
         try {
             KeyValueDB = factory.open(new File("KeyValueDB"), options);
         } catch (IOException ex) {
+            System.out.println("Errore non si è aperto il keyValueDB");
             Logger.getLogger(KeyValueDBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.settings();
+        settings();
     }
 
     
@@ -71,12 +76,12 @@ public class KeyValueDBManager {
         if (value != null) {
             return Iq80DBFactory.asString(value);
         } else {
-            System.out.println("Key not found");
+            //System.out.println("Key not found");
             return null;
         }
     }
 
-    
+    // OK
     public void createFilmComment(String text, User user, Film film) {
         
         // controllo dati inseriti
@@ -84,34 +89,37 @@ public class KeyValueDBManager {
             System.err.println("the data given to createFilmComment is not valid");
             return;
         }
-        
+        // prendo l'id del prossimo commento da inserire
         int idComment = Integer.parseInt(get("setting:lastCommentKey")) + 1;
        
-        // la chiave per accedere ai vari campi è, ad es "comment:1:user"
-        put("comment:" + idComment + ":" + "user", user.getIdUser().toString());
-        put("comment:" + idComment + ":" + "film", film.getIdFilm().toString());
-        put("comment:" + idComment + ":" + "text", text);
-        put("comment:" + idComment + ":" + "timestamp", dateFormat.format(new Date()));
+        // la chiave per accedere ai vari campi è, ad es "comment:2:user"
+        put("comment:" + idComment + ":user", user.getIdUser().toString());
+        put("comment:" + idComment + ":film", film.getIdFilm().toString());
+        put("comment:" + idComment + ":text", text);
+        put("comment:" + idComment + ":timestamp", dateFormat.format(new Date()));
         
-        String listaIdCommenti = get("film:" + film.getIdFilm().toString() + "comments");
+        // controllo se esiste la lista dei commenti associati al film in questione
+        String listaIdCommenti = get("film:" + film.getIdFilm().toString() + ":comments");
         
         if(listaIdCommenti == null){ // non esiste, me la creo
-            put("film:" + film.getIdFilm().toString() + "comments", String.valueOf(idComment));
+            put("film:" + film.getIdFilm().toString() + ":comments", String.valueOf(idComment));
+            put("setting:lastCommentKey", String.valueOf(idComment));
             return;
         }
         
         // altrimenti mi limito ad appendere ":idComment"
         listaIdCommenti = listaIdCommenti.concat(":" + String.valueOf(idComment));
-        delete("film:" + film.getIdFilm().toString() + "comments");
-        put("film:" + film.getIdFilm().toString() + "comments", listaIdCommenti);
+        delete("film:" + film.getIdFilm().toString() + ":comments");
+        put("film:" + film.getIdFilm().toString() + ":comments", listaIdCommenti);
         
+        // aggiorno il contatore dell'id commento
         put("setting:lastCommentKey", String.valueOf(idComment));
     }
 
-    // da fare
+    // DA FARE
     public void createCinemaComment(String text, User user, Cinema cinema) {
         
-        
+        // VECCHIA IMPLEMENTAZIONE
         /*
             int idComment = Integer.parseInt(get("setting:lastCommentKey")) + 1;
             put("comment:" + String.valueOf(idComment), "user:" + user.getIdUser().toString() + ":cinema:" + cinema.getIdCinema().toString() + ":text:" + text + ":timestamp:" + dateFormat.format(new Date()));
@@ -149,55 +157,125 @@ public class KeyValueDBManager {
         */
     }
     
-    
+    // OK
     public void updateComment(int commentId, String text) {
-        
-        String oldText = get("comment:" + commentId + ":" + "text");
-        
+        // esiste il testo del commento da modificare?
+        String oldText = get("comment:" + commentId + ":text");
         if(text == null || oldText == null) {
             System.out.println("Comment: " + commentId + " not updated");
             return;
         }
         
-        delete("comment:" + commentId + ":" + "text");
-        put("comment:" + commentId + ":" + "text", text);
+        delete("comment:" + commentId + ":text");
+        put("comment:" + commentId + ":text", text);
     }
 
-    // da fare
+    // OK
     public void deleteComment(int commentId) {
+        // recopero l'id del film del commento da eliminare perchè dovrò 
+        // aggiornare la lista dei commenti assiciati ad esso
+        String idFilm = get("comment:" + commentId + ":film");
+        if(idFilm == null) {
+        System.err.println("Impossibile trovare l'id del film");
+        return;
+        }
         
-        // controllare che il commento esista, cancella tutte le tuple,
-        // prendi l'indice dei commenti associati film e cancella quello 
-        // del commento eliminato (ovviamente reinserisci il nuovo indice)
+        //il fallimento di anche solo una di queste indica inconsistenza del DB!!!
+        try{
+            delete("comment:" + commentId + ":user");
+            delete("comment:" + commentId + ":film");
+            delete("comment:" + commentId + ":text");
+            delete("comment:" + commentId + ":timestamp");
+        }catch (DBException ex){
+            System.err.println("Una parte del commento: "
+            + commentId + " da cancellare non era presente");
+            return;
+        }
+        // prendo la lista dei commenti associati al film
+        String commentiConcatenati = get("film:" + idFilm + ":comments");
+     
+        if(commentiConcatenati == null){
+            System.err.println("Errore: lista commenti collegati al film non esistente");
+            return;
+        }
+        // lavoro solo sugli indici
+        String[] arrayCommentiVecchi = commentiConcatenati.split(":");
+        // non mi complico la vita, butto via tutto. Tanto nella createComment
+        // ho già gestito il caso in cui non esista una lista dei commenti
+        if(arrayCommentiVecchi.length == 1){ 
+            delete("film:" + idFilm + ":comments");
+            return;
+        }
+        // voglio eliminare l'id semplicemente -> serve una List
+        List<String> ListaCommentiNuovi = new ArrayList<>(Arrays.asList(arrayCommentiVecchi));
+        ListaCommentiNuovi.remove(String.valueOf(commentId));
+        
+        // ricreo la lista nel formato concatenato
+        for(int i=0; i < ListaCommentiNuovi.size(); i++){
+            
+            if(i==0) commentiConcatenati = ListaCommentiNuovi.get(i);
+            else commentiConcatenati = commentiConcatenati.concat(":" + ListaCommentiNuovi.get(i));
+        }
+        
+        delete("film:" + idFilm + ":comments");
+        put("film:" + idFilm + ":comments", commentiConcatenati);
     }
 
-    // da fare
+    // va bene
     public Comment getCommentById(int commentId) {
-        String value = get(String.valueOf("comment:" + commentId));
-        if(value == null) return null;
         
-        String[] field = value.split(":");
-        try {
-            return new Comment(commentId, dateFormat.parse(field[7]), field[5]);
-        } catch (ParseException ex) {
-            Logger.getLogger(KeyValueDBManager.class.getName()).log(Level.SEVERE, null, ex);
+        String idUser, idFilm, text, timestamp;
+        
+        idUser = get("comment:" + commentId + ":user");
+        idFilm = get("comment:" + commentId + ":film");
+        text = get("comment:" + commentId + ":text");
+        timestamp = get("comment:" + commentId + ":timestamp");
+        
+        if(timestamp == null || text == null || idFilm == null || idUser == null)
+        {
+            System.err.println("Impossible to retrive comment");
+            return null;
         }
-        return null;
+        
+        User user = PisaFlixServices.UserManager.getUserById(Integer.parseInt(idUser));
+        Film film = PisaFlixServices.FilmManager.getById(Integer.parseInt(idFilm));
+        Date date;
+        try{
+            date = dateFormat.parse(timestamp);
+        }catch(ParseException ex){ex.printStackTrace(System.out); return null;}
+
+        // controllo oggetti ottenuti....
+        if(user == null || film == null){
+            System.err.println("Error: impossible to retireve data");
+            return null;
+        }
+        
+        return new Comment(commentId, user, film, text, date);
+    }
+    
+    // piccola funzioncina per mostrare la vera utilità della lista dei commenti
+    public String getCommentsOfFilm(int filmId){
+    
+        return get("film:" + filmId + ":comments");
     }
     
     // parte projection 
     
     // da fare
     public void createProjection(Date dateTime, int room, Cinema cinema, Film film){
+    // VECCHIA IMPLEMENTAZIONE
+        /*
         int idProjection = Integer.parseInt(get("setting:lastProjectionKey")) + 1;
         put("projection:" + String.valueOf(idProjection), "dateTime:" + dateFormat.format(dateTime) + ":room:" + String.valueOf(room) + ":cinema:" + cinema.getIdCinema().toString() + ":film:" + film.getIdFilm().toString());
         put("setting:lastProjectionKey", String.valueOf(idProjection));
-    
+    */
     }
     
     // da fare
     public void updateProjection(int projectionId, Date dateTime, int room){
     
+        // VECCHIA IMPLEMENTAZIONE
+        /*
         Projection projection = getProjectionById(projectionId);
         String content = get(String.valueOf("projection:" + projectionId));
         
@@ -214,11 +292,13 @@ public class KeyValueDBManager {
         content = "dateTime:" + field[1] + ":room:" + field[3] + ":cinema:" + field[5] + ":film:" + field[7];
 
         put("projection:" + String.valueOf(projectionId), content);
+        */
     }
     
     // da fare
     public void deleteProjection(int projectionId){
-       
+       // VECCHIA IMPLEMENTAZIONE
+        /*
         Projection projection = getProjectionById(projectionId);
         if(projection == null) {
             System.out.println("Projection: " + projectionId + " not deleted");
@@ -226,21 +306,25 @@ public class KeyValueDBManager {
         }
         delete(String.valueOf("projection:" + projectionId));
         System.out.println("Projection: " + projectionId + " deleted");
-    
+        */
     }
     
     // da fare
     public Projection getProjectionById(int projectionId){ 
+        // VECCHIA IMPLEMENTAZIONE   
+        /*
         String value = get(String.valueOf("projection:" + projectionId));
-            if(value == null) return null;
+        if(value == null) return null;
 
-            String[] field = value.split(":");
-            try {
-                return new Projection(projectionId, dateFormat.parse(field[1]), Integer.parseInt(field[3]));
-            } catch (ParseException ex) {
-                Logger.getLogger(KeyValueDBManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return null;
+        String[] field = value.split(":");
+        try {
+            return new Projection(projectionId, dateFormat.parse(field[1]), Integer.parseInt(field[3]));
+        } catch (ParseException ex) {
+            Logger.getLogger(KeyValueDBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    */
+        return null; // mi urtava l'errore della mancanza di un ritorno
+        
     }
     
     

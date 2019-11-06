@@ -1,6 +1,6 @@
 package com.lsmsdbgroup.pisaflix;
 
-import com.lsmsdbgroup.pisaflix.Entities.*;
+import com.lsmsdbgroup.pisaflix.Entities.*; // serve per usare la parte keyValue
 import com.lsmsdbgroup.pisaflixg.App;
 import java.util.*;
 import java.util.logging.Level;
@@ -144,31 +144,33 @@ public class PisaFlix {
         DBManager.setup();
         //mainMenu();
         App.main(args);
-        DBManager.exit();
         
-       /* KeyValueDBManager db = new KeyValueDBManager();
+        /* 
+        KeyValueDBManager db = new KeyValueDBManager();
         db.start();
-        //db.createCinemaComment("Cinema spettacolare!!", new User(11), new Cinema(21));
-        //db.createProjection(new Date(), 3, new Cinema(21), new Film(69));
-
-        //String prova = "roba";
-        //db.updateComment(2, prova);
         
-        Comment commentoAux ;
-        int i=1;
-        while (i<10){
-            commentoAux = db.getCommentById(i++);
-            if(commentoAux != null) System.out.println(commentoAux.toString());
+        db.createFilmComment("non saprei", new User(1), new Film(1));
+        db.createFilmComment("dddddddddddd", new User(2), new Film(1));
+        db.createFilmComment("ccccccccccccc", new User(1), new Film(1));
+        db.createFilmComment("bbbbbbbbbbbbbbb", new User(1), new Film(2));
+        db.createFilmComment("aaaaaaaaaaaaaa", new User(2), new Film(2));
+        
+        //db.deleteComment(2);
+        System.out.println(db.getCommentsOfFilm(1));
+        
+        
+        Comment aux;
+        for(int i = 1; i <= 10; i++){
+        
+            aux = db.getCommentById(i);
+            if(aux == null) continue;
+            
+            System.out.println(aux);
+            
         }
         
-        //db.updateProjection(3, new Date(), 2);
-          Projection projectionAux ;
-        i=1;
-        while (i<10){
-            projectionAux = db.getProjectionById(i++);
-            if(projectionAux != null) System.out.println(projectionAux.toString());
-        }
-        
-        db.stop();*/
+        db.stop();
+        */
+        DBManager.exit();
     }
 }
