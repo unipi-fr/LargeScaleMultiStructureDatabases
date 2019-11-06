@@ -1,10 +1,8 @@
 package com.lsmsdbgroup.pisaflix.Entities;
 
-import com.lsmsdbgroup.pisaflix.DBManager;
+//import com.lsmsdbgroup.pisaflix.DBManager;
 import java.io.Serializable;
-import java.util.Set;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 import javax.persistence.*;
 
 @Entity
@@ -109,21 +107,19 @@ public class Cinema implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Cinema)) {
             return false;
         }
         Cinema other = (Cinema) object;
-        if ((this.idCinema == null && other.idCinema != null) || (this.idCinema != null && !this.idCinema.equals(other.idCinema))) {
-            return false;
-        }
-        return true;
+        return !((this.idCinema == null && other.idCinema != null) || (this.idCinema != null && !this.idCinema.equals(other.idCinema)));
     }
 
     @Override
     public String toString() {
         return "com.lsmsdgroup.pisaflix.Cinema[ idCinema=" + idCinema + " ]";
     }
+    
+    /*
 
     public static void create(String name, String address) {
         DBManager.CinemaManager.create(name, address);
@@ -152,5 +148,7 @@ public class Cinema implements Serializable {
     public static Set<Cinema> getAll() {
         return DBManager.CinemaManager.getAll();
     }
+
+    */
 
 }

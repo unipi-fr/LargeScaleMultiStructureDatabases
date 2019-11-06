@@ -1,9 +1,8 @@
 package com.lsmsdbgroup.pisaflix.Entities;
 
-import com.lsmsdbgroup.pisaflix.DBManager;
+//import com.lsmsdbgroup.pisaflix.DBManager;
 import java.io.Serializable;
-import java.util.Set;
-import java.util.Date;
+import java.util.*;
 import javax.persistence.*;
 
 @Entity
@@ -101,17 +100,14 @@ public class Projection implements Serializable {
             return false;
         }
         Projection other = (Projection) object;
-        if ((this.idProjection == null && other.idProjection != null) || (this.idProjection != null && !this.idProjection.equals(other.idProjection))) {
-            return false;
-        }
-        return true;
+        return !((this.idProjection == null && other.idProjection != null) || (this.idProjection != null && !this.idProjection.equals(other.idProjection)));
     }
 
     @Override
     public String toString() {
         return "idProjection=" + idProjection + " ]\ndateTime:" + dateTime.toString() + "\nroom:" + room;
     }
-
+    /*
     public static void create(Date dateTime, int room, Film film, Cinema cinema) {
         DBManager.ProjectionManager.create(dateTime, room, film, cinema);
     }
@@ -139,5 +135,5 @@ public class Projection implements Serializable {
     public static Projection getById(int projectionId) {
         return DBManager.ProjectionManager.getById(projectionId);
     }
-
+     */
 }

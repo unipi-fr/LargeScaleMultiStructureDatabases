@@ -1,11 +1,8 @@
 package com.lsmsdbgroup.pisaflix.Entities;
 
-import com.lsmsdbgroup.pisaflix.DBManager;
+//import com.lsmsdbgroup.pisaflix.DBManager;
 import java.io.Serializable;
-import java.util.Set;
-import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 import javax.persistence.*;
 
 @Entity
@@ -123,15 +120,11 @@ public class Film implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Film)) {
             return false;
         }
         Film other = (Film) object;
-        if ((this.idFilm == null && other.idFilm != null) || (this.idFilm != null && !this.idFilm.equals(other.idFilm))) {
-            return false;
-        }
-        return true;
+        return !((this.idFilm == null && other.idFilm != null) || (this.idFilm != null && !this.idFilm.equals(other.idFilm)));
     }
 
     @Override
@@ -141,7 +134,7 @@ public class Film implements Serializable {
                 + "PubDate: " + publicationDate + "\n"
                 + "Descrption: " + description + "\n";
     }
-
+    /*
     public static Film getById(int filmId) {
         return DBManager.FilmManager.getById(filmId);
     }
@@ -169,4 +162,5 @@ public class Film implements Serializable {
     public void deleteThis() {
         DBManager.FilmManager.delete(this.idFilm);
     }
+     */
 }

@@ -33,10 +33,10 @@
       </ScrollPane>
       <TextArea fx:id="commentArea" editable="false" layoutX="300.0" layoutY="207.0" prefHeight="195.0" prefWidth="200.0" promptText="You must be logged to comment film..." AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="202.0" />
       <Button fx:id="commentButton" disable="true" layoutX="350.0" layoutY="407.0" maxHeight="27.0" minHeight="27.0" mnemonicParsing="false" onMouseClicked="#addComment" prefHeight="27.0" text="Comment" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="425.0" />
-      <HBox fx:id="preferiteHBox" layoutX="300.0" layoutY="125.0" prefHeight="38.0" prefWidth="150.0" AnchorPane.bottomAnchor="250.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="164.0">
+      <HBox fx:id="favoriteHBox" layoutX="300.0" layoutY="125.0" prefHeight="38.0" prefWidth="150.0" AnchorPane.bottomAnchor="250.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="164.0">
          <children>
-            <Button fx:id="preferiteButton" disable="true" mnemonicParsing="false" onMouseClicked="#addPreferite" prefHeight="39.0" prefWidth="103.0" text="Preferite" />
-            <Label fx:id="preferiteLabel" alignment="CENTER" prefHeight="38.0" prefWidth="47.0" />
+            <Button fx:id="favoriteButton" disable="true" mnemonicParsing="false" onMouseClicked="#addFavorite" prefHeight="39.0" prefWidth="103.0" text="Favorite" />
+            <Label fx:id="favoriteLabel" alignment="CENTER" prefHeight="38.0" prefWidth="47.0" />
          </children>
       </HBox>
    </children>

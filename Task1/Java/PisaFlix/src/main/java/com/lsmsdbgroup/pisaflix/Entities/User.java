@@ -1,10 +1,8 @@
 package com.lsmsdbgroup.pisaflix.Entities;
 
-import com.lsmsdbgroup.pisaflix.DBManager;
+//import com.lsmsdbgroup.pisaflix.DBManager;
 import java.io.Serializable;
-import java.util.Set;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 import javax.persistence.*;
 
 @Entity
@@ -126,38 +124,12 @@ public class User implements Serializable {
         this.cinemaSet = cinemaSet;
     }
 
-    public void addFavouriteCinema(Cinema cinema) {
-        cinemaSet.add(cinema);
-        cinema.getUserSet().add(this);
-        DBManager.UserManager.updateFavorites(this);
-    }
-
-    public void removeFavouriteCinema(Cinema cinema) {
-        cinemaSet.remove(cinema);
-        cinema.getUserSet().remove(this);
-        DBManager.UserManager.updateFavorites(this);
-        DBManager.CinemaManager.updateFavorites(cinema);
-    }
-
     public Set<Film> getFilmSet() {
         return filmSet;
     }
 
     public void setFilmSet(Set<Film> filmSet) {
         this.filmSet = filmSet;
-    }
-
-    public void addFavouriteFilm(Film film) {
-        filmSet.add(film);
-        film.getUserSet().add(this);
-        DBManager.UserManager.updateFavorites(this);
-    }
-
-    public void removeFavouriteFilm(Film film) {
-        filmSet.remove(film);
-        film.getUserSet().remove(this);
-        DBManager.UserManager.updateFavorites(this);
-        DBManager.FilmManager.updateFavorites(film);
     }
 
     public Set<Comment> getCommentSet() {
@@ -182,17 +154,14 @@ public class User implements Serializable {
             return false;
         }
         User other = (User) object;
-        if ((this.idUser == null && other.idUser != null) || (this.idUser != null && !this.idUser.equals(other.idUser))) {
-            return false;
-        }
-        return true;
+        return !((this.idUser == null && other.idUser != null) || (this.idUser != null && !this.idUser.equals(other.idUser)));
     }
 
     @Override
     public String toString() {
         return "\n User[  idUser=" + idUser + " | Username=" + username + " | First Name=" + firstName + " | Last Name=" + lastName + " | Email=" + email + " | Prvilege Level=" + privilegeLevel + "] ";
     }
-
+    /*
     public static User getById(int userId) {
         return DBManager.UserManager.getById(userId);
     }
@@ -220,5 +189,32 @@ public class User implements Serializable {
     public static Set<User> getAll() {
         return DBManager.UserManager.getAll();
     }
+    
+    public void addFavouriteCinema(Cinema cinema) {
+        cinemaSet.add(cinema);
+        cinema.getUserSet().add(this);
+        DBManager.UserManager.updateFavorites(this);
+    }
+
+    public void removeFavouriteCinema(Cinema cinema) {
+        cinemaSet.remove(cinema);
+        cinema.getUserSet().remove(this);
+        DBManager.UserManager.updateFavorites(this);
+        DBManager.CinemaManager.updateFavorites(cinema);
+    }
+    
+    public void addFavouriteFilm(Film film) {
+        filmSet.add(film);
+        film.getUserSet().add(this);
+        DBManager.UserManager.updateFavorites(this);
+    }
+
+    public void removeFavouriteFilm(Film film) {
+        filmSet.remove(film);
+        film.getUserSet().remove(this);
+        DBManager.UserManager.updateFavorites(this);
+        DBManager.FilmManager.updateFavorites(film);
+    }
+     */
 
 }

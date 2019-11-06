@@ -13,51 +13,51 @@ import javafx.scene.image.*;
 import javafx.scene.layout.*;
 
 public class FilmDetailPageController implements Initializable {
-    
+
     private Film film;
 
     @FXML
     private Label titleLabel;
-    
+
     @FXML
     private ImageView moviePosterImageView;
-    
+
     @FXML
     private Label publishDateLabel;
-    
+
     @FXML
     private Label descriptionLabel;
-    
+
     @FXML
     private ScrollPane commentScrollPane;
-    
+
     @FXML
     private VBox commentVBox;
-    
+
     @FXML
     private TextArea commentArea;
-    
+
     @FXML
     private Button commentButton;
-    
+
     @FXML
-    private HBox preferiteHBox;
-    
+    private HBox favoriteHBox;
+
     @FXML
-    private Button preferiteButton;
-    
+    private Button favoriteButton;
+
     @FXML
-    private Label preferiteLabel;
-    
+    private Label favoriteLabel;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(PisaFlixServices.Authentication.isUserLogged()){
+        if (PisaFlixServices.Authentication.isUserLogged()) {
             commentArea.setPromptText("Write here a comment for the film...");
             commentArea.setEditable(true);
             commentButton.setDisable(false);
-            preferiteButton.setDisable(false);
+            favoriteButton.setDisable(false);
         }
-    }    
+    }
 
     public void setTitleLabel(String title) {
         titleLabel.setText(title);
@@ -76,54 +76,51 @@ public class FilmDetailPageController implements Initializable {
 
         filmComment.setText(comment);
         filmComment.setEditable(false);
-        
+
         commentVBox.getChildren().add(filmComment);
     }
-    
-    public void setPrefCount(int count){
-        preferiteLabel.setText("("+count+")");
+
+    public void setFavoriteCount(int count) {
+        favoriteLabel.setText("(" + count + ")");
     }
-    
+
     public void setFilm(Film film) {
         this.film = film;
     }
-    
-    public void refreshFilm(){
+
+    public void refreshFilm() {
         int id = film.getIdFilm();
         film = PisaFlixServices.FilmManager.getById(id);
     }
-    
-    public void refreshComment(){
+
+    public void refreshComment() {
         commentVBox.getChildren().clear();
         Set<Comment> comments = film.getCommentSet();
-        
-        for(Comment comment: comments){
+
+        comments.forEach((comment) -> {
             addComment(comment.getText());
-        }
+        });
     }
-    
+
     @FXML
     private void addComment() throws IOException {
         String comment = commentArea.getText();
         User user = PisaFlixServices.Authentication.getLoggedUser();
-        
+
         PisaFlixServices.FilmManager.addComment(comment, user, film);
-        
+
         refreshFilm();
         refreshComment();
     }
-    
+
     @FXML
-    private void addPreferite() throws IOException {
+    private void addFavorite() throws IOException {
         User user = PisaFlixServices.Authentication.getLoggedUser();
-        film.getUserSet().add(user);
-        
-        PisaFlixServices.FilmManager.addPreferite(film);
-        
+
+        PisaFlixServices.FilmManager.addFavorite(film, user);
+
         refreshFilm();
-        
-        int count = film.getUserSet().size();
-        setPrefCount(count);
+
+        setFavoriteCount(film.getUserSet().size());
     }
 }
-

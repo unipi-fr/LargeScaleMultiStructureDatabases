@@ -1,14 +1,8 @@
 package com.lsmsdbgroup.pisaflix;
 
-import com.lsmsdbgroup.pisaflix.Entities.Comment;
-import com.lsmsdbgroup.pisaflix.Entities.Projection;
-import com.lsmsdbgroup.pisaflix.Entities.Cinema;
-import com.lsmsdbgroup.pisaflix.Entities.Film;
-import com.lsmsdbgroup.pisaflix.Entities.User;
+import com.lsmsdbgroup.pisaflix.Entities.*;
 import java.util.*;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 
 public class DBManager {
 
@@ -54,14 +48,13 @@ public class DBManager {
             user.setFirstName(firstName);
             user.setLastName(lastName);
             user.setEmail(email);
-            
+
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
                 entityManager.persist(user);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 System.out.println("A problem occurred in creating the user!");
             } finally {
                 entityManager.close();
@@ -75,7 +68,6 @@ public class DBManager {
                 entityManager.merge(user);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 System.out.println("A problem occurred in updating favorites!");
             } finally {
                 entityManager.close();
@@ -91,13 +83,12 @@ public class DBManager {
                 entityManager.remove(reference);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 System.out.println("A problem occurred in removing a User!");
             } finally {
                 entityManager.close();
             }
         }
-        
+
         static void update(User u) {
             update(u.getIdUser(), u.getUsername(), u.getFirstName(), u.getLastName(), u.getEmail(), u.getPassword(), u.getPrivilegeLevel());
         }
@@ -117,9 +108,7 @@ public class DBManager {
                 entityManager.merge(user);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 System.out.println("A problem occurred in updating a user!");
-
             } finally {
                 entityManager.close();
             }
@@ -212,7 +201,6 @@ public class DBManager {
                 entityManager.persist(film);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 System.out.println("A problem occurred in creating the film!");
             } finally {
                 entityManager.close();
@@ -230,7 +218,6 @@ public class DBManager {
                 entityManager.merge(film);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 System.out.println("A problem occurred in updating the film!");
             } finally {
                 entityManager.close();
@@ -245,7 +232,6 @@ public class DBManager {
                 entityManager.remove(reference);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 System.out.println("A problem occurred in deleting the film!");
             } finally {
                 entityManager.close();
@@ -259,7 +245,6 @@ public class DBManager {
                 entityManager.merge(film);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 System.out.println("A problem occurred updating favorites!");
             } finally {
                 entityManager.close();
@@ -280,7 +265,6 @@ public class DBManager {
                 entityManager.persist(cinema);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 System.out.println("A problem occurred in creating the cinema!");
             } finally {
                 entityManager.close();
@@ -311,7 +295,6 @@ public class DBManager {
                 entityManager.remove(reference);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 System.out.println("A problem occurred in removing a Cinema!");
             } finally {
                 entityManager.close();
@@ -328,7 +311,6 @@ public class DBManager {
                 entityManager.merge(cinema);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 System.out.println("A problem occurred in updating the film!");
             } finally {
                 entityManager.close();
@@ -360,7 +342,6 @@ public class DBManager {
                 entityManager.merge(cinema);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 System.out.println("A problem occurred updating favorites!");
             } finally {
                 entityManager.close();
@@ -391,7 +372,6 @@ public class DBManager {
                 entityManager.merge(film);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 System.out.println("A problem occurred in creating the comment!");
             } finally {
                 entityManager.close();
@@ -418,7 +398,6 @@ public class DBManager {
                 entityManager.merge(cinema);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 System.out.println("A problem occurred in creating the comment!");
             } finally {
                 entityManager.close();
@@ -434,7 +413,6 @@ public class DBManager {
                 entityManager.merge(comment);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 System.out.println("A problem occurred in updating the Comment!");
             } finally {
                 entityManager.close();
@@ -450,7 +428,6 @@ public class DBManager {
                 entityManager.remove(reference);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 System.out.println("A problem occurred in removing the Comment!");
             } finally {
                 entityManager.close();
@@ -492,7 +469,6 @@ public class DBManager {
                 entityManager.merge(film);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 System.out.println("A problem occurred in creating the projection!");
             } finally {
                 entityManager.close();
@@ -508,7 +484,6 @@ public class DBManager {
                 entityManager.remove(reference);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 System.out.println("A problem occurred in removing the Projection!");
             } finally {
                 entityManager.close();
@@ -525,7 +500,6 @@ public class DBManager {
                 entityManager.merge(projection);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 System.out.println("A problem occurred in updating the projection!");
             } finally {
                 entityManager.close();
@@ -564,21 +538,22 @@ public class DBManager {
             }
             return projection;
         }
-        
-        public static Set<Projection> queryProjection(int cinemaId, int filmId){
+
+        public static Set<Projection> queryProjection(int cinemaId, int filmId) {
             Set<Projection> projections = null;
-            
+
             String query = "SELECT p FROM Projection p";
-            if(cinemaId != -1)
-            {
+            if (cinemaId != -1) {
                 query += "WHERE p.idCinema = " + cinemaId;
-                if(filmId != -1)
+                if (filmId != -1) {
                     query += " and p.idFilm = " + filmId;
+                }
             } else {
-                if(filmId != -1)
+                if (filmId != -1) {
                     query += " WHERE p.idFilm = " + filmId;
+                }
             }
-                
+
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
@@ -592,7 +567,7 @@ public class DBManager {
             } finally {
                 entityManager.close();
             }
-            
+
             return projections;
         }
 

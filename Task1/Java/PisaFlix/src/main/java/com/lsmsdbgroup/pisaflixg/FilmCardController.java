@@ -8,8 +8,6 @@ import javafx.beans.property.StringProperty;
 import java.net.URL;
 import java.util.Set;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,54 +16,55 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
 public class FilmCardController implements Initializable {
-    private StringProperty titleProperty = new SimpleStringProperty();
-    
-    private int filmId;
-    
-    public FilmCardController(String title, int id){
+
+    private final StringProperty titleProperty = new SimpleStringProperty();
+
+    private final int filmId;
+
+    public FilmCardController(String title, int id) {
         titleProperty.set(title);
         filmId = id;
     }
-    
+
     @FXML
     private Label titleLabel;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         titleLabel.setText(titleProperty.get());
     }
-    
+
     @FXML
-    private void showFilm(){
+    private void showFilm() {
         Film film = PisaFlixServices.FilmManager.getById(filmId);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
-        
+
         AnchorPane anchorPane = null;
-        
+
         try {
             anchorPane = loader.load();
         } catch (IOException ex) {
             System.out.println("hello");
             System.out.println(ex.getMessage());
         }
-        
+
         FilmDetailPageController fdc = loader.getController();
-        
+
         fdc.setFilm(film);
-        
+
         fdc.setTitleLabel(film.getTitle());
         fdc.setPublishDate("03/11/2019");
         fdc.setDescription(film.getDescription());
-        
+
         Set<Comment> comments = film.getCommentSet();
-        
-        for(Comment comment: comments){
+
+        comments.forEach((comment) -> {
             fdc.addComment(comment.getText());
-        }
-        
-        fdc.setPrefCount(film.getUserSet().size());
-        
+        });
+
+        fdc.setFavoriteCount(film.getUserSet().size());
+
         App.setMainPane(anchorPane);
     }
-    
+
 }

@@ -19,109 +19,107 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class CinemaDetailPageController implements Initializable {
-    
+
     private Cinema cinema;
 
     @FXML
     private Label nameLabel;
-    
+
     @FXML
     private ImageView cinemaImageView;
-    
+
     @FXML
     private Label addressLabel;
-    
+
     @FXML
     private ScrollPane commentScrollPane;
-    
+
     @FXML
     private VBox commentVBox;
-    
+
     @FXML
     private TextArea commentArea;
-    
+
     @FXML
     private Button commentButton;
-    
+
     @FXML
-    private HBox preferiteHBox;
-    
+    private HBox favoriteHBox;
+
     @FXML
-    private Button preferiteButton;
-    
+    private Button favoriteButton;
+
     @FXML
-    private Label preferiteLabel;
-    
+    private Label favoriteLabel;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(PisaFlixServices.Authentication.isUserLogged()){
+        if (PisaFlixServices.Authentication.isUserLogged()) {
             commentArea.setPromptText("Write here a comment for the film...");
             commentArea.setEditable(true);
             commentButton.setDisable(false);
-            preferiteButton.setDisable(false);
+            favoriteButton.setDisable(false);
         }
     }
-    
+
     public void setNameLabel(String name) {
         nameLabel.setText(name);
     }
-    
+
     public void setAddress(String address) {
         addressLabel.setText(address);
     }
-    
+
     public void addComment(String comment) {
         TextArea cinemaComment = new TextArea();
 
         cinemaComment.setText(comment);
         cinemaComment.setEditable(false);
-        
+
         commentVBox.getChildren().add(cinemaComment);
     }
-    
-    public void setPrefCount(int count){
-        preferiteLabel.setText("("+count+")");
+
+    public void setFavoriteCount(int count) {
+        favoriteLabel.setText("(" + count + ")");
     }
-    
+
     public void setCinema(Cinema cinema) {
         this.cinema = cinema;
     }
-    
-    public void refreshCinema(){
+
+    public void refreshCinema() {
         int id = cinema.getIdCinema();
         cinema = PisaFlixServices.CinemaManager.getById(id);
     }
-    
-    public void refreshComment(){
+
+    public void refreshComment() {
         commentVBox.getChildren().clear();
         Set<Comment> comments = cinema.getCommentSet();
-        
-        for(Comment comment: comments){
+
+        comments.forEach((comment) -> {
             addComment(comment.getText());
-        }
+        });
     }
-    
+
     @FXML
     private void addComment() throws IOException {
         String comment = commentArea.getText();
         User user = PisaFlixServices.Authentication.getLoggedUser();
-        
+
         PisaFlixServices.CinemaManager.addComment(comment, user, cinema);
-        
+
         refreshCinema();
         refreshComment();
     }
-    
+
     @FXML
-    private void addPreferite() throws IOException {
+    private void addFavorite() throws IOException {
         User user = PisaFlixServices.Authentication.getLoggedUser();
-        cinema.getUserSet().add(user);
-        
-        PisaFlixServices.CinemaManager.addPreferite(cinema);
-        
+
+        PisaFlixServices.CinemaManager.addFavorite(cinema, user);
+
         refreshCinema();
-        
-        int count = cinema.getUserSet().size();
-        setPrefCount(count);
+
+        setFavoriteCount(cinema.getUserSet().size());
     }
 }

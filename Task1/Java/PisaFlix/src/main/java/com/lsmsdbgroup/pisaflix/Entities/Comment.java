@@ -1,10 +1,8 @@
 package com.lsmsdbgroup.pisaflix.Entities;
 
-import com.lsmsdbgroup.pisaflix.DBManager;
+//import com.lsmsdbgroup.pisaflix.DBManager;
 import java.io.Serializable;
-import java.util.Set;
-import java.util.Date;
-import java.util.LinkedHashSet;
+import java.util.*;
 import javax.persistence.*;
 
 @Entity
@@ -115,22 +113,18 @@ public class Comment implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Comment)) {
             return false;
         }
         Comment other = (Comment) object;
-        if ((this.idComment == null && other.idComment != null) || (this.idComment != null && !this.idComment.equals(other.idComment))) {
-            return false;
-        }
-        return true;
+        return !((this.idComment == null && other.idComment != null) || (this.idComment != null && !this.idComment.equals(other.idComment)));
     }
 
     @Override
     public String toString() {
-        return "[ idComment=" + idComment + " ]\n"+"timestamp:"+timestamp.toString()+"\ntext:"+text;
+        return "[ idComment=" + idComment + " ]\n" + "timestamp:" + timestamp.toString() + "\ntext:" + text;
     }
-
+    /*
     public static void createFilmComment(String text, User user, Film film) {
         DBManager.CommentManager.createFilmComment(text, user, film);
     }
@@ -158,5 +152,5 @@ public class Comment implements Serializable {
     public static Comment getById(int commentId) {
         return DBManager.CommentManager.getById(commentId);
     }
-
+     */
 }
