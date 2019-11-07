@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `PisaFlix`.`Comment` (
   CONSTRAINT `fk_Comment_User1`
     FOREIGN KEY (`idUser`)
     REFERENCES `PisaFlix`.`User` (`idUser`)
-    ON DELETE SET NULL
+    ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `PisaFlix`.`Projection` (
   CONSTRAINT `fk_Projection_Film1`
     FOREIGN KEY (`idFilm`)
     REFERENCES `PisaFlix`.`Film` (`idFilm`)
-    ON DELETE SET NULL
+    ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_Projection_Cinema1`
     FOREIGN KEY (`idCinema`)
@@ -121,8 +121,8 @@ CREATE TABLE IF NOT EXISTS `PisaFlix`.`Film_has_Comment` (
   CONSTRAINT `fk_Film_has_Comment_Comment1`
     FOREIGN KEY (`idComment`)
     REFERENCES `PisaFlix`.`Comment` (`idComment`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -145,8 +145,8 @@ CREATE TABLE IF NOT EXISTS `PisaFlix`.`Cinema_has_Comment` (
   CONSTRAINT `fk_Cinema_has_Comment_Comment1`
     FOREIGN KEY (`idComment`)
     REFERENCES `PisaFlix`.`Comment` (`idComment`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
