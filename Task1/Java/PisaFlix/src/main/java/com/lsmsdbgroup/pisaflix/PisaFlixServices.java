@@ -80,19 +80,6 @@ public class PisaFlixServices {
             }
         }
         
-        public static void checkUserPrivilegesForOperation(UserPrivileges privilegesToAchieve) throws UserManager.UserNotLoggedException, UserManager.InvalidPrivilegeLevelException{
-            checkUserPrivilegesForOperation(privilegesToAchieve, "do this operation");
-        }
-        
-        public static void checkUserPrivilegesForOperation(UserPrivileges privilegesToAchieve, String operation) throws UserManager.UserNotLoggedException, UserManager.InvalidPrivilegeLevelException{
-            if(!PisaFlixServices.Authentication.isUserLogged()){
-                throw new UserManager.UserNotLoggedException("You must be logged in order to "+operation);
-            }
-            if(PisaFlixServices.Authentication.getLoggedUser().getPrivilegeLevel() < privilegesToAchieve.getValue() ){
-                throw new UserManager.InvalidPrivilegeLevelException("You don't have enought privilege to "+operation);
-            }
-        }
-
         private static String SHA256(String text) {
             try {
                 MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -169,6 +156,11 @@ public class PisaFlixServices {
                 return;
             }
             DBManager.FilmManager.create(title, publicationDate, description);
+        }
+        
+        public static void deleteFilm(int idFilm) throws UserManager.UserNotLoggedException, UserManager.InvalidPrivilegeLevelException{
+            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.MODERATOR, "delete a film");
+            DBManager.FilmManager.delete(idFilm);
         }
         
         public static void addComment(String comment, User user, Film film){
@@ -260,6 +252,19 @@ public class PisaFlixServices {
             DBManager.UserManager.delete(u.getIdUser());
             if(Authentication.loggedUser.getIdUser() == u.getIdUser()){
                 Authentication.Logout();
+            }
+        }
+        
+        public static void checkUserPrivilegesForOperation(UserPrivileges privilegesToAchieve) throws UserManager.UserNotLoggedException, UserManager.InvalidPrivilegeLevelException{
+            checkUserPrivilegesForOperation(privilegesToAchieve, "do this operation");
+        }
+        
+        public static void checkUserPrivilegesForOperation(UserPrivileges privilegesToAchieve, String operation) throws UserManager.UserNotLoggedException, UserManager.InvalidPrivilegeLevelException{
+            if(!PisaFlixServices.Authentication.isUserLogged()){
+                throw new UserManager.UserNotLoggedException("You must be logged in order to "+operation);
+            }
+            if(PisaFlixServices.Authentication.getLoggedUser().getPrivilegeLevel() < privilegesToAchieve.getValue() ){
+                throw new UserManager.InvalidPrivilegeLevelException("You don't have enought privilege to "+operation);
             }
         }
         

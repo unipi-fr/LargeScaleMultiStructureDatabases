@@ -4,11 +4,15 @@ import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.PisaFlixServices;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.Set;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
 
@@ -45,6 +49,9 @@ public class FilmDetailPageController implements Initializable {
 
     @FXML
     private Button favoriteButton;
+    
+    @FXML
+    private Button deleteFilmButton;
 
     @FXML
     private Label favoriteLabel;
@@ -57,6 +64,15 @@ public class FilmDetailPageController implements Initializable {
             commentButton.setDisable(false);
             favoriteButton.setDisable(false);
         }
+        
+        try {
+            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.MODERATOR);
+        } catch (PisaFlixServices.UserManager.UserNotLoggedException | PisaFlixServices.UserManager.InvalidPrivilegeLevelException ex) {
+            deleteFilmButton.setVisible(false);
+            deleteFilmButton.setManaged(false);
+            deleteFilmButton.setDisable(false); 
+        }
+        
     }
 
     public void setTitleLabel(String title) {
@@ -116,6 +132,26 @@ public class FilmDetailPageController implements Initializable {
         });
     }
 
+    @FXML
+    private void clickDeleteFilmButton(){
+        
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Deleting film");
+        alert.setHeaderText("You're deleting the film");
+        alert.setContentText("Are you sure do you want continue?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() != ButtonType.OK){
+            return;
+        }
+        try {
+            PisaFlixServices.FilmManager.deleteFilm(this.film.getIdFilm());
+            App.setMainPane("Films");
+        } catch (PisaFlixServices.UserManager.UserNotLoggedException | PisaFlixServices.UserManager.InvalidPrivilegeLevelException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
     @FXML
     private void addComment() throws IOException {
         String comment = commentArea.getText();

@@ -38,7 +38,7 @@ public class FilmsController implements Initializable {
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            PisaFlixServices.Authentication.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.MODERATOR);
+            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.MODERATOR);
         } catch (PisaFlixServices.UserManager.UserNotLoggedException | PisaFlixServices.UserManager.InvalidPrivilegeLevelException ex) {
             addFilmButton.setDisable(true);
         }
@@ -84,7 +84,7 @@ public class FilmsController implements Initializable {
     @FXML
     private void addFilm(){
         try {
-            PisaFlixServices.Authentication.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.MODERATOR, "add a new film");
+            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.MODERATOR, "add a new film");
         } catch (PisaFlixServices.UserManager.UserNotLoggedException | PisaFlixServices.UserManager.InvalidPrivilegeLevelException ex) {
             System.out.println(ex.getMessage());
             return;

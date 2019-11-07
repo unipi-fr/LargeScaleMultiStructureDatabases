@@ -52,7 +52,7 @@ public class AddFilmController implements Initializable {
         successLabel.setVisible(false);
         successLabel.setManaged(false);
         try {
-            PisaFlixServices.Authentication.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.MODERATOR, "add a new film");
+            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.MODERATOR, "add a new film");
         } catch (PisaFlixServices.UserManager.UserNotLoggedException | PisaFlixServices.UserManager.InvalidPrivilegeLevelException ex) {
             System.out.println(ex.getMessage());
             return;
