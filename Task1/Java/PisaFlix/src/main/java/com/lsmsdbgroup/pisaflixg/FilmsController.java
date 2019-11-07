@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 
 public class FilmsController implements Initializable {
@@ -29,9 +31,17 @@ public class FilmsController implements Initializable {
     @FXML
     private TextField titleFilterTextField;
     
+    @FXML
+    private Button addFilmButton;
+    
     @Override
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
+        try {
+            PisaFlixServices.Authentication.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.MODERATOR);
+        } catch (PisaFlixServices.UserManager.UserNotLoggedException | PisaFlixServices.UserManager.InvalidPrivilegeLevelException ex) {
+            addFilmButton.setDisable(true);
+        }
         searchFilms(null,null);
     }
     
@@ -69,6 +79,17 @@ public class FilmsController implements Initializable {
         String titleFilter = titleFilterTextField.getText();
         
         searchFilms(titleFilter,null);
+    }
+    
+    @FXML
+    private void addFilm(){
+        try {
+            PisaFlixServices.Authentication.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.MODERATOR, "add a new film");
+        } catch (PisaFlixServices.UserManager.UserNotLoggedException | PisaFlixServices.UserManager.InvalidPrivilegeLevelException ex) {
+            System.out.println(ex.getMessage());
+            return;
+        }
+        App.setMainPane("AddFilm");
     }
     
     private void searchFilms(String titleFilter, Date dateFilter){

@@ -12,9 +12,9 @@
    <children>
       <HBox prefHeight="50.0" prefWidth="200.0">
          <children>
-            <DatePicker fx:id="datePicker" prefHeight="30.0" prefWidth="140.0" promptText="Scegli la data" />
-            <ComboBox fx:id="cinemaCombo" prefHeight="30.0" prefWidth="140.0" promptText="Cinema" />
-            <ComboBox fx:id="filmCombo" prefHeight="30.0" prefWidth="140.0" promptText="Film" />
+            <DatePicker fx:id="datePicker" prefHeight="30.0" prefWidth="140.0" promptText="Data filter" />
+            <ComboBox fx:id="cinemaCombo" prefHeight="30.0" prefWidth="140.0" promptText="Cinema filter" />
+            <ComboBox fx:id="filmCombo" prefHeight="30.0" prefWidth="140.0" promptText="Film filter" />
             <Button mnemonicParsing="false" onMouseClicked="#showSearch" prefHeight="30.0" prefWidth="80.0" text="Search" />
          </children>
       </HBox>

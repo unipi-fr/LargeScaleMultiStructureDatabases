@@ -11,6 +11,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PisaFlixServices {
+    
+        public enum UserPrivileges {
+        NORMAL_USER(0), SOCIAL_MODERATOR(1), MODERATOR(2), ADMIN(3);
+
+        private final int value;
+        private UserPrivileges(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
 
     public static class Authentication {
 
@@ -64,6 +77,19 @@ public class PisaFlixServices {
                 return "Logged as: " + loggedUser.getUsername();
             } else {
                 return "User not logged";
+            }
+        }
+        
+        public static void checkUserPrivilegesForOperation(UserPrivileges privilegesToAchieve) throws UserManager.UserNotLoggedException, UserManager.InvalidPrivilegeLevelException{
+            checkUserPrivilegesForOperation(privilegesToAchieve, "do this operation");
+        }
+        
+        public static void checkUserPrivilegesForOperation(UserPrivileges privilegesToAchieve, String operation) throws UserManager.UserNotLoggedException, UserManager.InvalidPrivilegeLevelException{
+            if(!PisaFlixServices.Authentication.isUserLogged()){
+                throw new UserManager.UserNotLoggedException("You must be logged in order to "+operation);
+            }
+            if(PisaFlixServices.Authentication.getLoggedUser().getPrivilegeLevel() < privilegesToAchieve.getValue() ){
+                throw new UserManager.InvalidPrivilegeLevelException("You don't have enought privilege to "+operation);
             }
         }
 
@@ -127,6 +153,22 @@ public class PisaFlixServices {
             film = DBManager.FilmManager.getById(id);
             
             return film;
+        }
+        
+        public static void addFilm(String title, Date publicationDate, String description){
+            if(title == null || title.isBlank()){
+                System.out.println("Il titolo non può essere vuoto");
+                return;
+            }
+            if(publicationDate == null){
+                System.out.println("la data non può essere vuota");
+                return;
+            }
+            if(description == null){
+                System.out.println("la descrizione non può essere vuota");
+                return;
+            }
+            DBManager.FilmManager.create(title, publicationDate, description);
         }
         
         public static void addComment(String comment, User user, Film film){
@@ -211,8 +253,8 @@ public class PisaFlixServices {
             if(!Authentication.isUserLogged()){
                 throw new UserNotLoggedException("You must be logged in order to delete accounts");
             }
-            
-            if(Authentication.loggedUser.getIdUser()!= u.getIdUser() && Authentication.loggedUser.getPrivilegeLevel()<3 ){
+
+            if(Authentication.loggedUser.getIdUser()!= u.getIdUser() && Authentication.loggedUser.getPrivilegeLevel()< PisaFlixServices.UserPrivileges.ADMIN.getValue() ){
                 throw new InvalidPrivilegeLevelException("You must have administrator privileges in order to delete other user accounts");
             }
             DBManager.UserManager.delete(u.getIdUser());
@@ -225,8 +267,8 @@ public class PisaFlixServices {
             if(!Authentication.isUserLogged()){
                 throw new UserNotLoggedException("You must be logged in order to change account privileges");
             }
-            if(newPrivilegeLevel < 0){
-                throw new InvalidPrivilegeLevelException("Privilege level must me greater or equal than 0");
+            if(newPrivilegeLevel < PisaFlixServices.UserPrivileges.NORMAL_USER.getValue()){
+                throw new InvalidPrivilegeLevelException("Privilege level must me greater or equal than Normal user");
             }
             if(newPrivilegeLevel > Authentication.loggedUser.getPrivilegeLevel()){
                 throw new InvalidPrivilegeLevelException("You can't set privileges greater than yours");
