@@ -83,6 +83,7 @@ public class LoginController implements Initializable {
     private void clickLogoutButton(){       
         PisaFlixServices.Authentication.Logout(); 
         update();
+        App.setMainPane("Welcome");
     }
     
 }

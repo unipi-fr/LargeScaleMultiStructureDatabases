@@ -63,30 +63,29 @@ public class ProjectionsController implements Initializable {
         filmCol.setCellValueFactory(new PropertyValueFactory<ProjectionRow, String>("Film"));
 
         String cinemaStr = (String) cinemaCombo.getValue();
+        int cinemaId = -1;
         
-        String[] cinemaSplit = cinemaStr.split(":");
-        
-        int cinemaId;
-        
-        if(cinemaSplit[0].equals("All"))
-        {
-            cinemaId = -1;
-        } else {
-            cinemaId = Integer.parseInt(cinemaSplit[0]);
+        if(cinemaStr != null){
+            String[] cinemaSplit = cinemaStr.split(":");
+
+            if(!cinemaSplit[0].equals("All"))
+            {
+                cinemaId = Integer.parseInt(cinemaSplit[0]);
+            }
         }
-        
+         
         String filmStr = (String) filmCombo.getValue();
+        int filmId = -1;
         
-        String[] filmSplit = filmStr.split(":");
-        
-        int filmId;
-                
-        if(filmSplit[0].equals("All"))
-        {
-            filmId = -1;
-        } else {
-            filmId = Integer.parseInt(filmSplit[0]);
+        if(filmStr != null){
+            String[] filmSplit = filmStr.split(":");
+
+            if(!filmSplit[0].equals("All"))
+            {
+                filmId = Integer.parseInt(filmSplit[0]);
+            }
         }
+        
         
         projectionTable.getItems().setAll(getItemsToAdd(cinemaId, filmId));
     }

@@ -1,6 +1,10 @@
 package com.lsmsdbgroup.pisaflix;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import javax.persistence.*;
 
@@ -251,6 +255,45 @@ public class DBManager {
             } finally {
                 entityManager.close();
             }
+        }
+
+        static Set<Film> getFilmFiltered(String titleFilter, Date startDateFilter, Date endDateFilter) {
+            Set<Film> films = null;
+            String title = "";
+            Calendar calendar = Calendar.getInstance();
+            String startDate = "1000-01-01";
+            String endDate = "9999-12-31";
+            if(titleFilter != null){
+                title = titleFilter;
+            }
+            if(startDateFilter != null){
+                startDate = startDateFilter.toString();
+            }
+            if(endDateFilter != null){
+                endDate = endDateFilter.toString();
+            }
+            
+            String query = "SELECT f "
+                    + "FROM Film f "
+                    + "WHERE ('"+title+"'='' OR f.title LIKE '%"+title+"%') "
+                    + "AND (publicationDate between '" + startDate + " 00:00:00' and '" + endDate + " 23:59:59') ";
+
+
+            
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                films = new LinkedHashSet<>(entityManager.createQuery(query).getResultList());
+                if (films == null) {
+                    System.out.println("Film is empty!");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace(System.out);
+                System.out.println("A problem occurred in retrieve all films!");
+            } finally {
+                entityManager.close();
+            }
+            return films;
         }
 
     }
@@ -544,26 +587,11 @@ public class DBManager {
         public static Set<Projection> queryProjection(int cinemaId, int filmId, String date) {
             Set<Projection> projections = null;
             
-            String query = "SELECT p FROM Projection p";
-            if(cinemaId != -1)
-            {
-                query += " WHERE p.idCinema = " + cinemaId;
-                if(filmId != -1)
-                    query += " and p.idFilm = " + filmId;
-                if(!date.equals("all"))
-                    query += " and dateTime between '" + date + " 00:00:00' and '" + date + " 23:59:59'";
-            } else {
-                if(filmId != -1)
-                {
-                    query += " WHERE p.idFilm = " + filmId;
-                    if(!date.equals("all"))
-                        query += " and dateTime between '" + date + " 00:00:00' and '" + date + " 23:59:59'";
-                } else {
-                    if(!date.equals("all"))
-                        query += " WHERE dateTime between '" + date + " 00:00:00' and '" + date + " 23:59:59'";
-                }
-            }
-            
+            String query = "SELECT p "
+                    + "FROM Projection p "
+                    + "WHERE (("+cinemaId+" = -1) OR ( "+cinemaId+" = p.idCinema)) "
+                    + "AND (("+filmId+" = -1) OR ( "+filmId+" = p.idFilm)) "
+                    + "AND (('"+date+"' = 'all') OR dateTime between '" + date + " 00:00:00' and '" + date + " 23:59:59')";
                 
             try {
                 entityManager = factory.createEntityManager();

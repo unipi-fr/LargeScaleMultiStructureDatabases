@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -103,6 +104,14 @@ public class PisaFlixServices {
     }
     
     public static class FilmManager{
+        
+        public static Set<Film> getFilmsFiltered(String titleFilter, Date startDateFilter, Date endDateFilter){
+            Set<Film> films = null;
+            
+            films = DBManager.FilmManager.getFilmFiltered(titleFilter,startDateFilter,endDateFilter);
+            
+            return films;
+        }
         
         public static Set<Film> getAll(){
             Set<Film> films = null;

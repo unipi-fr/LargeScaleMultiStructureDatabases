@@ -8,7 +8,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import com.lsmsdbgroup.pisaflix.PisaFlixServices;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import javafx.fxml.FXMLLoader;
@@ -24,12 +26,13 @@ public class FilmsController implements Initializable {
     @FXML
     private TilePane tilePane;
     
+    @FXML
+    private TextField titleFilterTextField;
+    
     @Override
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
-        Set<Film> films = PisaFlixServices.FilmManager.getAll();
-        
-        populateScrollPane(films);
+        searchFilms(null,null);
     }
     
     private Pane createFilmCardPane(String title, int id){
@@ -48,10 +51,11 @@ public class FilmsController implements Initializable {
     }
     
     public void populateScrollPane(Set<Film> films){
-        Pane pane = new Pane();
+        tilePane.getChildren().clear();
         String title;
         int id;
         
+        Pane pane;
         int i = 0;
         for(Film film: films){
             title = film.getTitle();
@@ -60,5 +64,16 @@ public class FilmsController implements Initializable {
             tilePane.getChildren().add(pane);
         }
     }
+    @FXML
+    private void filterFilms(){
+        String titleFilter = titleFilterTextField.getText();
+        
+        searchFilms(titleFilter,null);
+    }
     
+    private void searchFilms(String titleFilter, Date dateFilter){
+        Set<Film> films = PisaFlixServices.FilmManager.getFilmsFiltered(titleFilter, dateFilter, dateFilter);
+        //Set<Film> films = PisaFlixServices.FilmManager.getAll();
+        populateScrollPane(films);
+    }
 }
