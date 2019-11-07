@@ -12,16 +12,13 @@
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.FilmsController">
    <children>
       <TextField fx:id="titleFilterTextField" layoutX="15.0" layoutY="5.0" onKeyTyped="#filterFilms" promptText="Title filter" />
-      <ScrollPane fx:id="scrollPane" layoutX="15.0" layoutY="44.0" prefHeight="436.0" prefWidth="490.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="44.0">
+      <ScrollPane fx:id="scrollPane" layoutX="15.0" layoutY="44.0" prefHeight="430.0" prefWidth="490.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
          <content>
-            <TilePane fx:id="tilePane" hgap="5.0" prefColumns="3" prefHeight="433.0" prefRows="2" prefTileHeight="150" prefTileWidth="150" prefWidth="480.0" vgap="5.0" />
+            <TilePane fx:id="tilePane" hgap="5.0" prefColumns="3" prefHeight="420.0" prefRows="2" prefTileHeight="150" prefTileWidth="150" prefWidth="490.0" vgap="5.0" />
          </content>
       </ScrollPane>
-      <Button fx:id="addFilmButton" layoutX="422.0" layoutY="5.0" mnemonicParsing="false" onAction="#addFilm" text="Add Film" defaultButton="true"  />
+      <Button fx:id="addFilmButton" defaultButton="true" layoutX="422.0" layoutY="5.0" mnemonicParsing="false" onAction="#addFilm" text="Add Film" />
    </children>
-   <padding>
-      <Insets left="5.0" />
-   </padding>
    <opaqueInsets>
       <Insets />
    </opaqueInsets>

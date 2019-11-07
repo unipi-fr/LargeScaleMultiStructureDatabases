@@ -92,6 +92,7 @@ public class FilmsController implements Initializable {
         App.setMainPane("AddFilm");
     }
     
+    @FXML
     private void searchFilms(String titleFilter, Date dateFilter){
         Set<Film> films = PisaFlixServices.FilmManager.getFilmsFiltered(titleFilter, dateFilter, dateFilter);
         //Set<Film> films = PisaFlixServices.FilmManager.getAll();

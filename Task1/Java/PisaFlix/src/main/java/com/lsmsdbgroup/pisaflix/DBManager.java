@@ -261,7 +261,7 @@ public class DBManager {
             Set<Film> films = null;
             String title = "";
             Calendar calendar = Calendar.getInstance();
-            String startDate = "1000-01-01";
+            String startDate = "0000-01-01";
             String endDate = "9999-12-31";
             if(titleFilter != null){
                 title = titleFilter;

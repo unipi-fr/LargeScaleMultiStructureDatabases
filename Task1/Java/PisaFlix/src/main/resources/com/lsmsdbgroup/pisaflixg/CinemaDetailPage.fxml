@@ -10,7 +10,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="450.0" prefWidth="500.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.CinemaDetailPageController">
+<AnchorPane id="AnchorPane" prefHeight="480.0" prefWidth="500.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.CinemaDetailPageController">
    <children>
       <Label fx:id="nameLabel" alignment="CENTER" layoutX="38.0" layoutY="14.0" text="Name" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="0.0">
          <font>
@@ -28,12 +28,12 @@
       </Label>
       <ScrollPane fx:id="commentScrollPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="64.0">
          <content>
-            <VBox fx:id="commentVBox" prefWidth="340.0" />
+            <VBox fx:id="commentVBox" maxWidth="340.0" prefWidth="340.0" />
          </content>
       </ScrollPane>
-      <TextArea fx:id="commentArea" editable="false" layoutX="300.0" layoutY="207.0" prefHeight="195.0" prefWidth="200.0" promptText="You must be logged to comment film..." AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="202.0" />
-      <Button fx:id="commentButton" disable="true" layoutX="350.0" layoutY="407.0" maxHeight="27.0" minHeight="27.0" mnemonicParsing="false" onMouseClicked="#addComment" prefHeight="27.0" text="Comment" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="425.0" />
-      <HBox fx:id="favoriteHBox" layoutX="300.0" layoutY="125.0" prefHeight="38.0" prefWidth="150.0" AnchorPane.bottomAnchor="250.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="164.0">
+      <TextArea fx:id="commentArea" editable="false" layoutX="300.0" layoutY="207.0" prefHeight="195.0" prefWidth="200.0" promptText="You must be logged to comment film..." AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="202.0" />
+      <Button fx:id="commentButton" disable="true" layoutX="350.0" layoutY="407.0" maxHeight="30.0" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#addComment" prefHeight="30.0" text="Comment" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="450.0" />
+      <HBox fx:id="favoriteHBox" layoutX="300.0" layoutY="125.0" prefHeight="38.0" prefWidth="150.0" AnchorPane.bottomAnchor="280.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="164.0">
          <children>
             <Button fx:id="favoriteButton" disable="true" mnemonicParsing="false" onMouseClicked="#favoriteAddRemove" prefHeight="39.0" prefWidth="103.0" text="Add favorite" />
             <Label fx:id="favoriteLabel" alignment="CENTER" prefHeight="38.0" prefWidth="47.0" />

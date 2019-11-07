@@ -8,14 +8,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.ProjectionsController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.ProjectionsController">
    <children>
       <HBox prefHeight="50.0" prefWidth="200.0">
          <children>
-            <DatePicker fx:id="datePicker" prefHeight="30.0" prefWidth="140.0" promptText="Data filter" />
-            <ComboBox fx:id="cinemaCombo" prefHeight="30.0" prefWidth="140.0" promptText="Cinema filter" />
-            <ComboBox fx:id="filmCombo" prefHeight="30.0" prefWidth="140.0" promptText="Film filter" />
-            <Button mnemonicParsing="false" onMouseClicked="#showSearch" prefHeight="30.0" prefWidth="80.0" text="Search" />
+            <DatePicker fx:id="datePicker" maxHeight="50.0" prefHeight="50.0" prefWidth="140.0" promptText="Data filter" />
+            <ComboBox fx:id="cinemaCombo" maxHeight="50.0" prefHeight="50.0" prefWidth="140.0" promptText="Cinema filter" />
+            <ComboBox fx:id="filmCombo" maxHeight="50.0" prefHeight="50.0" prefWidth="140.0" promptText="Film filter" />
+            <Button maxHeight="30.0" mnemonicParsing="false" onMouseClicked="#showSearch" prefHeight="30.0" prefWidth="80.0" text="Search">
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin></Button>
          </children>
       </HBox>
       <TableView fx:id="projectionTable" prefHeight="400.0" prefWidth="490.0">
@@ -25,6 +28,9 @@
             <TableColumn fx:id="cinemaCol" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Cinema" />
             <TableColumn fx:id="filmCol" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Film" />
         </columns>
+         <VBox.margin>
+            <Insets top="30.0" />
+         </VBox.margin>
       </TableView>
    </children>
 </VBox>

@@ -10,14 +10,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="450.0" prefWidth="500.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.FilmDetailPageController">
+<AnchorPane id="AnchorPane" prefHeight="480.0" prefWidth="500.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.FilmDetailPageController">
    <children>
-      <Label fx:id="titleLabel" alignment="CENTER" layoutX="38.0" layoutY="14.0" prefHeight="53.0" prefWidth="283.0" text="Title" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="217.0" AnchorPane.topAnchor="0.0">
+      <Label fx:id="titleLabel" alignment="CENTER" layoutX="38.0" layoutY="14.0" prefHeight="44.0" prefWidth="283.0" text="Title" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="220.0" AnchorPane.topAnchor="0.0">
          <font>
             <Font name="System Bold" size="36.0" />
          </font>
       </Label>
-      <ImageView fx:id="moviePosterImageView" fitHeight="164.0" fitWidth="150.0" layoutX="294.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="286.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ImageView fx:id="moviePosterImageView" fitHeight="164.0" fitWidth="150.0" layoutX="294.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="316.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
             <Image url="@../../../img/MoviePoster.jpg" />
          </image></ImageView>
@@ -28,18 +28,18 @@
       </Label>
       <ScrollPane fx:id="commentScrollPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="164.0">
          <content>
-            <VBox fx:id="commentVBox" maxWidth="325.0" prefHeight="284.0" prefWidth="340.0" />
+            <VBox fx:id="commentVBox" maxWidth="340.0" prefWidth="340.0" />
          </content>
       </ScrollPane>
-      <TextArea fx:id="commentArea" editable="false" layoutX="300.0" layoutY="207.0" prefHeight="195.0" prefWidth="200.0" promptText="You must be logged to comment film..." AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="202.0" />
-      <Button fx:id="commentButton" defaultButton="true" disable="true" layoutX="350.0" layoutY="407.0" maxHeight="27.0" minHeight="27.0" mnemonicParsing="false" onMouseClicked="#addComment" prefHeight="27.0" text="Comment" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="425.0" />
-      <HBox fx:id="favoriteHBox" layoutX="300.0" layoutY="125.0" prefHeight="38.0" prefWidth="150.0" AnchorPane.bottomAnchor="250.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="164.0">
+      <TextArea fx:id="commentArea" editable="false" layoutX="300.0" layoutY="207.0" prefHeight="195.0" prefWidth="200.0" promptText="You must be logged to comment film..." AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="202.0" />
+      <Button fx:id="commentButton" defaultButton="true" disable="true" layoutX="350.0" layoutY="407.0" maxHeight="30.0" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#addComment" prefHeight="30.0" text="Comment" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="450.0" />
+      <HBox fx:id="favoriteHBox" layoutX="300.0" layoutY="125.0" prefHeight="38.0" prefWidth="150.0" AnchorPane.bottomAnchor="280.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="164.0">
          <children>
             <Button fx:id="favoriteButton" defaultButton="true" disable="true" mnemonicParsing="false" onMouseClicked="#favoriteAddRemove" prefHeight="39.0" prefWidth="103.0" text="Add favorite" />
             <Label fx:id="favoriteLabel" alignment="CENTER" prefHeight="38.0" prefWidth="47.0" />
          </children>
       </HBox>
-      <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="-1.0" layoutY="62.0" text="Description" AnchorPane.bottomAnchor="288.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="62.0" />
-      <Button fx:id="deleteFilmButton" defaultButton="true" layoutX="282.0" layoutY="14.0" mnemonicParsing="false" onAction="#clickDeleteFilmButton" text="Delete" />
+      <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="-1.0" layoutY="62.0" text="Description" AnchorPane.bottomAnchor="318.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="62.0" />
+      <Button fx:id="deleteFilmButton" layoutX="282.0" layoutY="14.0" mnemonicParsing="false" onAction="#clickDeleteFilmButton" prefHeight="30.0" prefWidth="60.0" text="Delete" />
    </children>
 </AnchorPane>

@@ -1,32 +1,3 @@
-/*
- * The MIT License (MIT)
- * 
- * Copyright (c) 2015 - AGIX | Innovative Engineering
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT 	SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *                                                                              
- */
-
-/*
- *   This is a Material Design CSS for JavaFX
- */
-
 /*******************************************************************************
  *                                                                             *
  * Root					 				                       				   *
@@ -39,6 +10,7 @@
 	-swatch-300: #6abf69;
 	-swatch-400: #388e3c;
 	-swatch-500: #00600f;
+        
 	/*default text */
 	-fx-text-base-color: rgb(100.0, 100.0, 100.0);
 	-fx-text-button-normal: -swatch-500;
@@ -50,31 +22,36 @@
 	-fx-text-fill: -fx-text-base-color;
 	-dark: rgb(47.0, 52.0, 57.0);
 	-fx-background-color: #FAFAFA;
+        
 	/*default font */
 	-fx-font-family: 'Roboto Medium';
 	-fx-font-size: 14.0px;
 	-fx-disabled-opacity: 0.6;
+        
 	/*default colors */
 	-swatch-grey: rgb(200.0, 200.0, 200.0);
 	-swatch-dark-grey: rgb(150.0, 150.0, 150.0);
 	-swatch-light-grey: rgb(230.0, 230.0, 230.0);
 	-swatch-toolbar: rgb(245.0, 245.0, 245.0);
 	-swatch-toolbar-selected: rgb(215.0, 215.0, 215.0);
+        
 	/* 
-     Modena colors
-     */
+        Modena colors
+        */
 	-fx-dark-text-color: white; /* Text color when selected*/
 	-fx-mid-text-color: -fx-text-base-color;
 	-fx-light-text-color: -swatch-light-grey;
 	-fx-body-color: white;
+        
 	/* A bright blue for the focus indicator of objects. Typically used as the
-     * first color in -fx-background-color for the "focused" pseudo-class. Also
-     * typically used with insets of -1.4 to provide a glowing effect.
-     */
+        * first color in -fx-background-color for the "focused" pseudo-class. Also
+        * typically used with insets of -1.4 to provide a glowing effect.
+        */
 	-fx-focus-color: -swatch-400;
 	-fx-faint-focus-color: -swatch-200;
+        
 	/* A bright blue for highlighting/accenting objects.  For example: selected
-     * text; selected items in menus, lists, trees, and tables; progress bars */
+        * text; selected items in menus, lists, trees, and tables; progress bars */
 	-fx-accent: -swatch-400;
 	-fx-dark-text-color: white;
 }
@@ -140,27 +117,20 @@
 }
 
 .toggle-button, .button {
-	-fx-text-fill: -fx-text-button-normal;
+	-fx-text-fill: -fx-text-button-colored;
+        -fx-background-color: -swatch-400;
 	-fx-font-family: 'Roboto';
 	-fx-font-weight: bold;
 	-fx-background-insets: 0.0;
 	-fx-background-radius: 4.0;
-	-fx-padding: 0.7em;
+	-fx-padding: 0.5em;
 	-fx-alignment: CENTER;
+        -fx-focus-color: -fx-control-inner-background ;
+        -fx-faint-focus-color: -fx-control-inner-background ;
 }
 
 .button-raised .button .text, .button-flat .button .text {
 	-fx-text-weight: Bold;
-}
-
-.button:default {
-	-fx-background-color: -swatch-500;
-	-fx-text-fill: -fx-text-button-colored;
-}
-
-.toggle-button:focused, .button:focused, .button:default:focused {
-	-fx-background-color: -swatch-light-grey;
-	-fx-text-fill: -fx-text-button-normal;
 }
 
 .toggle-button:focused:selected {
@@ -172,7 +142,7 @@
 
 .toggle-button:armed, .toggle-button:selected, .button:armed, .button:default:armed
 	{
-	-fx-background-color: -swatch-400;
+	-fx-background-color: -swatch-500;
 	-fx-text-fill: -fx-text-button-colored;
 }
 
@@ -356,6 +326,10 @@
 	-fx-background-color: -swatch-500;
 }
 
+.date-picker:focused {
+	-fx-border-color: -swatch-500;
+}
+
 .date-picker-popup>.month-year-pane {
 	-fx-background-color: -swatch-500;
 }
@@ -378,7 +352,6 @@
 	{
 	-fx-font-weight: normal;
 	-fx-text-fill: -swatch-dark-grey;
-	-fx-font-size: 1em;
 }
 
 /*******************************************************************************

@@ -23,7 +23,7 @@
       <HBox alignment="CENTER" spacing="10.0">
          <children>
             <Button fx:id="loginButton" defaultButton="true" mnemonicParsing="false" onAction="#clickLoginButton" styleClass="button-raised" text="Login" />
-            <Button fx:id="registerButton" defaultButton="true" mnemonicParsing="false" onAction="#clickRegisterButton" styleClass="button-raised" text="Register" />
+            <Button fx:id="registerButton" mnemonicParsing="false" onAction="#clickRegisterButton" styleClass="button-raised" text="Register" />
          </children>
       </HBox>
       <Label fx:id="loginStatusLabel" text="Logged as: ">
@@ -31,7 +31,7 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </VBox.margin>
       </Label>
-      <Button fx:id="logoutButton" defaultButton="true" mnemonicParsing="false" onAction="#clickLogoutButton" styleClass="button-raised" text="Logout">
+      <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#clickLogoutButton" styleClass="button-raised" text="Logout">
           <VBox.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </VBox.margin>
