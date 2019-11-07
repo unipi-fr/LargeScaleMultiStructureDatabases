@@ -66,6 +66,16 @@ public class Comment implements Serializable {
     
     }
     
+    public Comment(Integer idComment, User user, Cinema cinema, String text, Date timestamp){
+    
+        this.idComment = idComment;
+        this.timestamp = timestamp;
+        this.text = text;
+        idUser = user;
+        cinemaSet.add(cinema);
+    }
+    
+    
 
     public Integer getIdComment() {
         return idComment;
@@ -133,9 +143,16 @@ public class Comment implements Serializable {
 
     @Override
     public String toString() {
-        return "[ idComment= " + idComment + " ]\nuser: " + idUser.toString() +
+        
+        if(!filmSet.isEmpty())
+            return "[ idComment= " + idComment + " ]\nuser: " + idUser.toString() +
                 "\ntimestamp:" + timestamp.toString() + "\ntext:" + text + 
                 "\nfilm: " + filmSet.toString();
+        
+        return "[ idComment= " + idComment + " ]\nuser: " + idUser.toString() +
+                "\ntimestamp:" + timestamp.toString() + "\ntext:" + text + 
+                "\ncinema: " + cinemaSet.toString();
+        
     }
     /*
     public static void createFilmComment(String text, User user, Film film) {

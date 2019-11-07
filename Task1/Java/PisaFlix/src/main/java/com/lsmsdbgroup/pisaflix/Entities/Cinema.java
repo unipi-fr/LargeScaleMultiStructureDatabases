@@ -116,7 +116,7 @@ public class Cinema implements Serializable {
 
     @Override
     public String toString() {
-        return "com.lsmsdgroup.pisaflix.Cinema[ idCinema=" + idCinema + " ]";
+        return "[ idCinema= " + idCinema + " ] \n [ name= " + name + " ]\n";
     }
     
     /*

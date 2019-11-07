@@ -143,21 +143,32 @@ public class PisaFlix {
         LogManager.getLogManager().getLogger("").setLevel(Level.OFF);
         DBManager.setup();
         //mainMenu();
-        App.main(args);
+        //App.main(args);
         
-        /* 
+        /*
         KeyValueDBManager db = new KeyValueDBManager();
         db.start();
         
-        db.createFilmComment("non saprei", new User(1), new Film(1));
-        db.createFilmComment("dddddddddddd", new User(2), new Film(1));
-        db.createFilmComment("ccccccccccccc", new User(1), new Film(1));
-        db.createFilmComment("bbbbbbbbbbbbbbb", new User(1), new Film(2));
-        db.createFilmComment("aaaaaaaaaaaaaa", new User(2), new Film(2));
+        db.createCinemaComment("non saprei", new User(1), new Cinema(1));
+        db.createCinemaComment("dddddddddddd", new User(2), new Cinema(1));
+        db.createCinemaComment("ccccccccccccc", new User(1), new Cinema(1));
+        db.createCinemaComment("bbbbbbbbbbbbbbb", new User(1), new Cinema(2));
+        db.createCinemaComment("aaaaaaaaaaaaaa", new User(2), new Cinema(2));
         
-        //db.deleteComment(2);
+        db.createFilmComment("eeeeeeeeeeee", new User(1), new Film(1));
+        db.createFilmComment("ffffffffffffff", new User(1), new Film(2));
+        db.createFilmComment("ggggggggggggg", new User(2), new Film(1));
+        db.createFilmComment("hhhhhhhhhhh", new User(2), new Film(2));
+        db.createFilmComment("iiiiiiiiiiii", new User(1), new Film(2));
+        */
+        
+        //db.deleteComment(4);
+        //db.deleteComment(9);
+        /*
         System.out.println(db.getCommentsOfFilm(1));
-        
+        System.out.println(db.getCommentsOfFilm(2));
+        System.out.println(db.getCommentsOfCinema(1));
+        System.out.println(db.getCommentsOfCinema(2));
         
         Comment aux;
         for(int i = 1; i <= 10; i++){

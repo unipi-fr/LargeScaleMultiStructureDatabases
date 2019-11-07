@@ -116,45 +116,40 @@ public class KeyValueDBManager {
         put("setting:lastCommentKey", String.valueOf(idComment));
     }
 
-    // DA FARE
+    // OK
     public void createCinemaComment(String text, User user, Cinema cinema) {
         
-        // VECCHIA IMPLEMENTAZIONE
-        /*
-            int idComment = Integer.parseInt(get("setting:lastCommentKey")) + 1;
-            put("comment:" + String.valueOf(idComment), "user:" + user.getIdUser().toString() + ":cinema:" + cinema.getIdCinema().toString() + ":text:" + text + ":timestamp:" + dateFormat.format(new Date()));
-            put("setting:lastCommentKey", String.valueOf(idComment));
-        
-        */
-        /*
-          // controllo dati inseriti
-        if(text == null || user == null || film == null){
-            System.err.println("the data given to createFilmComment is not valid");
+         // controllo dati inseriti
+        if(text == null || user == null || cinema == null){
+            System.err.println("the data given to createCinemaComment is not valid");
             return;
         }
-        
+        // prendo l'id del prossimo commento da inserire
         int idComment = Integer.parseInt(get("setting:lastCommentKey")) + 1;
        
-        // la chiave per accedere ai vari campi è, ad es "comment:1:user"
-        put("comment:" + idComment + ":" + "user", user.getIdUser().toString());
-        put("comment:" + idComment + ":" + "film", film.getIdFilm().toString());
-        put("comment:" + idComment + ":" + "text", text);
-        put("comment:" + idComment + ":" + "timestamp", dateFormat.format(new Date()));
+        // la chiave per accedere ai vari campi è, ad es "comment:2:user"
+        put("comment:" + idComment + ":user", user.getIdUser().toString());
+        put("comment:" + idComment + ":cinema", cinema.getIdCinema().toString());
+        put("comment:" + idComment + ":text", text);
+        put("comment:" + idComment + ":timestamp", dateFormat.format(new Date()));
         
-        String listaIdCommenti = get("film:" + film.getIdFilm().toString() + "comments");
+        // controllo se esiste la lista dei commenti associati al cinema in questione
+        String listaIdCommenti = get("cinema:" + cinema.getIdCinema().toString() + ":comments");
         
         if(listaIdCommenti == null){ // non esiste, me la creo
-            put("film:" + film.getIdFilm().toString() + "comments", String.valueOf(idComment));
+            put("cinema:" + cinema.getIdCinema().toString() + ":comments", String.valueOf(idComment));
+            put("setting:lastCommentKey", String.valueOf(idComment));
             return;
         }
         
         // altrimenti mi limito ad appendere ":idComment"
         listaIdCommenti = listaIdCommenti.concat(":" + String.valueOf(idComment));
-        delete("film:" + film.getIdFilm().toString() + "comments");
-        put("film:" + film.getIdFilm().toString() + "comments", listaIdCommenti);
+        delete("cinema:" + cinema.getIdCinema().toString() + ":comments");
+        put("cinema:" + cinema.getIdCinema().toString() + ":comments", listaIdCommenti);
         
+        // aggiorno il contatore dell'id commento
         put("setting:lastCommentKey", String.valueOf(idComment));
-        */
+      
     }
     
     // OK
@@ -175,11 +170,24 @@ public class KeyValueDBManager {
         // recopero l'id del film del commento da eliminare perchè dovrò 
         // aggiornare la lista dei commenti assiciati ad esso
         String idFilm = get("comment:" + commentId + ":film");
-        if(idFilm == null) {
-        System.err.println("Impossibile trovare l'id del film");
-        return;
+        String idCinema = get("comment:" + commentId + ":cinema");
+        if(idFilm != null) {
+            deleteFilmComment(commentId, idFilm);
+            return;
+        }
+        if(idCinema != null){
+            deleteCinemaComment(commentId, idCinema);
+            return;
         }
         
+        System.err.println("Impossibile cancellare commento: " + commentId);
+        
+        
+        
+    }
+
+    // OK
+    private void deleteFilmComment(int commentId, String idFilm){
         //il fallimento di anche solo una di queste indica inconsistenza del DB!!!
         try{
             delete("comment:" + commentId + ":user");
@@ -219,24 +227,77 @@ public class KeyValueDBManager {
         
         delete("film:" + idFilm + ":comments");
         put("film:" + idFilm + ":comments", commentiConcatenati);
+        
     }
-
-    // va bene
+    
+    // OK
+    private void deleteCinemaComment(int commentId, String idCinema){
+        //il fallimento di anche solo una di queste indica inconsistenza del DB!!!
+        try{
+            delete("comment:" + commentId + ":user");
+            delete("comment:" + commentId + ":cinema");
+            delete("comment:" + commentId + ":text");
+            delete("comment:" + commentId + ":timestamp");
+        }catch (DBException ex){
+            System.err.println("Una parte del commento: "
+            + commentId + " da cancellare non era presente");
+            return;
+        }
+        // prendo la lista dei commenti associati al cinema
+        String commentiConcatenati = get("cinema:" + idCinema + ":comments");
+     
+        if(commentiConcatenati == null){
+            System.err.println("Errore: lista commenti collegati al cinema non esistente");
+            return;
+        }
+        // lavoro solo sugli indici
+        String[] arrayCommentiVecchi = commentiConcatenati.split(":");
+        // non mi complico la vita, butto via tutto. Tanto nella createComment
+        // ho già gestito il caso in cui non esista una lista dei commenti
+        if(arrayCommentiVecchi.length == 1){ 
+            delete("cinema:" + idCinema + ":comments");
+            return;
+        }
+        // voglio eliminare l'id semplicemente -> serve una List
+        List<String> ListaCommentiNuovi = new ArrayList<>(Arrays.asList(arrayCommentiVecchi));
+        ListaCommentiNuovi.remove(String.valueOf(commentId));
+        
+        // ricreo la lista nel formato concatenato
+        for(int i=0; i < ListaCommentiNuovi.size(); i++){
+            
+            if(i==0) commentiConcatenati = ListaCommentiNuovi.get(i);
+            else commentiConcatenati = commentiConcatenati.concat(":" + ListaCommentiNuovi.get(i));
+        }
+        
+        delete("cinema:" + idCinema + ":comments");
+        put("cinema:" + idCinema + ":comments", commentiConcatenati);
+    }
+    
+    // OK
     public Comment getCommentById(int commentId) {
         
-        String idUser, idFilm, text, timestamp;
+        String idUser, idFilm, text, timestamp, idCinema;
         
         idUser = get("comment:" + commentId + ":user");
         idFilm = get("comment:" + commentId + ":film");
+        idCinema = get("comment:" + commentId + ":cinema");
         text = get("comment:" + commentId + ":text");
         timestamp = get("comment:" + commentId + ":timestamp");
         
-        if(timestamp == null || text == null || idFilm == null || idUser == null)
+        if(timestamp == null || text == null || (idFilm == null && idCinema == null) || idUser == null)
         {
             System.err.println("Impossible to retrive comment");
             return null;
         }
         
+        if(idFilm != null) return getFilmCommentById(commentId, idUser, idFilm, text, timestamp);
+        else return getCinemaCommentById(commentId, idUser, idCinema, text, timestamp);
+    }
+    
+    // OK
+    // serve a differenziare il caso del commenti di un film dal caso di commento di un cinema
+    private Comment getFilmCommentById(int commentId, String idUser, String idFilm, String text, String timestamp){
+    
         User user = PisaFlixServices.UserManager.getUserById(Integer.parseInt(idUser));
         Film film = PisaFlixServices.FilmManager.getById(Integer.parseInt(idFilm));
         Date date;
@@ -253,11 +314,38 @@ public class KeyValueDBManager {
         return new Comment(commentId, user, film, text, date);
     }
     
+    // OK
+    private Comment getCinemaCommentById(int commentId, String idUser, String idCinema, String text, String timestamp){
+    
+        User user = PisaFlixServices.UserManager.getUserById(Integer.parseInt(idUser));
+        Cinema cinema = PisaFlixServices.CinemaManager.getById(Integer.parseInt(idCinema));
+        Date date;
+        try{
+            date = dateFormat.parse(timestamp);
+        }catch(ParseException ex){ex.printStackTrace(System.out); return null;}
+
+        // controllo oggetti ottenuti....
+        if(user == null || cinema == null){
+            System.err.println("Error: impossible to retrieve data");
+            return null;
+        }
+        
+        return new Comment(commentId, user, cinema, text, date);
+    }
+    
+    
     // piccola funzioncina per mostrare la vera utilità della lista dei commenti
     public String getCommentsOfFilm(int filmId){
     
         return get("film:" + filmId + ":comments");
     }
+    
+     // piccola funzioncina per mostrare la vera utilità della lista dei commenti
+    public String getCommentsOfCinema(int cinemaId){
+    
+        return get("cinema:" + cinemaId + ":comments");
+    }
+    
     
     // parte projection 
     
