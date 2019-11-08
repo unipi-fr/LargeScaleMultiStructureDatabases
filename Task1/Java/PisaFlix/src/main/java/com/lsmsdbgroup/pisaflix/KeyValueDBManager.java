@@ -109,7 +109,6 @@ public class KeyValueDBManager {
         
         // altrimenti mi limito ad appendere ":idComment"
         listaIdCommenti = listaIdCommenti.concat(":" + String.valueOf(idComment));
-        delete("film:" + film.getIdFilm().toString() + ":comments");
         put("film:" + film.getIdFilm().toString() + ":comments", listaIdCommenti);
         
         // aggiorno il contatore dell'id commento
@@ -144,7 +143,6 @@ public class KeyValueDBManager {
         
         // altrimenti mi limito ad appendere ":idComment"
         listaIdCommenti = listaIdCommenti.concat(":" + String.valueOf(idComment));
-        delete("cinema:" + cinema.getIdCinema().toString() + ":comments");
         put("cinema:" + cinema.getIdCinema().toString() + ":comments", listaIdCommenti);
         
         // aggiorno il contatore dell'id commento
@@ -161,7 +159,6 @@ public class KeyValueDBManager {
             return;
         }
         
-        delete("comment:" + commentId + ":text");
         put("comment:" + commentId + ":text", text);
     }
 
@@ -225,7 +222,6 @@ public class KeyValueDBManager {
             else commentiConcatenati = commentiConcatenati.concat(":" + ListaCommentiNuovi.get(i));
         }
         
-        delete("film:" + idFilm + ":comments");
         put("film:" + idFilm + ":comments", commentiConcatenati);
         
     }
@@ -269,7 +265,6 @@ public class KeyValueDBManager {
             else commentiConcatenati = commentiConcatenati.concat(":" + ListaCommentiNuovi.get(i));
         }
         
-        delete("cinema:" + idCinema + ":comments");
         put("cinema:" + idCinema + ":comments", commentiConcatenati);
     }
     
@@ -346,74 +341,102 @@ public class KeyValueDBManager {
         return get("cinema:" + cinemaId + ":comments");
     }
     
-    
     // parte projection 
     
-    // da fare
+    // da testare
     public void createProjection(Date dateTime, int room, Cinema cinema, Film film){
-    // VECCHIA IMPLEMENTAZIONE
-        /*
-        int idProjection = Integer.parseInt(get("setting:lastProjectionKey")) + 1;
-        put("projection:" + String.valueOf(idProjection), "dateTime:" + dateFormat.format(dateTime) + ":room:" + String.valueOf(room) + ":cinema:" + cinema.getIdCinema().toString() + ":film:" + film.getIdFilm().toString());
-        put("setting:lastProjectionKey", String.valueOf(idProjection));
-    */
-    }
-    
-    // da fare
-    public void updateProjection(int projectionId, Date dateTime, int room){
-    
-        // VECCHIA IMPLEMENTAZIONE
-        /*
-        Projection projection = getProjectionById(projectionId);
-        String content = get(String.valueOf("projection:" + projectionId));
         
-        if(projection == null || dateTime == null || content == null) {
-            System.out.println("Projection: " + projectionId + " not updated");
+        if(dateTime == null || cinema == null || film == null){
+            System.err.println("Error: the data given to createProjection is invalid");
             return;
         }
         
-        deleteProjection(projectionId);
-        String[] field = content.split(":");
-        field[3] = String.valueOf(room);
-        field[1] = dateFormat.format(dateTime);
         
-        content = "dateTime:" + field[1] + ":room:" + field[3] + ":cinema:" + field[5] + ":film:" + field[7];
-
-        put("projection:" + String.valueOf(projectionId), content);
-        */
+        String s_room = String.valueOf(room);
+        String s_date = dateFormat.format(dateTime);
+        String s_cinema = cinema.getIdCinema().toString();
+        String s_film = film.getIdFilm().toString();
+        
+        
+        int idProjection = Integer.parseInt(get("setting:lastProjectionKey")) + 1;
+        put("projection:" + idProjection + ":dateTime", s_date);
+        put("projection:" + idProjection + ":room", s_room);
+        put("projection:" + idProjection + ":cinema", s_cinema);
+        put("projection:" + idProjection + ":film", s_film);
+        
+        
+        String listaFilm = get("cinema:" + s_cinema + ":projections");
+        
+        if(listaFilm == null){// me la creo
+            put("cinema:" + s_cinema + ":projections", s_film);
+            put("setting:lastProjectionKey", String.valueOf(idProjection));
+            return;
+        }
+        
+        listaFilm = listaFilm.concat(":" + s_film);
+        
+        
+        put("cinema:" + s_cinema + ":projections", listaFilm);
+        put("setting:lastProjectionKey", String.valueOf(idProjection));     
+   
+    }
+    
+    // da testare
+    public void updateProjection(int projectionId, Date dateTime, int room){
+        
+        String oldRoom = get("projection:" + projectionId + ":room");
+        String oldDate = get("projection:" + projectionId + ":dateTime");
+        
+        if(oldRoom == null || oldDate == null || dateTime == null){
+            System.err.println("Error: the data given to updateProjection is invalid");
+            return;
+        }
+        
+        put("projection:" + projectionId + ":room", String.valueOf(room));
+        put("projection:" + projectionId + ":dateTime", dateFormat.format(dateTime));
+        
     }
     
     // da fare
     public void deleteProjection(int projectionId){
-       // VECCHIA IMPLEMENTAZIONE
-        /*
-        Projection projection = getProjectionById(projectionId);
-        if(projection == null) {
-            System.out.println("Projection: " + projectionId + " not deleted");
-            return;
-        }
-        delete(String.valueOf("projection:" + projectionId));
-        System.out.println("Projection: " + projectionId + " deleted");
-        */
-    }
-    
-    // da fare
-    public Projection getProjectionById(int projectionId){ 
-        // VECCHIA IMPLEMENTAZIONE   
-        /*
-        String value = get(String.valueOf("projection:" + projectionId));
-        if(value == null) return null;
-
-        String[] field = value.split(":");
-        try {
-            return new Projection(projectionId, dateFormat.parse(field[1]), Integer.parseInt(field[3]));
-        } catch (ParseException ex) {
-            Logger.getLogger(KeyValueDBManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    */
-        return null; // mi urtava l'errore della mancanza di un ritorno
+       
+        
         
     }
     
+    // da testare
+    public Projection getProjectionById(int projectionId){
+        
+        String s_room = get("projection:" + projectionId + ":room");
+        String s_date = get("projection:" + projectionId + ":dateTime");
+        String s_cinema = get("projection:" + projectionId + ":cinema");
+        String s_film = get("projection:" + projectionId + ":film");
+        
+        if(s_room == null || s_date == null || s_cinema == null || s_film == null){
+            System.err.println("Error: impossible to retreive projection");
+            return null;
+        }
+        
+        // recupero oggetto film, oggetto cinema
+        Film film = PisaFlixServices.FilmManager.getById(Integer.parseInt(s_film));
+        Cinema cinema = PisaFlixServices.CinemaManager.getById(Integer.parseInt(s_cinema));
+        Date date;
+        try{
+            date = dateFormat.parse(s_date);
+        }catch(ParseException ex){ex.printStackTrace(System.out); return null;}
+        
+        // li controllo
+        if(film == null || cinema == null){
+            System.err.println("Error: impossible to retreive data");
+            return null;
+        }
+        
+        return new Projection(projectionId, date, Integer.parseInt(s_room), cinema, film);
+    }
     
+    // piccola funzioncina per mostrare la vera utilità della lista delle projection
+    public String getProjectionsOfCinema(int cinemaId){
+    
+        return get("cinema:" + cinemaId + ":projections");
+    }
 }
