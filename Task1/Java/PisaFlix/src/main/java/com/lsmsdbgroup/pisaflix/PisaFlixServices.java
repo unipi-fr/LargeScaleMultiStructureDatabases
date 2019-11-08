@@ -241,6 +241,10 @@ public class PisaFlixServices {
             return user;
         }
         
+        public static void updateUser(User user){
+            DBManager.UserManager.update(user);
+        }
+        
         public static void deleteUserAccount(User u) throws UserNotLoggedException, InvalidPrivilegeLevelException{
             if(!Authentication.isUserLogged()){
                 throw new UserNotLoggedException("You must be logged in order to delete accounts");
