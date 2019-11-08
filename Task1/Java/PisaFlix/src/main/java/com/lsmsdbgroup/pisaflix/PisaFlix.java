@@ -145,13 +145,35 @@ public class PisaFlix {
         //mainMenu();
         //App.main(args);
         
-        
+       /* 
         KeyValueDBManager db = new KeyValueDBManager();
         db.start();
+       
+        db.createProjection(new Date(), 0, new Cinema(1), new Film(1));
+        db.createProjection(new Date(), 0, new Cinema(1), new Film(2));
+        db.createProjection(new Date(), 0, new Cinema(2), new Film(1));
+        db.createProjection(new Date(), 0, new Cinema(2), new Film(2));
         
+        
+        //db.updateProjection(1, new Date(), 69);
+
+        //db.deleteProjection(5);
+        //db.deleteProjection(6);
+        //db.createProjection(new Date(), 0, new Cinema(1), new Film(1));
+        System.out.println(db.getProjectionsOfCinema(1));
+        System.out.println(db.getProjectionsOfCinema(2));
+        
+        Projection p;
+        for(int i=1; i<10; i++){
+        p = db.getProjectionById(i);
+        
+        if(p == null) continue;
+        System.out.println(p.toString());
+        
+        }
         
         db.stop();
-        
+        */
         DBManager.exit();
     }
 }

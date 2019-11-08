@@ -42,7 +42,7 @@ public class KeyValueDBManager {
     }
 
     
-    public void settings() {
+    private void settings() {
         String value = get("settingsPresents");
         if (value == null || "false".equals(value)) {
             put("settingsPresents", "true");
@@ -61,17 +61,17 @@ public class KeyValueDBManager {
     }
 
     
-    public void put(String key, String value) {
+    private void put(String key, String value) {
         KeyValueDB.put(bytes(key), bytes(value));
     }
 
     
-    public void delete(String key) {
+    private void delete(String key) {
         KeyValueDB.delete(bytes(key));
     }
 
     
-    public String get(String key) {
+    private String get(String key) {
         byte[] value = KeyValueDB.get(bytes(key));
         if (value != null) {
             return Iq80DBFactory.asString(value);
@@ -81,7 +81,7 @@ public class KeyValueDBManager {
         }
     }
 
-    // OK
+ 
     public void createFilmComment(String text, User user, Film film) {
         
         // controllo dati inseriti
@@ -115,7 +115,7 @@ public class KeyValueDBManager {
         put("setting:lastCommentKey", String.valueOf(idComment));
     }
 
-    // OK
+ 
     public void createCinemaComment(String text, User user, Cinema cinema) {
         
          // controllo dati inseriti
@@ -150,7 +150,7 @@ public class KeyValueDBManager {
       
     }
     
-    // OK
+  
     public void updateComment(int commentId, String text) {
         // esiste il testo del commento da modificare?
         String oldText = get("comment:" + commentId + ":text");
@@ -162,7 +162,7 @@ public class KeyValueDBManager {
         put("comment:" + commentId + ":text", text);
     }
 
-    // OK
+ 
     public void deleteComment(int commentId) {
         // recopero l'id del film del commento da eliminare perchè dovrò 
         // aggiornare la lista dei commenti assiciati ad esso
@@ -183,7 +183,7 @@ public class KeyValueDBManager {
         
     }
 
-    // OK
+
     private void deleteFilmComment(int commentId, String idFilm){
         //il fallimento di anche solo una di queste indica inconsistenza del DB!!!
         try{
@@ -192,15 +192,16 @@ public class KeyValueDBManager {
             delete("comment:" + commentId + ":text");
             delete("comment:" + commentId + ":timestamp");
         }catch (DBException ex){
-            System.err.println("Una parte del commento: "
-            + commentId + " da cancellare non era presente");
+            System.err.println("Error: impossible to delete one or more tuple of "
+                    + "comment: " + commentId);
             return;
         }
+        
         // prendo la lista dei commenti associati al film
         String commentiConcatenati = get("film:" + idFilm + ":comments");
      
         if(commentiConcatenati == null){
-            System.err.println("Errore: lista commenti collegati al film non esistente");
+            System.err.println("Error: impossible to retreive the list of comments");
             return;
         }
         // lavoro solo sugli indici
@@ -226,7 +227,7 @@ public class KeyValueDBManager {
         
     }
     
-    // OK
+   
     private void deleteCinemaComment(int commentId, String idCinema){
         //il fallimento di anche solo una di queste indica inconsistenza del DB!!!
         try{
@@ -235,15 +236,15 @@ public class KeyValueDBManager {
             delete("comment:" + commentId + ":text");
             delete("comment:" + commentId + ":timestamp");
         }catch (DBException ex){
-            System.err.println("Una parte del commento: "
-            + commentId + " da cancellare non era presente");
+            System.err.println("Error: impossible to delete one or more tuple of "
+                    + "comment: " + commentId);
             return;
         }
         // prendo la lista dei commenti associati al cinema
         String commentiConcatenati = get("cinema:" + idCinema + ":comments");
      
         if(commentiConcatenati == null){
-            System.err.println("Errore: lista commenti collegati al cinema non esistente");
+            System.err.println("Error: impossible to retreive the list of comments");
             return;
         }
         // lavoro solo sugli indici
@@ -268,7 +269,7 @@ public class KeyValueDBManager {
         put("cinema:" + idCinema + ":comments", commentiConcatenati);
     }
     
-    // OK
+    
     public Comment getCommentById(int commentId) {
         
         String idUser, idFilm, text, timestamp, idCinema;
@@ -289,7 +290,7 @@ public class KeyValueDBManager {
         else return getCinemaCommentById(commentId, idUser, idCinema, text, timestamp);
     }
     
-    // OK
+    
     // serve a differenziare il caso del commenti di un film dal caso di commento di un cinema
     private Comment getFilmCommentById(int commentId, String idUser, String idFilm, String text, String timestamp){
     
@@ -309,7 +310,7 @@ public class KeyValueDBManager {
         return new Comment(commentId, user, film, text, date);
     }
     
-    // OK
+    
     private Comment getCinemaCommentById(int commentId, String idUser, String idCinema, String text, String timestamp){
     
         User user = PisaFlixServices.UserManager.getUserById(Integer.parseInt(idUser));
@@ -342,15 +343,13 @@ public class KeyValueDBManager {
     }
     
     // parte projection 
-    
-    // da testare
+
     public void createProjection(Date dateTime, int room, Cinema cinema, Film film){
         
         if(dateTime == null || cinema == null || film == null){
             System.err.println("Error: the data given to createProjection is invalid");
             return;
         }
-        
         
         String s_room = String.valueOf(room);
         String s_date = dateFormat.format(dateTime);
@@ -365,23 +364,22 @@ public class KeyValueDBManager {
         put("projection:" + idProjection + ":film", s_film);
         
         
-        String listaFilm = get("cinema:" + s_cinema + ":projections");
+        String listaProjection = get("cinema:" + s_cinema + ":projections");
         
-        if(listaFilm == null){// me la creo
-            put("cinema:" + s_cinema + ":projections", s_film);
+        if(listaProjection == null){// me la creo
+            put("cinema:" + s_cinema + ":projections", String.valueOf(idProjection));
             put("setting:lastProjectionKey", String.valueOf(idProjection));
             return;
         }
         
-        listaFilm = listaFilm.concat(":" + s_film);
+        listaProjection = listaProjection.concat(":" + String.valueOf(idProjection));
         
         
-        put("cinema:" + s_cinema + ":projections", listaFilm);
-        put("setting:lastProjectionKey", String.valueOf(idProjection));     
-   
+        put("cinema:" + s_cinema + ":projections", listaProjection);
+        put("setting:lastProjectionKey", String.valueOf(idProjection));
     }
     
-    // da testare
+    
     public void updateProjection(int projectionId, Date dateTime, int room){
         
         String oldRoom = get("projection:" + projectionId + ":room");
@@ -397,14 +395,62 @@ public class KeyValueDBManager {
         
     }
     
-    // da fare
+    
     public void deleteProjection(int projectionId){
-       
         
+        String cinemaId = get("projection:" + projectionId + ":cinema");
         
+        if(cinemaId == null){
+            System.err.println("Error: impossible to delete projection: " + projectionId);
+            return;
+        }
+        
+         try{
+            delete("projection:" + projectionId + ":dateTime");
+            delete("projection:" + projectionId + ":room");
+            delete("projection:" + projectionId + ":cinema");
+            delete("projection:" + projectionId + ":film");
+        }catch (DBException ex){
+            System.err.println("Error: impossible to delete one or more tuple of "
+                    + "projection: " + projectionId);
+            return;
+        }
+        // prendo la lista di projection associata a quel cinema
+        
+        String oldProjectionString = get("cinema:" + cinemaId + ":projections");
+        
+        if(oldProjectionString == null){
+        
+            System.err.println("Error: impossible to retreive the list of projection "
+                    + "of cinema: " + cinemaId);
+            return;
+        }
+        // faccio la split
+        
+        String[] projectionArray = oldProjectionString.split(":");
+        
+        // controllo se ha lunghezza 1 -> butto via tutto 
+        if(projectionArray.length == 1){
+            delete("cinema:" + cinemaId + ":projections");
+            return;
+        }
+        // altrimenti converto in una lista di stringhe, rimuovo l'id in questione, ricorstuisco la stringa da salvare
+        
+        List<String> listaProjections = new ArrayList<>(Arrays.asList(projectionArray));
+        listaProjections.remove(String.valueOf(projectionId));
+        
+        String newProjectionString = "";
+        for(int i=0; i<listaProjections.size();i++){
+        
+            if(i==0) newProjectionString = listaProjections.get(i);
+            else newProjectionString = newProjectionString.concat(listaProjections.get(i));
+        }        
+                
+        // aggiorno la lista.
+        put("cinema:" + cinemaId + ":projections", newProjectionString);
     }
     
-    // da testare
+
     public Projection getProjectionById(int projectionId){
         
         String s_room = get("projection:" + projectionId + ":room");
