@@ -1,10 +1,6 @@
 package com.lsmsdbgroup.pisaflix;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.*;
 import javax.persistence.*;
 
@@ -73,14 +69,13 @@ public class DBManager {
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
                 System.out.println("A problem occurred in updating favorites!");
-                ex.printStackTrace();
             } finally {
                 entityManager.close();
             }
         }
 
         public static void delete(int userId) {
-            // code to delete a user
+            clearCinemaSetAndFilmSet(getById(userId));
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
@@ -89,6 +84,21 @@ public class DBManager {
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
                 System.out.println("A problem occurred in removing a User!");
+            } finally {
+                entityManager.close();
+            }
+        }
+
+        public static void clearCinemaSetAndFilmSet(User user) {
+            user.setCinemaSet(new LinkedHashSet<>());
+            user.setFilmSet(new LinkedHashSet<>());
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                entityManager.merge(user);
+                entityManager.getTransaction().commit();
+            } catch (Exception ex) {
+                System.out.println("A problem occurred clearing the user's cinemaset and filmset!");
             } finally {
                 entityManager.close();
             }
@@ -230,6 +240,7 @@ public class DBManager {
         }
 
         public static void delete(int idFilm) {
+            clearUserSet(getById(idFilm));
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
@@ -243,6 +254,20 @@ public class DBManager {
             }
         }
 
+        public static void clearUserSet(Film film) {
+            film.setUserSet(new LinkedHashSet<>());
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                entityManager.merge(film);
+                entityManager.getTransaction().commit();
+            } catch (Exception ex) {
+                System.out.println("A problem occurred clearing the film's userset!");
+            } finally {
+                entityManager.close();
+            }
+        }
+
         public static void updateFavorites(Film film) {
             try {
                 entityManager = factory.createEntityManager();
@@ -251,7 +276,6 @@ public class DBManager {
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
                 System.out.println("A problem occurred updating favorites!");
-                ex.printStackTrace();
             } finally {
                 entityManager.close();
             }
@@ -263,23 +287,21 @@ public class DBManager {
             Calendar calendar = Calendar.getInstance();
             String startDate = "0000-01-01";
             String endDate = "9999-12-31";
-            if(titleFilter != null){
+            if (titleFilter != null) {
                 title = titleFilter;
             }
-            if(startDateFilter != null){
+            if (startDateFilter != null) {
                 startDate = startDateFilter.toString();
             }
-            if(endDateFilter != null){
+            if (endDateFilter != null) {
                 endDate = endDateFilter.toString();
             }
-            
+
             String query = "SELECT f "
                     + "FROM Film f "
-                    + "WHERE ('"+title+"'='' OR f.title LIKE '%"+title+"%') "
+                    + "WHERE ('" + title + "'='' OR f.title LIKE '%" + title + "%') "
                     + "AND (publicationDate between '" + startDate + " 00:00:00' and '" + endDate + " 23:59:59') ";
 
-
-            
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
@@ -332,7 +354,7 @@ public class DBManager {
         }
 
         public static void delete(int idCinema) {
-            // code to delete a cinema
+            clearUserSet(getById(idCinema));
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
@@ -341,6 +363,20 @@ public class DBManager {
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
                 System.out.println("A problem occurred in removing a Cinema!");
+            } finally {
+                entityManager.close();
+            }
+        }
+
+        public static void clearUserSet(Cinema cinema) {
+            cinema.setUserSet(new LinkedHashSet<>());
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                entityManager.merge(cinema);
+                entityManager.getTransaction().commit();
+            } catch (Exception ex) {
+                System.out.println("A problem occurred clearing the cinema's userset!");
             } finally {
                 entityManager.close();
             }
@@ -586,13 +622,13 @@ public class DBManager {
 
         public static Set<Projection> queryProjection(int cinemaId, int filmId, String date) {
             Set<Projection> projections = null;
-            
+
             String query = "SELECT p "
                     + "FROM Projection p "
-                    + "WHERE (("+cinemaId+" = -1) OR ( "+cinemaId+" = p.idCinema)) "
-                    + "AND (("+filmId+" = -1) OR ( "+filmId+" = p.idFilm)) "
-                    + "AND (('"+date+"' = 'all') OR dateTime between '" + date + " 00:00:00' and '" + date + " 23:59:59')";
-                
+                    + "WHERE ((" + cinemaId + " = -1) OR ( " + cinemaId + " = p.idCinema)) "
+                    + "AND ((" + filmId + " = -1) OR ( " + filmId + " = p.idFilm)) "
+                    + "AND (('" + date + "' = 'all') OR dateTime between '" + date + " 00:00:00' and '" + date + " 23:59:59')";
+
             try {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
@@ -606,7 +642,7 @@ public class DBManager {
             } finally {
                 entityManager.close();
             }
-            
+
             return projections;
         }
 
