@@ -102,6 +102,20 @@ public class FilmDetailPageController implements Initializable {
 
     public void setFilm(Film film) {
         this.film = film;
+        
+        setFavoriteButton();
+
+        setTitleLabel(film.getTitle());
+        setPublishDate(film.getPublicationDate().toString());
+        setDescription(film.getDescription());
+
+        Set<Comment> comments = film.getCommentSet();
+
+        comments.forEach((comment) -> {
+            addComment(comment.getText());
+        });
+
+        setFavoriteCount(film.getUserSet().size());
     }
     
     public void setFavoriteButton(){

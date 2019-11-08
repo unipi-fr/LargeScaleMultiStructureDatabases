@@ -85,6 +85,19 @@ public class CinemaDetailPageController implements Initializable {
 
     public void setCinema(Cinema cinema) {
         this.cinema = cinema;
+        
+        setFavoriteButton();
+
+        setNameLabel(cinema.getName());
+        setAddress(cinema.getAddress());
+
+        Set<Comment> comments = cinema.getCommentSet();
+
+        comments.forEach((comment) -> {
+            addComment(comment.getText());
+        });
+
+        setFavoriteCount(cinema.getUserSet().size());
     }
     
     public void setFavoriteButton(){

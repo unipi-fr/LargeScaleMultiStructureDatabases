@@ -143,7 +143,7 @@ public class PisaFlix {
         LogManager.getLogManager().getLogger("").setLevel(Level.OFF);
         DBManager.setup();
         //mainMenu();
-        //App.main(args);
+        App.main(args);
         
        /* 
         KeyValueDBManager db = new KeyValueDBManager();

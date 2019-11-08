@@ -50,20 +50,6 @@ public class FilmCardController implements Initializable {
         FilmDetailPageController filmDetailPageController = loader.getController();
 
         filmDetailPageController.setFilm(film);
-        
-        filmDetailPageController.setFavoriteButton();
-
-        filmDetailPageController.setTitleLabel(film.getTitle());
-        filmDetailPageController.setPublishDate(film.getPublicationDate().toString());
-        filmDetailPageController.setDescription(film.getDescription());
-
-        Set<Comment> comments = film.getCommentSet();
-
-        comments.forEach((comment) -> {
-            filmDetailPageController.addComment(comment.getText());
-        });
-
-        filmDetailPageController.setFavoriteCount(film.getUserSet().size());
 
         App.setMainPane(anchorPane);
     }

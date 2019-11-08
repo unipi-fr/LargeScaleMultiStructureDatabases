@@ -51,19 +51,6 @@ public class CinemaCardController implements Initializable {
         CinemaDetailPageController cinemaDetailPageController = loader.getController();
 
         cinemaDetailPageController.setCinema(cinema);
-        
-        cinemaDetailPageController.setFavoriteButton();
-
-        cinemaDetailPageController.setNameLabel(cinema.getName());
-        cinemaDetailPageController.setAddress(cinema.getAddress());
-
-        Set<Comment> comments = cinema.getCommentSet();
-
-        comments.forEach((comment) -> {
-            cinemaDetailPageController.addComment(comment.getText());
-        });
-
-        cinemaDetailPageController.setFavoriteCount(cinema.getUserSet().size());
 
         App.setMainPane(anchorPane);
     }
