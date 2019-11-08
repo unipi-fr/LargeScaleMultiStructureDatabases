@@ -3,6 +3,7 @@ package com.lsmsdbgroup.pisaflixg;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.PisaFlixServices;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -61,10 +62,37 @@ public class UpdateProfileController implements Initializable {
             if(newpass.equals(confirmpass))
             {
                 user.setPassword(newpass);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Password not match");
+                alert.setHeaderText("The password you insert doen't match");
+                alert.setContentText("New password and the confirmation password must match");
+        
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK){
+                    return;
+                }
             }
         }
         
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Profile updated");
+        alert.setHeaderText("You are changing yuor personal data");
+        alert.setContentText("Are you sure to continue");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() != ButtonType.OK){
+            return;
+        }
+        
         PisaFlixServices.UserManager.updateUser(user);
+        
+        App.setMainPane("UserView");
+    }
+    
+    @FXML
+    private void cancelAction(){
+        App.setMainPane("UserView");
     }
     
 }

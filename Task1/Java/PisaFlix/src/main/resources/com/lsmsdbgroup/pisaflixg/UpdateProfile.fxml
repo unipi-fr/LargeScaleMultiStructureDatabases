@@ -23,7 +23,7 @@
       <PasswordField fx:id="confirmPass" promptText="Confirm Password" />
       <HBox alignment="CENTER" spacing="20.0">
          <children>
-            <Button fx:id="cancelButton" mnemonicParsing="false" text="Cancel" />
+            <Button fx:id="cancelButton" mnemonicParsing="false" onMouseClicked="#cancelAction" text="Cancel" />
             <Button fx:id="updateButton" defaultButton="true" mnemonicParsing="false" onMouseClicked="#updateProfile" text="Update" />
          </children>
          <VBox.margin>
