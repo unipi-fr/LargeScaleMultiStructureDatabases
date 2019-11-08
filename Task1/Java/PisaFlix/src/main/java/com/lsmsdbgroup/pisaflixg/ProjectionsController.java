@@ -1,16 +1,17 @@
 package com.lsmsdbgroup.pisaflixg;
 
-import com.lsmsdbgroup.pisaflix.Entities.Cinema;
-import com.lsmsdbgroup.pisaflix.Entities.Film;
-import com.lsmsdbgroup.pisaflix.Entities.Projection;
+import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.PisaFlixServices;
 import java.net.URL;
 import java.time.*;
 import java.util.*;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ProjectionsController implements Initializable {
@@ -38,9 +39,19 @@ public class ProjectionsController implements Initializable {
     
     @FXML
     private DatePicker datePicker;
+    
+    @FXML
+    private Button addProjectionButton;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        try {
+            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.MODERATOR);
+        } catch (PisaFlixServices.UserManager.UserNotLoggedException | PisaFlixServices.UserManager.InvalidPrivilegeLevelException ex) {
+            addProjectionButton.setVisible(false);
+            addProjectionButton.setManaged(false);
+        }
+        
         Set<Film> films = PisaFlixServices.FilmManager.getAll();
         Set<Cinema> cinemas = PisaFlixServices.CinemaManager.getAll();
         
@@ -53,6 +64,11 @@ public class ProjectionsController implements Initializable {
             cinemaCombo.getItems().add(cinema.getIdCinema() + ":" + cinema.getName());
         }
         cinemaCombo.getItems().add("All");
+    }
+    
+    @FXML
+    private void clickAddProjectionButton(){
+        App.setMainPane("AddProjection");
     }
     
     @FXML
