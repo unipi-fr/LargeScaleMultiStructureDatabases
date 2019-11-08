@@ -26,6 +26,9 @@ public class LoginController implements Initializable {
     @FXML
     private Button logoutButton;
     
+    @FXML
+    private Button showProfileButton;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         update();
@@ -50,6 +53,8 @@ public class LoginController implements Initializable {
         this.loginStatusLabel.setVisible(logged);
         this.loginStatusLabel.setManaged(logged);
         this.logoutButton.setVisible(logged);
+        this.logoutButton.setManaged(logged);
+        this.showProfileButton.setVisible(logged);
         this.logoutButton.setManaged(logged);
     }
     
@@ -86,4 +91,9 @@ public class LoginController implements Initializable {
         App.setMainPane("Welcome");
     }
     
+    @FXML
+    private void showUser()
+    {
+        App.setMainPane("UserView");
+    }
 }
