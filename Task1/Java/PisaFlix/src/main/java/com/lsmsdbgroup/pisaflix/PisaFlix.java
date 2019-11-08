@@ -143,41 +143,33 @@ public class PisaFlix {
         LogManager.getLogManager().getLogger("").setLevel(Level.OFF);
         DBManager.setup();
         //mainMenu();
-        App.main(args);
+        //App.main(args);
         
-        /*
+       /* 
         KeyValueDBManager db = new KeyValueDBManager();
         db.start();
+       
+        db.createProjection(new Date(), 0, new Cinema(1), new Film(1));
+        db.createProjection(new Date(), 0, new Cinema(1), new Film(2));
+        db.createProjection(new Date(), 0, new Cinema(2), new Film(1));
+        db.createProjection(new Date(), 0, new Cinema(2), new Film(2));
         
-        db.createCinemaComment("non saprei", new User(1), new Cinema(1));
-        db.createCinemaComment("dddddddddddd", new User(2), new Cinema(1));
-        db.createCinemaComment("ccccccccccccc", new User(1), new Cinema(1));
-        db.createCinemaComment("bbbbbbbbbbbbbbb", new User(1), new Cinema(2));
-        db.createCinemaComment("aaaaaaaaaaaaaa", new User(2), new Cinema(2));
         
-        db.createFilmComment("eeeeeeeeeeee", new User(1), new Film(1));
-        db.createFilmComment("ffffffffffffff", new User(1), new Film(2));
-        db.createFilmComment("ggggggggggggg", new User(2), new Film(1));
-        db.createFilmComment("hhhhhhhhhhh", new User(2), new Film(2));
-        db.createFilmComment("iiiiiiiiiiii", new User(1), new Film(2));
-        */
+        //db.updateProjection(1, new Date(), 69);
+
+        //db.deleteProjection(5);
+        //db.deleteProjection(6);
+        //db.createProjection(new Date(), 0, new Cinema(1), new Film(1));
+        System.out.println(db.getProjectionsOfCinema(1));
+        System.out.println(db.getProjectionsOfCinema(2));
         
-        //db.deleteComment(4);
-        //db.deleteComment(9);
-        /*
-        System.out.println(db.getCommentsOfFilm(1));
-        System.out.println(db.getCommentsOfFilm(2));
-        System.out.println(db.getCommentsOfCinema(1));
-        System.out.println(db.getCommentsOfCinema(2));
+        Projection p;
+        for(int i=1; i<10; i++){
+        p = db.getProjectionById(i);
         
-        Comment aux;
-        for(int i = 1; i <= 10; i++){
+        if(p == null) continue;
+        System.out.println(p.toString());
         
-            aux = db.getCommentById(i);
-            if(aux == null) continue;
-            
-            System.out.println(aux);
-            
         }
         
         db.stop();

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.AddProjectionController">
+   <children>
+      <Label text="Add Projection" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <HBox spacing="10.0">
+         <children>
+            <ComboBox fx:id="cinemaComboBox" prefWidth="150.0" promptText="Cinema" />
+            <ComboBox fx:id="filmComboBox" prefWidth="150.0" promptText="Film" />
+         </children>
+      </HBox>
+      <DatePicker fx:id="dateDatePicker" promptText="Data" />
+      <ComboBox fx:id="timeComboBox" prefWidth="150.0" promptText="Orario" />
+   </children>
+</VBox>

@@ -15,10 +15,12 @@
             <DatePicker fx:id="datePicker" maxHeight="50.0" prefHeight="50.0" prefWidth="140.0" promptText="Data filter" />
             <ComboBox fx:id="cinemaCombo" maxHeight="50.0" prefHeight="50.0" prefWidth="140.0" promptText="Cinema filter" />
             <ComboBox fx:id="filmCombo" maxHeight="50.0" prefHeight="50.0" prefWidth="140.0" promptText="Film filter" />
-            <Button maxHeight="30.0" mnemonicParsing="false" onMouseClicked="#showSearch" prefHeight="30.0" prefWidth="80.0" text="Search">
-               <HBox.margin>
-                  <Insets top="10.0" />
-               </HBox.margin></Button>
+            <VBox alignment="CENTER" prefHeight="50.0" prefWidth="80.0">
+               <children>
+                  <Button maxHeight="30.0" mnemonicParsing="false" onMouseClicked="#showSearch" prefHeight="30.0" prefWidth="80.0" text="Search" />
+                  <Button fx:id="addProjectionButton" mnemonicParsing="false" onAction="#clickAddProjectionButton" text="Add" />
+               </children>
+            </VBox>
          </children>
       </HBox>
       <TableView fx:id="projectionTable" prefHeight="400.0" prefWidth="490.0">

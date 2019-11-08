@@ -46,6 +46,13 @@ public class Projection implements Serializable {
         this.room = room;
     }
 
+    public Projection(Integer idProjection, Date dateTime, int room, Cinema cinema, Film film){
+    
+        this(idProjection, dateTime, room);
+        idCinema = cinema;
+        idFilm = film;
+    }
+    
     public Integer getIdProjection() {
         return idProjection;
     }
@@ -105,7 +112,9 @@ public class Projection implements Serializable {
 
     @Override
     public String toString() {
-        return "idProjection=" + idProjection + " ]\ndateTime:" + dateTime.toString() + "\nroom:" + room;
+        return "idProjection=" + idProjection + " ]\ndateTime:" +
+                dateTime.toString() + "\nroom:" + room + "\ncinema:" +
+                idCinema.toString() + "\nfilm:" + idFilm.toString();
     }
     /*
     public static void create(Date dateTime, int room, Film film, Cinema cinema) {
