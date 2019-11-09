@@ -18,7 +18,7 @@
             <VBox alignment="CENTER" prefHeight="50.0" prefWidth="80.0">
                <children>
                   <Button maxHeight="30.0" mnemonicParsing="false" onMouseClicked="#showSearch" prefHeight="30.0" prefWidth="80.0" text="Search" />
-                  <Button fx:id="addProjectionButton" mnemonicParsing="false" onAction="#clickAddProjectionButton" text="Add" />
+                  <Button fx:id="addProjectionButton" mnemonicParsing="false" onAction="#clickAddProjectionButton" prefHeight="25.0" prefWidth="80.0" text="Add" />
                </children>
             </VBox>
          </children>

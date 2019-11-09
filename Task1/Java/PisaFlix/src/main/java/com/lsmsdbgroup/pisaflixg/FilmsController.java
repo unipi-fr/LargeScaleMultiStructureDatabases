@@ -40,7 +40,8 @@ public class FilmsController implements Initializable {
         try {
             PisaFlixServices.UserManager.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.MODERATOR);
         } catch (PisaFlixServices.UserManager.UserNotLoggedException | PisaFlixServices.UserManager.InvalidPrivilegeLevelException ex) {
-            addFilmButton.setDisable(true);
+            addFilmButton.setVisible(false);
+            addFilmButton.setManaged(false); 
         }
         searchFilms(null,null);
     }

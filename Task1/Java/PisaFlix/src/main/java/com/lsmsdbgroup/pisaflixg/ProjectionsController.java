@@ -56,14 +56,12 @@ public class ProjectionsController implements Initializable {
         Set<Cinema> cinemas = PisaFlixServices.CinemaManager.getAll();
         
         for(Film film: films){
-            filmCombo.getItems().add(film.getIdFilm() + ":" + film.getTitle());
+            filmCombo.getItems().add(film);
         }
-        filmCombo.getItems().add("All");
         
         for(Cinema cinema: cinemas){
-            cinemaCombo.getItems().add(cinema.getIdCinema() + ":" + cinema.getName());
+            cinemaCombo.getItems().add(cinema);
         }
-        cinemaCombo.getItems().add("All");
     }
     
     @FXML
@@ -78,30 +76,19 @@ public class ProjectionsController implements Initializable {
         cinemaCol.setCellValueFactory(new PropertyValueFactory<ProjectionRow, String>("Cinema"));
         filmCol.setCellValueFactory(new PropertyValueFactory<ProjectionRow, String>("Film"));
 
-        String cinemaStr = (String) cinemaCombo.getValue();
+        Cinema c = (Cinema) cinemaCombo.getValue();
         int cinemaId = -1;
         
-        if(cinemaStr != null){
-            String[] cinemaSplit = cinemaStr.split(":");
-
-            if(!cinemaSplit[0].equals("All"))
-            {
-                cinemaId = Integer.parseInt(cinemaSplit[0]);
-            }
+        if(c != null){
+            cinemaId = c.getIdCinema();
         }
          
-        String filmStr = (String) filmCombo.getValue();
+        Film f = (Film) filmCombo.getValue();
         int filmId = -1;
         
-        if(filmStr != null){
-            String[] filmSplit = filmStr.split(":");
-
-            if(!filmSplit[0].equals("All"))
-            {
-                filmId = Integer.parseInt(filmSplit[0]);
-            }
-        }
-        
+        if(f != null){
+            filmId = f.getIdFilm();
+        }  
         
         projectionTable.getItems().setAll(getItemsToAdd(cinemaId, filmId));
     }

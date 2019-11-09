@@ -17,7 +17,7 @@
             <TilePane fx:id="tilePane" hgap="5.0" prefColumns="3" prefHeight="420.0" prefRows="2" prefTileHeight="150" prefTileWidth="150" prefWidth="490.0" vgap="5.0" />
          </content>
       </ScrollPane>
-      <Button fx:id="addFilmButton" defaultButton="true" layoutX="422.0" layoutY="5.0" mnemonicParsing="false" onAction="#addFilm" text="Add Film" />
+      <Button fx:id="addFilmButton" layoutX="422.0" layoutY="5.0" mnemonicParsing="false" onAction="#addFilm" text="Add Film" />
    </children>
    <opaqueInsets>
       <Insets />

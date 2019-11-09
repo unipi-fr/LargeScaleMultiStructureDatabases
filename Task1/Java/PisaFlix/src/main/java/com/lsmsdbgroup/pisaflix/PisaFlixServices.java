@@ -199,6 +199,11 @@ public class PisaFlixServices {
             return cinema;
         }
         
+        public static void AddCinema(String name, String address) throws UserManager.UserNotLoggedException, UserManager.InvalidPrivilegeLevelException{
+            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.MODERATOR, "add a new cinema");
+            DBManager.CinemaManager.create(name, address);
+        }
+        
         public static void addComment(String comment, User user, Cinema cinema){
             DBManager.CommentManager.createCinemaComment(comment, user, cinema);
         }
@@ -218,6 +223,11 @@ public class PisaFlixServices {
     }
     
     public static class ProjectionManager {
+        
+        public static void addProjection(Cinema c, Film f, Date d, int room) throws UserManager.UserNotLoggedException, UserManager.InvalidPrivilegeLevelException{
+            UserManager.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a new projection");
+            DBManager.ProjectionManager.create(d, room, f, c);
+        }
             
         public static Set<Projection> queryProjections(int cinemaId, int filmId, String date){
             Set<Projection> projections;

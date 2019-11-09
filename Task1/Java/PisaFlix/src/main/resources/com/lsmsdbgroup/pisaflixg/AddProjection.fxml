@@ -13,13 +13,24 @@
          <font>
             <Font size="18.0" />
          </font></Label>
-      <HBox spacing="10.0">
+      <HBox alignment="CENTER" spacing="10.0">
          <children>
             <ComboBox fx:id="cinemaComboBox" prefWidth="150.0" promptText="Cinema" />
             <ComboBox fx:id="filmComboBox" prefWidth="150.0" promptText="Film" />
+            <TextField fx:id="roomTextField" prefHeight="25.0" prefWidth="68.0" promptText="Room" />
          </children>
       </HBox>
-      <DatePicker fx:id="dateDatePicker" promptText="Data" />
-      <ComboBox fx:id="timeComboBox" prefWidth="150.0" promptText="Orario" />
+      <HBox alignment="CENTER" spacing="10.0">
+         <children>
+            <DatePicker fx:id="dateDatePicker" promptText="Data" />
+            <ComboBox fx:id="timeComboBox" promptText="Orario" />
+         </children>
+      </HBox>
+      <Button fx:id="addProjectionButton" defaultButton="true" mnemonicParsing="false" onAction="#clickAddProjectionButton" styleClass="button-raised" text="Add Projection" />
+      <Label fx:id="successLabel" text="Projection added successfully!" textFill="#00ab1a">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
    </children>
 </VBox>

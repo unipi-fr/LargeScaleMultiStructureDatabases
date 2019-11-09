@@ -8,19 +8,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.AddFilmController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.AddCinemaController">
    <children>
-      <Label text="Add film" textAlignment="CENTER">
+      <Label text="Add cinema" textAlignment="CENTER">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="titleTextField" promptText="Title" />
-      <DatePicker fx:id="datePicker" promptText="Publication Date" />
-      <TextArea fx:id="descriptionTextArea" prefHeight="60.0" prefWidth="229.0" promptText="Description" />
+      <TextField fx:id="nameTextField" promptText="Name" />
+      <TextField fx:id="addressTextField" promptText="Address" />
 
-      <Button fx:id="addFilmButton" defaultButton="true" mnemonicParsing="false" onAction="#clickAddFilmButton" styleClass="button-raised" text="Add Film" />
-      <Label fx:id="successLabel" text="Film added successfully!" textFill="#00ab1a">
+      <Button fx:id="addCinemaButton" defaultButton="true" mnemonicParsing="false" onAction="#clickAddCinemaButton" styleClass="button-raised" text="Add Cinema" />
+      <Label fx:id="successLabel" text="Cinema added successfully!" textFill="#00ab1a">
          <font>
             <Font size="14.0" />
          </font>

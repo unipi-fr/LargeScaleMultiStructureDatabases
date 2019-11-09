@@ -7,6 +7,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -23,9 +25,20 @@ public class CinemasController implements Initializable {
 
     @FXML
     private TilePane tilePane;
+    
+    @FXML
+    private Button addCinemaButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        try {
+            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.MODERATOR);
+        } catch (PisaFlixServices.UserManager.UserNotLoggedException | PisaFlixServices.UserManager.InvalidPrivilegeLevelException ex) {
+            addCinemaButton.setVisible(false);
+            addCinemaButton.setManaged(false);
+        }
+        
         List<Cinema> cinemas = new ArrayList<>(PisaFlixServices.CinemaManager.getAll());
 
         populateScrollPane(cinemas);
@@ -57,6 +70,11 @@ public class CinemasController implements Initializable {
             pane = createFilmCardPane(name, id);
             tilePane.getChildren().add(pane);
         }
+    }
+   
+    @FXML
+    private void addCinema(){
+        App.setMainPane("AddCinema");
     }
 
 }
