@@ -114,11 +114,6 @@ public class Cinema implements Serializable {
         return !((this.idCinema == null && other.idCinema != null) || (this.idCinema != null && !this.idCinema.equals(other.idCinema)));
     }
 
-    /*@Override
-    public String toString() {
-        return "[ idCinema= " + idCinema + " ] \n [ name= " + name + " ]\n";
-    }*/
-    
     @Override
     public String toString() {
         return name;

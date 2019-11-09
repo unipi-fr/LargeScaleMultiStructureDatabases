@@ -127,14 +127,6 @@ public class Film implements Serializable {
         return !((this.idFilm == null && other.idFilm != null) || (this.idFilm != null && !this.idFilm.equals(other.idFilm)));
     }
 
-    /*@Override
-    public String toString() {
-        return "[ id=" + idFilm + " ]\n"
-                + "title: " + title + "\n"
-                + "PubDate: " + publicationDate + "\n"
-                + "Description: " + description + "\n";
-    }*/
-    
     @Override
     public String toString() {
         return title;
