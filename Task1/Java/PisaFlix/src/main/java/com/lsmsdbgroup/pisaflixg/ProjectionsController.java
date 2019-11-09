@@ -41,6 +41,9 @@ public class ProjectionsController implements Initializable {
     
     @FXML
     private Button addProjectionButton;
+    
+    @FXML
+    private Button removeProjectionButton;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -50,6 +53,8 @@ public class ProjectionsController implements Initializable {
         } catch (PisaFlixServices.UserManager.UserNotLoggedException | PisaFlixServices.UserManager.InvalidPrivilegeLevelException ex) {
             addProjectionButton.setVisible(false);
             addProjectionButton.setManaged(false);
+            removeProjectionButton.setVisible(false);
+            removeProjectionButton.setManaged(false);
         }
         
         Set<Film> filmSet = PisaFlixServices.FilmManager.getAll();
@@ -69,6 +74,24 @@ public class ProjectionsController implements Initializable {
     @FXML
     private void clickAddProjectionButton(){
         App.setMainPane("AddProjection");
+    }
+    
+    @FXML
+    private void clickRemoveProjectionButton(){
+        if (projectionTable.getSelectionModel().getSelectedItem() == null){
+            return;
+        }
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Deleting Projection");
+        alert.setHeaderText("You're deleting the projection");
+        alert.setContentText("Are you sure do you want continue?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() != ButtonType.OK){
+            return;
+        }
+        Projection projection = (Projection) projectionTable.getSelectionModel().getSelectedItem();
+        PisaFlixServices.ProjectionManager.removeProjection(projection.getIdProjection());
+        showSearch();
     }
     
     @FXML

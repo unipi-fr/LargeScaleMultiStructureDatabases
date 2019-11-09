@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.lsmsdbgroup.pisaflixg;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
@@ -15,17 +10,12 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
-/**
- * FXML Controller class
- *
- * @author FraRonk
- */
 public class AddProjectionController implements Initializable {
     
     @FXML
@@ -45,16 +35,18 @@ public class AddProjectionController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         successLabel.setVisible(false);
         successLabel.setManaged(false);
-        Set<Film> films = PisaFlixServices.FilmManager.getAll();
-        Set<Cinema> cinemas = PisaFlixServices.CinemaManager.getAll();
         
-        for(Film film: films){
-            filmComboBox.getItems().add(film);
-        }
+        Set<Film> filmSet = PisaFlixServices.FilmManager.getAll();
+        Set<Cinema> cinemaSet = PisaFlixServices.CinemaManager.getAll();
+        ObservableList observableFilmSet = FXCollections.observableArrayList(filmSet);
+        ObservableList observableCinemaSet = FXCollections.observableArrayList(cinemaSet);
         
-        for(Cinema cinema: cinemas){
-            cinemaComboBox.getItems().add(cinema);
-        }
+
+        filmComboBox.getItems().setAll(observableFilmSet);
+        filmComboBox.getItems().add("All");
+        
+        cinemaComboBox.getItems().setAll(observableCinemaSet);
+        cinemaComboBox.getItems().add("All");
         
         LocalTime lt = LocalTime.MIN;
         for(int i = 0; i < 48; ++i){
@@ -94,16 +86,16 @@ public class AddProjectionController implements Initializable {
         }
         
         
-        Cinema c = (Cinema) cinemaComboBox.getValue();
-        Film f = (Film) filmComboBox.getValue();
+        Cinema cinema = (Cinema) cinemaComboBox.getValue();
+        Film film = (Film) filmComboBox.getValue();
         LocalTime lt = (LocalTime) timeComboBox.getValue();
         LocalDate ld = dateDatePicker.getValue();
         
         LocalDateTime ldt = LocalDateTime.of(ld, lt);
-        Date d = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+        Date date = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
         
         try {
-            PisaFlixServices.ProjectionManager.addProjection(c, f, d, Integer.parseInt(roomTextField.getText()));
+            PisaFlixServices.ProjectionManager.addProjection(cinema, film, date, Integer.parseInt(roomTextField.getText()));
         } catch (PisaFlixServices.UserManager.UserNotLoggedException | PisaFlixServices.UserManager.InvalidPrivilegeLevelException ex) {
             System.out.println(ex.getMessage());
         }

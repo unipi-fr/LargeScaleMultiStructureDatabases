@@ -8,31 +8,39 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.ProjectionsController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.ProjectionsController">
    <children>
       <HBox prefHeight="50.0" prefWidth="200.0">
          <children>
-            <DatePicker fx:id="datePicker" maxHeight="50.0" prefHeight="50.0" prefWidth="140.0" promptText="Data filter" />
-            <ComboBox fx:id="cinemaCombo" maxHeight="50.0" prefHeight="50.0" prefWidth="140.0" promptText="Cinema filter" />
-            <ComboBox fx:id="filmCombo" maxHeight="50.0" prefHeight="50.0" prefWidth="140.0" promptText="Film filter" />
-            <VBox alignment="CENTER" prefHeight="50.0" prefWidth="80.0">
-               <children>
-                  <Button maxHeight="30.0" mnemonicParsing="false" onMouseClicked="#showSearch" prefHeight="30.0" prefWidth="80.0" text="Search" />
-                  <Button fx:id="addProjectionButton" mnemonicParsing="false" onAction="#clickAddProjectionButton" prefHeight="25.0" prefWidth="80.0" text="Add" />
-               </children>
-            </VBox>
+            <DatePicker fx:id="datePicker" maxHeight="51.0" prefHeight="51.0" prefWidth="159.0" promptText="Data filter" />
+            <ComboBox fx:id="cinemaCombo" maxHeight="95.0" prefHeight="95.0" prefWidth="169.0" promptText="Cinema filter" />
+            <ComboBox fx:id="filmCombo" maxHeight="51.0" prefHeight="51.0" prefWidth="175.0" promptText="Film filter" />
          </children>
-      </HBox>
-      <TableView fx:id="projectionTable" prefHeight="400.0" prefWidth="490.0">
-        <columns>
-          <TableColumn fx:id="dataCol" maxWidth="175.0" minWidth="175.0" prefWidth="175.0" text="DataTime" />
-          <TableColumn fx:id="roomCol" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" text="Room" />
-            <TableColumn fx:id="cinemaCol" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Cinema" />
-            <TableColumn fx:id="filmCol" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Film" />
-        </columns>
          <VBox.margin>
-            <Insets top="30.0" />
+            <Insets />
          </VBox.margin>
-      </TableView>
+      </HBox>
+      <VBox prefHeight="483.0" prefWidth="500.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0">
+               <children>
+                  <Button maxHeight="76.0" mnemonicParsing="false" onMouseClicked="#showSearch" prefHeight="51.0" prefWidth="559.0" text="Search" />
+                  <Button fx:id="addProjectionButton" mnemonicParsing="false" onAction="#clickAddProjectionButton" prefHeight="51.0" prefWidth="539.0" text="Add" />
+                  <Button fx:id="removeProjectionButton" mnemonicParsing="false" onAction="#clickRemoveProjectionButton" prefHeight="51.0" prefWidth="536.0" text="Remove" />
+               </children>
+            </HBox>
+            <TableView fx:id="projectionTable" prefHeight="501.0" prefWidth="500.0">
+              <columns>
+                <TableColumn fx:id="dataCol" maxWidth="175.0" minWidth="175.0" prefWidth="175.0" text="DataTime" />
+                <TableColumn fx:id="roomCol" maxWidth="93.0" minWidth="75.0" prefWidth="93.0" text="Room" />
+                  <TableColumn fx:id="cinemaCol" maxWidth="125.0" minWidth="107.0" prefWidth="121.0" text="Cinema" />
+                  <TableColumn fx:id="filmCol" maxWidth="125.0" minWidth="111.0" prefWidth="111.0" text="Film" />
+              </columns>
+            </TableView>
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </VBox>
    </children>
 </VBox>

@@ -228,6 +228,10 @@ public class PisaFlixServices {
             UserManager.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a new projection");
             DBManager.ProjectionManager.create(d, room, f, c);
         }
+        
+        public static void removeProjection(int projectionId){
+            DBManager.ProjectionManager.delete(projectionId);
+        }
             
         public static Set<Projection> queryProjections(int cinemaId, int filmId, String date){
             Set<Projection> projections;

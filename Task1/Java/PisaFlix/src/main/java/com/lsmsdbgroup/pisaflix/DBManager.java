@@ -562,10 +562,13 @@ public class DBManager {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
                 Projection reference = entityManager.getReference(Projection.class, idProjection);
+                reference.getIdCinema().getProjectionSet().remove(reference);
+                reference.getIdFilm().getProjectionSet().remove(reference);
                 entityManager.remove(reference);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
                 System.out.println("A problem occurred in removing the Projection!");
+                ex.printStackTrace();
             } finally {
                 entityManager.close();
             }
