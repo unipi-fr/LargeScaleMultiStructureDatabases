@@ -80,6 +80,10 @@ public class Projection implements Serializable {
     public Cinema getIdCinema() {
         return idCinema;
     }
+    
+    public String getCinema() {
+        return idCinema.getName();
+    }
 
     public void setIdCinema(Cinema idCinema) {
         this.idCinema = idCinema;
@@ -88,10 +92,15 @@ public class Projection implements Serializable {
     public Film getIdFilm() {
         return idFilm;
     }
+    
+    public String getFilm() {
+        return idFilm.getTitle();
+    }
 
     public void setIdFilm(Film idFilm) {
         this.idFilm = idFilm;
     }
+    
 
     @Override
     public int hashCode() {
