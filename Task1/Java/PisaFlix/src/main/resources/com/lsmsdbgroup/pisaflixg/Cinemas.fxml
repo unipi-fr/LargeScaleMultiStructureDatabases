@@ -11,14 +11,14 @@
 
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.CinemasController">
    <children>
-      <ScrollPane fx:id="scrollPane" layoutX="15.0" layoutY="44.0" prefHeight="430.0" prefWidth="490.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+      <ScrollPane fx:id="scrollPane" layoutX="15.0" layoutY="44.0" prefHeight="430.0" prefWidth="490.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
          <content>
-            <TilePane fx:id="tilePane" hgap="5.0" prefColumns="3" prefHeight="470.0" prefRows="2" prefTileHeight="150" prefTileWidth="150" prefWidth="490.0" vgap="5.0" />
+            <TilePane fx:id="tilePane" hgap="5.0" prefColumns="4" prefRows="2" prefTileHeight="192.0" prefTileWidth="116.0" vgap="15.0">
+               <padding>
+                  <Insets left="5.0" top="10.0" />
+               </padding></TilePane>
          </content>
       </ScrollPane>
       <Button fx:id="addCinemaButton" layoutX="404.0" layoutY="14.0" mnemonicParsing="false" onAction="#addCinema" text="Add Cinema" />
    </children>
-   <padding>
-      <Insets left="5.0" />
-   </padding>
 </AnchorPane>

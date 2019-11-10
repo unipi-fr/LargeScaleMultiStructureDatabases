@@ -18,20 +18,26 @@ import javafx.scene.layout.AnchorPane;
 public class CinemaCardController implements Initializable {
 
     private final StringProperty nameProperty = new SimpleStringProperty();
+    private final StringProperty addressProperty = new SimpleStringProperty();
 
     private final int cinemaId;
 
-    public CinemaCardController(String name, int id) {
+    public CinemaCardController(String name, String address, int id) {
         nameProperty.set(name);
+        addressProperty.set(address);
         cinemaId = id;
     }
 
     @FXML
     private Label nameLabel;
+    
+    @FXML
+    private Label addressLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         nameLabel.setText(nameProperty.get());
+        addressLabel.setText(addressProperty.get());
     }
 
     @FXML
