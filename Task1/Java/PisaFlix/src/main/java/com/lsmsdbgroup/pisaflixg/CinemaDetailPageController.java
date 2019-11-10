@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.Set;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,6 +17,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class CinemaDetailPageController implements Initializable {
@@ -69,14 +71,34 @@ public class CinemaDetailPageController implements Initializable {
     public void setAddress(String address) {
         addressLabel.setText(address);
     }
+    
+    private Pane createComment(String username, String timestamp, String comment){
+        Pane pane = new Pane();
+        
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Comment.fxml"));
+            CommentController commentController = new CommentController(username, timestamp, comment);
+            loader.setController(commentController);
+            pane = loader.load();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        return pane;
+    }
 
-    public void addComment(String comment) {
-        TextArea cinemaComment = new TextArea();
+    public void addComment(Comment comment) {
+        String username = comment.getIdUser().getUsername();
+        String timestamp = comment.getTimestamp().toString();
+        String commentStr = comment.getText();
+        
+        commentVBox.getChildren().add(createComment(username, timestamp, commentStr));
+        /*TextArea cinemaComment = new TextArea();
 
         cinemaComment.setText(comment);
         cinemaComment.setEditable(false);
 
-        commentVBox.getChildren().add(cinemaComment);
+        commentVBox.getChildren().add(cinemaComment);*/
     }
 
     public void setFavoriteCount(int count) {
@@ -94,7 +116,7 @@ public class CinemaDetailPageController implements Initializable {
         Set<Comment> comments = cinema.getCommentSet();
 
         comments.forEach((comment) -> {
-            addComment(comment.getText());
+            addComment(comment);
         });
 
         setFavoriteCount(cinema.getUserSet().size());
@@ -124,7 +146,7 @@ public class CinemaDetailPageController implements Initializable {
         Set<Comment> comments = cinema.getCommentSet();
 
         comments.forEach((comment) -> {
-            addComment(comment.getText());
+            addComment(comment);
         });
     }
 

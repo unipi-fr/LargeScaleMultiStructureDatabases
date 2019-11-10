@@ -102,6 +102,47 @@
 
 /*******************************************************************************
  *                                                                             *
+ * Material Design - Cards For FILM 				                       				   *
+ *                                                                             *
+ ******************************************************************************/
+.card-film {
+	-fx-background-color: rgb(255.0, 255.0, 255.0);
+	-fx-background-radius: 4.0;
+	-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,
+		1.5);
+	-fx-padding: 15 0 15 0;
+}
+
+.card-film-title {
+	-fx-font-size: 20.0px;
+}
+
+.card-film-title .text {
+	-fx-fill: -fx-text-title-color;
+}
+
+.card-film-subtitle {
+	-fx-font-size: 16.0px;
+}
+
+.card-subtitle .text {
+	-fx-fill: -fx-text-subtitle-color;
+}
+
+.control-label-film {
+	-fx-font-size: 12.0px;
+}
+
+.control-label-film .text {
+	-fx-fill: -fx-text-control-title-color;
+}
+
+.card-film-button {
+	-fx-effect: null;
+}
+
+/*******************************************************************************
+ *                                                                             *
  * Button & ToggleButton                                                       *
  *                                                                             *
  ******************************************************************************/
@@ -555,6 +596,20 @@
 
 .scroll-bar>.track-background {
 	-fx-background-color: transparent;
+}
+
+.scroll-bar:vertical {
+    -fx-pref-width: 16.5;
+    -fx-padding: 3;
+}
+
+.scroll-bar:horizontal {
+    -fx-pref-height: 16.5;
+    -fx-padding: 3;
+}
+
+.scroll-bar, .scroll-bar:pressed, .scroll-bar:focused {
+    -fx-font-size: 15;
 }
 
 /*******************************************************************************

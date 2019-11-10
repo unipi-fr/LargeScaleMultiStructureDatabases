@@ -18,20 +18,26 @@ import javafx.scene.layout.*;
 public class FilmCardController implements Initializable {
 
     private final StringProperty titleProperty = new SimpleStringProperty();
+    private final StringProperty pusblishDateProperty = new SimpleStringProperty();
 
     private final int filmId;
 
-    public FilmCardController(String title, int id) {
+    public FilmCardController(String title, String publishDate, int id) {
         titleProperty.set(title);
+        pusblishDateProperty.set(publishDate);
         filmId = id;
     }
 
     @FXML
     private Label titleLabel;
+    
+    @FXML
+    private Label publishLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         titleLabel.setText(titleProperty.get());
+        publishLabel.setText(pusblishDateProperty.get());
     }
 
     @FXML

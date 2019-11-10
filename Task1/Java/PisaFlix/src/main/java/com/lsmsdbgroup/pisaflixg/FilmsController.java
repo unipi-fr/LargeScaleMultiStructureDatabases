@@ -46,12 +46,12 @@ public class FilmsController implements Initializable {
         searchFilms(null,null);
     }
     
-    private Pane createFilmCardPane(String title, int id){
+    private Pane createFilmCardPane(String title, String publishDate, int id){
         Pane pane = new Pane();
         
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmCard.fxml"));
-            FilmCardController fcc = new FilmCardController(title, id);
+            FilmCardController fcc = new FilmCardController(title, publishDate, id);
             loader.setController(fcc);
             pane = loader.load();
         } catch (IOException ex) {
@@ -64,14 +64,17 @@ public class FilmsController implements Initializable {
     public void populateScrollPane(Set<Film> films){
         tilePane.getChildren().clear();
         String title;
+        String publishDate;
         int id;
         
         Pane pane;
         int i = 0;
         for(Film film: films){
             title = film.getTitle();
+            publishDate = film.getPublicationDate().toString();
             id = film.getIdFilm();
-            pane = createFilmCardPane(title, id);
+            
+            pane = createFilmCardPane(title, publishDate, id);
             tilePane.getChildren().add(pane);
         }
     }
