@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
@@ -87,13 +88,33 @@ public class FilmDetailPageController implements Initializable {
         descriptionLabel.setText(Description);
     }
 
-    public void addComment(String comment) {
-        TextArea filmComment = new TextArea();
+    private Pane createComment(String username, String timestamp, String comment){
+        Pane pane = new Pane();
+        
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Comment.fxml"));
+            CommentController commentController = new CommentController(username, timestamp, comment);
+            loader.setController(commentController);
+            pane = loader.load();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        return pane;
+    }
+    
+    public void addComment(Comment comment) {
+        String username = comment.getIdUser().getUsername();
+        String timestamp = comment.getTimestamp().toString();
+        String commentStr = comment.getText();
+        
+        commentVBox.getChildren().add(createComment(username, timestamp, commentStr));
+        /*TextArea filmComment = new TextArea();
 
         filmComment.setText(comment);
         filmComment.setEditable(false);
 
-        commentVBox.getChildren().add(filmComment);
+        commentVBox.getChildren().add(filmComment);*/
     }
 
     public void setFavoriteCount(int count) {
@@ -112,7 +133,7 @@ public class FilmDetailPageController implements Initializable {
         Set<Comment> comments = film.getCommentSet();
 
         comments.forEach((comment) -> {
-            addComment(comment.getText());
+            addComment(comment);
         });
 
         setFavoriteCount(film.getUserSet().size());
@@ -142,7 +163,7 @@ public class FilmDetailPageController implements Initializable {
         Set<Comment> comments = film.getCommentSet();
 
         comments.forEach((comment) -> {
-            addComment(comment.getText());
+            addComment(comment);
         });
     }
 

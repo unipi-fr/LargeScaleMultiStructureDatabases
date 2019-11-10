@@ -79,16 +79,26 @@ public class ProjectionsController implements Initializable {
     @FXML
     private void clickRemoveProjectionButton(){
         if (projectionTable.getSelectionModel().getSelectedItem() == null){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Deleting Projection");
+            alert.setHeaderText("warning");
+            alert.setContentText("You must select a projection");
+            
+            alert.showAndWait();
+            
             return;
         }
+        
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Deleting Projection");
         alert.setHeaderText("You're deleting the projection");
         alert.setContentText("Are you sure do you want continue?");
+        
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() != ButtonType.OK){
             return;
         }
+        
         Projection projection = (Projection) projectionTable.getSelectionModel().getSelectedItem();
         PisaFlixServices.ProjectionManager.removeProjection(projection.getIdProjection());
         showSearch();
