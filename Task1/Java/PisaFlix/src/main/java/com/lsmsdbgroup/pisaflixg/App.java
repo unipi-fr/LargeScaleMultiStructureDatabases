@@ -13,6 +13,8 @@ public class App extends Application {
 
     private static Scene scene;
     private static MainPageController mpc;
+    private static FilmDetailPageController fdpc;
+    private static CinemaDetailPageController cdpc;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -44,6 +46,24 @@ public class App extends Application {
     
     public static void main(String[] args) {
         launch();
+    }
+    
+    public static void setFilmDetailPage(FilmDetailPageController fdpc){
+        fdpc = fdpc;
+    }
+    
+    public static void setCinemaDetailPage(CinemaDetailPageController cdpc){
+        cdpc = cdpc;
+    }
+    
+    public static FilmDetailPageController getFilmDetailpage()
+    {
+        return fdpc;
+    }
+    
+    public static CinemaDetailPageController getCinemaDetailpage()
+    {
+        return cdpc;
     }
 
 }

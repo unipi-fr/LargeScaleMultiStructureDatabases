@@ -320,4 +320,25 @@ public class PisaFlixServices {
             }
         }
     }
+    
+    public static class CommentManager{
+        public static void update(Comment comment){
+            int id = comment.getIdComment();
+            String text = comment.getText();
+            
+            DBManager.CommentManager.update(id, text);
+        }
+        
+        public static Comment getById(int id){
+            Comment comment;
+            
+            comment = DBManager.CommentManager.getById(id);
+            
+            return comment;
+        }
+        
+        public static void delete(int id){
+            DBManager.CommentManager.delete(id);
+        }
+    }
 }

@@ -72,12 +72,13 @@ public class CinemaDetailPageController implements Initializable {
         addressLabel.setText(address);
     }
     
-    private Pane createComment(String username, String timestamp, String comment){
+    private Pane createComment(String username, String timestamp, String commentStr, Comment comment){
         Pane pane = new Pane();
         
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Comment.fxml"));
-            CommentController commentController = new CommentController(username, timestamp, comment);
+            CommentController commentController = new CommentController(username, timestamp, commentStr, 1);
+            commentController.setComment(comment);
             loader.setController(commentController);
             pane = loader.load();
         } catch (IOException ex) {
@@ -92,7 +93,7 @@ public class CinemaDetailPageController implements Initializable {
         String timestamp = comment.getTimestamp().toString();
         String commentStr = comment.getText();
         
-        commentVBox.getChildren().add(createComment(username, timestamp, commentStr));
+        commentVBox.getChildren().add(createComment(username, timestamp, commentStr, comment));
         /*TextArea cinemaComment = new TextArea();
 
         cinemaComment.setText(comment);
