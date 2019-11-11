@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefWidth="300.0" styleClass="card" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" fx:id="anchorPane" prefWidth="300.0" styleClass="card" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label fx:id="usernameLabel" text="Username" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="0.0">
          <font>
@@ -19,6 +20,14 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="commentLabel" text="Comment" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0" />
+      <Label fx:id="commentLabel" text="Comment" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
+         <contextMenu>
+            <ContextMenu fx:id="commentMenu">
+              <items>
+                <MenuItem fx:id="updateMenuitem" mnemonicParsing="false" onAction="#updateComment" text="Update" />
+                  <MenuItem fx:id="deleteMenuItem" mnemonicParsing="false" onAction="#deleteComment" text="Delete" />
+              </items>
+            </ContextMenu>
+         </contextMenu></Label>
    </children>
 </AnchorPane>

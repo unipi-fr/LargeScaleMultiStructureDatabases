@@ -829,3 +829,15 @@
 .toolbar-colored .text {
 	-fx-fill: white;
 }
+
+/*******************************************************************************
+ *                                                                             *
+ * Scroll pane	                       			  				   *
+ *                                                                             *
+ ******************************************************************************/
+
+.scroll-pane{
+    -fx-focus-color: -fx-control-inner-background ;
+    -fx-faint-focus-color: -fx-control-inner-background ;
+    -fx-background-color: transparent;
+}
