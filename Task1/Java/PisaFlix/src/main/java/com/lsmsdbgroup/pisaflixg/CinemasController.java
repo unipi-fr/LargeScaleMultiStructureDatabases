@@ -1,12 +1,14 @@
 package com.lsmsdbgroup.pisaflixg;
 
-import com.lsmsdbgroup.pisaflix.Entities.Cinema;
+import com.lsmsdbgroup.pisaflix.Entities.Cinema;;
 import com.lsmsdbgroup.pisaflix.PisaFlixServices;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
@@ -27,6 +29,9 @@ public class CinemasController implements Initializable {
     private TilePane tilePane;
     
     @FXML
+    private TextField nameFilterTextField;
+    
+    @FXML
     private Button addCinemaButton;
 
     @Override
@@ -39,7 +44,7 @@ public class CinemasController implements Initializable {
             addCinemaButton.setManaged(false);
         }
         
-        List<Cinema> cinemas = new ArrayList<>(PisaFlixServices.CinemaManager.getAll());
+        Set<Cinema> cinemas = PisaFlixServices.CinemaManager.getAll();
 
         populateScrollPane(cinemas);
     }
@@ -59,12 +64,13 @@ public class CinemasController implements Initializable {
         return pane;
     }
 
-    public void populateScrollPane(List<Cinema> cinemas) {
-        Pane pane = new Pane();
+    public void populateScrollPane(Set<Cinema> cinemas) {
+        Pane pane;
         String name;
         String address;
         int id;
 
+        tilePane.getChildren().clear();
         for (Cinema cinema : cinemas) {
             name = cinema.getName();
             address = cinema.getAddress();
@@ -73,6 +79,20 @@ public class CinemasController implements Initializable {
             pane = createFilmCardPane(name, address, id);
             tilePane.getChildren().add(pane);
         }
+    }
+    
+    @FXML 
+    private void filterCinemas(){
+        String nameFilter = nameFilterTextField.getText();
+        
+        searchCinemas(nameFilter,null);
+    }
+    
+    @FXML
+    private void searchCinemas(String titleFilter, String addressFilter){
+        Set<Cinema> cinemas = PisaFlixServices.CinemaManager.getFiltered(titleFilter, addressFilter);
+        
+        populateScrollPane(cinemas);
     }
    
     @FXML

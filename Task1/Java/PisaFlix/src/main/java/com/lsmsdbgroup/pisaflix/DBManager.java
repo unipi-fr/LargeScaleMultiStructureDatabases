@@ -281,7 +281,7 @@ public class DBManager {
             }
         }
 
-        static Set<Film> getFilmFiltered(String titleFilter, Date startDateFilter, Date endDateFilter) {
+        static Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter) {
             Set<Film> films = null;
             String title = "";
             Calendar calendar = Calendar.getInstance();
@@ -307,11 +307,11 @@ public class DBManager {
                 entityManager.getTransaction().begin();
                 films = new LinkedHashSet<>(entityManager.createQuery(query).getResultList());
                 if (films == null) {
-                    System.out.println("Film is empty!");
+                    System.out.println("Films are empty!");
                 }
             } catch (Exception ex) {
                 ex.printStackTrace(System.out);
-                System.out.println("A problem occurred in retrieve all films!");
+                System.out.println("A problem occurred in retrieve films filtered!");
             } finally {
                 entityManager.close();
             }
@@ -351,6 +351,38 @@ public class DBManager {
                 entityManager.close();
             }
             return cinema;
+        }
+        
+        static Set<Cinema> getFiltered(String nameFilter, String addressFilter) {
+            Set<Cinema> cinemas = null;
+            String name = "";
+            String address = "";
+            if (nameFilter != null) {
+                name = nameFilter;
+            }
+            if (addressFilter != null) {
+                address = addressFilter;
+            }
+
+            String query = "SELECT c "
+                    + "FROM Cinema c "
+                    + "WHERE ('" + name + "'='' OR c.name LIKE '%" + name + "%') "
+                    + "AND ('" + address + "'='' OR c.address LIKE '%" + address + "%') ";
+
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+                cinemas = new LinkedHashSet<>(entityManager.createQuery(query).getResultList());
+                if (cinemas == null) {
+                    System.out.println("cinemas are empty!");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace(System.out);
+                System.out.println("A problem occurred in retrieve cinemas filtered!");
+            } finally {
+                entityManager.close();
+            }
+            return cinemas;
         }
 
         public static void delete(int idCinema) {

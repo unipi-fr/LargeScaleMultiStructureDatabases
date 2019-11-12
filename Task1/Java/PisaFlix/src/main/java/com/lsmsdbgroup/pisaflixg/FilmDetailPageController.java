@@ -71,7 +71,6 @@ public class FilmDetailPageController implements Initializable {
         } catch (PisaFlixServices.UserManager.UserNotLoggedException | PisaFlixServices.UserManager.InvalidPrivilegeLevelException ex) {
             deleteFilmButton.setVisible(false);
             deleteFilmButton.setManaged(false);
-            deleteFilmButton.setDisable(false); 
         }
         
     }
@@ -171,13 +170,7 @@ public class FilmDetailPageController implements Initializable {
     @FXML
     private void clickDeleteFilmButton(){
         
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Deleting film");
-        alert.setHeaderText("You're deleting the film");
-        alert.setContentText("Are you sure do you want continue?");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() != ButtonType.OK){
+        if(!App.printConfirmationDialog("Deleting film", "You're deleting the film", "Are you sure do you want continue?")){
             return;
         }
         try {
