@@ -539,8 +539,7 @@ public class DBManager {
             }
         }
 
-        public static void update(int idComment, String text) {
-            Comment comment = new Comment(idComment);
+        public static void update(Comment comment, String text) {
             comment.setText(text);
             try {
                 entityManager = factory.createEntityManager();

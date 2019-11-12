@@ -38,7 +38,7 @@
             </ContextMenu>
          </contextMenu>
       </Label>
-      <TextArea fx:id="commentTextArea" maxHeight="100.0" maxWidth="280.0" minHeight="100.0" minWidth="280.0" prefHeight="100.0" prefWidth="280.0" />
+      <TextArea fx:id="commentTextArea" maxHeight="100.0" maxWidth="280.0" minHeight="100.0" minWidth="280.0" prefHeight="100.0" prefWidth="280.0" wrapText="true" />
       <HBox fx:id="buttonHbox" alignment="CENTER" spacing="10.0">
          <children>
             <Button fx:id="cancelButton" mnemonicParsing="false" onMouseClicked="#cancelComment" text="cancel" />

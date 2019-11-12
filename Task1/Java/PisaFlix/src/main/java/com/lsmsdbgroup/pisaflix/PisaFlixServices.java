@@ -334,10 +334,7 @@ public class PisaFlixServices {
     
     public static class CommentManager{
         public static void update(Comment comment){
-            int id = comment.getIdComment();
-            String text = comment.getText();
-            
-            DBManager.CommentManager.update(id, text);
+            DBManager.CommentManager.update(comment, comment.getText());
         }
         
         public static Comment getById(int id){
