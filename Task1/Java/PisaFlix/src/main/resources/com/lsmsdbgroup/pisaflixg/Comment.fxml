@@ -28,7 +28,7 @@
             <Insets left="10.0" right="10.0" />
          </padding>
       </HBox>
-      <Label fx:id="commentLabel" prefWidth="300.0" text="Comment">
+      <Label fx:id="commentLabel" prefWidth="300.0" text="Comment" wrapText="true">
          <contextMenu>
             <ContextMenu fx:id="commentMenu">
                <items>
