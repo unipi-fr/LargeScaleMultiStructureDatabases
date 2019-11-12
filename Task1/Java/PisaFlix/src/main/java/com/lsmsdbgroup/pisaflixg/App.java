@@ -18,8 +18,6 @@ public class App extends Application {
 
     private static Scene scene;
     private static MainPageController mpc;
-    private static FilmDetailPageController fdpc;
-    private static CinemaDetailPageController cdpc;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -53,26 +51,26 @@ public class App extends Application {
         launch();
     }
     
-    public static void setFilmDetailPage(FilmDetailPageController fdpc){
-        fdpc = fdpc;
-    }
-    
-    public static void setCinemaDetailPage(CinemaDetailPageController cdpc){
-        cdpc = cdpc;
-    }
-    
-    public static FilmDetailPageController getFilmDetailpage()
-    {
-        return fdpc;
-    }
-    
-    public static CinemaDetailPageController getCinemaDetailpage()
-    {
-        return cdpc;
-    }
-    
     public static boolean printConfirmationDialog(String title, String header, String content){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        
+        URL resource = App.class.getResource("/styles/PisaFlix.css");
+        
+        if(resource != null){
+            DialogPane dialogPane = alert.getDialogPane();
+            dialogPane.getStylesheets().add(resource.toExternalForm());
+        }
+
+        Optional<ButtonType> result = alert.showAndWait();
+        
+        return result.get() == ButtonType.OK;
+    }
+    
+    public static boolean printWarningDialog(String title, String header, String content){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);

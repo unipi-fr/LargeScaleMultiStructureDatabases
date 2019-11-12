@@ -1,10 +1,13 @@
 package com.lsmsdbgroup.pisaflixg;
 
+import com.lsmsdbgroup.pisaflix.Entities.Cinema;
 import com.lsmsdbgroup.pisaflix.Entities.Comment;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
+import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.PisaFlixServices;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
@@ -110,21 +113,22 @@ public class CommentController implements Initializable {
     }
     
     @FXML
-    private void shoeCommentMenu(MouseEvent event){
-        if (event.isSecondaryButtonDown()) {
-            commentMenu.show(commentVbox, event.getScreenX(), event.getScreenY());
-        }
+    private void showCommentMenu(MouseEvent event){
+        try{
+            User user = PisaFlixServices.Authentication.getLoggedUser();
+            if(!Objects.equals(comment.getIdUser().getIdUser(), user.getIdUser())) {
+                PisaFlixServices.UserManager.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.SOCIAL_MODERATOR);
+            } else {
+            }
+            if (event.isSecondaryButtonDown()) {
+                commentMenu.show(commentVbox, event.getScreenX(), event.getScreenY());
+            }
+        } catch(Exception ex) {}
     }
     
     @FXML
     private void confirmComment(){
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Updating a comment");
-        alert.setHeaderText("You are updating a comment");
-        alert.setContentText("Are you sure to continue");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() != ButtonType.OK){
+        if (!App.printConfirmationDialog("Updating a comment", "You are updating a comment", "Are you sure to continue")){
             return;
         }
         
@@ -152,24 +156,49 @@ public class CommentController implements Initializable {
     }
     
     @FXML
-    private void deleteComment(){       
-        Film film = comment.getFilmSet().iterator().next();
+    private void deleteComment(){
+        if (!App.printConfirmationDialog("Deleting a comment", "You are deleting a comment", "Are you sure to continue")){
+            return;
+        }
         
         PisaFlixServices.CommentManager.delete(comment.getIdComment());
         
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
-        AnchorPane anchorPane = null;
-        try {
-            anchorPane = loader.load();
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+        if(type == 0)
+        {
+            Film film = comment.getFilmSet().iterator().next();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
+            AnchorPane anchorPane = null;
+            try {
+                anchorPane = loader.load();
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+            FilmDetailPageController filmDetailPageController = loader.getController();
+            filmDetailPageController.setFilm(film);
+
+            App.setMainPane(anchorPane);
+
+            filmDetailPageController.refreshFilm();
+            filmDetailPageController.refreshComment();
+        } else {
+            Cinema cinema = comment.getCinemaSet().iterator().next();
+            
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("CinemaDetailPage.fxml"));
+            AnchorPane anchorPane = null;
+            try {
+                anchorPane = loader.load();
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+            
+            CinemaDetailPageController cinemaDetailPageController = loader.getController();
+            cinemaDetailPageController.setCinema(cinema);
+
+            App.setMainPane(anchorPane);
+            
+            cinemaDetailPageController.refreshCinema();
+            cinemaDetailPageController.refreshComment();
         }
-        FilmDetailPageController filmDetailPageController = loader.getController();
-        filmDetailPageController.setFilm(film);
-        
-        App.setMainPane(anchorPane);
-        
-        filmDetailPageController.refreshFilm();
-        filmDetailPageController.refreshComment();
     }
 }
