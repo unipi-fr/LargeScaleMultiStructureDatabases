@@ -7,6 +7,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.Optional;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
 import javafx.scene.layout.Pane;
 
 public class App extends Application {
@@ -64,6 +69,24 @@ public class App extends Application {
     public static CinemaDetailPageController getCinemaDetailpage()
     {
         return cdpc;
+    }
+    
+    public static boolean printConfirmationDialog(String title, String header, String content){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        
+        URL resource = App.class.getResource("PisaFlix.css");
+        
+        if(resource != null){
+            DialogPane dialogPane = alert.getDialogPane();
+            dialogPane.getStylesheets().add(resource.toExternalForm());
+        }
+
+        Optional<ButtonType> result = alert.showAndWait();
+        
+        return result.get() == ButtonType.OK;
     }
 
 }

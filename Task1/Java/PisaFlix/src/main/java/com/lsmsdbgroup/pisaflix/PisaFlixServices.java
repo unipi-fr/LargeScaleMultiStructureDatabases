@@ -121,7 +121,7 @@ public class PisaFlixServices {
         public static Set<Film> getFilmsFiltered(String titleFilter, Date startDateFilter, Date endDateFilter){
             Set<Film> films = null;
             
-            films = DBManager.FilmManager.getFilmFiltered(titleFilter,startDateFilter,endDateFilter);
+            films = DBManager.FilmManager.getFiltered(titleFilter,startDateFilter,endDateFilter);
             
             return films;
         }
@@ -191,6 +191,14 @@ public class PisaFlixServices {
             return cinemas;
         }
         
+        public static Set<Cinema> getFiltered(String name, String address){
+            Set<Cinema> cinemas = null;
+            
+            cinemas = DBManager.CinemaManager.getFiltered(name, address);
+            
+            return cinemas;
+        }
+        
         public static Cinema getById(int id){
             Cinema cinema;
             
@@ -219,6 +227,11 @@ public class PisaFlixServices {
             cinema.getUserSet().remove(user);
             DBManager.UserManager.updateFavorites(user);
             DBManager.CinemaManager.updateFavorites(cinema);
+        }
+
+        public static void deleteCinema(Cinema cinema) throws UserManager.UserNotLoggedException, UserManager.InvalidPrivilegeLevelException {
+           PisaFlixServices.UserManager.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.MODERATOR, "delete a cinema");
+            DBManager.CinemaManager.delete(cinema.getIdCinema());
         }
     }
     

@@ -50,6 +50,9 @@ public class CinemaDetailPageController implements Initializable {
 
     @FXML
     private Button favoriteButton;
+    
+    @FXML
+    private Button deleteCinemaButton;
 
     @FXML
     private Label favoriteLabel;
@@ -61,6 +64,13 @@ public class CinemaDetailPageController implements Initializable {
             commentArea.setEditable(true);
             commentButton.setDisable(false);
             favoriteButton.setDisable(false);
+        }
+        
+        try {
+            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.MODERATOR);
+        } catch (PisaFlixServices.UserManager.UserNotLoggedException | PisaFlixServices.UserManager.InvalidPrivilegeLevelException ex) {
+            deleteCinemaButton.setVisible(false);
+            deleteCinemaButton.setManaged(false); 
         }
     }
 
@@ -149,6 +159,20 @@ public class CinemaDetailPageController implements Initializable {
         comments.forEach((comment) -> {
             addComment(comment);
         });
+    }
+    
+    @FXML
+    private void clickDeleteCinemaButton(){
+        
+        if(!App.printConfirmationDialog("Deleting cinema", "You're deleting the cinema", "Are you sure do you want continue?")){
+            return;
+        }
+        try {
+            PisaFlixServices.CinemaManager.deleteCinema(this.cinema);
+            App.setMainPane("Cinemas");
+        } catch (PisaFlixServices.UserManager.UserNotLoggedException | PisaFlixServices.UserManager.InvalidPrivilegeLevelException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     @FXML
