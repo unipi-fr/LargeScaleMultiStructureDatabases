@@ -29,7 +29,7 @@
       </Label>
       <ScrollPane fx:id="commentScrollPane" fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="130.0">
          <content>
-            <VBox fx:id="commentVBox" alignment="TOP_CENTER" prefWidth="320.0" spacing="5.0">
+            <VBox fx:id="commentVBox" alignment="TOP_CENTER" prefWidth="330.0" spacing="5.0">
                <padding>
                   <Insets left="5.0" right="5.0" top="1.0" />
                </padding></VBox>
