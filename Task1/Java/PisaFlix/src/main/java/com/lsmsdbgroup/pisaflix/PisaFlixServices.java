@@ -170,13 +170,12 @@ public class PisaFlixServices {
         public static void addFavorite(Film film, User user){
             user.getFilmSet().add(film);
             film.getUserSet().add(user);
-            DBManager.UserManager.updateFavorites(user);
+            DBManager.FilmManager.updateFavorites(film);
         }
         
         public static void removeFavourite(Film film, User user) {
             user.getFilmSet().remove(film);
             film.getUserSet().remove(user);
-            DBManager.UserManager.updateFavorites(user);
             DBManager.FilmManager.updateFavorites(film);
         }
     }
@@ -219,13 +218,12 @@ public class PisaFlixServices {
         public static void addFavorite(Cinema cinema, User user){
             user.getCinemaSet().add(cinema);
             cinema.getUserSet().add(user);
-            DBManager.UserManager.updateFavorites(user);
+            DBManager.CinemaManager.updateFavorites(cinema);
         }
         
         public static void removeFavourite(Cinema cinema, User user) {
             user.getCinemaSet().remove(cinema);
             cinema.getUserSet().remove(user);
-            DBManager.UserManager.updateFavorites(user);
             DBManager.CinemaManager.updateFavorites(cinema);
         }
 

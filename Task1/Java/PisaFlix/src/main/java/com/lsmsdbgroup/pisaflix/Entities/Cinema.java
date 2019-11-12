@@ -32,6 +32,7 @@ public class Cinema implements Serializable {
     private Set<User> userSet = new LinkedHashSet<>();
 
     @ManyToMany(mappedBy = "cinemaSet", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OrderBy
     private Set<Comment> commentSet = new LinkedHashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCinema", fetch = FetchType.EAGER)

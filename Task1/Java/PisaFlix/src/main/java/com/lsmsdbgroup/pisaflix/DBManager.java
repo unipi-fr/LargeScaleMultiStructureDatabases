@@ -31,6 +31,7 @@ public class DBManager {
                     System.out.println("User not found!");
                 }
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 ex.printStackTrace(System.out);
                 System.out.println("A problem occurred in retriving a user!");
             } finally {
@@ -55,6 +56,7 @@ public class DBManager {
                 entityManager.persist(user);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred in creating the user!");
             } finally {
                 entityManager.close();
@@ -68,6 +70,7 @@ public class DBManager {
                 entityManager.merge(user);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred in updating favorites!");
             } finally {
                 entityManager.close();
@@ -83,6 +86,7 @@ public class DBManager {
                 entityManager.remove(reference);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred in removing a User!");
             } finally {
                 entityManager.close();
@@ -98,6 +102,7 @@ public class DBManager {
                 entityManager.merge(user);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred clearing the user's cinemaset and filmset!");
             } finally {
                 entityManager.close();
@@ -123,6 +128,7 @@ public class DBManager {
                 entityManager.merge(user);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred in updating a user!");
             } finally {
                 entityManager.close();
@@ -141,6 +147,7 @@ public class DBManager {
                     System.out.println("User is empty!");
                 }
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 ex.printStackTrace(System.out);
                 System.out.println("A problem occurred in retriving a user!");
             } finally {
@@ -160,6 +167,7 @@ public class DBManager {
                     System.out.println("Users is empty!");
                 }
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 ex.printStackTrace(System.out);
                 System.out.println("A problem occurred in retriving a user!");
             } finally {
@@ -179,6 +187,7 @@ public class DBManager {
                 entityManager.getTransaction().begin();
                 film = entityManager.find(Film.class, filmId);
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 ex.printStackTrace(System.out);
                 System.out.println("A problem occurred in retriving a film!");
             } finally {
@@ -197,6 +206,7 @@ public class DBManager {
                     System.out.println("Film is empty!");
                 }
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 ex.printStackTrace(System.out);
                 System.out.println("A problem occurred in retrieve all films!");
             } finally {
@@ -216,6 +226,7 @@ public class DBManager {
                 entityManager.persist(film);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred in creating the film!");
             } finally {
                 entityManager.close();
@@ -233,6 +244,7 @@ public class DBManager {
                 entityManager.merge(film);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred in updating the film!");
             } finally {
                 entityManager.close();
@@ -248,6 +260,7 @@ public class DBManager {
                 entityManager.remove(reference);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred in deleting the film!");
             } finally {
                 entityManager.close();
@@ -262,6 +275,7 @@ public class DBManager {
                 entityManager.merge(film);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred clearing the film's userset!");
             } finally {
                 entityManager.close();
@@ -275,7 +289,8 @@ public class DBManager {
                 entityManager.merge(film);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                System.out.println("A problem occurred updating favorites!");
+                System.out.println(ex.getMessage());
+                System.out.println("A problem occurred updating favorite films!");
             } finally {
                 entityManager.close();
             }
@@ -310,6 +325,7 @@ public class DBManager {
                     System.out.println("Films are empty!");
                 }
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 ex.printStackTrace(System.out);
                 System.out.println("A problem occurred in retrieve films filtered!");
             } finally {
@@ -332,6 +348,7 @@ public class DBManager {
                 entityManager.persist(cinema);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred in creating the cinema!");
             } finally {
                 entityManager.close();
@@ -345,6 +362,7 @@ public class DBManager {
                 entityManager.getTransaction().begin();
                 cinema = entityManager.find(Cinema.class, cinemaId);
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 ex.printStackTrace(System.out);
                 System.out.println("A problem occurred in retriving a film!");
             } finally {
@@ -377,6 +395,7 @@ public class DBManager {
                     System.out.println("cinemas are empty!");
                 }
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 ex.printStackTrace(System.out);
                 System.out.println("A problem occurred in retrieve cinemas filtered!");
             } finally {
@@ -394,6 +413,7 @@ public class DBManager {
                 entityManager.remove(reference);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred in removing a Cinema!");
             } finally {
                 entityManager.close();
@@ -408,6 +428,7 @@ public class DBManager {
                 entityManager.merge(cinema);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred clearing the cinema's userset!");
             } finally {
                 entityManager.close();
@@ -424,6 +445,7 @@ public class DBManager {
                 entityManager.merge(cinema);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred in updating the film!");
             } finally {
                 entityManager.close();
@@ -440,6 +462,7 @@ public class DBManager {
                     System.out.println("Cinema is empty!");
                 }
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 ex.printStackTrace(System.out);
                 System.out.println("A problem occurred in retrieve all cinemas!");
             } finally {
@@ -455,7 +478,8 @@ public class DBManager {
                 entityManager.merge(cinema);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
-                System.out.println("A problem occurred updating favorites!");
+                System.out.println(ex.getMessage());
+                System.out.println("A problem occurred updating favorite cinemas!");
             } finally {
                 entityManager.close();
             }
@@ -481,10 +505,9 @@ public class DBManager {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
                 entityManager.persist(comment);
-                entityManager.merge(user);
-                entityManager.merge(film);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred in creating the comment!");
             } finally {
                 entityManager.close();
@@ -507,10 +530,9 @@ public class DBManager {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
                 entityManager.persist(comment);
-                entityManager.merge(user);
-                entityManager.merge(cinema);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred in creating the comment!");
             } finally {
                 entityManager.close();
@@ -526,6 +548,7 @@ public class DBManager {
                 entityManager.merge(comment);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred in updating the Comment!");
             } finally {
                 entityManager.close();
@@ -548,6 +571,7 @@ public class DBManager {
                 entityManager.remove(reference);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred in removing the Comment!");
             } finally {
                 entityManager.close();
@@ -561,7 +585,7 @@ public class DBManager {
                 entityManager.getTransaction().begin();
                 comment = entityManager.find(Comment.class, commentId);
             } catch (Exception ex) {
-                ex.printStackTrace(System.out);
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred in retriving a comment!");
             } finally {
                 entityManager.close();
@@ -589,6 +613,7 @@ public class DBManager {
                 entityManager.merge(film);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred in creating the projection!");
             } finally {
                 entityManager.close();
@@ -606,8 +631,8 @@ public class DBManager {
                 entityManager.remove(reference);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred in removing the Projection!");
-                ex.printStackTrace();
             } finally {
                 entityManager.close();
             }
@@ -623,6 +648,7 @@ public class DBManager {
                 entityManager.merge(projection);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred in updating the projection!");
             } finally {
                 entityManager.close();
@@ -639,7 +665,7 @@ public class DBManager {
                     System.out.println("Projection is empty!");
                 }
             } catch (Exception ex) {
-                ex.printStackTrace(System.out);
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred in retrieve all projections!");
             } finally {
                 entityManager.close();
@@ -654,6 +680,7 @@ public class DBManager {
                 entityManager.getTransaction().begin();
                 projection = entityManager.find(Projection.class, projectionId);
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 ex.printStackTrace(System.out);
                 System.out.println("A problem occurred in retriving a projection!");
             } finally {
@@ -679,7 +706,7 @@ public class DBManager {
                     System.out.println("Users is empty!");
                 }
             } catch (Exception ex) {
-                ex.printStackTrace(System.out);
+                System.out.println(ex.getMessage());
                 System.out.println("A problem occurred in retriving a user!");
             } finally {
                 entityManager.close();
