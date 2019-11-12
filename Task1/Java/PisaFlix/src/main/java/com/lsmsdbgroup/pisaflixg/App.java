@@ -77,7 +77,7 @@ public class App extends Application {
         alert.setHeaderText(header);
         alert.setContentText(content);
         
-        URL resource = App.class.getResource("PisaFlix.css");
+        URL resource = App.class.getResource("/styles/PisaFlix.css");
         
         if(resource != null){
             DialogPane dialogPane = alert.getDialogPane();
