@@ -1,16 +1,20 @@
 package com.lsmsdbgroup.pisaflixg;
 
 import com.lsmsdbgroup.pisaflix.Entities.Comment;
+import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.PisaFlixServices;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Region;
@@ -148,7 +152,24 @@ public class CommentController implements Initializable {
     }
     
     @FXML
-    private void deleteComment(){
+    private void deleteComment(){       
+        Film film = comment.getFilmSet().iterator().next();
+        
         PisaFlixServices.CommentManager.delete(comment.getIdComment());
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
+        AnchorPane anchorPane = null;
+        try {
+            anchorPane = loader.load();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        FilmDetailPageController filmDetailPageController = loader.getController();
+        filmDetailPageController.setFilm(film);
+        
+        App.setMainPane(anchorPane);
+        
+        filmDetailPageController.refreshFilm();
+        filmDetailPageController.refreshComment();
     }
 }

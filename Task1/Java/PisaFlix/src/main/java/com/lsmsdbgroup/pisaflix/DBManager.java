@@ -506,6 +506,13 @@ public class DBManager {
                 entityManager = factory.createEntityManager();
                 entityManager.getTransaction().begin();
                 Comment reference = entityManager.getReference(Comment.class, idComment);
+                if(!reference.getCinemaSet().isEmpty()){
+                    reference.getCinemaSet().iterator().next().getCommentSet().remove(reference);
+                }   
+                if(!reference.getFilmSet().isEmpty()){
+                    reference.getFilmSet().iterator().next().getCommentSet().remove(reference);
+                }              
+                reference.getIdUser().getCommentSet().remove(reference);
                 entityManager.remove(reference);
                 entityManager.getTransaction().commit();
             } catch (Exception ex) {
