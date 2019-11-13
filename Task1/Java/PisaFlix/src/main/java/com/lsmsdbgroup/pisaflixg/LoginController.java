@@ -1,7 +1,7 @@
 package com.lsmsdbgroup.pisaflixg;
 
 import com.lsmsdbgroup.pisaflix.DBManager;
-import com.lsmsdbgroup.pisaflix.PisaFlixServices;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;

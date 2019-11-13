@@ -2,7 +2,7 @@ package com.lsmsdbgroup.pisaflixg;
 
 import com.lsmsdbgroup.pisaflix.Entities.Comment;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
-import com.lsmsdbgroup.pisaflix.PisaFlixServices;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import java.io.IOException;
 import javafx.beans.property.StringProperty;
 import java.net.URL;

@@ -7,7 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import com.lsmsdbgroup.pisaflix.PisaFlixServices;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Date;
