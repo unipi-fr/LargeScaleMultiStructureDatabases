@@ -4,7 +4,8 @@ import com.lsmsdbgroup.pisaflix.Entities.Cinema;
 import com.lsmsdbgroup.pisaflix.Entities.Comment;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.User;
-import com.lsmsdbgroup.pisaflix.PisaFlixServices;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
@@ -117,13 +118,9 @@ public class CommentController implements Initializable {
    private void showCommentMenu(MouseEvent event) {
         try {
             User user = PisaFlixServices.Authentication.getLoggedUser();
-            if (user != null) {
-                if (!Objects.equals(comment.getIdUser(), user)) {
-                    PisaFlixServices.UserManager.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.SOCIAL_MODERATOR);
-                }
-                if (event.isSecondaryButtonDown()) {
-                    commentMenu.show(commentVbox, event.getScreenX(), event.getScreenY());
-                }
+            if(!Objects.equals(comment.getIdUser().getIdUser(), user.getIdUser())) {
+                PisaFlixServices.UserManager.checkUserPrivilegesForOperation(UserPrivileges.SOCIAL_MODERATOR);
+            } else {
             }
         } catch (PisaFlixServices.UserManager.InvalidPrivilegeLevelException | PisaFlixServices.UserManager.UserNotLoggedException ex) {
             System.out.println(ex.getMessage());

@@ -5,7 +5,8 @@
  */
 package com.lsmsdbgroup.pisaflixg;
 
-import com.lsmsdbgroup.pisaflix.PisaFlixServices;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.Date;
@@ -68,7 +69,7 @@ public class AddCinemaController implements Initializable {
         
         try {
             PisaFlixServices.CinemaManager.AddCinema(nameTextField.getText(), addressTextField.getText());
-        } catch (PisaFlixServices.UserManager.UserNotLoggedException | PisaFlixServices.UserManager.InvalidPrivilegeLevelException ex) {
+        } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             System.out.println(ex.getMessage());
             return;
         }

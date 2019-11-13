@@ -1,6 +1,8 @@
 package com.lsmsdbgroup.pisaflixg;
 
-import com.lsmsdbgroup.pisaflix.PisaFlixServices;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.Date;
@@ -49,8 +51,8 @@ public class AddFilmController implements Initializable {
         successLabel.setVisible(false);
         successLabel.setManaged(false);
         try {
-            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.MODERATOR, "add a new film");
-        } catch (PisaFlixServices.UserManager.UserNotLoggedException | PisaFlixServices.UserManager.InvalidPrivilegeLevelException ex) {
+            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a new film");
+        } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             System.out.println(ex.getMessage());
             return;
         }

@@ -1,6 +1,8 @@
 package com.lsmsdbgroup.pisaflixg;
 
-import com.lsmsdbgroup.pisaflix.PisaFlixServices;
+import com.lsmsdbgroup.pisaflix.Entities.User;
+import com.lsmsdbgroup.pisaflix.dbmanager.DBManager;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -64,6 +66,14 @@ public class RegistrationController implements Initializable {
         }
         PisaFlixServices.UserManager.register(usernameTextField.getText(), passPasswordField.getText(), firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), 0);
         
+        User u = new User();
+        u.setUsername(usernameTextField.getText());
+        u.setPassword(passPasswordField.getText());
+        u.setFirstName(firstNameTextField.getText());
+        u.setLastName(lastNameTextField.getText());
+        u.setEmail(emailTextField.getText());
+        
+        PisaFlixServices.UserManager.registerUser(u);
         successLabel.setTextFill(Color.GREEN);
         successLabel.setText("Registration is done!");
         successLabel.setVisible(true);
