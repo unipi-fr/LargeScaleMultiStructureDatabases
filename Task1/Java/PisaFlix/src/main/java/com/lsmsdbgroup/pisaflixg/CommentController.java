@@ -23,148 +23,151 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.Region;
 
 public class CommentController implements Initializable {
+
     /*
         0 = Film
         1 = Cinema
-    */
+     */
     private int type;
-    
+
     private final StringProperty usernameProperty = new SimpleStringProperty();
     private final StringProperty timestampProperty = new SimpleStringProperty();
     private final StringProperty commentProperty = new SimpleStringProperty();
-    
+
     private Comment comment;
-    
-    public CommentController(String username, String timestamp, String commment, int type){
+
+    public CommentController(String username, String timestamp, String commment, int type) {
         usernameProperty.set(username);
-        
+
         String[] timestampSplit = timestamp.split(":");
         String timestampStr = timestampSplit[0] + ":" + timestampSplit[1];
         timestampProperty.set(timestampStr);
         commentProperty.set(commment);
-        
+
         this.type = type;
     }
-    
-    public void setComment(Comment comment){
+
+    public void setComment(Comment comment) {
         this.comment = comment;
     }
-    
+
     @FXML
     private VBox commentVbox;
-    
+
     @FXML
     private Label usernameLabel;
-    
+
     @FXML
     private Label timestampLabel;
-    
+
     @FXML
     private Label commentLabel;
-    
+
     @FXML
     private ContextMenu commentMenu;
-    
+
     @FXML
     private MenuItem updateMenuItem;
-    
+
     @FXML
     private MenuItem deleteMenuItem;
-    
+
     @FXML
     private TextArea commentTextArea;
-    
+
     @FXML
     private HBox buttonHbox;
-    
+
     @FXML
     private Button cancelButton;
-    
+
     @FXML
     private Button updateButton;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         usernameLabel.setText(usernameProperty.get());
         timestampLabel.setText(timestampProperty.get());
         commentLabel.setText(commentProperty.get());
-        
+
         commentLabel.setMinHeight(Region.USE_PREF_SIZE);
-        
+
         commentTextArea.setVisible(false);
         commentTextArea.setManaged(false);
         buttonHbox.setVisible(false);
         buttonHbox.setManaged(false);
     }
-    
-    private void switchState(boolean state){
+
+    private void switchState(boolean state) {
         commentTextArea.setVisible(state);
         commentTextArea.setManaged(state);
-        
+
         buttonHbox.setVisible(state);
         buttonHbox.setManaged(state);
-        
+
         commentLabel.setVisible(!state);
         commentLabel.setManaged(!state);
     }
-    
-    private void refreshComment(){
+
+    private void refreshComment() {
         comment = PisaFlixServices.CommentManager.getById(comment.getIdComment());
     }
-    
+
     @FXML
-    private void showCommentMenu(MouseEvent event){
-        try{
+   private void showCommentMenu(MouseEvent event) {
+        try {
             User user = PisaFlixServices.Authentication.getLoggedUser();
-            if(!Objects.equals(comment.getIdUser().getIdUser(), user.getIdUser())) {
-                PisaFlixServices.UserManager.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.SOCIAL_MODERATOR);
-            } else {
+            if (user != null) {
+                if (!Objects.equals(comment.getIdUser(), user)) {
+                    PisaFlixServices.UserManager.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.SOCIAL_MODERATOR);
+                }
+                if (event.isSecondaryButtonDown()) {
+                    commentMenu.show(commentVbox, event.getScreenX(), event.getScreenY());
+                }
             }
-            if (event.isSecondaryButtonDown()) {
-                commentMenu.show(commentVbox, event.getScreenX(), event.getScreenY());
-            }
-        } catch(Exception ex) {}
+        } catch (PisaFlixServices.UserManager.InvalidPrivilegeLevelException | PisaFlixServices.UserManager.UserNotLoggedException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
-    
+
     @FXML
-    private void confirmComment(){
-        if (!App.printConfirmationDialog("Updating a comment", "You are updating a comment", "Are you sure to continue")){
+    private void confirmComment() {
+        if (!App.printConfirmationDialog("Updating a comment", "You are updating a comment", "Are you sure to continue")) {
             return;
         }
-        
+
         comment.setText(commentTextArea.getText());
-        
+
         PisaFlixServices.CommentManager.update(comment);
-        
+
         switchState(false);
-        
+
         refreshComment();
-        
+
         commentLabel.setText(comment.getText());
     }
-    
+
     @FXML
-    private void cancelComment(){
+    private void cancelComment() {
         switchState(false);
     }
-    
+
     @FXML
-    private void updateComment(){
+    private void updateComment() {
         switchState(true);
-        
+
         commentTextArea.setText(commentLabel.getText());
     }
-    
+
     @FXML
-    private void deleteComment(){
-        if (!App.printConfirmationDialog("Deleting a comment", "You are deleting a comment", "Are you sure to continue")){
+    private void deleteComment() {
+        if (!App.printConfirmationDialog("Deleting a comment", "You are deleting a comment", "Are you sure to continue")) {
             return;
         }
-        
+
         PisaFlixServices.CommentManager.delete(comment.getIdComment());
-        
-        if(type == 0)
-        {
+
+        if (type == 0) {
             Film film = comment.getFilmSet().iterator().next();
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
@@ -183,7 +186,7 @@ public class CommentController implements Initializable {
             filmDetailPageController.refreshComment();
         } else {
             Cinema cinema = comment.getCinemaSet().iterator().next();
-            
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("CinemaDetailPage.fxml"));
             AnchorPane anchorPane = null;
             try {
@@ -191,12 +194,12 @@ public class CommentController implements Initializable {
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
             }
-            
+
             CinemaDetailPageController cinemaDetailPageController = loader.getController();
             cinemaDetailPageController.setCinema(cinema);
 
             App.setMainPane(anchorPane);
-            
+
             cinemaDetailPageController.refreshCinema();
             cinemaDetailPageController.refreshComment();
         }
