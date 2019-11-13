@@ -84,6 +84,7 @@ public class LoginController implements Initializable {
             }
             
             PisaFlixServices.Authentication.Login(username, password); 
+            update();
             App.setMainPane("WelcomeBack");
         } catch ( UserAlredyLoggedException | InvalidCredentialsException ex) {
             System.out.println(ex.getMessage());

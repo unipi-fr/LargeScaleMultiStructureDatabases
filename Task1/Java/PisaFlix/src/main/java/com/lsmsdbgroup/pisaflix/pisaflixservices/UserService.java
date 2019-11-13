@@ -85,6 +85,11 @@ public class UserService implements IUserService {
             u.setPrivilegeLevel(newPrivilegeLevel.getValue());
             um.update(u);
         }
+    
+    @Override
+    public boolean checkDuplicates(String username, String email) {           
+            return um.checkDuplicates(username, email);
+        }
 
     @Override
     public void register(String username, String password, String firstName, String lastName, String email) {

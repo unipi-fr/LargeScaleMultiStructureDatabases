@@ -60,10 +60,10 @@ public class RegistrationController implements Initializable {
             errorLabel("Email is mandatory");
             return;
         }
-        /*if (PisaFlixServices.UserManager.checkDuplicates(usernameTextField.getText(), emailTextField.getText())) {
+        if (PisaFlixServices.UserManager.checkDuplicates(usernameTextField.getText(), emailTextField.getText())) {
             errorLabel("Username or Email already exist");
             return;
-        }*/
+        }
         PisaFlixServices.UserManager.register(usernameTextField.getText(), passPasswordField.getText(), firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText());
         
         successLabel.setTextFill(Color.GREEN);

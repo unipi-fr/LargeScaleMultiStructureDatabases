@@ -29,6 +29,6 @@ public interface IUserService {
     void checkUserPrivilegesForOperation(UserPrivileges privilegesToAchieve, String operation) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
     void changeUserPrivileges(User u, UserPrivileges newPrivilegeLevel) throws UserNotLoggedException, InvalidPrivilegeLevelException;
-
     
+    boolean checkDuplicates(String username, String email);    
 }

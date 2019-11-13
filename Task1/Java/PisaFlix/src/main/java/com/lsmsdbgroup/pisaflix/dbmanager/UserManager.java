@@ -189,5 +189,31 @@ public class UserManager implements IUserManagerDB {
             }
             return users;
         }
+        
+    @Override
+        public Set<User> getByEmail(String email) {
+            Set<User> users = null;
+            try {
+                entityManager = factory.createEntityManager();
+                entityManager.getTransaction().begin();
+
+                users = new LinkedHashSet<>(entityManager.createQuery("SELECT u FROM User u WHERE u.email = '" + email + "'").getResultList());
+                if (users == null) {
+                    //System.out.println("Users is empty!");
+                }
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+                ex.printStackTrace(System.out);
+                System.out.println("A problem occurred in retriving a user!");
+            } finally {
+                entityManager.close();
+            }
+            return users;
+        }
+        
+    @Override
+        public boolean checkDuplicates(String username, String email){
+                return !(getByUsername(username).isEmpty() && getByEmail(email).isEmpty());
+        }
 
     }

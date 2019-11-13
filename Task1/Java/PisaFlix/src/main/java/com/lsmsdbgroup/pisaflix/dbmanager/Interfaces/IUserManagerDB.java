@@ -27,5 +27,9 @@ public interface IUserManagerDB {
     Set<User> getAll();
 
     Set<User> getByUsername(String username);
+    
+    Set<User> getByEmail(String email);
+    
+    boolean checkDuplicates(String username, String email);
 
 }
