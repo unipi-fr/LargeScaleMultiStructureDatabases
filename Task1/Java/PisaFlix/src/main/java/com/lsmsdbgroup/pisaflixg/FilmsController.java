@@ -8,6 +8,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.InvalidPrivilegeLevelException;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.UserNotLoggedException;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Date;
@@ -38,8 +41,8 @@ public class FilmsController implements Initializable {
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.MODERATOR);
-        } catch (PisaFlixServices.UserManager.UserNotLoggedException | PisaFlixServices.UserManager.InvalidPrivilegeLevelException ex) {
+            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR);
+        } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             addFilmButton.setVisible(false);
             addFilmButton.setManaged(false); 
         }
@@ -88,8 +91,8 @@ public class FilmsController implements Initializable {
     @FXML
     private void addFilm(){
         try {
-            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.MODERATOR, "add a new film");
-        } catch (PisaFlixServices.UserManager.UserNotLoggedException | PisaFlixServices.UserManager.InvalidPrivilegeLevelException ex) {
+            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a new film");
+        } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             System.out.println(ex.getMessage());
             return;
         }

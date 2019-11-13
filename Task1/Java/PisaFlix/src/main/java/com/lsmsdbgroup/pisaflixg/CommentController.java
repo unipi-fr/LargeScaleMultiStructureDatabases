@@ -5,6 +5,7 @@ import com.lsmsdbgroup.pisaflix.Entities.Comment;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
@@ -117,7 +118,7 @@ public class CommentController implements Initializable {
         try{
             User user = PisaFlixServices.Authentication.getLoggedUser();
             if(!Objects.equals(comment.getIdUser().getIdUser(), user.getIdUser())) {
-                PisaFlixServices.UserManager.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.SOCIAL_MODERATOR);
+                PisaFlixServices.UserManager.checkUserPrivilegesForOperation(UserPrivileges.SOCIAL_MODERATOR);
             } else {
             }
             if (event.isSecondaryButtonDown()) {

@@ -30,7 +30,7 @@ public class UserManager implements IUserManagerDB {
     }
     
     private UserManager(){
-        factory = PisaFlix.getEntityManagerFactory();
+        factory = DBManager.getEntityManagerFactory();
     }
 
         @Override

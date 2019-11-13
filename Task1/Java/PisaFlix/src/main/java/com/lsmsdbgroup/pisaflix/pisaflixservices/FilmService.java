@@ -7,7 +7,9 @@ package com.lsmsdbgroup.pisaflix.pisaflixservices;
 
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.User;
+import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICommentManagerDB;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IFilmManagerDB;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.ICommentService;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IFilmService;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IUserService;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
@@ -20,11 +22,14 @@ import java.util.Set;
  */
 public class FilmService implements IFilmService{
     private IFilmManagerDB fm;
+    private ICommentManagerDB cm;
     private IUserService us;
     
-    FilmService(IFilmManagerDB filmManager, IUserService userService){
+    
+    FilmService(IFilmManagerDB filmManager,ICommentManagerDB commentManager, IUserService userService){
         fm = filmManager;
         us = userService;
+        cm = commentManager;
     }
     
     @Override
@@ -79,7 +84,7 @@ public class FilmService implements IFilmService{
         
     @Override
     public void addComment(String comment, User user, Film film){
-        DBManager.CommentManager.createFilmComment(comment, user, film);
+        cm.createFilmComment(comment, user, film);
     }
         
     @Override

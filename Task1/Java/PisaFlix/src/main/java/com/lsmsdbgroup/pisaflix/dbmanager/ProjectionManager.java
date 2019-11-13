@@ -30,7 +30,7 @@ public class ProjectionManager implements IProjectionManagerDB {
         return pm;
     }
     private ProjectionManager(){
-        factory = PisaFlix.getEntityManagerFactory();
+        factory = DBManager.getEntityManagerFactory();
     }
     
     @Override

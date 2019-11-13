@@ -1,5 +1,6 @@
 package com.lsmsdbgroup.pisaflix;
 
+import com.lsmsdbgroup.pisaflix.dbmanager.DBManager;
 import com.lsmsdbgroup.pisaflixg.App;
 import java.util.*;
 import java.util.logging.Level;
@@ -9,14 +10,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 public class PisaFlix {
-    private static EntityManagerFactory factory; 
     
-    public static EntityManagerFactory getEntityManagerFactory(){
-        if(factory == null){
-            factory = Persistence.createEntityManagerFactory("PisaFlix");
-        }
-        return factory;
-    }
     
     private static final Scanner S = new Scanner(System.in);
     
@@ -24,8 +18,9 @@ public class PisaFlix {
     public static void main(String[] args){
         LogManager.getLogManager().getLogger("").setLevel(Level.OFF);
         //mainMenu();
+        DBManager.start();
         App.main(args);
-        factory.close();
+        DBManager.stop();
         
        /* 
         KeyValueDBManager db = new KeyValueDBManager();

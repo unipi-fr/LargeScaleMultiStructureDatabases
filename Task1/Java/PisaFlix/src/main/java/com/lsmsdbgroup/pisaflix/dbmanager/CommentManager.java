@@ -31,7 +31,7 @@ public class CommentManager implements ICommentManagerDB{
         return cm;
     }
     private CommentManager(){
-        factory = PisaFlix.getEntityManagerFactory();
+        factory = DBManager.getEntityManagerFactory();
     }
     
 

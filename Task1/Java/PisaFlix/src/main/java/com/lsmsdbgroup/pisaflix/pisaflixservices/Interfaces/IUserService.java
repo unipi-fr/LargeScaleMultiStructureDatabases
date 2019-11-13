@@ -17,6 +17,8 @@ public interface IUserService {
     void deleteLoggedAccount() throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
     User getUserById(int id);
+    
+    void registerUser(User user);
 
     void updateUser(User user);
 

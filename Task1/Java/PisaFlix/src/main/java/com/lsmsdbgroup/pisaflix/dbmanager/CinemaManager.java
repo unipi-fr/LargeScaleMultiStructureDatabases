@@ -28,7 +28,7 @@ public class CinemaManager implements ICinemaManagerDB{
         return cm;
     }
     private CinemaManager(){
-        factory = PisaFlix.getEntityManagerFactory();
+        factory = DBManager.getEntityManagerFactory();
     }
 
         @Override

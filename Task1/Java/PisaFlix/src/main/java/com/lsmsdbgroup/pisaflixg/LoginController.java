@@ -1,11 +1,10 @@
 package com.lsmsdbgroup.pisaflixg;
 
-import com.lsmsdbgroup.pisaflix.DBManager;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.InvalidCredentialsException;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.UserAlredyLoggedException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -71,7 +70,7 @@ public class LoginController implements Initializable {
             }
             
             PisaFlixServices.Authentication.Login(username, password); 
-        } catch (PisaFlixServices.Authentication.UserAlredyLoggedException | PisaFlixServices.Authentication.InvalidCredentialsException ex) {
+        } catch ( UserAlredyLoggedException | InvalidCredentialsException ex) {
             System.out.println(ex.getMessage());
         }
         update();

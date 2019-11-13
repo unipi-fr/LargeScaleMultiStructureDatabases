@@ -29,7 +29,7 @@ public class FilmManager implements IFilmManagerDB{
         return fm;
     }
     private FilmManager(){
-        factory = PisaFlix.getEntityManagerFactory();
+        factory = DBManager.getEntityManagerFactory();
     }
     
 

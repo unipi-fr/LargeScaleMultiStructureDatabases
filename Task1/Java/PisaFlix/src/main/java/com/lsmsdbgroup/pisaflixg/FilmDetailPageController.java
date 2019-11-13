@@ -2,6 +2,8 @@ package com.lsmsdbgroup.pisaflixg;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -67,8 +69,8 @@ public class FilmDetailPageController implements Initializable {
         }
         
         try {
-            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.MODERATOR);
-        } catch (PisaFlixServices.UserManager.UserNotLoggedException | PisaFlixServices.UserManager.InvalidPrivilegeLevelException ex) {
+            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR);
+        } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             deleteFilmButton.setVisible(false);
             deleteFilmButton.setManaged(false);
         }
@@ -176,7 +178,7 @@ public class FilmDetailPageController implements Initializable {
         try {
             PisaFlixServices.FilmManager.deleteFilm(this.film.getIdFilm());
             App.setMainPane("Films");
-        } catch (PisaFlixServices.UserManager.UserNotLoggedException | PisaFlixServices.UserManager.InvalidPrivilegeLevelException ex) {
+        } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             System.out.println(ex.getMessage());
         }
     }

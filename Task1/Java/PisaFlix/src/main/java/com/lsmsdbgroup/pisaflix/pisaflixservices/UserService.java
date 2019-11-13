@@ -85,4 +85,10 @@ public class UserService implements IUserService {
             u.setPrivilegeLevel(newPrivilegeLevel.getValue());
             um.update(u);
         }
+
+    @Override
+    public void registerUser(User user) {
+        //TODO fare il check dei campi se c'è tempo
+        um.create(user.getUsername(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getEmail(), 0);
+    }
 }

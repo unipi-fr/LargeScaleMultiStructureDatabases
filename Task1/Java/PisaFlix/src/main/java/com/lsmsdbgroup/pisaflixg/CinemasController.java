@@ -2,6 +2,8 @@ package com.lsmsdbgroup.pisaflixg;
 
 import com.lsmsdbgroup.pisaflix.Entities.Cinema;;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -38,8 +40,8 @@ public class CinemasController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         try {
-            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(PisaFlixServices.UserPrivileges.MODERATOR);
-        } catch (PisaFlixServices.UserManager.UserNotLoggedException | PisaFlixServices.UserManager.InvalidPrivilegeLevelException ex) {
+            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR);
+        } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             addCinemaButton.setVisible(false);
             addCinemaButton.setManaged(false);
         }
