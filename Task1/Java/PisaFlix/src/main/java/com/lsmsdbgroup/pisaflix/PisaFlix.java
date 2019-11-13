@@ -5,9 +5,6 @@ import com.lsmsdbgroup.pisaflixg.App;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 public class PisaFlix {
     
@@ -18,7 +15,7 @@ public class PisaFlix {
     public static void main(String[] args){
         LogManager.getLogManager().getLogger("").setLevel(Level.OFF);
         //mainMenu();
-        DBManager.start();
+        //DBManager.start();
         App.main(args);
         DBManager.stop();
         
