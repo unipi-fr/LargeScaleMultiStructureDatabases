@@ -197,10 +197,7 @@ public class DBManager {
         }
         
         public static boolean checkDuplicates(String username, String email){
-            if(getByUsername(username).isEmpty() && getByEmail(email).isEmpty()){
-                return false;
-            }
-                return true;
+                return !(getByUsername(username).isEmpty() && getByEmail(email).isEmpty());
         }
 
     }

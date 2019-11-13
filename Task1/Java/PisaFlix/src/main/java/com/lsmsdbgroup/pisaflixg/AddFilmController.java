@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.lsmsdbgroup.pisaflixg;
 
-import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.PisaFlixServices;
 import java.net.URL;
 import java.time.ZoneId;
@@ -14,12 +8,8 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 
-/**
- * FXML Controller class
- *
- * @author FraRonk
- */
 public class AddFilmController implements Initializable {
     @FXML
     private TextField titleTextField;
@@ -47,6 +37,13 @@ public class AddFilmController implements Initializable {
         
     }
     
+    private void errorLabel(String s){       
+        successLabel.setTextFill(Color.RED);
+        successLabel.setText(s);
+        successLabel.setManaged(true);
+        successLabel.setVisible(true);
+    }
+    
     @FXML
     private void clickAddFilmButton(){
         successLabel.setVisible(false);
@@ -59,11 +56,11 @@ public class AddFilmController implements Initializable {
         }
         
         if(titleTextField.getText() == null || titleTextField.getText().isBlank()){
-            System.out.println("Il titolo non può essere vuoto");
+            errorLabel("Title is mandatory");
             return;
         }
         if(datePicker.getValue() == null){
-            System.out.println("la data non può essere vuota");
+            errorLabel("Date is mandatory");
             return;
         }
         Date date = Date.from(datePicker.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
@@ -72,6 +69,8 @@ public class AddFilmController implements Initializable {
         
         PisaFlixServices.FilmManager.addFilm(title, date, description);
         
+        successLabel.setTextFill(Color.GREEN);
+        successLabel.setText("Film successfully added!");
         successLabel.setVisible(true);
         successLabel.setManaged(true);
         resetFields();

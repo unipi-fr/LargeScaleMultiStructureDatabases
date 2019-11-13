@@ -22,7 +22,7 @@
          <image>
             <Image url="@../../../img/CinemaImg.jpg" />
          </image></ImageView>
-      <Label fx:id="addressLabel" layoutX="28.0" layoutY="54.0" text="Address" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="44.0">
+      <Label fx:id="addressLabel" layoutX="13.0" layoutY="54.0" prefHeight="20.0" prefWidth="250.0" text="Address" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="237.0" AnchorPane.topAnchor="44.0">
          <font>
             <Font size="14.0" />
          </font>
