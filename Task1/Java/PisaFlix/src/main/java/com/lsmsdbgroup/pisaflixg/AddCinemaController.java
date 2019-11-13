@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 
 /**
  * FXML Controller class
@@ -43,6 +44,13 @@ public class AddCinemaController implements Initializable {
         addressTextField.setText("");        
     }
     
+    private void errorLabel(String s){       
+        successLabel.setTextFill(Color.RED);
+        successLabel.setText(s);
+        successLabel.setManaged(true);
+        successLabel.setVisible(true);
+    }
+    
     @FXML
     private void clickAddCinemaButton(){
         successLabel.setVisible(false);
@@ -50,11 +58,11 @@ public class AddCinemaController implements Initializable {
         
         
         if(nameTextField.getText() == null || nameTextField.getText().isBlank()){
-            System.out.println("The name can't be empty");
+            errorLabel("Name is mandatory");
             return;
         }
         if(addressTextField.getText() == null || addressTextField.getText().isBlank()){
-            System.out.println("Address can't be empty");
+            errorLabel("Address is mandatory");
             return;
         }
         
@@ -65,8 +73,10 @@ public class AddCinemaController implements Initializable {
             return;
         }
         
-        successLabel.setVisible(true);
+        successLabel.setTextFill(Color.GREEN);
+        successLabel.setText("Cinema succesfully added!");
         successLabel.setManaged(true);
+        successLabel.setVisible(true);
         resetFields();
     }
     

@@ -21,7 +21,7 @@
             </TilePane>
          </content>
       </ScrollPane>
-      <Button fx:id="addFilmButton" layoutX="422.0" layoutY="5.0" mnemonicParsing="false" onAction="#addFilm" text="Add Film" />
+      <Button fx:id="addFilmButton" layoutX="422.0" layoutY="5.0" mnemonicParsing="false" onAction="#addFilm" text="Add Film" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
    </children>
    <opaqueInsets>
       <Insets />

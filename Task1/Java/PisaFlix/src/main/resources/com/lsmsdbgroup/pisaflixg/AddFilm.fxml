@@ -17,7 +17,7 @@
       </Label>
       <TextField fx:id="titleTextField" promptText="Title" />
       <DatePicker fx:id="datePicker" promptText="Publication Date" />
-      <TextArea fx:id="descriptionTextArea" prefHeight="60.0" prefWidth="229.0" promptText="Description" />
+      <TextArea fx:id="descriptionTextArea" prefHeight="80.0" prefWidth="250.0" promptText="Description" wrapText="true"/>
 
       <Button fx:id="addFilmButton" defaultButton="true" mnemonicParsing="false" onAction="#clickAddFilmButton" styleClass="button-raised" text="Add Film" />
       <Label fx:id="successLabel" text="Film added successfully!" textFill="#00ab1a">

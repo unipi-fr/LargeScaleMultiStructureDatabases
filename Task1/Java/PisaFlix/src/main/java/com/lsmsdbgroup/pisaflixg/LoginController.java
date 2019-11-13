@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 
 
 public class LoginController implements Initializable {
@@ -25,13 +26,16 @@ public class LoginController implements Initializable {
     private Label loginStatusLabel;
     @FXML
     private Button logoutButton;
-    
+    @FXML
+    private Label errorLabel;
     @FXML
     private Button showProfileButton;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         update();
+        errorLabel.setVisible(false);
+        errorLabel.setManaged(false);
     }    
     
     public void update(){
@@ -46,6 +50,8 @@ public class LoginController implements Initializable {
         this.loginButton.setManaged(!logged);
         this.registerButton.setVisible(!logged);
         this.registerButton.setManaged(!logged);
+        errorLabel.setVisible(false);
+        errorLabel.setManaged(false);
         
         if(logged){
             this.loginStatusLabel.setText(PisaFlixServices.Authentication.getInfoString());
@@ -64,18 +70,29 @@ public class LoginController implements Initializable {
             String username = this.usernameTextField.getText();
             String password = this.passwordTextField.getText();
             if(username.isBlank()){
+                errorLabel.setText("Username is empty");
+                errorLabel.setTextFill(Color.RED);
+                errorLabel.setVisible(true);
+                errorLabel.setManaged(true);
                 return;
             }
             if(password.isBlank()){
+                errorLabel.setText("Password is empty");
+                errorLabel.setTextFill(Color.RED);
+                errorLabel.setVisible(true);
+                errorLabel.setManaged(true);
                 return;
             }
             
-            PisaFlixServices.Authentication.Login(username, password); 
+            PisaFlixServices.Authentication.Login(username, password);
+            update();
+            App.setMainPane("WelcomeBack");
         } catch (PisaFlixServices.Authentication.UserAlredyLoggedException | PisaFlixServices.Authentication.InvalidCredentialsException ex) {
-            System.out.println(ex.getMessage());
+            errorLabel.setText("Invalid Credentials");
+            errorLabel.setTextFill(Color.RED);
+            errorLabel.setVisible(true);
+            errorLabel.setManaged(true);
         }
-        update();
-        App.setMainPane("WelcomeBack");
     }
     
     @FXML

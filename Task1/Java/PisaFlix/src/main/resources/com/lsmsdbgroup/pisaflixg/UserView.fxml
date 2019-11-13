@@ -16,62 +16,47 @@
             <Font size="36.0" />
          </font>
       </Label>
-      <Label fx:id="firstnameLabel" layoutX="-1.0" layoutY="45.0" text="FirstName" AnchorPane.bottomAnchor="410.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="45.0">
+      <Label fx:id="firstnameLabel" layoutX="12.0" layoutY="45.0" prefHeight="25.0" prefWidth="323.0" text="FirstName" AnchorPane.bottomAnchor="410.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="165.0" AnchorPane.topAnchor="45.0">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lastnameLabel" layoutY="70.0" text="LastName" AnchorPane.bottomAnchor="385.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="70.0">
+      <Label fx:id="lastnameLabel" layoutX="10.0" layoutY="70.0" prefHeight="25.0" prefWidth="323.0" text="LastName" AnchorPane.bottomAnchor="385.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="167.0" AnchorPane.topAnchor="70.0">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <ImageView fx:id="userImage" fitHeight="150.0" fitWidth="150.0" layoutX="300.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="330.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ImageView fx:id="userImage" fitHeight="137.0" fitWidth="150.0" layoutX="342.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="329.0" AnchorPane.leftAnchor="342.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="14.0">
          <image>
             <Image url="@../../../img/user3.png" />
          </image>
       </ImageView>
-      <Label fx:id="emailLabel" layoutY="95.0" text="e-mail" AnchorPane.bottomAnchor="360.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="95.0">
+      <Label fx:id="emailLabel" layoutX="11.0" layoutY="95.0" prefHeight="25.0" prefWidth="323.0" text="e-mail" AnchorPane.bottomAnchor="360.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="166.0" AnchorPane.topAnchor="95.0">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <HBox layoutX="286.0" layoutY="140.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="300.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="120.0">
-         <children>
-            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-               <HBox.margin>
-                  <Insets left="70.0" top="10.0" />
-               </HBox.margin>
-               <image>
-                  <Image url="@../../../img/Favorites.png" />
-               </image>
-            </ImageView>
-            <Label fx:id="favoriteCounterLabel" alignment="CENTER" prefHeight="40.0" prefWidth="40.0" text="(-)">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <HBox.margin>
-                  <Insets top="10.0" />
-               </HBox.margin>
-            </Label>
-            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../img/Comments.png" />
-               </image>
-               <HBox.margin>
-                  <Insets left="50.0" top="10.0" />
-               </HBox.margin>
-            </ImageView>
-            <Label fx:id="commentCounterLabel" alignment="CENTER" prefHeight="40.0" prefWidth="40.0" text="(-)">
-               <HBox.margin>
-                  <Insets top="10.0" />
-               </HBox.margin>
-            </Label>
-         </children>
-      </HBox>
-      <ListView fx:id="favoriteList" layoutY="120.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="180.0" />
-      <Button fx:id="updateButton" layoutX="350.0" layoutY="150.0" mnemonicParsing="false" onMouseClicked="#updateProfile" prefHeight="30.0" text="Update Profile" AnchorPane.bottomAnchor="300.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0" />
-      <Button fx:id="cinemaButton" layoutX="370.0" layoutY="281.0" mnemonicParsing="false" onMouseClicked="#showFavoriteCinema" text="Cinema" AnchorPane.bottomAnchor="159.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="291.0" />
-      <Button fx:id="filmButton" layoutX="370.0" layoutY="254.0" mnemonicParsing="false" onMouseClicked="#showFavoriteFilms" text="Film" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="260.0" />
+      <ListView fx:id="favoriteList" layoutX="9.0" layoutY="223.0" prefHeight="247.0" prefWidth="475.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="223.0" />
+      <Button fx:id="updateButton" layoutX="336.0" layoutY="151.0" mnemonicParsing="false" onMouseClicked="#updateProfile" prefHeight="30.0" text="Update Profile" AnchorPane.bottomAnchor="299.0" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="151.0" />
+      <Button fx:id="cinemaButton" layoutX="141.0" layoutY="187.0" mnemonicParsing="false" onMouseClicked="#showFavoriteCinema" text="Cinema" AnchorPane.bottomAnchor="263.0" AnchorPane.leftAnchor="141.0" AnchorPane.rightAnchor="209.0" AnchorPane.topAnchor="187.0" />
+      <Button fx:id="filmButton" layoutX="141.0" layoutY="151.0" mnemonicParsing="false" onMouseClicked="#showFavoriteFilms" text="Film" AnchorPane.bottomAnchor="299.0" AnchorPane.leftAnchor="141.0" AnchorPane.rightAnchor="209.0" AnchorPane.topAnchor="151.0" />
+      <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="10.0" layoutY="146.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../img/Favorites.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="favoriteCounterLabel" alignment="CENTER" layoutX="10.0" layoutY="182.0" prefHeight="40.0" prefWidth="40.0" text="(-)">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="58.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../img/Comments.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="commentCounterLabel" alignment="CENTER" layoutX="58.0" layoutY="182.0" prefHeight="40.0" prefWidth="40.0" text="(-)" />
+      <Label layoutX="141.0" layoutY="131.0" text="Favourites:" />
+      <Button fx:id="deleteButton" layoutX="336.0" layoutY="187.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#deleteProfile" prefHeight="30.0" prefWidth="150.0" text="Delete Profile" />
    </children>
 </AnchorPane>

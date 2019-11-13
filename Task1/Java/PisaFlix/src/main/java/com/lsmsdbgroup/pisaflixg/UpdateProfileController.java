@@ -63,25 +63,13 @@ public class UpdateProfileController implements Initializable {
             {
                 user.setPassword(newpass);
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Password not match");
-                alert.setHeaderText("The password you insert doen't match");
-                alert.setContentText("New password and the confirmation password must match");
-        
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK){
+                if (App.printWarningDialog("Password not match", "The password you insert doen't match", "New password and the confirmation password must match")){
                     return;
                 }
             }
         }
         
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Profile updated");
-        alert.setHeaderText("You are changing yuor personal data");
-        alert.setContentText("Are you sure to continue");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() != ButtonType.OK){
+        if (!App.printConfirmationDialog("Profile updated", "You are changing yuor personal data", "Are you sure to continue")){
             return;
         }
         

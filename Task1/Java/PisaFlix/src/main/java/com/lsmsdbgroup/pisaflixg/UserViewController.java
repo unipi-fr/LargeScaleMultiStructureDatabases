@@ -158,4 +158,9 @@ public class UserViewController implements Initializable {
         App.setMainPane("UpdateProfile");
     }
     
+    @FXML
+    private void deleteProfile(){
+        System.out.println("Da fare!");
+    }
+    
 }

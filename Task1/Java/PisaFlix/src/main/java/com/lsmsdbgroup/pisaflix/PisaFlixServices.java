@@ -310,6 +310,15 @@ public class PisaFlixServices {
             u.setPrivilegeLevel(newPrivilegeLevel);
             DBManager.UserManager.update(u);
         }
+
+
+        public static boolean checkDuplicates(String username, String email) {           
+            return DBManager.UserManager.checkDuplicates(username, email);
+        }
+
+        public static void register(String username, String password, String firstName, String lastName, String email, int privilege) {
+             DBManager.UserManager.create(username, password, firstName, lastName, email, privilege);
+        }
         
         public static class UserNotLoggedException extends Exception {
 
@@ -334,10 +343,7 @@ public class PisaFlixServices {
     
     public static class CommentManager{
         public static void update(Comment comment){
-            int id = comment.getIdComment();
-            String text = comment.getText();
-            
-            DBManager.CommentManager.update(id, text);
+            DBManager.CommentManager.update(comment, comment.getText());
         }
         
         public static Comment getById(int id){
