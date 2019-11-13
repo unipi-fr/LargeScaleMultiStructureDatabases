@@ -87,8 +87,8 @@ public class UserService implements IUserService {
         }
 
     @Override
-    public void registerUser(User user) {
+    public void register(String username, String password, String firstName, String lastName, String email) {
         //TODO fare il check dei campi se c'è tempo
-        um.create(user.getUsername(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getEmail(), 0);
+        um.create(username, password, firstName, lastName, email, 0);
     }
 }

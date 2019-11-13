@@ -18,7 +18,7 @@ public interface IUserService {
 
     User getUserById(int id);
     
-    void registerUser(User user);
+    void register(String username, String password, String firstName, String lastName, String email);
 
     void updateUser(User user);
 
@@ -29,4 +29,6 @@ public interface IUserService {
     void checkUserPrivilegesForOperation(UserPrivileges privilegesToAchieve, String operation) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
     void changeUserPrivileges(User u, UserPrivileges newPrivilegeLevel) throws UserNotLoggedException, InvalidPrivilegeLevelException;
+
+    
 }
