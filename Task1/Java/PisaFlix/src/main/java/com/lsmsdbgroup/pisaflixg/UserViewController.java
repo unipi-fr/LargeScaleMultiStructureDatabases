@@ -65,7 +65,7 @@ public class UserViewController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        user = PisaFlixServices.Authentication.getLoggedUser();
+        user = PisaFlixServices.authenticationService.getLoggedUser();
         
         usernameLabel.setText(user.getUsername());
         firstnameLabel.setText(user.getFirstName());

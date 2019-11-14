@@ -15,8 +15,6 @@ public interface ICinemaService {
 
     void AddCinema(String name, String address) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
-    void addComment(String comment, User user, Cinema cinema);
-
     void addFavorite(Cinema cinema, User user);
 
     void removeFavourite(Cinema cinema, User user);

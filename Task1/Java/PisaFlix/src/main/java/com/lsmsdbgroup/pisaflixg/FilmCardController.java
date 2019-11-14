@@ -42,7 +42,7 @@ public class FilmCardController implements Initializable {
 
     @FXML
     private void showFilm() {
-        Film film = PisaFlixServices.FilmManager.getById(filmId);
+        Film film = PisaFlixServices.filmService.getById(filmId);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
 
         AnchorPane anchorPane = null;

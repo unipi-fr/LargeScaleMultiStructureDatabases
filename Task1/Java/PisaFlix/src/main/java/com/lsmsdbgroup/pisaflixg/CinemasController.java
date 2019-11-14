@@ -40,13 +40,13 @@ public class CinemasController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         try {
-            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR);
+            PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR);
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             addCinemaButton.setVisible(false);
             addCinemaButton.setManaged(false);
         }
         
-        Set<Cinema> cinemas = PisaFlixServices.CinemaManager.getAll();
+        Set<Cinema> cinemas = PisaFlixServices.cinemaService.getAll();
 
         populateScrollPane(cinemas);
     }
@@ -92,7 +92,7 @@ public class CinemasController implements Initializable {
     
     @FXML
     private void searchCinemas(String titleFilter, String addressFilter){
-        Set<Cinema> cinemas = PisaFlixServices.CinemaManager.getFiltered(titleFilter, addressFilter);
+        Set<Cinema> cinemas = PisaFlixServices.cinemaService.getFiltered(titleFilter, addressFilter);
         
         populateScrollPane(cinemas);
     }

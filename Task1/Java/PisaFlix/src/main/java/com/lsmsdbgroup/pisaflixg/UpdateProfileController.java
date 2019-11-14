@@ -39,7 +39,7 @@ public class UpdateProfileController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        user = PisaFlixServices.Authentication.getLoggedUser();
+        user = PisaFlixServices.authenticationService.getLoggedUser();
         
         usernameTextField.setText(user.getUsername());
         firstnameTextField.setText(user.getFirstName());
@@ -73,7 +73,7 @@ public class UpdateProfileController implements Initializable {
             return;
         }
         
-        PisaFlixServices.UserManager.updateUser(user);
+        PisaFlixServices.userService.updateUser(user);
         
         App.setMainPane("UserView");
     }

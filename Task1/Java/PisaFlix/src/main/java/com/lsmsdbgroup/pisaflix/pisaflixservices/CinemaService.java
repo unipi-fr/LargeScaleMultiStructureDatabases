@@ -20,12 +20,10 @@ import java.util.Set;
  */
 public class CinemaService implements ICinemaService{
     private final ICinemaManagerDB cm;
-    private final ICommentManagerDB com;
     private final IUserService us;
     
-    public CinemaService(ICinemaManagerDB cm, ICommentManagerDB com, IUserService us) {
+    public CinemaService(ICinemaManagerDB cm, IUserService us) {
         this.cm = cm;
-        this.com = com;
         this.us = us;
     }
     
@@ -60,11 +58,6 @@ public class CinemaService implements ICinemaService{
     public void AddCinema(String name, String address) throws UserNotLoggedException, InvalidPrivilegeLevelException{
         us.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a new cinema");
         cm.create(name, address);
-    }
-
-    @Override
-    public void addComment(String comment, User user, Cinema cinema){
-        com.createCinemaComment(comment, user, cinema);
     }
 
     @Override

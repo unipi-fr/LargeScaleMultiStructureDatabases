@@ -21,15 +21,13 @@ import java.util.Set;
  * @author FraRonk
  */
 public class FilmService implements IFilmService{
-    private IFilmManagerDB fm;
-    private ICommentManagerDB cm;
-    private IUserService us;
+    private final IFilmManagerDB fm;
+    private final IUserService us;
     
     
-    FilmService(IFilmManagerDB filmManager,ICommentManagerDB commentManager, IUserService userService){
+    FilmService(IFilmManagerDB filmManager, IUserService userService){
         fm = filmManager;
         us = userService;
-        cm = commentManager;
     }
     
     @Override
@@ -80,11 +78,6 @@ public class FilmService implements IFilmService{
     public void deleteFilm(int idFilm) throws UserNotLoggedException, InvalidPrivilegeLevelException{
         us.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "delete a film");
         fm.delete(idFilm);
-    }
-        
-    @Override
-    public void addComment(String comment, User user, Film film){
-        cm.createFilmComment(comment, user, film);
     }
         
     @Override

@@ -38,7 +38,7 @@ public class LoginController implements Initializable {
     }    
     
     public void update(){
-        boolean logged = PisaFlixServices.Authentication.isUserLogged();
+        boolean logged = PisaFlixServices.authenticationService.isUserLogged();
         this.usernameTextField.setText("");
         this.usernameTextField.setVisible(!logged);
         this.usernameTextField.setManaged(!logged);
@@ -53,7 +53,7 @@ public class LoginController implements Initializable {
         errorLabel.setManaged(false);
         
         if(logged){
-            this.loginStatusLabel.setText(PisaFlixServices.Authentication.getInfoString());
+            this.loginStatusLabel.setText(PisaFlixServices.authenticationService.getInfoString());
         }
         this.loginStatusLabel.setVisible(logged);
         this.loginStatusLabel.setManaged(logged);
@@ -83,7 +83,7 @@ public class LoginController implements Initializable {
                 return;
             }
             
-            PisaFlixServices.Authentication.Login(username, password); 
+            PisaFlixServices.authenticationService.Login(username, password); 
             update();
             App.setMainPane("WelcomeBack");
         } catch ( UserAlredyLoggedException | InvalidCredentialsException ex) {
@@ -103,7 +103,7 @@ public class LoginController implements Initializable {
     
     @FXML
     private void clickLogoutButton(){       
-        PisaFlixServices.Authentication.Logout(); 
+        PisaFlixServices.authenticationService.Logout(); 
         update();
         App.setMainPane("Welcome");
     }

@@ -22,18 +22,18 @@ public class DBManager {
         return factory;
     }
     
-    public static ICinemaManagerDB cm;
-    public static IUserManagerDB um;
-    public static IFilmManagerDB fm;
-    public static IProjectionManagerDB pm;
-    public static ICommentManagerDB com;
+    public static ICinemaManagerDB cinemaMamager;
+    public static IUserManagerDB userManager;
+    public static IFilmManagerDB filmManager;
+    public static IProjectionManagerDB projectionManager;
+    public static ICommentManagerDB commentManager;
     
     static{
-        cm = CinemaManager.getIstance();
-        um = UserManager.getIstance();
-        fm = FilmManager.getIstance();
-        pm = ProjectionManager.getIstance();
-        com = CommentManager.getIstance();
+        cinemaMamager = CinemaManager.getIstance();
+        userManager = UserManager.getIstance();
+        filmManager = FilmManager.getIstance();
+        projectionManager = ProjectionManager.getIstance();
+        commentManager = CommentManager.getIstance();
     }
     
 }

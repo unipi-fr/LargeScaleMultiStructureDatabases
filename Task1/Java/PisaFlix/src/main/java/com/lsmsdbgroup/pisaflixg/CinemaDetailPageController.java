@@ -61,7 +61,7 @@ public class CinemaDetailPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if (PisaFlixServices.Authentication.isUserLogged()) {
+        if (PisaFlixServices.authenticationService.isUserLogged()) {
             commentArea.setPromptText("Write here a comment for the film...");
             commentArea.setEditable(true);
             commentButton.setDisable(false);
@@ -69,7 +69,7 @@ public class CinemaDetailPageController implements Initializable {
         }
         
         try {
-            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR);
+            PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR);
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             deleteCinemaButton.setVisible(false);
             deleteCinemaButton.setManaged(false); 
@@ -136,9 +136,9 @@ public class CinemaDetailPageController implements Initializable {
     }
     
     public void setFavoriteButton(){
-        if(PisaFlixServices.Authentication.isUserLogged())
+        if(PisaFlixServices.authenticationService.isUserLogged())
         {
-            User userLogged = PisaFlixServices.Authentication.getLoggedUser();
+            User userLogged = PisaFlixServices.authenticationService.getLoggedUser();
             
             Set<User> users = cinema.getUserSet();
             
@@ -151,7 +151,7 @@ public class CinemaDetailPageController implements Initializable {
 
     public void refreshCinema() {
         int id = cinema.getIdCinema();
-        cinema = PisaFlixServices.CinemaManager.getById(id);
+        cinema = PisaFlixServices.cinemaService.getById(id);
     }
 
     public void refreshComment() {
@@ -170,7 +170,7 @@ public class CinemaDetailPageController implements Initializable {
             return;
         }
         try {
-            PisaFlixServices.CinemaManager.deleteCinema(this.cinema);
+            PisaFlixServices.cinemaService.deleteCinema(this.cinema);
             App.setMainPane("Cinemas");
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             System.out.println(ex.getMessage());
@@ -180,9 +180,9 @@ public class CinemaDetailPageController implements Initializable {
     @FXML
     private void addComment() throws IOException {
         String comment = commentArea.getText();
-        User user = PisaFlixServices.Authentication.getLoggedUser();
+        User user = PisaFlixServices.authenticationService.getLoggedUser();
 
-        PisaFlixServices.CinemaManager.addComment(comment, user, cinema);
+        PisaFlixServices.commentService.addCinemaComment(comment, user, cinema);
 
         refreshCinema();
         refreshComment();
@@ -190,17 +190,17 @@ public class CinemaDetailPageController implements Initializable {
 
     @FXML
     private void favoriteAddRemove() throws IOException {
-        if(!PisaFlixServices.Authentication.isUserLogged())
+        if(!PisaFlixServices.authenticationService.isUserLogged())
             return;
         
-        User user = PisaFlixServices.Authentication.getLoggedUser();
+        User user = PisaFlixServices.authenticationService.getLoggedUser();
         
         if(favoriteButton.getText().equals("Add favorite")){
-            PisaFlixServices.CinemaManager.addFavorite(cinema, user);
+            PisaFlixServices.cinemaService.addFavorite(cinema, user);
             
             favoriteButton.setText("Remove favorite");
         } else {
-            PisaFlixServices.CinemaManager.removeFavourite(cinema, user);
+            PisaFlixServices.cinemaService.removeFavourite(cinema, user);
             
             favoriteButton.setText("Add favorite");
         }

@@ -113,15 +113,15 @@ public class CommentController implements Initializable {
     }
 
     private void refreshComment() {
-        comment = PisaFlixServices.CommentManager.getById(comment.getIdComment());
+        comment = PisaFlixServices.commentService.getById(comment.getIdComment());
     }
 
     @FXML
    private void showCommentMenu(MouseEvent event) {
         try {
-            User user = PisaFlixServices.Authentication.getLoggedUser();
+            User user = PisaFlixServices.authenticationService.getLoggedUser();
             if(!Objects.equals(comment.getIdUser().getIdUser(), user.getIdUser())) {
-                PisaFlixServices.UserManager.checkUserPrivilegesForOperation(UserPrivileges.SOCIAL_MODERATOR);
+                PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.SOCIAL_MODERATOR);
             } else {
             }
         } catch (InvalidPrivilegeLevelException | UserNotLoggedException ex) {
@@ -137,7 +137,7 @@ public class CommentController implements Initializable {
 
         comment.setText(commentTextArea.getText());
 
-        PisaFlixServices.CommentManager.update(comment);
+        PisaFlixServices.commentService.update(comment);
 
         switchState(false);
 
@@ -164,7 +164,7 @@ public class CommentController implements Initializable {
             return;
         }
 
-        PisaFlixServices.CommentManager.delete(comment.getIdComment());
+        PisaFlixServices.commentService.delete(comment.getIdComment());
 
         if (type == 0) {
             Film film = comment.getFilmSet().iterator().next();

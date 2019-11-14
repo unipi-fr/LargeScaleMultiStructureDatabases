@@ -295,8 +295,8 @@ public class KeyValueDBManager {
     // serve a differenziare il caso del commenti di un film dal caso di commento di un cinema
     private Comment getFilmCommentById(int commentId, String idUser, String idFilm, String text, String timestamp){
     
-        User user = PisaFlixServices.UserManager.getUserById(Integer.parseInt(idUser));
-        Film film = PisaFlixServices.FilmManager.getById(Integer.parseInt(idFilm));
+        User user = PisaFlixServices.userService.getUserById(Integer.parseInt(idUser));
+        Film film = PisaFlixServices.filmService.getById(Integer.parseInt(idFilm));
         Date date;
         try{
             date = dateFormat.parse(timestamp);
@@ -314,8 +314,8 @@ public class KeyValueDBManager {
     
     private Comment getCinemaCommentById(int commentId, String idUser, String idCinema, String text, String timestamp){
     
-        User user = PisaFlixServices.UserManager.getUserById(Integer.parseInt(idUser));
-        Cinema cinema = PisaFlixServices.CinemaManager.getById(Integer.parseInt(idCinema));
+        User user = PisaFlixServices.userService.getUserById(Integer.parseInt(idUser));
+        Cinema cinema = PisaFlixServices.cinemaService.getById(Integer.parseInt(idCinema));
         Date date;
         try{
             date = dateFormat.parse(timestamp);
@@ -465,8 +465,8 @@ public class KeyValueDBManager {
         }
         
         // recupero oggetto film, oggetto cinema
-        Film film = PisaFlixServices.FilmManager.getById(Integer.parseInt(s_film));
-        Cinema cinema = PisaFlixServices.CinemaManager.getById(Integer.parseInt(s_cinema));
+        Film film = PisaFlixServices.filmService.getById(Integer.parseInt(s_film));
+        Cinema cinema = PisaFlixServices.cinemaService.getById(Integer.parseInt(s_cinema));
         Date date;
         try{
             date = dateFormat.parse(s_date);

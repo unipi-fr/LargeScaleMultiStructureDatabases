@@ -22,8 +22,6 @@ public interface IFilmService {
 
     void deleteFilm(int idFilm) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
-    void addComment(String comment, User user, Film film);
-
     void addFavorite(Film film, User user);
 
     void removeFavourite(Film film, User user);

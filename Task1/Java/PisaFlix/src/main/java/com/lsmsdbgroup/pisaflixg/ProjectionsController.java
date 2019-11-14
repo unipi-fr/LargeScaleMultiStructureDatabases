@@ -52,7 +52,7 @@ public class ProjectionsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
     	
         try {
-            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR);
+            PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR);
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             addProjectionButton.setVisible(false);
             addProjectionButton.setManaged(false);
@@ -60,8 +60,8 @@ public class ProjectionsController implements Initializable {
             removeProjectionButton.setManaged(false);
         }
         
-        Set<Film> filmSet = PisaFlixServices.FilmManager.getAll();
-        Set<Cinema> cinemaSet = PisaFlixServices.CinemaManager.getAll();
+        Set<Film> filmSet = PisaFlixServices.filmService.getAll();
+        Set<Cinema> cinemaSet = PisaFlixServices.cinemaService.getAll();
         ObservableList observableFilmSet = FXCollections.observableArrayList(filmSet);
         ObservableList observableCinemaSet = FXCollections.observableArrayList(cinemaSet);
         
@@ -103,7 +103,7 @@ public class ProjectionsController implements Initializable {
         }
         
         Projection projection = (Projection) projectionTable.getSelectionModel().getSelectedItem();
-        PisaFlixServices.ProjectionManager.removeProjection(projection.getIdProjection());
+        PisaFlixServices.projectionService.removeProjection(projection.getIdProjection());
         showSearch();
     }
     
@@ -144,7 +144,7 @@ public class ProjectionsController implements Initializable {
         } else
             dateStr = "all";
         
-        Set<Projection> projectionSet = PisaFlixServices.ProjectionManager.queryProjections(cinemaId, filmId, dateStr, -1);
+        Set<Projection> projectionSet = PisaFlixServices.projectionService.queryProjections(cinemaId, filmId, dateStr, -1);
         ObservableList observableProjectionSet = FXCollections.observableArrayList(projectionSet);
         
         if(projectionSet == null)

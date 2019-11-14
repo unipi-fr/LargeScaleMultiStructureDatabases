@@ -68,7 +68,7 @@ public class AddCinemaController implements Initializable {
         }
         
         try {
-            PisaFlixServices.CinemaManager.AddCinema(nameTextField.getText(), addressTextField.getText());
+            PisaFlixServices.cinemaService.AddCinema(nameTextField.getText(), addressTextField.getText());
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             System.out.println(ex.getMessage());
             return;

@@ -4,19 +4,19 @@ import com.lsmsdbgroup.pisaflix.dbmanager.DBManager;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.*;
 
 public class PisaFlixServices {
-    public static IAuthenticationService Authentication;
-    public static IUserService UserManager;
-    public static IFilmService FilmManager;
-    public static ICinemaService CinemaManager;
-    public static ICommentService CommentManager;
-    public static IProjectionService ProjectionManager;
+    public static IAuthenticationService authenticationService;
+    public static IUserService userService;
+    public static IFilmService filmService;
+    public static ICinemaService cinemaService;
+    public static ICommentService commentService;
+    public static IProjectionService projectionService;
     
     static{
-        Authentication = new AuthenticationService(DBManager.um);
-        UserManager = new UserService(DBManager.um, Authentication);
-        FilmManager = new FilmService(DBManager.fm,DBManager.com,UserManager);
-        CinemaManager = new CinemaService(DBManager.cm,DBManager.com,UserManager);
-        CommentManager = new CommentService(DBManager.com);
-        ProjectionManager = new ProjectionService(DBManager.pm,UserManager);
+        authenticationService = new AuthenticationService(DBManager.userManager);
+        userService = new UserService(DBManager.userManager, authenticationService);
+        filmService = new FilmService(DBManager.filmManager,userService);
+        cinemaService = new CinemaService(DBManager.cinemaMamager,userService);
+        commentService = new CommentService(DBManager.commentManager);
+        projectionService = new ProjectionService(DBManager.projectionManager,userService);
     }
 }

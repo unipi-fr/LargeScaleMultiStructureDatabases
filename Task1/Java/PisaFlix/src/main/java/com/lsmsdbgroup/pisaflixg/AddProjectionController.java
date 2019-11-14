@@ -38,8 +38,8 @@ public class AddProjectionController implements Initializable {
         successLabel.setVisible(false);
         successLabel.setManaged(false);
         
-        Set<Film> filmSet = PisaFlixServices.FilmManager.getAll();
-        Set<Cinema> cinemaSet = PisaFlixServices.CinemaManager.getAll();
+        Set<Film> filmSet = PisaFlixServices.filmService.getAll();
+        Set<Cinema> cinemaSet = PisaFlixServices.cinemaService.getAll();
         ObservableList observableFilmSet = FXCollections.observableArrayList(filmSet);
         ObservableList observableCinemaSet = FXCollections.observableArrayList(cinemaSet);
         
@@ -105,13 +105,13 @@ public class AddProjectionController implements Initializable {
         
         int room =  Integer.parseInt(roomTextField.getText());
         
-        if(PisaFlixServices.ProjectionManager.checkDuplicates(cinema.getIdCinema(), film.getIdFilm(), ld.toString() + " " + lt.toString() + ":00", room)){
+        if(PisaFlixServices.projectionService.checkDuplicates(cinema.getIdCinema(), film.getIdFilm(), ld.toString() + " " + lt.toString() + ":00", room)){
             errorLabel("Projection already scheduled");
             return;
         }
         
         try {
-            PisaFlixServices.ProjectionManager.addProjection(cinema, film, date, room);
+            PisaFlixServices.projectionService.addProjection(cinema, film, date, room);
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             System.out.println(ex.getMessage());
         }

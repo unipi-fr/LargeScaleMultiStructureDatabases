@@ -41,7 +41,7 @@ public class FilmsController implements Initializable {
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR);
+            PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR);
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             addFilmButton.setVisible(false);
             addFilmButton.setManaged(false); 
@@ -91,7 +91,7 @@ public class FilmsController implements Initializable {
     @FXML
     private void addFilm(){
         try {
-            PisaFlixServices.UserManager.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a new film");
+            PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a new film");
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             System.out.println(ex.getMessage());
             return;
@@ -101,7 +101,7 @@ public class FilmsController implements Initializable {
     
     @FXML
     private void searchFilms(String titleFilter, Date dateFilter){
-        Set<Film> films = PisaFlixServices.FilmManager.getFilmsFiltered(titleFilter, dateFilter, dateFilter);
+        Set<Film> films = PisaFlixServices.filmService.getFilmsFiltered(titleFilter, dateFilter, dateFilter);
         //Set<Film> films = PisaFlixServices.FilmManager.getAll();
         populateScrollPane(films);
     }
