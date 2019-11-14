@@ -11,31 +11,36 @@ import java.util.Date;
 import java.util.Set;
 
 public class ProjectionService implements IProjectionService{
-    private IProjectionManagerDB pm;
-    private IUserService us;
+    private final IProjectionManagerDB projectionManager;
+    private final IUserService userManager;
     
-    public ProjectionService(IProjectionManagerDB pm, IUserService us) {
-        this.pm = pm;
-        this.us = us;
+    public ProjectionService(IProjectionManagerDB projectionManager, IUserService userManager) {
+        this.projectionManager = projectionManager;
+        this.userManager = userManager;
     }
 
     @Override
-    public void addProjection(Cinema c, Film f, Date d, int room) throws UserNotLoggedException, InvalidPrivilegeLevelException{
-        us.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a new projection");
-        pm.create(d, room, f, c);
+    public void addProjection(Cinema cinema, Film film, Date date, int room) throws UserNotLoggedException, InvalidPrivilegeLevelException{
+        userManager.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a new projection");
+        projectionManager.create(date, room, film, cinema);
     }
 
     @Override
     public void removeProjection(int projectionId){
-        pm.delete(projectionId);
+        projectionManager.delete(projectionId);
     }
 
     @Override
-    public Set<Projection> queryProjections(int cinemaId, int filmId, String date){
+    public Set<Projection> queryProjections(int cinemaId, int filmId, String date, int room){
         Set<Projection> projections;
 
-        projections = pm.queryProjection(cinemaId, filmId, date);
+        projections = projectionManager.queryProjection(cinemaId, filmId, date, room);
 
         return projections;
+    }
+    
+    @Override
+    public boolean checkDuplicates(int cinemaId, int filmId, String date, int room){
+        return projectionManager.checkDuplicates(cinemaId, filmId, date, room);
     }
 }
