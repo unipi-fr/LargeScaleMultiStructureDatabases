@@ -16,6 +16,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 
 public class AddProjectionController implements Initializable {
     
@@ -65,24 +66,31 @@ public class AddProjectionController implements Initializable {
         roomTextField.setText("");
     }
     
+    private void errorLabel(String s){       
+        successLabel.setTextFill(Color.RED);
+        successLabel.setText(s);
+        successLabel.setManaged(true);
+        successLabel.setVisible(true);
+    }
+    
     @FXML 
     private void clickAddProjectionButton(){
         successLabel.setVisible(false);
         successLabel.setManaged(false);
         if(cinemaComboBox.getValue() == null){
-            System.out.println("You must select a cinema");
+            errorLabel("You must select a cinema");
             return;
         }
         if(filmComboBox.getValue() == null){
-            System.out.println("You must select a film");
+            errorLabel("You must select a film");
             return;
         }
         if(dateDatePicker.getValue() == null){
-            System.out.println("You must select a day");
+            errorLabel("You must select a day");
             return;
         }
         if(timeComboBox.getValue() == null){
-            System.out.println("You must select a time");
+            errorLabel("You must select a time");
             return;
         }
         
@@ -95,13 +103,22 @@ public class AddProjectionController implements Initializable {
         LocalDateTime ldt = LocalDateTime.of(ld, lt);
         Date date = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
         
+        int room =  Integer.parseInt(roomTextField.getText());
+        
+        if(PisaFlixServices.ProjectionManager.checkDuplicates(cinema.getIdCinema(), film.getIdFilm(), ld.toString() + " " + lt.toString() + ":00", room)){
+            errorLabel("Projection already scheduled");
+            return;
+        }
+        
         try {
-            PisaFlixServices.ProjectionManager.addProjection(cinema, film, date, Integer.parseInt(roomTextField.getText()));
+            PisaFlixServices.ProjectionManager.addProjection(cinema, film, date, room);
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             System.out.println(ex.getMessage());
         }
-        successLabel.setVisible(false);
-        successLabel.setManaged(false);
+        successLabel.setTextFill(Color.GREEN);
+        successLabel.setText("Projection succesfully scheduled");
+        successLabel.setManaged(true);
+        successLabel.setVisible(true);
     }
     
 }

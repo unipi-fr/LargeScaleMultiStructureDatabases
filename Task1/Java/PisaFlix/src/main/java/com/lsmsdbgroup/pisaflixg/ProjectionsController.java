@@ -144,7 +144,7 @@ public class ProjectionsController implements Initializable {
         } else
             dateStr = "all";
         
-        Set<Projection> projectionSet = PisaFlixServices.ProjectionManager.queryProjections(cinemaId, filmId, dateStr);
+        Set<Projection> projectionSet = PisaFlixServices.ProjectionManager.queryProjections(cinemaId, filmId, dateStr, -1);
         ObservableList observableProjectionSet = FXCollections.observableArrayList(projectionSet);
         
         if(projectionSet == null)
