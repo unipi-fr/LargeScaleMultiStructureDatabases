@@ -1,42 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<ClassDiagram name="Multi-file class diagram">
+<ClassDiagram name="Multi-package class diagram">
   <ClassDiagramComponents>
-    <Class name="UserAlredyLoggedException" package="com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions" visibility="public" xPosition="3444.0" yPosition="557.0">
-      <Fields/>
+    <Class name="AuthenticationService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields>
+        <Field name="loggedUser" type="User" visibility="private"/>
+        <Field name="um" type="IUserManagerDB" visibility="private" isFinal="true"/>
+      </Fields>
       <Constructors>
-        <Constructor visibility="public">
-          <Argument type="String" name="errorMessage"/>
+        <Constructor visibility="package">
+          <Argument type="IUserManagerDB" name="userManager"/>
         </Constructor>
       </Constructors>
-      <Methods/>
-    </Class>
-    <Class name="DBManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="2146.0" yPosition="1693.0">
-      <Fields>
-        <Field name="factory" type="EntityManagerFactory" visibility="private" isStatic="true"/>
-        <Field name="cm" type="ICinemaManagerDB" visibility="public" isStatic="true"/>
-        <Field name="um" type="IUserManagerDB" visibility="public" isStatic="true"/>
-        <Field name="fm" type="IFilmManagerDB" visibility="public" isStatic="true"/>
-        <Field name="pm" type="IProjectionManagerDB" visibility="public" isStatic="true"/>
-        <Field name="com" type="ICommentManagerDB" visibility="public" isStatic="true"/>
-      </Fields>
-      <Constructors/>
       <Methods>
-        <Method name="start" returnType="void" visibility="public" isStatic="true"/>
-        <Method name="stop" returnType="void" visibility="public" isStatic="true"/>
-        <Method name="getEntityManagerFactory" returnType="EntityManagerFactory" visibility="public" isStatic="true"/>
+        <Method name="Register" returnType="void" visibility="public">
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="password"/>
+          <Argument type="String" name="email"/>
+          <Argument type="String" name="firstName"/>
+          <Argument type="String" name="lastName"/>
+        </Method>
+        <Method name="Login" returnType="void" visibility="public">
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="password"/>
+        </Method>
+        <Method name="Logout" returnType="void" visibility="public"/>
+        <Method name="isUserLogged" returnType="boolean" visibility="public"/>
+        <Method name="getInfoString" returnType="String" visibility="public"/>
+        <Method name="SHA256" returnType="String" visibility="private">
+          <Argument type="String" name="text"/>
+        </Method>
+        <Method name="getLoggedUser" returnType="User" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="CinemaService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="672.0" yPosition="19.0">
+    <Class name="CinemaService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="320.0" yPosition="20.0">
       <Fields>
         <Field name="cm" type="ICinemaManagerDB" visibility="private" isFinal="true"/>
-        <Field name="com" type="ICommentManagerDB" visibility="private" isFinal="true"/>
         <Field name="us" type="IUserService" visibility="private" isFinal="true"/>
       </Fields>
       <Constructors>
         <Constructor visibility="public">
           <Argument type="ICinemaManagerDB" name="cm"/>
-          <Argument type="ICommentManagerDB" name="com"/>
           <Argument type="IUserService" name="us"/>
         </Constructor>
       </Constructors>
@@ -53,11 +57,6 @@
           <Argument type="String" name="name"/>
           <Argument type="String" name="address"/>
         </Method>
-        <Method name="addComment" returnType="void" visibility="public">
-          <Argument type="String" name="comment"/>
-          <Argument type="User" name="user"/>
-          <Argument type="Cinema" name="cinema"/>
-        </Method>
         <Method name="addFavorite" returnType="void" visibility="public">
           <Argument type="Cinema" name="cinema"/>
           <Argument type="User" name="user"/>
@@ -71,22 +70,308 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="ProjectionService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="1109.0" yPosition="736.0">
+    <Class name="CommentService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="620.0" yPosition="20.0">
       <Fields>
-        <Field name="pm" type="IProjectionManagerDB" visibility="private"/>
-        <Field name="us" type="IUserService" visibility="private"/>
+        <Field name="cm" type="ICommentManagerDB" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="package">
+          <Argument type="ICommentManagerDB" name="commentManager"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="Comment" name="comment"/>
+        </Method>
+        <Method name="getById" returnType="Comment" visibility="public">
+          <Argument type="int" name="id"/>
+        </Method>
+        <Method name="delete" returnType="void" visibility="public">
+          <Argument type="int" name="id"/>
+        </Method>
+        <Method name="addFilmComment" returnType="void" visibility="public">
+          <Argument type="String" name="comment"/>
+          <Argument type="User" name="user"/>
+          <Argument type="Film" name="film"/>
+        </Method>
+        <Method name="addCinemaComment" returnType="void" visibility="public">
+          <Argument type="String" name="comment"/>
+          <Argument type="User" name="user"/>
+          <Argument type="Cinema" name="cinema"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="InvalidCredentialsException" package="com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions" visibility="public" xPosition="920.0" yPosition="20.0">
+      <Fields/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="errorMessage"/>
+        </Constructor>
+      </Constructors>
+      <Methods/>
+    </Class>
+    <Class name="InvalidPrivilegeLevelException" package="com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions" visibility="public" xPosition="1220.0" yPosition="20.0">
+      <Fields/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="errorMessage"/>
+        </Constructor>
+      </Constructors>
+      <Methods/>
+    </Class>
+    <Class name="InvalidPrivilegeLevelValueException" package="com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions" visibility="public" xPosition="1520.0" yPosition="20.0">
+      <Fields/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="errorMessage"/>
+        </Constructor>
+      </Constructors>
+      <Methods/>
+    </Class>
+    <Class name="UserAlredyLoggedException" package="com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions" visibility="public" xPosition="1820.0" yPosition="20.0">
+      <Fields/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="errorMessage"/>
+        </Constructor>
+      </Constructors>
+      <Methods/>
+    </Class>
+    <Class name="UserNotLoggedException" package="com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions" visibility="public" xPosition="2120.0" yPosition="20.0">
+      <Fields/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="errorMessage"/>
+        </Constructor>
+      </Constructors>
+      <Methods/>
+    </Class>
+    <Class name="FilmService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="20.0" yPosition="420.0">
+      <Fields>
+        <Field name="fm" type="IFilmManagerDB" visibility="private" isFinal="true"/>
+        <Field name="us" type="IUserService" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="package">
+          <Argument type="IFilmManagerDB" name="filmManager"/>
+          <Argument type="IUserService" name="userService"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getFilmsFiltered" returnType="Set&lt;Film&gt;" visibility="public">
+          <Argument type="String" name="titleFilter"/>
+          <Argument type="Date" name="startDateFilter"/>
+          <Argument type="Date" name="endDateFilter"/>
+        </Method>
+        <Method name="getAll" returnType="Set&lt;Film&gt;" visibility="public"/>
+        <Method name="getById" returnType="Film" visibility="public">
+          <Argument type="int" name="id"/>
+        </Method>
+        <Method name="addFilm" returnType="void" visibility="public">
+          <Argument type="String" name="title"/>
+          <Argument type="Date" name="publicationDate"/>
+          <Argument type="String" name="description"/>
+        </Method>
+        <Method name="deleteFilm" returnType="void" visibility="public">
+          <Argument type="int" name="idFilm"/>
+        </Method>
+        <Method name="addFavorite" returnType="void" visibility="public">
+          <Argument type="Film" name="film"/>
+          <Argument type="User" name="user"/>
+        </Method>
+        <Method name="removeFavourite" returnType="void" visibility="public">
+          <Argument type="Film" name="film"/>
+          <Argument type="User" name="user"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Interface name="IAuthenticationService" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="320.0" yPosition="420.0">
+      <Methods>
+        <Method name="Register" returnType="void" visibility="package">
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="password"/>
+          <Argument type="String" name="email"/>
+          <Argument type="String" name="firstName"/>
+          <Argument type="String" name="lastName"/>
+        </Method>
+        <Method name="Login" returnType="void" visibility="package">
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="password"/>
+        </Method>
+        <Method name="Logout" returnType="void" visibility="package"/>
+        <Method name="isUserLogged" returnType="boolean" visibility="package"/>
+        <Method name="getInfoString" returnType="String" visibility="package"/>
+        <Method name="getLoggedUser" returnType="User" visibility="package"/>
+      </Methods>
+    </Interface>
+    <Interface name="ICinemaService" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="620.0" yPosition="420.0">
+      <Methods>
+        <Method name="getAll" returnType="Set&lt;Cinema&gt;" visibility="package"/>
+        <Method name="getFiltered" returnType="Set&lt;Cinema&gt;" visibility="package">
+          <Argument type="String" name="name"/>
+          <Argument type="String" name="address"/>
+        </Method>
+        <Method name="getById" returnType="Cinema" visibility="package">
+          <Argument type="int" name="id"/>
+        </Method>
+        <Method name="AddCinema" returnType="void" visibility="package">
+          <Argument type="String" name="name"/>
+          <Argument type="String" name="address"/>
+        </Method>
+        <Method name="addFavorite" returnType="void" visibility="package">
+          <Argument type="Cinema" name="cinema"/>
+          <Argument type="User" name="user"/>
+        </Method>
+        <Method name="removeFavourite" returnType="void" visibility="package">
+          <Argument type="Cinema" name="cinema"/>
+          <Argument type="User" name="user"/>
+        </Method>
+        <Method name="deleteCinema" returnType="void" visibility="package">
+          <Argument type="Cinema" name="cinema"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="ICommentService" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="920.0" yPosition="420.0">
+      <Methods>
+        <Method name="addFilmComment" returnType="void" visibility="package">
+          <Argument type="String" name="comment"/>
+          <Argument type="User" name="user"/>
+          <Argument type="Film" name="film"/>
+        </Method>
+        <Method name="addCinemaComment" returnType="void" visibility="package">
+          <Argument type="String" name="comment"/>
+          <Argument type="User" name="user"/>
+          <Argument type="Cinema" name="cinema"/>
+        </Method>
+        <Method name="update" returnType="void" visibility="package">
+          <Argument type="Comment" name="comment"/>
+        </Method>
+        <Method name="getById" returnType="Comment" visibility="package">
+          <Argument type="int" name="id"/>
+        </Method>
+        <Method name="delete" returnType="void" visibility="package">
+          <Argument type="int" name="id"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="IFilmService" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="1220.0" yPosition="420.0">
+      <Methods>
+        <Method name="getFilmsFiltered" returnType="Set&lt;Film&gt;" visibility="package">
+          <Argument type="String" name="titleFilter"/>
+          <Argument type="Date" name="startDateFilter"/>
+          <Argument type="Date" name="endDateFilter"/>
+        </Method>
+        <Method name="getAll" returnType="Set&lt;Film&gt;" visibility="package"/>
+        <Method name="getById" returnType="Film" visibility="package">
+          <Argument type="int" name="id"/>
+        </Method>
+        <Method name="addFilm" returnType="void" visibility="package">
+          <Argument type="String" name="title"/>
+          <Argument type="Date" name="publicationDate"/>
+          <Argument type="String" name="description"/>
+        </Method>
+        <Method name="deleteFilm" returnType="void" visibility="package">
+          <Argument type="int" name="idFilm"/>
+        </Method>
+        <Method name="addFavorite" returnType="void" visibility="package">
+          <Argument type="Film" name="film"/>
+          <Argument type="User" name="user"/>
+        </Method>
+        <Method name="removeFavourite" returnType="void" visibility="package">
+          <Argument type="Film" name="film"/>
+          <Argument type="User" name="user"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="IProjectionService" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="1520.0" yPosition="420.0">
+      <Methods>
+        <Method name="addProjection" returnType="void" visibility="package">
+          <Argument type="Cinema" name="c"/>
+          <Argument type="Film" name="f"/>
+          <Argument type="Date" name="d"/>
+          <Argument type="int" name="room"/>
+        </Method>
+        <Method name="removeProjection" returnType="void" visibility="package">
+          <Argument type="int" name="projectionId"/>
+        </Method>
+        <Method name="queryProjections" returnType="Set&lt;Projection&gt;" visibility="package">
+          <Argument type="int" name="cinemaId"/>
+          <Argument type="int" name="filmId"/>
+          <Argument type="String" name="date"/>
+          <Argument type="int" name="room"/>
+        </Method>
+        <Method name="checkDuplicates" returnType="boolean" visibility="package">
+          <Argument type="int" name="cinemaId"/>
+          <Argument type="int" name="filmId"/>
+          <Argument type="String" name="date"/>
+          <Argument type="int" name="room"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="IUserService" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="1820.0" yPosition="420.0">
+      <Methods>
+        <Method name="deleteLoggedAccount" returnType="void" visibility="package"/>
+        <Method name="getUserById" returnType="User" visibility="package">
+          <Argument type="int" name="id"/>
+        </Method>
+        <Method name="register" returnType="void" visibility="package">
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="password"/>
+          <Argument type="String" name="firstName"/>
+          <Argument type="String" name="lastName"/>
+          <Argument type="String" name="email"/>
+        </Method>
+        <Method name="updateUser" returnType="void" visibility="package">
+          <Argument type="User" name="user"/>
+        </Method>
+        <Method name="deleteUserAccount" returnType="void" visibility="package">
+          <Argument type="User" name="u"/>
+        </Method>
+        <Method name="checkUserPrivilegesForOperation" returnType="void" visibility="package">
+          <Argument type="UserPrivileges" name="privilegesToAchieve"/>
+        </Method>
+        <Method name="checkUserPrivilegesForOperation" returnType="void" visibility="package">
+          <Argument type="UserPrivileges" name="privilegesToAchieve"/>
+          <Argument type="String" name="operation"/>
+        </Method>
+        <Method name="changeUserPrivileges" returnType="void" visibility="package">
+          <Argument type="User" name="u"/>
+          <Argument type="UserPrivileges" name="newPrivilegeLevel"/>
+        </Method>
+        <Method name="checkDuplicates" returnType="boolean" visibility="package">
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="email"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Class name="PisaFlixServices" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="2120.0" yPosition="420.0">
+      <Fields>
+        <Field name="authenticationService" type="IAuthenticationService" visibility="public" isStatic="true"/>
+        <Field name="userService" type="IUserService" visibility="public" isStatic="true"/>
+        <Field name="filmService" type="IFilmService" visibility="public" isStatic="true"/>
+        <Field name="cinemaService" type="ICinemaService" visibility="public" isStatic="true"/>
+        <Field name="commentService" type="ICommentService" visibility="public" isStatic="true"/>
+        <Field name="projectionService" type="IProjectionService" visibility="public" isStatic="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="ProjectionService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="20.0" yPosition="820.0">
+      <Fields>
+        <Field name="projectionManager" type="IProjectionManagerDB" visibility="private" isFinal="true"/>
+        <Field name="userManager" type="IUserService" visibility="private" isFinal="true"/>
       </Fields>
       <Constructors>
         <Constructor visibility="public">
-          <Argument type="IProjectionManagerDB" name="pm"/>
-          <Argument type="IUserService" name="us"/>
+          <Argument type="IProjectionManagerDB" name="projectionManager"/>
+          <Argument type="IUserService" name="userManager"/>
         </Constructor>
       </Constructors>
       <Methods>
         <Method name="addProjection" returnType="void" visibility="public">
-          <Argument type="Cinema" name="c"/>
-          <Argument type="Film" name="f"/>
-          <Argument type="Date" name="d"/>
+          <Argument type="Cinema" name="cinema"/>
+          <Argument type="Film" name="film"/>
+          <Argument type="Date" name="date"/>
           <Argument type="int" name="room"/>
         </Method>
         <Method name="removeProjection" returnType="void" visibility="public">
@@ -96,73 +381,25 @@
           <Argument type="int" name="cinemaId"/>
           <Argument type="int" name="filmId"/>
           <Argument type="String" name="date"/>
+          <Argument type="int" name="room"/>
         </Method>
-      </Methods>
-    </Class>
-    <Class name="PisaFlixServices" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="853.0" yPosition="1685.0">
-      <Fields>
-        <Field name="Authentication" type="IAuthenticationService" visibility="public" isStatic="true"/>
-        <Field name="UserManager" type="IUserService" visibility="public" isStatic="true"/>
-        <Field name="FilmManager" type="IFilmService" visibility="public" isStatic="true"/>
-        <Field name="CinemaManager" type="ICinemaService" visibility="public" isStatic="true"/>
-        <Field name="CommentManager" type="ICommentService" visibility="public" isStatic="true"/>
-        <Field name="ProjectionManager" type="IProjectionService" visibility="public" isStatic="true"/>
-      </Fields>
-      <Constructors/>
-      <Methods/>
-    </Class>
-    <Class name="FilmManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="1413.0" yPosition="406.0">
-      <Fields>
-        <Field name="factory" type="EntityManagerFactory" visibility="private"/>
-        <Field name="entityManager" type="EntityManager" visibility="private"/>
-        <Field name="fm" type="FilmManager" visibility="private" isStatic="true"/>
-      </Fields>
-      <Constructors>
-        <Constructor visibility="private"/>
-      </Constructors>
-      <Methods>
-        <Method name="getIstance" returnType="FilmManager" visibility="public" isStatic="true"/>
-        <Method name="getById" returnType="Film" visibility="public">
+        <Method name="checkDuplicates" returnType="boolean" visibility="public">
+          <Argument type="int" name="cinemaId"/>
           <Argument type="int" name="filmId"/>
-        </Method>
-        <Method name="getAll" returnType="Set&lt;Film&gt;" visibility="public"/>
-        <Method name="create" returnType="void" visibility="public">
-          <Argument type="String" name="title"/>
-          <Argument type="Date" name="publicationDate"/>
-          <Argument type="String" name="description"/>
-        </Method>
-        <Method name="update" returnType="void" visibility="public">
-          <Argument type="int" name="idFilm"/>
-          <Argument type="String" name="title"/>
-          <Argument type="Date" name="publicationDate"/>
-          <Argument type="String" name="description"/>
-        </Method>
-        <Method name="delete" returnType="void" visibility="public">
-          <Argument type="int" name="idFilm"/>
-        </Method>
-        <Method name="clearUserSet" returnType="void" visibility="public">
-          <Argument type="Film" name="film"/>
-        </Method>
-        <Method name="updateFavorites" returnType="void" visibility="public">
-          <Argument type="Film" name="film"/>
-        </Method>
-        <Method name="getFiltered" returnType="Set&lt;Film&gt;" visibility="public">
-          <Argument type="String" name="titleFilter"/>
-          <Argument type="Date" name="startDateFilter"/>
-          <Argument type="Date" name="endDateFilter"/>
+          <Argument type="String" name="date"/>
+          <Argument type="int" name="room"/>
         </Method>
       </Methods>
     </Class>
-    <Class name="InvalidPrivilegeLevelValueException" package="com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions" visibility="public" xPosition="3018.0" yPosition="926.0">
-      <Fields/>
-      <Constructors>
-        <Constructor visibility="public">
-          <Argument type="String" name="errorMessage"/>
-        </Constructor>
-      </Constructors>
-      <Methods/>
-    </Class>
-    <Class name="UserService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="-7.0" yPosition="696.0">
+    <Enum name="UserPrivileges" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="320.0" yPosition="820.0">
+      <Literals>
+        <Literal name="NORMAL_USER"/>
+        <Literal name="SOCIAL_MODERATOR"/>
+        <Literal name="MODERATOR"/>
+        <Literal name="ADMIN"/>
+      </Literals>
+    </Enum>
+    <Class name="UserService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="620.0" yPosition="820.0">
       <Fields>
         <Field name="as" type="IAuthenticationService" visibility="private"/>
         <Field name="um" type="IUserManagerDB" visibility="private"/>
@@ -208,74 +445,46 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="FilmService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="534.0" yPosition="367.0">
+    <Class name="CinemaManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="920.0" yPosition="820.0">
       <Fields>
-        <Field name="fm" type="IFilmManagerDB" visibility="private"/>
-        <Field name="cm" type="ICommentManagerDB" visibility="private"/>
-        <Field name="us" type="IUserService" visibility="private"/>
+        <Field name="factory" type="EntityManagerFactory" visibility="private"/>
+        <Field name="entityManager" type="EntityManager" visibility="private"/>
+        <Field name="cm" type="CinemaManager" visibility="private" isStatic="true"/>
       </Fields>
       <Constructors>
-        <Constructor visibility="package">
-          <Argument type="IFilmManagerDB" name="filmManager"/>
-          <Argument type="ICommentManagerDB" name="commentManager"/>
-          <Argument type="IUserService" name="userService"/>
-        </Constructor>
+        <Constructor visibility="private"/>
       </Constructors>
       <Methods>
-        <Method name="getFilmsFiltered" returnType="Set&lt;Film&gt;" visibility="public">
-          <Argument type="String" name="titleFilter"/>
-          <Argument type="Date" name="startDateFilter"/>
-          <Argument type="Date" name="endDateFilter"/>
+        <Method name="getIstance" returnType="CinemaManager" visibility="public" isStatic="true"/>
+        <Method name="create" returnType="void" visibility="public">
+          <Argument type="String" name="name"/>
+          <Argument type="String" name="address"/>
         </Method>
-        <Method name="getAll" returnType="Set&lt;Film&gt;" visibility="public"/>
-        <Method name="getById" returnType="Film" visibility="public">
-          <Argument type="int" name="id"/>
+        <Method name="getById" returnType="Cinema" visibility="public">
+          <Argument type="int" name="cinemaId"/>
         </Method>
-        <Method name="addFilm" returnType="void" visibility="public">
-          <Argument type="String" name="title"/>
-          <Argument type="Date" name="publicationDate"/>
-          <Argument type="String" name="description"/>
-        </Method>
-        <Method name="deleteFilm" returnType="void" visibility="public">
-          <Argument type="int" name="idFilm"/>
-        </Method>
-        <Method name="addComment" returnType="void" visibility="public">
-          <Argument type="String" name="comment"/>
-          <Argument type="User" name="user"/>
-          <Argument type="Film" name="film"/>
-        </Method>
-        <Method name="addFavorite" returnType="void" visibility="public">
-          <Argument type="Film" name="film"/>
-          <Argument type="User" name="user"/>
-        </Method>
-        <Method name="removeFavourite" returnType="void" visibility="public">
-          <Argument type="Film" name="film"/>
-          <Argument type="User" name="user"/>
-        </Method>
-      </Methods>
-    </Class>
-    <Class name="CommentService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="15.0" yPosition="448.0">
-      <Fields>
-        <Field name="cm" type="ICommentManagerDB" visibility="private"/>
-      </Fields>
-      <Constructors>
-        <Constructor visibility="package">
-          <Argument type="ICommentManagerDB" name="commentManager"/>
-        </Constructor>
-      </Constructors>
-      <Methods>
-        <Method name="update" returnType="void" visibility="public">
-          <Argument type="Comment" name="comment"/>
-        </Method>
-        <Method name="getById" returnType="Comment" visibility="public">
-          <Argument type="int" name="id"/>
+        <Method name="getFiltered" returnType="Set&lt;Cinema&gt;" visibility="public">
+          <Argument type="String" name="nameFilter"/>
+          <Argument type="String" name="addressFilter"/>
         </Method>
         <Method name="delete" returnType="void" visibility="public">
-          <Argument type="int" name="id"/>
+          <Argument type="int" name="idCinema"/>
+        </Method>
+        <Method name="clearUserSet" returnType="void" visibility="public">
+          <Argument type="Cinema" name="cinema"/>
+        </Method>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="int" name="idCinema"/>
+          <Argument type="String" name="name"/>
+          <Argument type="String" name="address"/>
+        </Method>
+        <Method name="getAll" returnType="Set&lt;Cinema&gt;" visibility="public"/>
+        <Method name="updateFavorites" returnType="void" visibility="public">
+          <Argument type="Cinema" name="cinema"/>
         </Method>
       </Methods>
     </Class>
-    <Class name="CommentManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="1602.0" yPosition="59.0">
+    <Class name="CommentManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="1220.0" yPosition="820.0">
       <Fields>
         <Field name="factory" type="EntityManagerFactory" visibility="private"/>
         <Field name="entityManager" type="EntityManager" visibility="private"/>
@@ -308,16 +517,276 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="InvalidPrivilegeLevelException" package="com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions" visibility="public" xPosition="3179.0" yPosition="1281.0">
-      <Fields/>
-      <Constructors>
-        <Constructor visibility="public">
-          <Argument type="String" name="errorMessage"/>
-        </Constructor>
-      </Constructors>
-      <Methods/>
+    <Class name="DBManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="1520.0" yPosition="820.0">
+      <Fields>
+        <Field name="factory" type="EntityManagerFactory" visibility="private" isStatic="true"/>
+        <Field name="cinemaMamager" type="ICinemaManagerDB" visibility="public" isStatic="true"/>
+        <Field name="userManager" type="IUserManagerDB" visibility="public" isStatic="true"/>
+        <Field name="filmManager" type="IFilmManagerDB" visibility="public" isStatic="true"/>
+        <Field name="projectionManager" type="IProjectionManagerDB" visibility="public" isStatic="true"/>
+        <Field name="commentManager" type="ICommentManagerDB" visibility="public" isStatic="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="start" returnType="void" visibility="public" isStatic="true"/>
+        <Method name="stop" returnType="void" visibility="public" isStatic="true"/>
+        <Method name="getEntityManagerFactory" returnType="EntityManagerFactory" visibility="public" isStatic="true"/>
+      </Methods>
     </Class>
-    <Class name="UserManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="2037.0" yPosition="19.0">
+    <Class name="FilmManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="1820.0" yPosition="820.0">
+      <Fields>
+        <Field name="factory" type="EntityManagerFactory" visibility="private"/>
+        <Field name="entityManager" type="EntityManager" visibility="private"/>
+        <Field name="fm" type="FilmManager" visibility="private" isStatic="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="private"/>
+      </Constructors>
+      <Methods>
+        <Method name="getIstance" returnType="FilmManager" visibility="public" isStatic="true"/>
+        <Method name="getById" returnType="Film" visibility="public">
+          <Argument type="int" name="filmId"/>
+        </Method>
+        <Method name="getAll" returnType="Set&lt;Film&gt;" visibility="public"/>
+        <Method name="create" returnType="void" visibility="public">
+          <Argument type="String" name="title"/>
+          <Argument type="Date" name="publicationDate"/>
+          <Argument type="String" name="description"/>
+        </Method>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="int" name="idFilm"/>
+          <Argument type="String" name="title"/>
+          <Argument type="Date" name="publicationDate"/>
+          <Argument type="String" name="description"/>
+        </Method>
+        <Method name="delete" returnType="void" visibility="public">
+          <Argument type="int" name="idFilm"/>
+        </Method>
+        <Method name="clearUserSet" returnType="void" visibility="public">
+          <Argument type="Film" name="film"/>
+        </Method>
+        <Method name="updateFavorites" returnType="void" visibility="public">
+          <Argument type="Film" name="film"/>
+        </Method>
+        <Method name="getFiltered" returnType="Set&lt;Film&gt;" visibility="public">
+          <Argument type="String" name="titleFilter"/>
+          <Argument type="Date" name="startDateFilter"/>
+          <Argument type="Date" name="endDateFilter"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Interface name="ICinemaManagerDB" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="2120.0" yPosition="820.0">
+      <Methods>
+        <Method name="create" returnType="void" visibility="package">
+          <Argument type="String" name="name"/>
+          <Argument type="String" name="address"/>
+        </Method>
+        <Method name="getById" returnType="Cinema" visibility="package">
+          <Argument type="int" name="cinemaId"/>
+        </Method>
+        <Method name="getFiltered" returnType="Set&lt;Cinema&gt;" visibility="package">
+          <Argument type="String" name="nameFilter"/>
+          <Argument type="String" name="addressFilter"/>
+        </Method>
+        <Method name="delete" returnType="void" visibility="package">
+          <Argument type="int" name="idCinema"/>
+        </Method>
+        <Method name="clearUserSet" returnType="void" visibility="package">
+          <Argument type="Cinema" name="cinema"/>
+        </Method>
+        <Method name="update" returnType="void" visibility="package">
+          <Argument type="int" name="idCinema"/>
+          <Argument type="String" name="name"/>
+          <Argument type="String" name="address"/>
+        </Method>
+        <Method name="getAll" returnType="Set&lt;Cinema&gt;" visibility="package"/>
+        <Method name="updateFavorites" returnType="void" visibility="package">
+          <Argument type="Cinema" name="cinema"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="ICommentManagerDB" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="20.0" yPosition="1220.0">
+      <Methods>
+        <Method name="createFilmComment" returnType="void" visibility="package">
+          <Argument type="String" name="text"/>
+          <Argument type="User" name="user"/>
+          <Argument type="Film" name="film"/>
+        </Method>
+        <Method name="createCinemaComment" returnType="void" visibility="package">
+          <Argument type="String" name="text"/>
+          <Argument type="User" name="user"/>
+          <Argument type="Cinema" name="cinema"/>
+        </Method>
+        <Method name="update" returnType="void" visibility="package">
+          <Argument type="Comment" name="comment"/>
+          <Argument type="String" name="text"/>
+        </Method>
+        <Method name="delete" returnType="void" visibility="package">
+          <Argument type="int" name="idComment"/>
+        </Method>
+        <Method name="getById" returnType="Comment" visibility="package">
+          <Argument type="int" name="commentId"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="IFilmManagerDB" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="320.0" yPosition="1220.0">
+      <Methods>
+        <Method name="getById" returnType="Film" visibility="package">
+          <Argument type="int" name="filmId"/>
+        </Method>
+        <Method name="getAll" returnType="Set&lt;Film&gt;" visibility="package"/>
+        <Method name="create" returnType="void" visibility="package">
+          <Argument type="String" name="title"/>
+          <Argument type="Date" name="publicationDate"/>
+          <Argument type="String" name="description"/>
+        </Method>
+        <Method name="update" returnType="void" visibility="package">
+          <Argument type="int" name="idFilm"/>
+          <Argument type="String" name="title"/>
+          <Argument type="Date" name="publicationDate"/>
+          <Argument type="String" name="description"/>
+        </Method>
+        <Method name="delete" returnType="void" visibility="package">
+          <Argument type="int" name="idFilm"/>
+        </Method>
+        <Method name="clearUserSet" returnType="void" visibility="package">
+          <Argument type="Film" name="film"/>
+        </Method>
+        <Method name="updateFavorites" returnType="void" visibility="package">
+          <Argument type="Film" name="film"/>
+        </Method>
+        <Method name="getFiltered" returnType="Set&lt;Film&gt;" visibility="package">
+          <Argument type="String" name="titleFilter"/>
+          <Argument type="Date" name="startDateFilter"/>
+          <Argument type="Date" name="endDateFilter"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="IProjectionManagerDB" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="620.0" yPosition="1220.0">
+      <Methods>
+        <Method name="create" returnType="void" visibility="package">
+          <Argument type="Date" name="dateTime"/>
+          <Argument type="int" name="room"/>
+          <Argument type="Film" name="film"/>
+          <Argument type="Cinema" name="cinema"/>
+        </Method>
+        <Method name="delete" returnType="void" visibility="package">
+          <Argument type="int" name="idProjection"/>
+        </Method>
+        <Method name="update" returnType="void" visibility="package">
+          <Argument type="int" name="idProjection"/>
+          <Argument type="Date" name="dateTime"/>
+          <Argument type="int" name="room"/>
+        </Method>
+        <Method name="getAll" returnType="Set&lt;Projection&gt;" visibility="package"/>
+        <Method name="getById" returnType="Projection" visibility="package">
+          <Argument type="int" name="projectionId"/>
+        </Method>
+        <Method name="queryProjection" returnType="Set&lt;Projection&gt;" visibility="package">
+          <Argument type="int" name="cinemaId"/>
+          <Argument type="int" name="filmId"/>
+          <Argument type="String" name="date"/>
+          <Argument type="int" name="room"/>
+        </Method>
+        <Method name="checkDuplicates" returnType="boolean" visibility="package">
+          <Argument type="int" name="cinemaId"/>
+          <Argument type="int" name="filmId"/>
+          <Argument type="String" name="date"/>
+          <Argument type="int" name="room"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="IUserManagerDB" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="920.0" yPosition="1220.0">
+      <Methods>
+        <Method name="getById" returnType="User" visibility="package">
+          <Argument type="int" name="userId"/>
+        </Method>
+        <Method name="create" returnType="void" visibility="package">
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="password"/>
+          <Argument type="String" name="firstName"/>
+          <Argument type="String" name="lastName"/>
+          <Argument type="String" name="email"/>
+          <Argument type="int" name="privilegeLevel"/>
+        </Method>
+        <Method name="updateFavorites" returnType="void" visibility="package">
+          <Argument type="User" name="user"/>
+        </Method>
+        <Method name="delete" returnType="void" visibility="package">
+          <Argument type="int" name="userId"/>
+        </Method>
+        <Method name="clearCinemaSetAndFilmSet" returnType="void" visibility="package">
+          <Argument type="User" name="user"/>
+        </Method>
+        <Method name="update" returnType="void" visibility="package">
+          <Argument type="User" name="u"/>
+        </Method>
+        <Method name="update" returnType="void" visibility="package">
+          <Argument type="int" name="userId"/>
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="firstName"/>
+          <Argument type="String" name="lastName"/>
+          <Argument type="String" name="email"/>
+          <Argument type="String" name="password"/>
+          <Argument type="int" name="privilegeLevel"/>
+        </Method>
+        <Method name="getAll" returnType="Set&lt;User&gt;" visibility="package"/>
+        <Method name="getByUsername" returnType="Set&lt;User&gt;" visibility="package">
+          <Argument type="String" name="username"/>
+        </Method>
+        <Method name="getByEmail" returnType="Set&lt;User&gt;" visibility="package">
+          <Argument type="String" name="email"/>
+        </Method>
+        <Method name="checkDuplicates" returnType="boolean" visibility="package">
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="email"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Class name="ProjectionManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="1220.0" yPosition="1220.0">
+      <Fields>
+        <Field name="factory" type="EntityManagerFactory" visibility="private"/>
+        <Field name="entityManager" type="EntityManager" visibility="private"/>
+        <Field name="projectionManager" type="ProjectionManager" visibility="private" isStatic="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="private"/>
+      </Constructors>
+      <Methods>
+        <Method name="getIstance" returnType="ProjectionManager" visibility="public" isStatic="true"/>
+        <Method name="create" returnType="void" visibility="public">
+          <Argument type="Date" name="dateTime"/>
+          <Argument type="int" name="room"/>
+          <Argument type="Film" name="film"/>
+          <Argument type="Cinema" name="cinema"/>
+        </Method>
+        <Method name="delete" returnType="void" visibility="public">
+          <Argument type="int" name="idProjection"/>
+        </Method>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="int" name="idProjection"/>
+          <Argument type="Date" name="dateTime"/>
+          <Argument type="int" name="room"/>
+        </Method>
+        <Method name="getAll" returnType="Set&lt;Projection&gt;" visibility="public"/>
+        <Method name="getById" returnType="Projection" visibility="public">
+          <Argument type="int" name="projectionId"/>
+        </Method>
+        <Method name="queryProjection" returnType="Set&lt;Projection&gt;" visibility="public">
+          <Argument type="int" name="cinemaId"/>
+          <Argument type="int" name="filmId"/>
+          <Argument type="String" name="date"/>
+          <Argument type="int" name="room"/>
+        </Method>
+        <Method name="checkDuplicates" returnType="boolean" visibility="public">
+          <Argument type="int" name="cinemaId"/>
+          <Argument type="int" name="filmId"/>
+          <Argument type="String" name="date"/>
+          <Argument type="int" name="room"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="UserManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="1520.0" yPosition="1220.0">
       <Fields>
         <Field name="factory" type="EntityManagerFactory" visibility="private"/>
         <Field name="entityManager" type="EntityManager" visibility="private"/>
@@ -373,497 +842,51 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="UserNotLoggedException" package="com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions" visibility="public" xPosition="3564.0" yPosition="710.0">
-      <Fields/>
-      <Constructors>
-        <Constructor visibility="public">
-          <Argument type="String" name="errorMessage"/>
-        </Constructor>
-      </Constructors>
-      <Methods/>
-    </Class>
-    <Class name="ProjectionManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="1920.0" yPosition="462.0">
-      <Fields>
-        <Field name="factory" type="EntityManagerFactory" visibility="private"/>
-        <Field name="entityManager" type="EntityManager" visibility="private"/>
-        <Field name="pm" type="ProjectionManager" visibility="private" isStatic="true"/>
-      </Fields>
-      <Constructors>
-        <Constructor visibility="private"/>
-      </Constructors>
-      <Methods>
-        <Method name="getIstance" returnType="ProjectionManager" visibility="public" isStatic="true"/>
-        <Method name="create" returnType="void" visibility="public">
-          <Argument type="Date" name="dateTime"/>
-          <Argument type="int" name="room"/>
-          <Argument type="Film" name="film"/>
-          <Argument type="Cinema" name="cinema"/>
-        </Method>
-        <Method name="delete" returnType="void" visibility="public">
-          <Argument type="int" name="idProjection"/>
-        </Method>
-        <Method name="update" returnType="void" visibility="public">
-          <Argument type="int" name="idProjection"/>
-          <Argument type="Date" name="dateTime"/>
-          <Argument type="int" name="room"/>
-        </Method>
-        <Method name="getAll" returnType="Set&lt;Projection&gt;" visibility="public"/>
-        <Method name="getById" returnType="Projection" visibility="public">
-          <Argument type="int" name="projectionId"/>
-        </Method>
-        <Method name="queryProjection" returnType="Set&lt;Projection&gt;" visibility="public">
-          <Argument type="int" name="cinemaId"/>
-          <Argument type="int" name="filmId"/>
-          <Argument type="String" name="date"/>
-        </Method>
-      </Methods>
-    </Class>
-    <Class name="AuthenticationService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="53.0" yPosition="19.0">
-      <Fields>
-        <Field name="loggedUser" type="User" visibility="private"/>
-        <Field name="um" type="IUserManagerDB" visibility="private" isFinal="true"/>
-      </Fields>
-      <Constructors>
-        <Constructor visibility="package">
-          <Argument type="IUserManagerDB" name="userManager"/>
-        </Constructor>
-      </Constructors>
-      <Methods>
-        <Method name="Register" returnType="void" visibility="public">
-          <Argument type="String" name="username"/>
-          <Argument type="String" name="password"/>
-          <Argument type="String" name="email"/>
-          <Argument type="String" name="firstName"/>
-          <Argument type="String" name="lastName"/>
-        </Method>
-        <Method name="Login" returnType="void" visibility="public">
-          <Argument type="String" name="username"/>
-          <Argument type="String" name="password"/>
-        </Method>
-        <Method name="Logout" returnType="void" visibility="public"/>
-        <Method name="isUserLogged" returnType="boolean" visibility="public"/>
-        <Method name="getInfoString" returnType="String" visibility="public"/>
-        <Method name="SHA256" returnType="String" visibility="private">
-          <Argument type="String" name="text"/>
-        </Method>
-        <Method name="getLoggedUser" returnType="User" visibility="public"/>
-      </Methods>
-    </Class>
-    <Class name="CinemaManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="1200.0" yPosition="30.0">
-      <Fields>
-        <Field name="factory" type="EntityManagerFactory" visibility="private"/>
-        <Field name="entityManager" type="EntityManager" visibility="private"/>
-        <Field name="cm" type="CinemaManager" visibility="private" isStatic="true"/>
-      </Fields>
-      <Constructors>
-        <Constructor visibility="private"/>
-      </Constructors>
-      <Methods>
-        <Method name="getIstance" returnType="CinemaManager" visibility="public" isStatic="true"/>
-        <Method name="create" returnType="void" visibility="public">
-          <Argument type="String" name="name"/>
-          <Argument type="String" name="address"/>
-        </Method>
-        <Method name="getById" returnType="Cinema" visibility="public">
-          <Argument type="int" name="cinemaId"/>
-        </Method>
-        <Method name="getFiltered" returnType="Set&lt;Cinema&gt;" visibility="public">
-          <Argument type="String" name="nameFilter"/>
-          <Argument type="String" name="addressFilter"/>
-        </Method>
-        <Method name="delete" returnType="void" visibility="public">
-          <Argument type="int" name="idCinema"/>
-        </Method>
-        <Method name="clearUserSet" returnType="void" visibility="public">
-          <Argument type="Cinema" name="cinema"/>
-        </Method>
-        <Method name="update" returnType="void" visibility="public">
-          <Argument type="int" name="idCinema"/>
-          <Argument type="String" name="name"/>
-          <Argument type="String" name="address"/>
-        </Method>
-        <Method name="getAll" returnType="Set&lt;Cinema&gt;" visibility="public"/>
-        <Method name="updateFavorites" returnType="void" visibility="public">
-          <Argument type="Cinema" name="cinema"/>
-        </Method>
-      </Methods>
-    </Class>
-    <Class name="InvalidCredentialsException" package="com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions" visibility="public" xPosition="2956.0" yPosition="1102.0">
-      <Fields/>
-      <Constructors>
-        <Constructor visibility="public">
-          <Argument type="String" name="errorMessage"/>
-        </Constructor>
-      </Constructors>
-      <Methods/>
-    </Class>
-    <Interface name="IUserManagerDB" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="1517.0" yPosition="1323.0">
-      <Methods>
-        <Method name="getById" returnType="User" visibility="package">
-          <Argument type="int" name="userId"/>
-        </Method>
-        <Method name="create" returnType="void" visibility="package">
-          <Argument type="String" name="username"/>
-          <Argument type="String" name="password"/>
-          <Argument type="String" name="firstName"/>
-          <Argument type="String" name="lastName"/>
-          <Argument type="String" name="email"/>
-          <Argument type="int" name="privilegeLevel"/>
-        </Method>
-        <Method name="updateFavorites" returnType="void" visibility="package">
-          <Argument type="User" name="user"/>
-        </Method>
-        <Method name="delete" returnType="void" visibility="package">
-          <Argument type="int" name="userId"/>
-        </Method>
-        <Method name="clearCinemaSetAndFilmSet" returnType="void" visibility="package">
-          <Argument type="User" name="user"/>
-        </Method>
-        <Method name="update" returnType="void" visibility="package">
-          <Argument type="User" name="u"/>
-        </Method>
-        <Method name="update" returnType="void" visibility="package">
-          <Argument type="int" name="userId"/>
-          <Argument type="String" name="username"/>
-          <Argument type="String" name="firstName"/>
-          <Argument type="String" name="lastName"/>
-          <Argument type="String" name="email"/>
-          <Argument type="String" name="password"/>
-          <Argument type="int" name="privilegeLevel"/>
-        </Method>
-        <Method name="getAll" returnType="Set&lt;User&gt;" visibility="package"/>
-        <Method name="getByUsername" returnType="Set&lt;User&gt;" visibility="package">
-          <Argument type="String" name="username"/>
-        </Method>
-        <Method name="getByEmail" returnType="Set&lt;User&gt;" visibility="package">
-          <Argument type="String" name="email"/>
-        </Method>
-        <Method name="checkDuplicates" returnType="boolean" visibility="package">
-          <Argument type="String" name="username"/>
-          <Argument type="String" name="email"/>
-        </Method>
-      </Methods>
-    </Interface>
-    <Interface name="IFilmManagerDB" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="1576.0" yPosition="1007.0">
-      <Methods>
-        <Method name="getById" returnType="Film" visibility="package">
-          <Argument type="int" name="filmId"/>
-        </Method>
-        <Method name="getAll" returnType="Set&lt;Film&gt;" visibility="package"/>
-        <Method name="create" returnType="void" visibility="package">
-          <Argument type="String" name="title"/>
-          <Argument type="Date" name="publicationDate"/>
-          <Argument type="String" name="description"/>
-        </Method>
-        <Method name="update" returnType="void" visibility="package">
-          <Argument type="int" name="idFilm"/>
-          <Argument type="String" name="title"/>
-          <Argument type="Date" name="publicationDate"/>
-          <Argument type="String" name="description"/>
-        </Method>
-        <Method name="delete" returnType="void" visibility="package">
-          <Argument type="int" name="idFilm"/>
-        </Method>
-        <Method name="clearUserSet" returnType="void" visibility="package">
-          <Argument type="Film" name="film"/>
-        </Method>
-        <Method name="updateFavorites" returnType="void" visibility="package">
-          <Argument type="Film" name="film"/>
-        </Method>
-        <Method name="getFiltered" returnType="Set&lt;Film&gt;" visibility="package">
-          <Argument type="String" name="titleFilter"/>
-          <Argument type="Date" name="startDateFilter"/>
-          <Argument type="Date" name="endDateFilter"/>
-        </Method>
-      </Methods>
-    </Interface>
-    <Interface name="IProjectionManagerDB" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="2071.0" yPosition="1073.0">
-      <Methods>
-        <Method name="create" returnType="void" visibility="package">
-          <Argument type="Date" name="dateTime"/>
-          <Argument type="int" name="room"/>
-          <Argument type="Film" name="film"/>
-          <Argument type="Cinema" name="cinema"/>
-        </Method>
-        <Method name="delete" returnType="void" visibility="package">
-          <Argument type="int" name="idProjection"/>
-        </Method>
-        <Method name="update" returnType="void" visibility="package">
-          <Argument type="int" name="idProjection"/>
-          <Argument type="Date" name="dateTime"/>
-          <Argument type="int" name="room"/>
-        </Method>
-        <Method name="getAll" returnType="Set&lt;Projection&gt;" visibility="package"/>
-        <Method name="getById" returnType="Projection" visibility="package">
-          <Argument type="int" name="projectionId"/>
-        </Method>
-        <Method name="queryProjection" returnType="Set&lt;Projection&gt;" visibility="package">
-          <Argument type="int" name="cinemaId"/>
-          <Argument type="int" name="filmId"/>
-          <Argument type="String" name="date"/>
-        </Method>
-      </Methods>
-    </Interface>
-    <Interface name="IUserService" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="113.0" yPosition="1361.0">
-      <Methods>
-        <Method name="deleteLoggedAccount" returnType="void" visibility="package"/>
-        <Method name="getUserById" returnType="User" visibility="package">
-          <Argument type="int" name="id"/>
-        </Method>
-        <Method name="register" returnType="void" visibility="package">
-          <Argument type="String" name="username"/>
-          <Argument type="String" name="password"/>
-          <Argument type="String" name="firstName"/>
-          <Argument type="String" name="lastName"/>
-          <Argument type="String" name="email"/>
-        </Method>
-        <Method name="updateUser" returnType="void" visibility="package">
-          <Argument type="User" name="user"/>
-        </Method>
-        <Method name="deleteUserAccount" returnType="void" visibility="package">
-          <Argument type="User" name="u"/>
-        </Method>
-        <Method name="checkUserPrivilegesForOperation" returnType="void" visibility="package">
-          <Argument type="UserPrivileges" name="privilegesToAchieve"/>
-        </Method>
-        <Method name="checkUserPrivilegesForOperation" returnType="void" visibility="package">
-          <Argument type="UserPrivileges" name="privilegesToAchieve"/>
-          <Argument type="String" name="operation"/>
-        </Method>
-        <Method name="changeUserPrivileges" returnType="void" visibility="package">
-          <Argument type="User" name="u"/>
-          <Argument type="UserPrivileges" name="newPrivilegeLevel"/>
-        </Method>
-        <Method name="checkDuplicates" returnType="boolean" visibility="package">
-          <Argument type="String" name="username"/>
-          <Argument type="String" name="email"/>
-        </Method>
-      </Methods>
-    </Interface>
-    <Interface name="IAuthenticationService" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="63.0" yPosition="1685.0">
-      <Methods>
-        <Method name="Register" returnType="void" visibility="package">
-          <Argument type="String" name="username"/>
-          <Argument type="String" name="password"/>
-          <Argument type="String" name="email"/>
-          <Argument type="String" name="firstName"/>
-          <Argument type="String" name="lastName"/>
-        </Method>
-        <Method name="Login" returnType="void" visibility="package">
-          <Argument type="String" name="username"/>
-          <Argument type="String" name="password"/>
-        </Method>
-        <Method name="Logout" returnType="void" visibility="package"/>
-        <Method name="isUserLogged" returnType="boolean" visibility="package"/>
-        <Method name="getInfoString" returnType="String" visibility="package"/>
-        <Method name="getLoggedUser" returnType="User" visibility="package"/>
-      </Methods>
-    </Interface>
-    <Interface name="IFilmService" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="378.0" yPosition="1057.0">
-      <Methods>
-        <Method name="getFilmsFiltered" returnType="Set&lt;Film&gt;" visibility="package">
-          <Argument type="String" name="titleFilter"/>
-          <Argument type="Date" name="startDateFilter"/>
-          <Argument type="Date" name="endDateFilter"/>
-        </Method>
-        <Method name="getAll" returnType="Set&lt;Film&gt;" visibility="package"/>
-        <Method name="getById" returnType="Film" visibility="package">
-          <Argument type="int" name="id"/>
-        </Method>
-        <Method name="addFilm" returnType="void" visibility="package">
-          <Argument type="String" name="title"/>
-          <Argument type="Date" name="publicationDate"/>
-          <Argument type="String" name="description"/>
-        </Method>
-        <Method name="deleteFilm" returnType="void" visibility="package">
-          <Argument type="int" name="idFilm"/>
-        </Method>
-        <Method name="addComment" returnType="void" visibility="package">
-          <Argument type="String" name="comment"/>
-          <Argument type="User" name="user"/>
-          <Argument type="Film" name="film"/>
-        </Method>
-        <Method name="addFavorite" returnType="void" visibility="package">
-          <Argument type="Film" name="film"/>
-          <Argument type="User" name="user"/>
-        </Method>
-        <Method name="removeFavourite" returnType="void" visibility="package">
-          <Argument type="Film" name="film"/>
-          <Argument type="User" name="user"/>
-        </Method>
-      </Methods>
-    </Interface>
-    <Interface name="ICommentManagerDB" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="1005.0" yPosition="1070.0">
-      <Methods>
-        <Method name="createFilmComment" returnType="void" visibility="package">
-          <Argument type="String" name="text"/>
-          <Argument type="User" name="user"/>
-          <Argument type="Film" name="film"/>
-        </Method>
-        <Method name="createCinemaComment" returnType="void" visibility="package">
-          <Argument type="String" name="text"/>
-          <Argument type="User" name="user"/>
-          <Argument type="Cinema" name="cinema"/>
-        </Method>
-        <Method name="update" returnType="void" visibility="package">
-          <Argument type="Comment" name="comment"/>
-          <Argument type="String" name="text"/>
-        </Method>
-        <Method name="delete" returnType="void" visibility="package">
-          <Argument type="int" name="idComment"/>
-        </Method>
-        <Method name="getById" returnType="Comment" visibility="package">
-          <Argument type="int" name="commentId"/>
-        </Method>
-      </Methods>
-    </Interface>
-    <Interface name="IProjectionService" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="931.0" yPosition="1399.0">
-      <Methods>
-        <Method name="addProjection" returnType="void" visibility="package">
-          <Argument type="Cinema" name="c"/>
-          <Argument type="Film" name="f"/>
-          <Argument type="Date" name="d"/>
-          <Argument type="int" name="room"/>
-        </Method>
-        <Method name="removeProjection" returnType="void" visibility="package">
-          <Argument type="int" name="projectionId"/>
-        </Method>
-        <Method name="queryProjections" returnType="Set&lt;Projection&gt;" visibility="package">
-          <Argument type="int" name="cinemaId"/>
-          <Argument type="int" name="filmId"/>
-          <Argument type="String" name="date"/>
-        </Method>
-      </Methods>
-    </Interface>
-    <Interface name="ICommentService" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="716.0" yPosition="1339.0">
-      <Methods>
-        <Method name="update" returnType="void" visibility="package">
-          <Argument type="Comment" name="comment"/>
-        </Method>
-        <Method name="getById" returnType="Comment" visibility="package">
-          <Argument type="int" name="id"/>
-        </Method>
-        <Method name="delete" returnType="void" visibility="package">
-          <Argument type="int" name="id"/>
-        </Method>
-      </Methods>
-    </Interface>
-    <Interface name="ICinemaManagerDB" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="2439.0" yPosition="1073.0">
-      <Methods>
-        <Method name="create" returnType="void" visibility="package">
-          <Argument type="String" name="name"/>
-          <Argument type="String" name="address"/>
-        </Method>
-        <Method name="getById" returnType="Cinema" visibility="package">
-          <Argument type="int" name="cinemaId"/>
-        </Method>
-        <Method name="getFiltered" returnType="Set&lt;Cinema&gt;" visibility="package">
-          <Argument type="String" name="nameFilter"/>
-          <Argument type="String" name="addressFilter"/>
-        </Method>
-        <Method name="delete" returnType="void" visibility="package">
-          <Argument type="int" name="idCinema"/>
-        </Method>
-        <Method name="clearUserSet" returnType="void" visibility="package">
-          <Argument type="Cinema" name="cinema"/>
-        </Method>
-        <Method name="update" returnType="void" visibility="package">
-          <Argument type="int" name="idCinema"/>
-          <Argument type="String" name="name"/>
-          <Argument type="String" name="address"/>
-        </Method>
-        <Method name="getAll" returnType="Set&lt;Cinema&gt;" visibility="package"/>
-        <Method name="updateFavorites" returnType="void" visibility="package">
-          <Argument type="Cinema" name="cinema"/>
-        </Method>
-      </Methods>
-    </Interface>
-    <Interface name="ICinemaService" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="690.0" yPosition="722.0">
-      <Methods>
-        <Method name="getAll" returnType="Set&lt;Cinema&gt;" visibility="package"/>
-        <Method name="getFiltered" returnType="Set&lt;Cinema&gt;" visibility="package">
-          <Argument type="String" name="name"/>
-          <Argument type="String" name="address"/>
-        </Method>
-        <Method name="getById" returnType="Cinema" visibility="package">
-          <Argument type="int" name="id"/>
-        </Method>
-        <Method name="AddCinema" returnType="void" visibility="package">
-          <Argument type="String" name="name"/>
-          <Argument type="String" name="address"/>
-        </Method>
-        <Method name="addComment" returnType="void" visibility="package">
-          <Argument type="String" name="comment"/>
-          <Argument type="User" name="user"/>
-          <Argument type="Cinema" name="cinema"/>
-        </Method>
-        <Method name="addFavorite" returnType="void" visibility="package">
-          <Argument type="Cinema" name="cinema"/>
-          <Argument type="User" name="user"/>
-        </Method>
-        <Method name="removeFavourite" returnType="void" visibility="package">
-          <Argument type="Cinema" name="cinema"/>
-          <Argument type="User" name="user"/>
-        </Method>
-        <Method name="deleteCinema" returnType="void" visibility="package">
-          <Argument type="Cinema" name="cinema"/>
-        </Method>
-      </Methods>
-    </Interface>
-    <Enum name="UserPrivileges" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="19.0" yPosition="1191.0">
-      <Literals>
-        <Literal name="NORMAL_USER"/>
-        <Literal name="SOCIAL_MODERATOR"/>
-        <Literal name="MODERATOR"/>
-        <Literal name="ADMIN"/>
-      </Literals>
-    </Enum>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
-    <HasRelation name="Authentication" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IAuthenticationService" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="com" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICommentManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.ProjectionManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IProjectionManagerDB"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IUserService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="CommentManager" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.ICommentService" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.CommentService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.ICommentService"/>
-    <HasRelation name="cm" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICinemaManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="pm" source="com.lsmsdbgroup.pisaflix.dbmanager.ProjectionManager" target="com.lsmsdbgroup.pisaflix.dbmanager.ProjectionManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.FilmService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IFilmService"/>
-    <HasRelation name="FilmManager" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IFilmService" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="us" source="com.lsmsdbgroup.pisaflix.pisaflixservices.ProjectionService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IUserService" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.ProjectionManager" target="com.lsmsdbgroup.pisaflix.dbmanager.ProjectionManager" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.CinemaManager" target="com.lsmsdbgroup.pisaflix.dbmanager.CinemaManager" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.AuthenticationService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IAuthenticationService"/>
+    <HasRelation name="cinemaService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.ICinemaService" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
     <HasRelation name="fm" source="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" target="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.UserService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IUserService"/>
     <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IUserManagerDB"/>
-    <HasRelation name="us" source="com.lsmsdbgroup.pisaflix.pisaflixservices.FilmService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IUserService" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="UserManager" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IUserService" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="ProjectionManager" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IProjectionService" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="as" source="com.lsmsdbgroup.pisaflix.pisaflixservices.UserService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IAuthenticationService" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="userManager" source="com.lsmsdbgroup.pisaflix.pisaflixservices.ProjectionService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IUserService" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="filmService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IFilmService" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.ProjectionManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IProjectionManagerDB"/>
     <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" target="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" target="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="pm" source="com.lsmsdbgroup.pisaflix.pisaflixservices.ProjectionService" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IProjectionManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IFilmManagerDB"/>
-    <HasRelation name="pm" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IProjectionManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="cm" source="com.lsmsdbgroup.pisaflix.pisaflixservices.FilmService" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICommentManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="com" source="com.lsmsdbgroup.pisaflix.pisaflixservices.CinemaService" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICommentManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="fm" source="com.lsmsdbgroup.pisaflix.pisaflixservices.FilmService" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IFilmManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="um" source="com.lsmsdbgroup.pisaflix.pisaflixservices.AuthenticationService" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IUserManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.pisaflixservices.UserService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="CinemaManager" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.ICinemaService" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.CinemaManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICinemaManagerDB"/>
+    <HasRelation name="userService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IUserService" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="projectionManager" source="com.lsmsdbgroup.pisaflix.dbmanager.ProjectionManager" target="com.lsmsdbgroup.pisaflix.dbmanager.ProjectionManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.ProjectionService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IProjectionService"/>
     <HasRelation name="us" source="com.lsmsdbgroup.pisaflix.pisaflixservices.CinemaService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IUserService" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="cm" source="com.lsmsdbgroup.pisaflix.dbmanager.CinemaManager" target="com.lsmsdbgroup.pisaflix.dbmanager.CinemaManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="um" source="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" target="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="cinemaMamager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICinemaManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="us" source="com.lsmsdbgroup.pisaflix.pisaflixservices.FilmService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IUserService" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="filmManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IFilmManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IUserService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="commentManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICommentManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="projectionService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IProjectionService" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.FilmService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IFilmService"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICommentManagerDB"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.ProjectionManager" target="com.lsmsdbgroup.pisaflix.dbmanager.ProjectionManager" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="authenticationService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IAuthenticationService" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.AuthenticationService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IAuthenticationService"/>
+    <HasRelation name="cm" source="com.lsmsdbgroup.pisaflix.pisaflixservices.CinemaService" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICinemaManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
     <HasRelation name="um" source="com.lsmsdbgroup.pisaflix.pisaflixservices.UserService" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IUserManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
     <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" target="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICommentManagerDB"/>
-    <HasRelation name="fm" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IFilmManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.UserService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IUserService"/>
-    <HasRelation name="cm" source="com.lsmsdbgroup.pisaflix.pisaflixservices.CinemaService" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICinemaManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="cm" source="com.lsmsdbgroup.pisaflix.pisaflixservices.CommentService" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICommentManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="um" source="com.lsmsdbgroup.pisaflix.pisaflixservices.AuthenticationService" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IUserManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.pisaflixservices.UserService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges" sourceCardinality="1..1" targetCardinality="1..1"/>
     <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.CinemaService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.ICinemaService"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.ProjectionService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IProjectionService"/>
-    <HasRelation name="um" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IUserManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="commentService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.ICommentService" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="projectionManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IProjectionManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" target="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="fm" source="com.lsmsdbgroup.pisaflix.pisaflixservices.FilmService" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IFilmManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="cm" source="com.lsmsdbgroup.pisaflix.dbmanager.CinemaManager" target="com.lsmsdbgroup.pisaflix.dbmanager.CinemaManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="cm" source="com.lsmsdbgroup.pisaflix.pisaflixservices.CommentService" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICommentManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="um" source="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" target="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.CinemaManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICinemaManagerDB"/>
+    <HasRelation name="userManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IUserManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="as" source="com.lsmsdbgroup.pisaflix.pisaflixservices.UserService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IAuthenticationService" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="projectionManager" source="com.lsmsdbgroup.pisaflix.pisaflixservices.ProjectionService" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IProjectionManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.CommentService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.ICommentService"/>
+    <HasRelation name="cm" source="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" target="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.CinemaManager" target="com.lsmsdbgroup.pisaflix.dbmanager.CinemaManager" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IFilmManagerDB"/>
   </ClassDiagramRelations>
 </ClassDiagram>
