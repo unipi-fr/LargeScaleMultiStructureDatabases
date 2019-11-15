@@ -1,39 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.lsmsdbgroup.pisaflix.dbmanager;
 
-import com.lsmsdbgroup.pisaflix.Entities.Cinema;
-import com.lsmsdbgroup.pisaflix.Entities.Comment;
-import com.lsmsdbgroup.pisaflix.Entities.Film;
-import com.lsmsdbgroup.pisaflix.Entities.User;
-import com.lsmsdbgroup.pisaflix.PisaFlix;
-import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICommentManagerDB;
-import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import com.lsmsdbgroup.pisaflix.Entities.*;
+import java.util.*;
+import javax.persistence.*;
+import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CommentManagerDatabaseInterface;
 
-public class CommentManager implements ICommentManagerDB{
-    private EntityManagerFactory factory;
+public class CommentManager implements CommentManagerDatabaseInterface {
+
+    private final EntityManagerFactory factory;
     private EntityManager entityManager;
-    
-    private static CommentManager cm;
-    
-    public static CommentManager getIstance(){
-        if(cm==null){
-            cm = new CommentManager();
+
+    private static CommentManager commentManager;
+
+    public static CommentManager getIstance() {
+        if (commentManager == null) {
+            commentManager = new CommentManager();
         }
-        
-        return cm;
+        return commentManager;
     }
-    private CommentManager(){
+
+    private CommentManager() {
         factory = DBManager.getEntityManagerFactory();
     }
-    
 
     @Override
     public void createFilmComment(String text, User user, Film film) {
@@ -110,12 +98,12 @@ public class CommentManager implements ICommentManagerDB{
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
             Comment reference = entityManager.getReference(Comment.class, idComment);
-            if(!reference.getCinemaSet().isEmpty()){
+            if (!reference.getCinemaSet().isEmpty()) {
                 reference.getCinemaSet().iterator().next().getCommentSet().remove(reference);
-            }   
-            if(!reference.getFilmSet().isEmpty()){
+            }
+            if (!reference.getFilmSet().isEmpty()) {
                 reference.getFilmSet().iterator().next().getCommentSet().remove(reference);
-            }              
+            }
             reference.getIdUser().getCommentSet().remove(reference);
             entityManager.remove(reference);
             entityManager.getTransaction().commit();
@@ -143,4 +131,4 @@ public class CommentManager implements ICommentManagerDB{
         return comment;
     }
 
-    }
+}

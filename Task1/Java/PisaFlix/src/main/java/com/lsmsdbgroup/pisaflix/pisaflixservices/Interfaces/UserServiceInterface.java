@@ -1,23 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces;
 
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 
-/**
- *
- * @author FraRonk
- */
-public interface IUserService {        
+public interface UserServiceInterface {
+
     void deleteLoggedAccount() throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
     User getUserById(int id);
-    
+
     void register(String username, String password, String firstName, String lastName, String email);
 
     void updateUser(User user);
@@ -29,6 +21,6 @@ public interface IUserService {
     void checkUserPrivilegesForOperation(UserPrivileges privilegesToAchieve, String operation) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
     void changeUserPrivileges(User u, UserPrivileges newPrivilegeLevel) throws UserNotLoggedException, InvalidPrivilegeLevelException;
-    
-    boolean checkDuplicates(String username, String email);    
+
+    boolean checkDuplicates(String username, String email);
 }

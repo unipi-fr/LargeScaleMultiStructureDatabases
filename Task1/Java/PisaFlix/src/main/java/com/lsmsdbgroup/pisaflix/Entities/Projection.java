@@ -1,6 +1,5 @@
 package com.lsmsdbgroup.pisaflix.Entities;
 
-//import com.lsmsdbgroup.pisaflix.DBManager;
 import java.io.Serializable;
 import java.util.*;
 import javax.persistence.*;
@@ -46,13 +45,13 @@ public class Projection implements Serializable {
         this.room = room;
     }
 
-    public Projection(Integer idProjection, Date dateTime, int room, Cinema cinema, Film film){
-    
+    public Projection(Integer idProjection, Date dateTime, int room, Cinema cinema, Film film) {
+
         this(idProjection, dateTime, room);
         idCinema = cinema;
         idFilm = film;
     }
-    
+
     public Integer getIdProjection() {
         return idProjection;
     }
@@ -80,7 +79,7 @@ public class Projection implements Serializable {
     public Cinema getIdCinema() {
         return idCinema;
     }
-    
+
     public String getCinema() {
         return idCinema.getName();
     }
@@ -92,7 +91,7 @@ public class Projection implements Serializable {
     public Film getIdFilm() {
         return idFilm;
     }
-    
+
     public String getFilm() {
         return idFilm.getTitle();
     }
@@ -100,7 +99,6 @@ public class Projection implements Serializable {
     public void setIdFilm(Film idFilm) {
         this.idFilm = idFilm;
     }
-    
 
     @Override
     public int hashCode() {
@@ -121,37 +119,9 @@ public class Projection implements Serializable {
 
     @Override
     public String toString() {
-        return "idProjection=" + idProjection + " ]\ndateTime:" +
-                dateTime.toString() + "\nroom:" + room + "\ncinema:" +
-                idCinema.toString() + "\nfilm:" + idFilm.toString();
-    }
-    /*
-    public static void create(Date dateTime, int room, Film film, Cinema cinema) {
-        DBManager.ProjectionManager.create(dateTime, room, film, cinema);
+        return "idProjection=" + idProjection + " ]\ndateTime:"
+                + dateTime.toString() + "\nroom:" + room + "\ncinema:"
+                + idCinema.toString() + "\nfilm:" + idFilm.toString();
     }
 
-    public static void delete(int idProjection) {
-        DBManager.ProjectionManager.delete(idProjection);
-    }
-
-    public void deleteThis() {
-        DBManager.ProjectionManager.delete(this.idProjection);
-    }
-
-    public static void update(int idProjection, Date dateTime, int room) {
-        DBManager.ProjectionManager.update(idProjection, dateTime, room);
-    }
-
-    public void updateThis(Date dateTime, int room) {
-        DBManager.ProjectionManager.update(this.idProjection, dateTime, room);
-    }
-
-    public static Set<Projection> getAll() {
-        return DBManager.ProjectionManager.getAll();
-    }
-
-    public static Projection getById(int projectionId) {
-        return DBManager.ProjectionManager.getById(projectionId);
-    }
-     */
 }

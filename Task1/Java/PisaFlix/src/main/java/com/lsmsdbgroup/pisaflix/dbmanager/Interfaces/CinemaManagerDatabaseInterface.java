@@ -1,19 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.lsmsdbgroup.pisaflix.dbmanager.Interfaces;
 
 import com.lsmsdbgroup.pisaflix.Entities.Cinema;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
-/**
- *
- * @author FraRonk
- */
-public interface ICinemaManagerDB {
+public interface CinemaManagerDatabaseInterface {
 
     void create(String name, String address);
 

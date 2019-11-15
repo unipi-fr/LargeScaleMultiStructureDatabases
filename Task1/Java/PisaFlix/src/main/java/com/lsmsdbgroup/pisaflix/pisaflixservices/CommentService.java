@@ -1,45 +1,41 @@
 package com.lsmsdbgroup.pisaflix.pisaflixservices;
 
-import com.lsmsdbgroup.pisaflix.Entities.Cinema;
-import com.lsmsdbgroup.pisaflix.Entities.Comment;
-import com.lsmsdbgroup.pisaflix.Entities.Film;
-import com.lsmsdbgroup.pisaflix.Entities.User;
-import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICommentManagerDB;
-import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.ICommentService;
+import com.lsmsdbgroup.pisaflix.Entities.*;
+import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CommentManagerDatabaseInterface;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.CommentServiceInterface;
 
-public class CommentService implements ICommentService{
-    private ICommentManagerDB cm;
-    
-    CommentService(ICommentManagerDB commentManager){
-        cm = commentManager;
-    }
-    
-    @Override
-    public void update(Comment comment){
-        cm.update(comment, comment.getText());
+public class CommentService implements CommentServiceInterface {
+
+    private final CommentManagerDatabaseInterface commentManager;
+
+    CommentService(CommentManagerDatabaseInterface commentManager) {
+        this.commentManager = commentManager;
     }
 
     @Override
-    public Comment getById(int id){
+    public void update(Comment comment) {
+        commentManager.update(comment, comment.getText());
+    }
+
+    @Override
+    public Comment getById(int id) {
         Comment comment;
-
-        comment = cm.getById(id);
-
+        comment = commentManager.getById(id);
         return comment;
     }
 
     @Override
-    public void delete(int id){
-        cm.delete(id);
+    public void delete(int id) {
+        commentManager.delete(id);
     }
 
     @Override
     public void addFilmComment(String comment, User user, Film film) {
-        cm.createFilmComment(comment, user, film);
+        commentManager.createFilmComment(comment, user, film);
     }
 
     @Override
     public void addCinemaComment(String comment, User user, Cinema cinema) {
-        cm.createCinemaComment(comment, user, cinema);
+        commentManager.createCinemaComment(comment, user, cinema);
     }
 }

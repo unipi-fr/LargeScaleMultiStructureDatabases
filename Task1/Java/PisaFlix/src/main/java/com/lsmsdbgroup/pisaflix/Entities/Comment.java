@@ -1,6 +1,5 @@
 package com.lsmsdbgroup.pisaflix.Entities;
 
-//import com.lsmsdbgroup.pisaflix.DBManager;
 import java.io.Serializable;
 import java.util.*;
 import javax.persistence.*;
@@ -55,27 +54,25 @@ public class Comment implements Serializable {
         this.timestamp = timestamp;
         this.text = text;
     }
-    
-    public Comment(Integer idComment, User user, Film film, String text, Date timestamp){
-    
+
+    public Comment(Integer idComment, User user, Film film, String text, Date timestamp) {
+
         this.idComment = idComment;
         this.timestamp = timestamp;
         this.text = text;
         idUser = user;
         filmSet.add(film);
-    
+
     }
-    
-    public Comment(Integer idComment, User user, Cinema cinema, String text, Date timestamp){
-    
+
+    public Comment(Integer idComment, User user, Cinema cinema, String text, Date timestamp) {
+
         this.idComment = idComment;
         this.timestamp = timestamp;
         this.text = text;
         idUser = user;
         cinemaSet.add(cinema);
     }
-    
-    
 
     public Integer getIdComment() {
         return idComment;
@@ -143,44 +140,17 @@ public class Comment implements Serializable {
 
     @Override
     public String toString() {
-        
-        if(!filmSet.isEmpty())
-            return "[ idComment= " + idComment + " ]\nuser: " + idUser.toString() +
-                "\ntimestamp:" + timestamp.toString() + "\ntext:" + text + 
-                "\nfilm: " + filmSet.toString();
-        
-        return "[ idComment= " + idComment + " ]\nuser: " + idUser.toString() +
-                "\ntimestamp:" + timestamp.toString() + "\ntext:" + text + 
-                "\ncinema: " + cinemaSet.toString();
-        
-    }
-    /*
-    public static void createFilmComment(String text, User user, Film film) {
-        DBManager.CommentManager.createFilmComment(text, user, film);
+
+        if (!filmSet.isEmpty()) {
+            return "[ idComment= " + idComment + " ]\nuser: " + idUser.toString()
+                    + "\ntimestamp:" + timestamp.toString() + "\ntext:" + text
+                    + "\nfilm: " + filmSet.toString();
+        }
+
+        return "[ idComment= " + idComment + " ]\nuser: " + idUser.toString()
+                + "\ntimestamp:" + timestamp.toString() + "\ntext:" + text
+                + "\ncinema: " + cinemaSet.toString();
+
     }
 
-    public static void createCinemaComment(String text, User user, Cinema cinema) {
-        DBManager.CommentManager.createCinemaComment(text, user, cinema);
-    }
-
-    public static void update(int idComment, String text) {
-        DBManager.CommentManager.update(idComment, text);
-    }
-
-    public void updateThis(String text) {
-        DBManager.CommentManager.update(this.idComment, text);
-    }
-
-    public static void delete(int idComment) {
-        DBManager.CommentManager.delete(idComment);
-    }
-
-    public void deleteThis() {
-        DBManager.CommentManager.delete(this.idComment);
-    }
-
-    public static Comment getById(int commentId) {
-        return DBManager.CommentManager.getById(commentId);
-    }
-     */
 }

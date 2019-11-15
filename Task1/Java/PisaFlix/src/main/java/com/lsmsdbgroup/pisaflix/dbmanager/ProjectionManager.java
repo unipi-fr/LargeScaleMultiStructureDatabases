@@ -1,13 +1,13 @@
 package com.lsmsdbgroup.pisaflix.dbmanager;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
-import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IProjectionManagerDB;
 import java.util.*;
 import javax.persistence.*;
+import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ProjectionManagerDatabaseInterface;
 
-public class ProjectionManager implements IProjectionManagerDB {
+public class ProjectionManager implements ProjectionManagerDatabaseInterface {
 
-    private EntityManagerFactory factory;
+    private final EntityManagerFactory factory;
     private EntityManager entityManager;
 
     private static ProjectionManager projectionManager;
@@ -131,7 +131,7 @@ public class ProjectionManager implements IProjectionManagerDB {
                 + "AND ((" + filmId + " = -1) OR ( " + filmId + " = p.idFilm)) "
                 + "AND (('" + date + "' = 'all') OR dateTime between '" + date + " 00:00:00' and '" + date + " 23:59:59') "
                 + "AND ((" + room + " = -1) OR ( " + room + " = p.room)) ";
-        
+
         System.out.println(query);
 
         try {
@@ -144,15 +144,13 @@ public class ProjectionManager implements IProjectionManagerDB {
         } finally {
             entityManager.close();
         }
-        
+
         return projections;
     }
-    
-    
-    
+
     @Override
-    public boolean checkDuplicates(int cinemaId, int filmId, String date, int room){
-        
+    public boolean checkDuplicates(int cinemaId, int filmId, String date, int room) {
+
         Set<Projection> projections = null;
 
         String query = "SELECT p "
@@ -161,7 +159,7 @@ public class ProjectionManager implements IProjectionManagerDB {
                 + "AND ((" + filmId + " = -1) OR ( " + filmId + " = p.idFilm)) "
                 + "AND ('" + date + "' = p.dateTime) "
                 + "AND ((" + room + " = -1) OR ( " + room + " = p.room)) ";
-        
+
         System.out.println(query);
 
         try {
@@ -174,7 +172,7 @@ public class ProjectionManager implements IProjectionManagerDB {
         } finally {
             entityManager.close();
         }
-        
+
         return !projections.isEmpty();
 
     }

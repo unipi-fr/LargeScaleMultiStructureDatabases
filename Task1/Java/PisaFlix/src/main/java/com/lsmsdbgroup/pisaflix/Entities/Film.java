@@ -1,6 +1,5 @@
 package com.lsmsdbgroup.pisaflix.Entities;
 
-//import com.lsmsdbgroup.pisaflix.DBManager;
 import java.io.Serializable;
 import java.util.*;
 import javax.persistence.*;
@@ -132,33 +131,5 @@ public class Film implements Serializable {
     public String toString() {
         return title;
     }
-    /*
-    public static Film getById(int filmId) {
-        return DBManager.FilmManager.getById(filmId);
-    }
 
-    public static Set<Film> getAll() {
-        return DBManager.FilmManager.getAll();
-    }
-
-    public static void create(String title, Date publicationDate, String description) {
-        DBManager.FilmManager.create(title, publicationDate, description);
-    }
-
-    public static void update(int idFilm, String title, Date publicationDate, String description) {
-        DBManager.FilmManager.update(idFilm, title, publicationDate, description);
-    }
-
-    public void updateThis(String title, Date publicationDate, String description) {
-        DBManager.FilmManager.update(this.idFilm, title, publicationDate, description);
-    }
-
-    public static void delete(int idFilm) {
-        DBManager.FilmManager.delete(idFilm);
-    }
-
-    public void deleteThis() {
-        DBManager.FilmManager.delete(this.idFilm);
-    }
-     */
 }

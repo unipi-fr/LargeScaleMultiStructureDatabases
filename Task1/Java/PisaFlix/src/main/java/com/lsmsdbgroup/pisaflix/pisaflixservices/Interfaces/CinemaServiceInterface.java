@@ -1,11 +1,10 @@
 package com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces;
 
-import com.lsmsdbgroup.pisaflix.Entities.Cinema;
-import com.lsmsdbgroup.pisaflix.Entities.User;
+import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import java.util.Set;
 
-public interface ICinemaService {
+public interface CinemaServiceInterface {
 
     Set<Cinema> getAll();
 
@@ -19,5 +18,5 @@ public interface ICinemaService {
 
     void removeFavourite(Cinema cinema, User user);
 
-    void deleteCinema(Cinema cinema) throws UserNotLoggedException, InvalidPrivilegeLevelException ;
-    }
+    void deleteCinema(Cinema cinema) throws UserNotLoggedException, InvalidPrivilegeLevelException;
+}

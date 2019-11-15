@@ -1,83 +1,72 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.lsmsdbgroup.pisaflix.pisaflixservices;
 
-import com.lsmsdbgroup.pisaflix.Entities.Cinema;
-import com.lsmsdbgroup.pisaflix.Entities.User;
-import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICinemaManagerDB;
-import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICommentManagerDB;
-import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.ICinemaService;
-import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.IUserService;
+import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import java.util.Set;
+import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CinemaManagerDatabaseInterface;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.*;
 
-/**
- *
- * @author alessandromadonna
- */
-public class CinemaService implements ICinemaService{
-    private final ICinemaManagerDB cm;
-    private final IUserService us;
-    
-    public CinemaService(ICinemaManagerDB cm, IUserService us) {
-        this.cm = cm;
-        this.us = us;
+public class CinemaService implements CinemaServiceInterface {
+
+    private final CinemaManagerDatabaseInterface commentManager;
+    private final UserServiceInterface userService;
+
+    public CinemaService(CinemaManagerDatabaseInterface commentManager, UserServiceInterface userService) {
+        this.commentManager = commentManager;
+        this.userService = userService;
     }
-    
+
     @Override
-    public Set<Cinema> getAll(){
+    public Set<Cinema> getAll() {
         Set<Cinema> cinemas = null;
 
-        cinemas = cm.getAll();
+        cinemas = commentManager.getAll();
 
         return cinemas;
     }
 
     @Override
-    public Set<Cinema> getFiltered(String name, String address){
+    public Set<Cinema> getFiltered(String name, String address) {
         Set<Cinema> cinemas = null;
 
-        cinemas = cm.getFiltered(name, address);
+        cinemas = commentManager.getFiltered(name, address);
 
         return cinemas;
     }
 
     @Override
-    public Cinema getById(int id){
+    public Cinema getById(int id) {
         Cinema cinema;
 
-        cinema = cm.getById(id);
+        cinema = commentManager.getById(id);
 
         return cinema;
     }
 
     @Override
-    public void AddCinema(String name, String address) throws UserNotLoggedException, InvalidPrivilegeLevelException{
-        us.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a new cinema");
-        cm.create(name, address);
+    public void AddCinema(String name, String address) throws UserNotLoggedException, InvalidPrivilegeLevelException {
+        userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a new cinema");
+        commentManager.create(name, address);
     }
 
     @Override
-    public void addFavorite(Cinema cinema, User user){
+    public void addFavorite(Cinema cinema, User user) {
         user.getCinemaSet().add(cinema);
         cinema.getUserSet().add(user);
-        cm.updateFavorites(cinema);
+        commentManager.updateFavorites(cinema);
     }
 
     @Override
     public void removeFavourite(Cinema cinema, User user) {
         user.getCinemaSet().remove(cinema);
         cinema.getUserSet().remove(user);
-        cm.updateFavorites(cinema);
+        commentManager.updateFavorites(cinema);
     }
 
     @Override
     public void deleteCinema(Cinema cinema) throws UserNotLoggedException, InvalidPrivilegeLevelException {
-       us.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "delete a cinema");
-       cm.delete(cinema.getIdCinema());
+        userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "delete a cinema");
+        commentManager.delete(cinema.getIdCinema());
     }
 
 }

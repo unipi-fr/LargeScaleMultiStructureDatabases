@@ -1,6 +1,5 @@
 package com.lsmsdbgroup.pisaflix.Entities;
 
-//import com.lsmsdbgroup.pisaflix.DBManager;
 import java.io.Serializable;
 import java.util.*;
 import javax.persistence.*;
@@ -161,60 +160,5 @@ public class User implements Serializable {
     public String toString() {
         return "\n User[  idUser=" + idUser + " | Username=" + username + " | First Name=" + firstName + " | Last Name=" + lastName + " | Email=" + email + " | Privilege Level=" + privilegeLevel + "] ";
     }
-    /*
-    public static User getById(int userId) {
-        return DBManager.UserManager.getById(userId);
-    }
-
-    public static void create(String username, String password, String firstName, String lastName, String email, int privilegeLevel) {
-        DBManager.UserManager.create(username, password, firstName, lastName, email, privilegeLevel);
-    }
-
-    public static void delete(int userId) {
-        DBManager.UserManager.delete(userId);
-    }
-
-    public void deleteThis() {
-        delete(this.idUser);
-    }
-
-    public static void update(int userId, String username, String firstName, String lastName, String email, String password, int privilegeLevel) {
-        DBManager.UserManager.update(userId, username, firstName, lastName, email, password, privilegeLevel);
-    }
-
-    public void updateThis(String username, String firstName, String lastName, String email, String password, int privilegeLevel) {
-        DBManager.UserManager.update(this.idUser, username, firstName, lastName, email, password, privilegeLevel);
-    }
-
-    public static Set<User> getAll() {
-        return DBManager.UserManager.getAll();
-    }
-    
-    public void addFavouriteCinema(Cinema cinema) {
-        cinemaSet.add(cinema);
-        cinema.getUserSet().add(this);
-        DBManager.UserManager.updateFavorites(this);
-    }
-
-    public void removeFavouriteCinema(Cinema cinema) {
-        cinemaSet.remove(cinema);
-        cinema.getUserSet().remove(this);
-        DBManager.UserManager.updateFavorites(this);
-        DBManager.CinemaManager.updateFavorites(cinema);
-    }
-    
-    public void addFavouriteFilm(Film film) {
-        filmSet.add(film);
-        film.getUserSet().add(this);
-        DBManager.UserManager.updateFavorites(this);
-    }
-
-    public void removeFavouriteFilm(Film film) {
-        filmSet.remove(film);
-        film.getUserSet().remove(this);
-        DBManager.UserManager.updateFavorites(this);
-        DBManager.FilmManager.updateFavorites(film);
-    }
-     */
 
 }
