@@ -4,6 +4,8 @@ import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -11,6 +13,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.TimeZone;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -32,6 +35,8 @@ public class AddProjectionController implements Initializable {
     private TextField roomTextField;
     @FXML
     private Label successLabel;
+    
+    DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
                     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -59,10 +64,9 @@ public class AddProjectionController implements Initializable {
     }    
     
     private void resetFields(){
-        cinemaComboBox.setValue(null);
-        filmComboBox.setValue(null);
+        cinemaComboBox.setValue("All");
+        filmComboBox.setValue("All");
         dateDatePicker.setValue(null);
-        timeComboBox.setValue(null);    
         roomTextField.setText("");
     }
     
@@ -77,11 +81,11 @@ public class AddProjectionController implements Initializable {
     private void clickAddProjectionButton(){
         successLabel.setVisible(false);
         successLabel.setManaged(false);
-        if(cinemaComboBox.getValue() == null){
+        if(cinemaComboBox.getValue() == null || cinemaComboBox.getValue() == "All"){
             errorLabel("You must select a cinema");
             return;
         }
-        if(filmComboBox.getValue() == null){
+        if(filmComboBox.getValue() == null || filmComboBox.getValue() == "All"){
             errorLabel("You must select a film");
             return;
         }
@@ -93,19 +97,25 @@ public class AddProjectionController implements Initializable {
             errorLabel("You must select a time");
             return;
         }
+        if(roomTextField.getText() == null || !roomTextField.getText().matches("\\d+")){
+            errorLabel("You must select a room");
+            return;
+        } else {
+        }
         
         
         Cinema cinema = (Cinema) cinemaComboBox.getValue();
         Film film = (Film) filmComboBox.getValue();
         LocalTime lt = (LocalTime) timeComboBox.getValue();
         LocalDate ld = dateDatePicker.getValue();
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         
         LocalDateTime ldt = LocalDateTime.of(ld, lt);
         Date date = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
         
         int room =  Integer.parseInt(roomTextField.getText());
         
-        if(PisaFlixServices.projectionService.checkDuplicates(cinema.getIdCinema(), film.getIdFilm(), ld.toString() + " " + lt.toString() + ":00", room)){
+        if(PisaFlixServices.projectionService.checkDuplicates(cinema.getIdCinema(), film.getIdFilm(), dateFormat.format(date), room)){
             errorLabel("Projection already scheduled");
             return;
         }
@@ -119,6 +129,7 @@ public class AddProjectionController implements Initializable {
         successLabel.setText("Projection succesfully scheduled");
         successLabel.setManaged(true);
         successLabel.setVisible(true);
+        resetFields();
     }
     
 }

@@ -22,8 +22,8 @@
       </HBox>
       <HBox alignment="CENTER" spacing="10.0">
          <children>
-            <DatePicker fx:id="dateDatePicker" promptText="Data" />
-            <ComboBox fx:id="timeComboBox" promptText="Orario" />
+            <DatePicker fx:id="dateDatePicker" promptText="Date" />
+            <ComboBox fx:id="timeComboBox" promptText="Time" />
          </children>
       </HBox>
       <Button fx:id="addProjectionButton" defaultButton="true" mnemonicParsing="false" onAction="#clickAddProjectionButton" styleClass="button-raised" text="Add Projection" />

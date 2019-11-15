@@ -4,6 +4,8 @@ import com.lsmsdbgroup.pisaflix.Entities.Cinema;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.InvalidPrivilegeLevelException;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.UserNotLoggedException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -160,7 +162,16 @@ public class UserViewController implements Initializable {
     
     @FXML
     private void deleteProfile(){
-        System.out.println("Da fare!");
+        if(!App.printConfirmationDialog("Deleting profile", "You're deleting your profile", "Are you sure do you want continue?")){
+            return;
+        }
+        try {
+            PisaFlixServices.userService.deleteLoggedAccount();
+            App.setMainPane("Welcome");
+            System.out.println("Aggiungere il refresch della sezione login!!!!!!!");
+        } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
     
 }
