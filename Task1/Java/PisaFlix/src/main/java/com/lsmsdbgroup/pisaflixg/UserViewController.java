@@ -84,46 +84,40 @@ public class UserViewController implements Initializable {
         
         commentCounterLabel.setText("(" + user.getCommentSet().size() + ")");
         
-        cinemaListener = new ChangeListener<Cinema>() {
-            @Override
-            public void changed(ObservableValue<? extends Cinema> observable, Cinema oldValue, Cinema newValue) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("CinemaDetailPage.fxml"));
-
-                AnchorPane anchorPane = null;
-
-                try {
-                    anchorPane = loader.load();
-                } catch (IOException ex) {
-                    System.out.println(ex.getMessage());
-                }
-
-                CinemaDetailPageController cinemaDetailPageController = loader.getController();
-
-                cinemaDetailPageController.setCinema(newValue);
-
-                App.setMainPane(anchorPane);
+        cinemaListener = (ObservableValue<? extends Cinema> observable, Cinema oldValue, Cinema newValue) -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("CinemaDetailPage.fxml"));
+            
+            AnchorPane anchorPane = null;
+            
+            try {
+                anchorPane = loader.load();
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
             }
+            
+            CinemaDetailPageController cinemaDetailPageController = loader.getController();
+            
+            cinemaDetailPageController.setCinema(newValue);
+            
+            App.setMainPane(anchorPane);
         };
         
-        filmListener = new ChangeListener<Film>() {
-            @Override
-            public void changed(ObservableValue<? extends Film> observable, Film oldValue, Film newValue) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
-
-                AnchorPane anchorPane = null;
-
-                try {
-                    anchorPane = loader.load();
-                } catch (IOException ex) {
-                    System.out.println(ex.getMessage());
-                }
-
-                FilmDetailPageController filmDetailPageController = loader.getController();
-
-                filmDetailPageController.setFilm(newValue);
-
-                App.setMainPane(anchorPane);
+        filmListener = (ObservableValue<? extends Film> observable, Film oldValue, Film newValue) -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
+            
+            AnchorPane anchorPane = null;
+            
+            try {
+                anchorPane = loader.load();
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
             }
+            
+            FilmDetailPageController filmDetailPageController = loader.getController();
+            
+            filmDetailPageController.setFilm(newValue);
+            
+            App.setMainPane(anchorPane);
         };
     }
     
@@ -168,7 +162,7 @@ public class UserViewController implements Initializable {
         try {
             PisaFlixServices.userService.deleteLoggedAccount();
             App.setMainPane("Welcome");
-            System.out.println("Aggiungere il refresch della sezione login!!!!!!!");
+            App.resetLogin();
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             System.out.println(ex.getMessage());
         }

@@ -44,8 +44,8 @@ public class RegistrationController implements Initializable {
     private void clickRegisterButton() {
         successLabel.setVisible(false);
         successLabel.setManaged(false);
-        if (usernameTextField.getText().isBlank()) {            
-            errorLabel("Username is mandatory");
+        if (usernameTextField.getText().isBlank() || !usernameTextField.getText().matches("^[a-zA-Z0-9._-]{3,}$")) {            
+            errorLabel("Only valid usernames are accepted");
             return;            
         }
         if (passPasswordField.getText().isBlank()) {
@@ -56,12 +56,20 @@ public class RegistrationController implements Initializable {
             errorLabel("Passwords are different");
             return;
         }        
-        if (emailTextField.getText().isBlank()) {
-            errorLabel("Email is mandatory");
+        if (emailTextField.getText().isBlank() || !emailTextField.getText().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$")) {
+            errorLabel("Only valid emails are accepted");
             return;
         }
         if (PisaFlixServices.userService.checkDuplicates(usernameTextField.getText(), emailTextField.getText())) {
             errorLabel("Username or Email already exist");
+            return;
+        }
+        if (!firstNameTextField.getText().matches("[a-zA-Z]+")) {
+            errorLabel("Only valid names are accepted");
+            return;
+        }
+        if (!lastNameTextField.getText().matches("[a-zA-Z]+")) {
+            errorLabel("Only valid names are accepted");
             return;
         }
         PisaFlixServices.userService.register(usernameTextField.getText(), passPasswordField.getText(), firstNameTextField.getText(), lastNameTextField.getText(), emailTextField.getText());

@@ -54,5 +54,9 @@ public class MainPageController implements Initializable {
     {
         setPane(mainStackPane, pane);
     }
+
+    void resetLogin() {
+        setPane(loginStackPane, "Login");
+    }
     
 }

@@ -85,7 +85,6 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public void register(String username, String password, String firstName, String lastName, String email) {
-        //TODO fare il check dei campi se c'è tempo
         userManager.create(username, password, firstName, lastName, email, 0);
     }
 }

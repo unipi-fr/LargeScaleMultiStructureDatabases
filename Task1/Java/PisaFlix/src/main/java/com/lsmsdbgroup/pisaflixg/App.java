@@ -17,7 +17,12 @@ import javafx.scene.layout.Pane;
 public class App extends Application {
 
     private static Scene scene;
-    private static MainPageController mpc;
+    private static MainPageController mainPageController;
+
+
+    static void resetLogin() {
+        mainPageController.resetLogin();
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -36,15 +41,15 @@ public class App extends Application {
     }
 
     public static void setMainPageController(MainPageController m){
-        mpc = m;
+        mainPageController = m;
     }
     
     public static void setMainPane(String fxml){
-        mpc.setMainPane(fxml);
+        mainPageController.setMainPane(fxml);
     }
     
     public static void setMainPane(Pane pane){
-        mpc.setMainPane(pane);
+        mainPageController.setMainPane(pane);
     }
     
     public static void main(String[] args) {
