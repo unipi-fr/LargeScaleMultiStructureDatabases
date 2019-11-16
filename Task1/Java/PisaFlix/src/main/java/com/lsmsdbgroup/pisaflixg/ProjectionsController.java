@@ -76,7 +76,7 @@ public class ProjectionsController implements Initializable {
     
     @FXML
     private void clickAddProjectionButton(){
-        App.setMainPane("AddProjection");
+        App.setMainPageReturnsController("AddProjection");
     }
     
     @FXML

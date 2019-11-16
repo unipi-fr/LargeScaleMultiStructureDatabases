@@ -55,6 +55,9 @@ public class FilmDetailPageController implements Initializable {
     
     @FXML
     private Button deleteFilmButton;
+    
+    @FXML
+    private Button modifyFilmButton;
 
     @FXML
     private Label favoriteLabel;
@@ -73,6 +76,8 @@ public class FilmDetailPageController implements Initializable {
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             deleteFilmButton.setVisible(false);
             deleteFilmButton.setManaged(false);
+            modifyFilmButton.setVisible(false);
+            modifyFilmButton.setManaged(false);
         }
         
     }
@@ -177,10 +182,16 @@ public class FilmDetailPageController implements Initializable {
         }
         try {
             PisaFlixServices.filmService.deleteFilm(this.film.getIdFilm());
-            App.setMainPane("Films");
+            App.setMainPageReturnsController("Films");
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+    
+    @FXML
+    private void clickModifyFilmButton(){      
+        AddFilmController afc = (AddFilmController) App.setMainPageReturnsController("AddFilm");
+        afc.setFilm(this.film);
     }
     
     @FXML

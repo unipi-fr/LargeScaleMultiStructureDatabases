@@ -5,11 +5,10 @@
  */
 package com.lsmsdbgroup.pisaflixg;
 
+import com.lsmsdbgroup.pisaflix.Entities.Cinema;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import java.net.URL;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,6 +21,8 @@ import javafx.scene.paint.Color;
  * @author FraRonk
  */
 public class AddCinemaController implements Initializable {
+    private Cinema cinema;
+    
     @FXML
     private TextField nameTextField;
     @FXML
@@ -41,8 +42,16 @@ public class AddCinemaController implements Initializable {
     } 
     
     private void resetFields(){
-        nameTextField.setText("");
-        addressTextField.setText("");        
+        if(cinema == null){
+            nameTextField.setText("");
+            addressTextField.setText("");
+            addCinemaButton.setText("Add cinema");
+        }else{
+            nameTextField.setText(cinema.getName());
+            addressTextField.setText(cinema.getAddress());
+            addCinemaButton.setText("Modify cinema");
+        }
+              
     }
     
     private void errorLabel(String s){       
@@ -50,6 +59,39 @@ public class AddCinemaController implements Initializable {
         successLabel.setText(s);
         successLabel.setManaged(true);
         successLabel.setVisible(true);
+    }
+    
+    private void addCinema(){
+        try {
+            PisaFlixServices.cinemaService.addCinema(nameTextField.getText(), addressTextField.getText());
+        } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
+            System.out.println(ex.getMessage());
+            return;
+        }
+        
+        successLabel.setTextFill(Color.GREEN);
+        successLabel.setText("Cinema succesfully added!");
+        successLabel.setManaged(true);
+        successLabel.setVisible(true);
+        resetFields();
+    }
+    
+    private void modifyCinema(){
+        this.cinema.setName(nameTextField.getText());
+        this.cinema.setAddress(addressTextField.getText());
+        
+        try {
+            PisaFlixServices.cinemaService.updateCinema(cinema);
+        } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
+            System.out.println(ex.getMessage());
+            return;
+        }
+        
+        successLabel.setTextFill(Color.GREEN);
+        successLabel.setText("Cinema modify succesfully!");
+        successLabel.setManaged(true);
+        successLabel.setVisible(true);
+        resetFields();
     }
     
     @FXML
@@ -67,17 +109,15 @@ public class AddCinemaController implements Initializable {
             return;
         }
         
-        try {
-            PisaFlixServices.cinemaService.AddCinema(nameTextField.getText(), addressTextField.getText());
-        } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
-            System.out.println(ex.getMessage());
-            return;
+        if(cinema == null){
+            addCinema();
+        }else{
+            modifyCinema();
         }
-        
-        successLabel.setTextFill(Color.GREEN);
-        successLabel.setText("Cinema succesfully added!");
-        successLabel.setManaged(true);
-        successLabel.setVisible(true);
+    }
+
+    void SetCinema(Cinema cinema) {
+        this.cinema = cinema;
         resetFields();
     }
     

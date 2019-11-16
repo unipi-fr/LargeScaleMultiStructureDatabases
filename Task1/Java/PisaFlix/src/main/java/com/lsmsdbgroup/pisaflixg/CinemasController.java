@@ -99,7 +99,7 @@ public class CinemasController implements Initializable {
    
     @FXML
     private void addCinema(){
-        App.setMainPane("AddCinema");
+        App.setMainPageReturnsController("AddCinema");
     }
 
 }

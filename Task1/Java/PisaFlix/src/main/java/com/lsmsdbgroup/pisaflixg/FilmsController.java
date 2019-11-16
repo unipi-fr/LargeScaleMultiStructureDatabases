@@ -96,7 +96,7 @@ public class FilmsController implements Initializable {
             System.out.println(ex.getMessage());
             return;
         }
-        App.setMainPane("AddFilm");
+        App.setMainPageReturnsController("AddFilm");
     }
     
     @FXML

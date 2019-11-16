@@ -35,17 +35,17 @@ public class MenuController implements Initializable {
     
     @FXML
     private void clickFilmsButton(){     
-        App.setMainPane("Films");
+        App.setMainPageReturnsController("Films");
     }
     
     @FXML
     private void clickCinemasButton(){     
-        App.setMainPane("Cinemas");
+        App.setMainPageReturnsController("Cinemas");
     }
     
     @FXML
     private void clickProjectionsButton(){     
-        App.setMainPane("Projections");
+        App.setMainPageReturnsController("Projections");
     }
     
 }

@@ -10,14 +10,14 @@
 
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.AddFilmController">
    <children>
-      <Label text="Add film" textAlignment="CENTER">
+      <Label text="Add/modify film" textAlignment="CENTER">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
       <TextField fx:id="titleTextField" promptText="Title" />
       <DatePicker fx:id="datePicker" promptText="Publication Date" />
-      <TextArea fx:id="descriptionTextArea" prefHeight="80.0" prefWidth="250.0" promptText="Description" wrapText="true"/>
+      <TextArea fx:id="descriptionTextArea" prefHeight="80.0" prefWidth="250.0" promptText="Description" wrapText="true" />
 
       <Button fx:id="addFilmButton" defaultButton="true" mnemonicParsing="false" onAction="#clickAddFilmButton" styleClass="button-raised" text="Add Film" />
       <Label fx:id="successLabel" text="Film added successfully!" textFill="#00ab1a">

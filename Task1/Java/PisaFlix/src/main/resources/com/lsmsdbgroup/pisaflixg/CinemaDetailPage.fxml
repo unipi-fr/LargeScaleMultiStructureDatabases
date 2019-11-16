@@ -27,9 +27,9 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <ScrollPane fx:id="commentScrollPane" fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="64.0">
+      <ScrollPane fx:id="commentScrollPane" fitToHeight="true" fitToWidth="true" layoutY="89.0" prefHeight="391.0" prefWidth="350.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="89.0">
          <content>
-            <VBox fx:id="commentVBox" alignment="TOP_CENTER" prefWidth="330.0" spacing="5.0">
+            <VBox fx:id="commentVBox" alignment="TOP_CENTER" prefHeight="357.0" prefWidth="348.0" spacing="5.0">
                <padding>
                   <Insets left="5.0" right="5.0" top="1.0" />
                </padding></VBox>
@@ -47,5 +47,6 @@
          </padding>
       </HBox>
       <Button fx:id="deleteCinemaButton" layoutX="282.0" layoutY="14.0" mnemonicParsing="false" onAction="#clickDeleteCinemaButton" prefHeight="30.0" prefWidth="60.0" text="Delete" />
+      <Button fx:id="modifyCinemaButton" layoutX="282.0" layoutY="49.0" mnemonicParsing="false" onAction="#clickModifyCinemaButton" prefHeight="30.0" prefWidth="60.0" text="Modify" />
    </children>
 </AnchorPane>

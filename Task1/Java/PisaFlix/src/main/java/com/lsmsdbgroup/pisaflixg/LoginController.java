@@ -85,7 +85,7 @@ public class LoginController implements Initializable {
             
             PisaFlixServices.authenticationService.Login(username, password); 
             update();
-            App.setMainPane("WelcomeBack");
+            App.setMainPageReturnsController("WelcomeBack");
         } catch ( UserAlredyLoggedException | InvalidCredentialsException ex) {
             System.out.println(ex.getMessage());
             errorLabel.setText("Invalid Credentials");
@@ -97,7 +97,7 @@ public class LoginController implements Initializable {
     
     @FXML
     private void clickRegisterButton(){
-        App.setMainPane("Registration");
+        App.setMainPageReturnsController("Registration");
     }
 
     
@@ -105,12 +105,12 @@ public class LoginController implements Initializable {
     private void clickLogoutButton(){       
         PisaFlixServices.authenticationService.Logout(); 
         update();
-        App.setMainPane("Welcome");
+        App.setMainPageReturnsController("Welcome");
     }
     
     @FXML
     private void showUser()
     {
-        App.setMainPane("UserView");
+        App.setMainPageReturnsController("UserView");
     }
 }

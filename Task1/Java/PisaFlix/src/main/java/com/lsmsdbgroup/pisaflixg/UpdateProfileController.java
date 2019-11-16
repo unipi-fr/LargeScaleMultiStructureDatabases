@@ -75,12 +75,12 @@ public class UpdateProfileController implements Initializable {
         
         PisaFlixServices.userService.updateUser(user);
         
-        App.setMainPane("UserView");
+        App.setMainPageReturnsController("UserView");
     }
     
     @FXML
     private void cancelAction(){
-        App.setMainPane("UserView");
+        App.setMainPageReturnsController("UserView");
     }
     
 }

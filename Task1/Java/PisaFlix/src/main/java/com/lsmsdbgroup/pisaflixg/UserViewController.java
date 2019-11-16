@@ -151,7 +151,7 @@ public class UserViewController implements Initializable {
     
     @FXML
     private void updateProfile(){
-        App.setMainPane("UpdateProfile");
+        App.setMainPageReturnsController("UpdateProfile");
     }
     
     @FXML
@@ -161,7 +161,7 @@ public class UserViewController implements Initializable {
         }
         try {
             PisaFlixServices.userService.deleteLoggedAccount();
-            App.setMainPane("Welcome");
+            App.setMainPageReturnsController("Welcome");
             App.resetLogin();
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             System.out.println(ex.getMessage());

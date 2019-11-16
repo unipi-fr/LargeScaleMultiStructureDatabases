@@ -12,7 +12,9 @@ public interface FilmServiceInterface {
 
     Film getById(int id);
 
-    void addFilm(String title, Date publicationDate, String description);
+    void addFilm(String title, Date publicationDate, String description) throws UserNotLoggedException, InvalidPrivilegeLevelException;
+    
+    void updateFilm(Film film) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
     void deleteFilm(int idFilm) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 

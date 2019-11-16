@@ -50,10 +50,8 @@ public class AddProjectionController implements Initializable {
         
 
         filmComboBox.getItems().setAll(observableFilmSet);
-        filmComboBox.getItems().add("All");
         
         cinemaComboBox.getItems().setAll(observableCinemaSet);
-        cinemaComboBox.getItems().add("All");
         
         LocalTime lt = LocalTime.MIN;
         for(int i = 0; i < 48; ++i){
@@ -64,8 +62,9 @@ public class AddProjectionController implements Initializable {
     }    
     
     private void resetFields(){
-        cinemaComboBox.setValue("All");
-        filmComboBox.setValue("All");
+        cinemaComboBox.setValue(null);
+        filmComboBox.setValue(null);
+        timeComboBox.setValue(null);
         dateDatePicker.setValue(null);
         roomTextField.setText("");
     }

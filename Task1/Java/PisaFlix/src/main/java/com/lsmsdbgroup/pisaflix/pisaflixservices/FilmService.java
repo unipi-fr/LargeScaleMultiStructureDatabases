@@ -9,70 +9,79 @@ import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.*;
 
 public class FilmService implements FilmServiceInterface {
 
-    private final FilmManagerDatabaseInterface fm;
-    private final UserServiceInterface us;
+    private final FilmManagerDatabaseInterface filmManager;
+    private final UserServiceInterface userService;
 
     FilmService(FilmManagerDatabaseInterface filmManager, UserServiceInterface userService) {
-        fm = filmManager;
-        us = userService;
+        this.filmManager = filmManager;
+        this.userService = userService;
     }
 
     @Override
     public Set<Film> getFilmsFiltered(String titleFilter, Date startDateFilter, Date endDateFilter) {
         Set<Film> films = null;
-        films = fm.getFiltered(titleFilter, startDateFilter, endDateFilter);
+        films = filmManager.getFiltered(titleFilter, startDateFilter, endDateFilter);
         return films;
     }
 
     @Override
     public Set<Film> getAll() {
         Set<Film> films = null;
-        films = fm.getAll();
+        films = filmManager.getAll();
         return films;
     }
 
     @Override
     public Film getById(int id) {
         Film film;
-        film = fm.getById(id);
+        film = filmManager.getById(id);
         return film;
     }
 
     @Override
-    public void addFilm(String title, Date publicationDate, String description) {
+    public void addFilm(String title, Date publicationDate, String description) throws UserNotLoggedException, InvalidPrivilegeLevelException {
+        userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a film");
         if (title == null || title.isBlank()) {
-            System.out.println("Il titolo non può essere vuoto");
+            System.out.println("Title can't be empty");
             return;
         }
         if (publicationDate == null) {
-            System.out.println("la data non può essere vuota");
+            System.out.println("Date can't be empty");
             return;
         }
         if (description == null) {
-            System.out.println("la descrizione non può essere vuota");
+            System.out.println("Description can't be empty");
             return;
         }
-        fm.create(title, publicationDate, description);
+        filmManager.create(title, publicationDate, description);
     }
 
     @Override
     public void deleteFilm(int idFilm) throws UserNotLoggedException, InvalidPrivilegeLevelException {
-        us.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "delete a film");
-        fm.delete(idFilm);
+        userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "delete a film");
+        filmManager.delete(idFilm);
+    }
+    
+    @Override
+    public void updateFilm(Film film) throws UserNotLoggedException, InvalidPrivilegeLevelException {
+        userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "update a film");
+        filmManager.update(film.getIdFilm(), film.getTitle(), film.getPublicationDate(), film.getDescription());
     }
 
     @Override
     public void addFavorite(Film film, User user) {
         user.getFilmSet().add(film);
         film.getUserSet().add(user);
-        fm.updateFavorites(film);
+        filmManager.updateFavorites(film);
     }
 
     @Override
     public void removeFavourite(Film film, User user) {
         user.getFilmSet().remove(film);
         film.getUserSet().remove(user);
-        fm.updateFavorites(film);
+        filmManager.updateFavorites(film);
     }
+
+    
 
 }

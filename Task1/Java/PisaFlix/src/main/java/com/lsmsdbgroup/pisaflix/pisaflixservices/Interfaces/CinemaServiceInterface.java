@@ -12,11 +12,13 @@ public interface CinemaServiceInterface {
 
     Cinema getById(int id);
 
-    void AddCinema(String name, String address) throws UserNotLoggedException, InvalidPrivilegeLevelException;
-
+    void addCinema(String name, String address) throws UserNotLoggedException, InvalidPrivilegeLevelException;
+    
+    void updateCinema(Cinema cinema) throws UserNotLoggedException, InvalidPrivilegeLevelException;
+    
+    void deleteCinema(Cinema cinema) throws UserNotLoggedException, InvalidPrivilegeLevelException;
+    
     void addFavorite(Cinema cinema, User user);
 
     void removeFavourite(Cinema cinema, User user);
-
-    void deleteCinema(Cinema cinema) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 }

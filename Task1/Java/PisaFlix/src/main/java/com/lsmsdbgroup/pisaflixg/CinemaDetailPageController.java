@@ -55,6 +55,9 @@ public class CinemaDetailPageController implements Initializable {
     
     @FXML
     private Button deleteCinemaButton;
+    
+    @FXML
+    private Button modifyCinemaButton;
 
     @FXML
     private Label favoriteLabel;
@@ -73,6 +76,9 @@ public class CinemaDetailPageController implements Initializable {
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             deleteCinemaButton.setVisible(false);
             deleteCinemaButton.setManaged(false); 
+            
+            modifyCinemaButton.setVisible(false);
+            modifyCinemaButton.setManaged(false);
         }
     }
 
@@ -171,10 +177,16 @@ public class CinemaDetailPageController implements Initializable {
         }
         try {
             PisaFlixServices.cinemaService.deleteCinema(this.cinema);
-            App.setMainPane("Cinemas");
+            App.setMainPageReturnsController("Cinemas");
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+    
+    @FXML
+    private void clickModifyCinemaButton(){      
+        AddCinemaController acc = (AddCinemaController) App.setMainPageReturnsController("AddCinema");
+        acc.SetCinema(this.cinema);
     }
 
     @FXML
