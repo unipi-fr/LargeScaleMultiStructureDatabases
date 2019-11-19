@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" onMousePressed="#showUserMenu" styleClass="card-film" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="116.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="42.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@../../../img/user1.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="usernameLabel" alignment="CENTER" styleClass="card-film-title" text="Username" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="116.0">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+      <Label fx:id="privilegeLabel" alignment="CENTER" styleClass="card-film-subtitle" text="Privilege" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="142.0">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+       <Label fx:id="userLabel" prefWidth="300.0" text="Comment" wrapText="true">
+         <contextMenu>
+            <ContextMenu fx:id="userMenu">
+               <items>
+                  <MenuItem fx:id="updateMenuitem" mnemonicParsing="false" onAction="#updateUser" text="Update Privilege" />
+                  <MenuItem fx:id="deleteMenuItem" mnemonicParsing="false" onAction="#deleteUser" text="Delete" />
+               </items>
+            </ContextMenu>
+         </contextMenu>
+      </Label>
+   </children>
+   <cursor>
+      <Cursor fx:constant="HAND" />
+   </cursor>
+</AnchorPane>
