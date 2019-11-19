@@ -12,6 +12,7 @@ import java.util.Optional;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
 public class App extends Application {
@@ -28,6 +29,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("MainPage"), 640, 480);
         stage.setScene(scene);
+        stage.getIcons().add(new Image("/img/Cinema.png"));
         stage.show();
     }
 
