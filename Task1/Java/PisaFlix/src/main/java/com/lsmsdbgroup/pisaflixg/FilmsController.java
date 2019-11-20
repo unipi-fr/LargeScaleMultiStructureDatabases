@@ -81,6 +81,7 @@ public class FilmsController implements Initializable {
             tilePane.getChildren().add(pane);
         }
     }
+    
     @FXML
     private void filterFilms(){
         String titleFilter = titleFilterTextField.getText();

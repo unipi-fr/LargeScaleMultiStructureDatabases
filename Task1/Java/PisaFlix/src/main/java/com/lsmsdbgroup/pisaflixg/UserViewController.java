@@ -69,10 +69,15 @@ public class UserViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         user = PisaFlixServices.authenticationService.getLoggedUser();
         
-        usernameLabel.setText(user.getUsername());
-        firstnameLabel.setText(user.getFirstName());
-        lastnameLabel.setText(user.getLastName());
-        emailLabel.setText(user.getEmail());
+        if(user != null)
+        {
+            usernameLabel.setText(user.getUsername());
+            firstnameLabel.setText(user.getFirstName());
+            lastnameLabel.setText(user.getLastName());
+            emailLabel.setText(user.getEmail());
+            
+            commentCounterLabel.setText("(" + user.getCommentSet().size() + ")");
+        }
         
         Random random = new Random();
         int img = random.nextInt(3) + 1;
@@ -81,8 +86,6 @@ public class UserViewController implements Initializable {
         
         Image image = new Image(file.toURI().toString());
         userImage.setImage(image);
-        
-        commentCounterLabel.setText("(" + user.getCommentSet().size() + ")");
         
         cinemaListener = (ObservableValue<? extends Cinema> observable, Cinema oldValue, Cinema newValue) -> {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("CinemaDetailPage.fxml"));
@@ -119,6 +122,17 @@ public class UserViewController implements Initializable {
             
             App.setMainPane(anchorPane);
         };
+    }
+    
+    public void setUser(User user){
+        this.user = user;
+        
+        usernameLabel.setText(user.getUsername());
+        firstnameLabel.setText(user.getFirstName());
+        lastnameLabel.setText(user.getLastName());
+        emailLabel.setText(user.getEmail());
+        
+        commentCounterLabel.setText("(" + user.getCommentSet().size() + ")");
     }
     
     @FXML

@@ -33,12 +33,12 @@ public class UsersController implements Initializable {
         searchUsers(null);
     }
     
-    private Pane createUserCardPane(String title, String publishDate, int id){
+    private Pane createUserCardPane(String name, String privilege, int id){
         Pane pane = new Pane();
         
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("UserCard.fxml"));
-            UserCardController fcc = new UserCardController(title, publishDate, id);
+            UserCardController fcc = new UserCardController(name, privilege, id);
             loader.setController(fcc);
             pane = loader.load();
         } catch (IOException ex) {
@@ -50,9 +50,9 @@ public class UsersController implements Initializable {
     
     private String returnPrivilege(int level){
         switch(level){
-            case 2: return "Social Moderator";
-            case 3: return "Moderator";
-            case 4: return "Admin";
+            case 1: return "Social Moderator";
+            case 2: return "Moderator";
+            case 3: return "Admin";
             default: return "User";
         }
     }
@@ -86,10 +86,9 @@ public class UsersController implements Initializable {
         searchUsers(usernameFilter);
     }
 
-    
-    @FXML
     private void searchUsers(String usernameFilter){
-        //Set<User> users = PisaFlixServices.userService.getusers(usernameFilter);
-        //populateScrollPane(users);
+        Set<User> users = PisaFlixServices.userService.getFiltered(usernameFilter);
+        
+        populateScrollPane(users);
     }
 }

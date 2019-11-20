@@ -215,4 +215,33 @@ public class UserManager implements UserManagerDatabaseInterface {
         return !(getByUsername(username).isEmpty() && getByEmail(email).isEmpty());
     }
 
+    @Override
+    public Set<User> getFiltered(String nameFilter){
+        Set<User> users = null;
+        String name = "";
+        
+        if (nameFilter != null) {
+            name = nameFilter;
+        }
+
+        String query = "SELECT u "
+                + "FROM User u "
+                + "WHERE ('" + name + "'='' OR u.username LIKE '%" + name + "%') ";
+
+        try {
+            entityManager = factory.createEntityManager();
+            entityManager.getTransaction().begin();
+            users = new LinkedHashSet<>(entityManager.createQuery(query).getResultList());
+            if (users == null) {
+                System.out.println("Users are empty!");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace(System.out);
+            System.out.println("A problem occurred in retrieve users filtered!");
+        } finally {
+            entityManager.close();
+        }
+        return users;
+    }
 }

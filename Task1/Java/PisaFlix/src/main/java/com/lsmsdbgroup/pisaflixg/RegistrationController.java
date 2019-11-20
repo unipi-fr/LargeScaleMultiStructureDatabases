@@ -14,16 +14,22 @@ public class RegistrationController implements Initializable {
     
     @FXML
     private TextField usernameTextField;
+    
     @FXML
     private TextField emailTextField;
+    
     @FXML
     private PasswordField passPasswordField;
+    
     @FXML
     private PasswordField repeatPassPasswordField;
+    
     @FXML
     private TextField firstNameTextField;
+    
     @FXML
     private TextField lastNameTextField;
+    
     @FXML
     private Label successLabel;
     

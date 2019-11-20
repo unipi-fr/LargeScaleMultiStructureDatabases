@@ -5,6 +5,7 @@ import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.*;
 import java.util.Objects;
+import java.util.Set;
 
 public class UserService implements UserServiceInterface {
 
@@ -23,9 +24,20 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public User getUserById(int id) {
-
         User user = userManager.getById(id);
         return user;
+    }
+    
+    @Override
+    public Set<User> getAll(){
+      Set<User> users = userManager.getAll();
+      return users;
+    }
+    
+    @Override
+    public Set<User> getFiltered(String nameFilter){
+        Set<User> users = userManager.getFiltered(nameFilter);
+        return users;
     }
 
     @Override
