@@ -18,11 +18,16 @@ public class MenuController implements Initializable {
     
     @FXML
     private Button filmsButton;
+    
     @FXML
     private Button cinemasButton;
+    
     @FXML
     private Button projectionsButton;
     
+    @FXML
+    private Button usersButton;
+            
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         filmsButton.focusedProperty().addListener((observable,  oldValue,  newValue) -> {
@@ -46,6 +51,11 @@ public class MenuController implements Initializable {
     @FXML
     private void clickProjectionsButton(){     
         App.setMainPageReturnsController("Projections");
+    }
+    
+    @FXML
+    private void clickUsersButton(){
+        App.setMainPageReturnsController("Users");
     }
     
 }

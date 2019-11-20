@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 
 public class UserCardController implements Initializable {
 
@@ -15,21 +16,24 @@ public class UserCardController implements Initializable {
 
     private final int userId;
 
-    public UserCardController(String title, String publishDate, int id) {
-        userProperty.set(title);
-        privilegeProperty.set(publishDate);
+    public UserCardController(String username, String privilege, int id) {
+        userProperty.set(username);
+        privilegeProperty.set(privilege);
         userId = id;
     }
 
     @FXML
-    private Label userLabel;
+    private ImageView userImageView;
+    
+    @FXML
+    private Label usernameLabel;
     
     @FXML
     private Label privilegeLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        userLabel.setText(userProperty.get());
+        usernameLabel.setText(userProperty.get());
         privilegeLabel.setText(privilegeProperty.get());
     }
     

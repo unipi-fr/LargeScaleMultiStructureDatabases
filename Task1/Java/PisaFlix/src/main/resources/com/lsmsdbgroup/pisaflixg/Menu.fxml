@@ -12,5 +12,6 @@
       <Button fx:id="filmsButton" mnemonicParsing="false" onMouseClicked="#clickFilmsButton" prefHeight="35.0" prefWidth="140.0" text="Films" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Button fx:id="cinemasButton" layoutY="40.0" mnemonicParsing="false" onAction="#clickCinemasButton" prefHeight="35.0" prefWidth="140.0" text="Cinemas" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="36.0" />
       <Button fx:id="projectionButton" layoutY="80.0" mnemonicParsing="false" onAction="#clickProjectionsButton" prefHeight="35.0" prefWidth="140.0" text="Projections" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="72.0" />
+      <Button fx:id="usersButton" mnemonicParsing="false" onAction="#clickUsersButton" prefHeight="35.0" text="Users" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="108.0" />
    </children>
 </AnchorPane>

@@ -24,7 +24,7 @@ public class UsersController implements Initializable {
     private TilePane tilePane;
     
     @FXML
-    private TextField titleFilterTextField;
+    private TextField nameFilterTextField;
     
     
     @Override
@@ -37,7 +37,7 @@ public class UsersController implements Initializable {
         Pane pane = new Pane();
         
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmCard.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("UserCard.fxml"));
             UserCardController fcc = new UserCardController(title, publishDate, id);
             loader.setController(fcc);
             pane = loader.load();
@@ -48,26 +48,40 @@ public class UsersController implements Initializable {
         return pane;
     }
     
+    private String returnPrivilege(int level){
+        switch(level){
+            case 2: return "Social Moderator";
+            case 3: return "Moderator";
+            case 4: return "Admin";
+            default: return "User";
+        }
+    }
+    
     public void populateScrollPane(Set<User> users){
         tilePane.getChildren().clear();
-        String title;
-        String publishDate;
+        String username;
+        String privilege;
+        int level;
         int id;
         
         Pane pane;
         int i = 0;
         for(User user: users){
-            title = user.getTitle();
-            publishDate = user.getPublicationDate().toString();
-            id = user.getIdFilm();
+            username = user.getUsername();
+            level = user.getPrivilegeLevel();
             
-            pane = createFilmCardPane(title, publishDate, id);
+            privilege = returnPrivilege(level);
+            
+            id = user.getIdUser();
+            
+            pane = createUserCardPane(username, privilege, id);
             tilePane.getChildren().add(pane);
         }
     }
+    
     @FXML
-    private void filterFilms(){
-        String usernameFilter = titleFilterTextField.getText();
+    private void filterUsers(){
+        String usernameFilter = nameFilterTextField.getText();
         
         searchUsers(usernameFilter);
     }
@@ -75,7 +89,7 @@ public class UsersController implements Initializable {
     
     @FXML
     private void searchUsers(String usernameFilter){
-        Set<User> users = PisaFlixServices.userService.getusers(usernameFilter);
-        populateScrollPane(users);
+        //Set<User> users = PisaFlixServices.userService.getusers(usernameFilter);
+        //populateScrollPane(users);
     }
 }
