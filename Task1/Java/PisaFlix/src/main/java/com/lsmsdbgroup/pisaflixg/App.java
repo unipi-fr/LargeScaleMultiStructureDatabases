@@ -94,5 +94,25 @@ public class App extends Application {
         
         return result.get() == ButtonType.OK;
     }
+    
+    public static void printErrorDialog(String title, String header, String content){
+        printDialog(title, header, content, Alert.AlertType.ERROR);
+    }
+    
+    private static void printDialog(String title, String header, String content, Alert.AlertType type){
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        
+        URL resource = App.class.getResource("/styles/PisaFlix.css");
+        
+        if(resource != null){
+            DialogPane dialogPane = alert.getDialogPane();
+            dialogPane.getStylesheets().add(resource.toExternalForm());
+        }
+        
+        alert.showAndWait();
+    }
 
 }

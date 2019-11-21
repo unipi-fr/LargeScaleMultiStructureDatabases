@@ -34,7 +34,7 @@ public class CommentManager implements CommentManagerDatabaseInterface {
         Set<Film> filmSet = new LinkedHashSet<>();
         filmSet.add(film);
         comment.setFilmSet(filmSet);
-        comment.setIdUser(user);
+        comment.setUser(user);
 
         try {
             entityManager = factory.createEntityManager();
@@ -60,7 +60,7 @@ public class CommentManager implements CommentManagerDatabaseInterface {
         Set<Cinema> cinemaSet = new LinkedHashSet<>();
         cinemaSet.add(cinema);
         comment.setCinemaSet(cinemaSet);
-        comment.setIdUser(user);
+        comment.setUser(user);
 
         try {
             entityManager = factory.createEntityManager();
@@ -104,7 +104,7 @@ public class CommentManager implements CommentManagerDatabaseInterface {
             if (!reference.getFilmSet().isEmpty()) {
                 reference.getFilmSet().iterator().next().getCommentSet().remove(reference);
             }
-            reference.getIdUser().getCommentSet().remove(reference);
+            reference.getUser().getCommentSet().remove(reference);
             entityManager.remove(reference);
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
@@ -128,6 +128,9 @@ public class CommentManager implements CommentManagerDatabaseInterface {
         } finally {
             entityManager.close();
         }
+        
+
+        
         return comment;
     }
 

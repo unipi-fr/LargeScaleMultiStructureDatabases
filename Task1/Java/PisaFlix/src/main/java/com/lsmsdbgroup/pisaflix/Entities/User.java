@@ -42,7 +42,7 @@ public class User implements Serializable {
     @ManyToMany(mappedBy = "userSet", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Set<Film> filmSet = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "idUser", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Comment> commentSet = new LinkedHashSet<>();
 
     public User() {

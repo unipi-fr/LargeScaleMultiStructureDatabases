@@ -40,7 +40,7 @@ public class Comment implements Serializable {
 
     @JoinColumn(name = "idUser", referencedColumnName = "idUser")
     @ManyToOne(fetch = FetchType.EAGER)
-    private User idUser;
+    private User user;
 
     public Comment() {
     }
@@ -60,7 +60,7 @@ public class Comment implements Serializable {
         this.idComment = idComment;
         this.timestamp = timestamp;
         this.text = text;
-        idUser = user;
+        this.user = user;
         filmSet.add(film);
 
     }
@@ -70,7 +70,7 @@ public class Comment implements Serializable {
         this.idComment = idComment;
         this.timestamp = timestamp;
         this.text = text;
-        idUser = user;
+        this.user = user;
         cinemaSet.add(cinema);
     }
 
@@ -114,12 +114,18 @@ public class Comment implements Serializable {
         this.filmSet = filmSet;
     }
 
-    public User getIdUser() {
-        return idUser;
+    public User getUser() {
+        if(user == null){
+            User u = new User();
+            u.setIdUser(0);
+            u.setUsername("Deleted User");
+            return u;
+        }
+        return user;
     }
 
-    public void setIdUser(User idUser) {
-        this.idUser = idUser;
+    public void setUser(User idUser) {
+        this.user = idUser;
     }
 
     @Override
@@ -142,12 +148,12 @@ public class Comment implements Serializable {
     public String toString() {
 
         if (!filmSet.isEmpty()) {
-            return "[ idComment= " + idComment + " ]\nuser: " + idUser.toString()
+            return "[ idComment= " + idComment + " ]\nuser: " + user.toString()
                     + "\ntimestamp:" + timestamp.toString() + "\ntext:" + text
                     + "\nfilm: " + filmSet.toString();
         }
 
-        return "[ idComment= " + idComment + " ]\nuser: " + idUser.toString()
+        return "[ idComment= " + idComment + " ]\nuser: " + user.toString()
                 + "\ntimestamp:" + timestamp.toString() + "\ntext:" + text
                 + "\ncinema: " + cinemaSet.toString();
 

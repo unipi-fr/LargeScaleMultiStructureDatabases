@@ -107,7 +107,7 @@ public class CinemaDetailPageController implements Initializable {
     }
 
     public void addComment(Comment comment) {
-        String username = comment.getIdUser().getUsername();
+        String username = comment.getUser().getUsername();
         String timestamp = comment.getTimestamp().toString();
         String commentStr = comment.getText();
         
