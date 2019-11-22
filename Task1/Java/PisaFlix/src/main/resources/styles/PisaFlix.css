@@ -153,6 +153,49 @@
 
 /*******************************************************************************
  *                                                                             *
+ * Material Design - Cards For User				                       				   *
+ *                                                                             *
+ ******************************************************************************/
+.card-user {
+	-fx-background-color: rgb(255.0, 255.0, 255.0);
+	-fx-background-radius: 4.0;
+	-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,
+		1.5);
+	-fx-padding: 5 0 5 0;
+}
+
+.card-user:hover {
+    -fx-background-color: rgb(240.0, 240.0, 240.0);
+}
+
+
+
+.card-user-title {
+	-fx-font-size: 20.0px;
+}
+
+.card-user-title .text {
+	-fx-fill: -fx-text-title-color;
+}
+
+.card-user-subtitle {
+	-fx-font-size: 16.0px;
+}
+
+.control-label-user {
+	-fx-font-size: 12.0px;
+}
+
+.control-label-user .text {
+	-fx-fill: -fx-text-control-title-color;
+}
+
+.card-user-button {
+	-fx-effect: null;
+}
+
+/*******************************************************************************
+ *                                                                             *
  * Button & ToggleButton                                                       *
  *                                                                             *
  ******************************************************************************/

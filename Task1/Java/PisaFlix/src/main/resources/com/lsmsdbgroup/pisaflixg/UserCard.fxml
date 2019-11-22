@@ -10,7 +10,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="cardVbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#showUser" styleClass="card-film" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="cardVbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#showUser" onMouseEntered="#modifyPrivilegeEn" onMouseExited="#modifyPrivilegeEx" styleClass="card-film" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fx:id="userImageView" fitHeight="116.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true" />
       <Label fx:id="usernameLabel" alignment="CENTER" prefWidth="116.0" styleClass="card-film-title" text="Label">

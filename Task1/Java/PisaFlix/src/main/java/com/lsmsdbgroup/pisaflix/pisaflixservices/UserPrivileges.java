@@ -11,4 +11,23 @@ public enum UserPrivileges {
     public int getValue() {
         return value;
     }
+    
+    @Override
+    public String toString(){
+        switch(this.value){
+            case 1: return "Social Moderator";
+            case 2: return "Moderator";
+            case 3: return "Admin";
+            default: return "User";
+        }
+    }
+    
+    public static String valueOf(int level){
+        switch(level){
+            case 1: return "Social Moderator";
+            case 2: return "Moderator";
+            case 3: return "Admin";
+            default: return "User";
+        }
+    }
 }

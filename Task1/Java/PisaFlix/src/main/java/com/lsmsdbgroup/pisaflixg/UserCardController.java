@@ -2,13 +2,18 @@ package com.lsmsdbgroup.pisaflixg;
 
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;
 import java.io.File;
 import java.io.IOException;
 import javafx.beans.property.StringProperty;
 import java.net.URL;
+import java.util.LinkedHashSet;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,9 +21,12 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 public class UserCardController implements Initializable {
 
+    private User user;
+            
     private final StringProperty userProperty = new SimpleStringProperty();
     private final StringProperty privilegeProperty = new SimpleStringProperty();
 
@@ -30,6 +38,9 @@ public class UserCardController implements Initializable {
         userId = id;
     }
 
+    @FXML
+    private VBox cardVbox;
+    
     @FXML
     private ImageView userImageView;
     
@@ -44,6 +55,7 @@ public class UserCardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        user = PisaFlixServices.userService.getUserById(userId);
         usernameLabel.setText(userProperty.get());
         privilegeLabel.setText(privilegeProperty.get());
         
@@ -55,8 +67,42 @@ public class UserCardController implements Initializable {
         Image image = new Image(file.toURI().toString());
         userImageView.setImage(image);
         
+        Set<UserPrivileges> privilegeSet = new LinkedHashSet<>();
+        
+        privilegeSet.add(UserPrivileges.NORMAL_USER);
+        privilegeSet.add(UserPrivileges.SOCIAL_MODERATOR);
+        privilegeSet.add(UserPrivileges.MODERATOR);
+        privilegeSet.add(UserPrivileges.ADMIN);
+      
+        privilegeCombo.getItems().setAll(privilegeSet);
+        
         privilegeCombo.setVisible(false);
         privilegeCombo.setManaged(false);
+    }
+    
+    @FXML
+    private void modifyPrivilegeEn(){
+        cardVbox.getStyleClass().clear();
+        cardVbox.getStyleClass().add("card-user");
+        privilegeCombo.setVisible(true);
+        privilegeCombo.setManaged(true);
+        
+        privilegeLabel.setVisible(false);
+        privilegeLabel.setManaged(false);
+        
+        int userPrivilege = user.getPrivilegeLevel();
+        privilegeCombo.setValue(UserPrivileges.valueOf(userPrivilege));
+    }
+    
+    @FXML
+    private void modifyPrivilegeEx(){
+        cardVbox.getStyleClass().clear();
+        cardVbox.getStyleClass().add("card-film");
+        privilegeCombo.setVisible(false);
+        privilegeCombo.setManaged(false);
+        
+        privilegeLabel.setVisible(true);
+        privilegeLabel.setManaged(true); 
     }
     
     @FXML
