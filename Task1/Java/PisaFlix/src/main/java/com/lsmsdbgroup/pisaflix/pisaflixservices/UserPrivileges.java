@@ -30,4 +30,20 @@ public enum UserPrivileges {
             default: return "User";
         }
     }
+    
+    public static int getLevel(String levelStr){
+        if(levelStr.equals("User"))
+            return 0;
+        
+        if(levelStr.equals("Social Moderator"))
+            return 1;
+        
+        if(levelStr.equals("Moderator"))
+            return 2;
+        
+        if(levelStr.equals("Admin"))
+            return 3;
+        
+        return 0;
+    }
 }

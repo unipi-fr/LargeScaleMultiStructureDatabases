@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.shape.*?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="cardVbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#showUser" onMouseEntered="#modifyPrivilegeEn" onMouseExited="#modifyPrivilegeEx" styleClass="card-film" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="cardVbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMousePressed="#mouseClicked" styleClass="card-film" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fx:id="userImageView" fitHeight="116.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true" />
       <Label fx:id="usernameLabel" alignment="CENTER" prefWidth="116.0" styleClass="card-film-title" text="Label">
@@ -22,7 +23,22 @@
          <font>
             <Font size="16.0" />
          </font>
+         <contextMenu>
+            <ContextMenu fx:id="privilegeMenu">
+              <items>
+                <MenuItem fx:id="updatePrivilegeMenuItem" mnemonicParsing="false" onAction="#updatePrivilege" text="Modify Privilege" />
+              </items>
+            </ContextMenu>
+         </contextMenu>
       </Label>
-      <ComboBox fx:id="privilegeCombo" maxWidth="116.0" minWidth="116.0" prefWidth="116.0" />
+      <ComboBox fx:id="privilegeCombo" maxWidth="116.0" minWidth="116.0" prefWidth="116.0">
+         <VBox.margin>
+            <Insets top="50.0" />
+         </VBox.margin></ComboBox>
+      <Button fx:id="updatePrivilegeButton" mnemonicParsing="false" onAction="#modifyPrivilege" text="Modify">
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </Button>
    </children>
 </VBox>

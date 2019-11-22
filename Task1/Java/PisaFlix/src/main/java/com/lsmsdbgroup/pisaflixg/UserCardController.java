@@ -3,6 +3,7 @@ package com.lsmsdbgroup.pisaflixg;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.UserService;
 import java.io.File;
 import java.io.IOException;
 import javafx.beans.property.StringProperty;
@@ -20,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
@@ -52,6 +54,15 @@ public class UserCardController implements Initializable {
     
     @FXML
     private ComboBox privilegeCombo;
+    
+    @FXML
+    private ContextMenu privilegeMenu;
+    
+    @FXML
+    private MenuItem updatePrivilegeMenuItem;
+    
+    @FXML
+    private Button updatePrivilegeButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -78,36 +89,62 @@ public class UserCardController implements Initializable {
         
         privilegeCombo.setVisible(false);
         privilegeCombo.setManaged(false);
+        
+        updatePrivilegeButton.setVisible(false);
+        updatePrivilegeButton.setManaged(false);
     }
     
     @FXML
-    private void modifyPrivilegeEn(){
-        cardVbox.getStyleClass().clear();
-        cardVbox.getStyleClass().add("card-user");
+    private void updatePrivilege(){
+        //cardVbox.getStyleClass().clear();
+        //cardVbox.getStyleClass().add("card-user");
+        
+        userImageView.setVisible(false);
+        userImageView.setManaged(false);
+                
         privilegeCombo.setVisible(true);
         privilegeCombo.setManaged(true);
         
         privilegeLabel.setVisible(false);
         privilegeLabel.setManaged(false);
         
+        updatePrivilegeButton.setVisible(true);
+        updatePrivilegeButton.setManaged(true);
+        
         int userPrivilege = user.getPrivilegeLevel();
-        privilegeCombo.setValue(UserPrivileges.valueOf(userPrivilege));
+        privilegeCombo.getSelectionModel().select(userPrivilege);
     }
     
     @FXML
-    private void modifyPrivilegeEx(){
-        cardVbox.getStyleClass().clear();
-        cardVbox.getStyleClass().add("card-film");
+    private void modifyPrivilege(){
+        if (!App.printConfirmationDialog("Updating Privilegee", "You are updating a privileges", "Are you sure to continue")) {
+            return;
+        }
+        
+        int level = UserPrivileges.getLevel(privilegeCombo.getValue().toString());
+        
+        //PisaFlixServices.userService.changeUserPrivileges(user, privilegeCombo.getValue());
+        
+        userImageView.setVisible(true);
+        userImageView.setManaged(true);
+        
         privilegeCombo.setVisible(false);
         privilegeCombo.setManaged(false);
         
         privilegeLabel.setVisible(true);
-        privilegeLabel.setManaged(true); 
+        privilegeLabel.setManaged(true);
+        
+        updatePrivilegeButton.setVisible(false);
+        updatePrivilegeButton.setManaged(false);
     }
     
     @FXML
-    private void showUser() {
-        User user = PisaFlixServices.userService.getUserById(userId);
+    private void mouseClicked(MouseEvent event) {
+        if (event.isSecondaryButtonDown()) {
+            privilegeMenu.show(cardVbox, event.getScreenX(), event.getScreenY());
+            return;
+        }
+        
         FXMLLoader loader = new FXMLLoader(getClass().getResource("UserView.fxml"));
 
         AnchorPane anchorPane = null;

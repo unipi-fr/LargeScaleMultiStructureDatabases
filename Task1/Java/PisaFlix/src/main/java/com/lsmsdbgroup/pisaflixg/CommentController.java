@@ -10,24 +10,17 @@ import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.InvalidPrivilegeLeve
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.UserNotLoggedException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Region;
-import javafx.stage.WindowEvent;
 
 public class CommentController implements Initializable {
 
@@ -35,7 +28,7 @@ public class CommentController implements Initializable {
         0 = Film
         1 = Cinema
      */
-    private int type;
+    private final int type;
 
     private final StringProperty usernameProperty = new SimpleStringProperty();
     private final StringProperty timestampProperty = new SimpleStringProperty();
