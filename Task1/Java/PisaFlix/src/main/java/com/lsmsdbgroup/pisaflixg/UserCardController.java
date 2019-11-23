@@ -4,6 +4,8 @@ import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.UserService;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.InvalidPrivilegeLevelException;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.UserNotLoggedException;
 import java.io.File;
 import java.io.IOException;
 import javafx.beans.property.StringProperty;
@@ -12,6 +14,8 @@ import java.util.LinkedHashSet;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -115,15 +119,32 @@ public class UserCardController implements Initializable {
         privilegeCombo.getSelectionModel().select(userPrivilege);
     }
     
+    private void reefreshUserCard(){
+        usernameLabel.setText(user.getUsername());
+        int level = user.getPrivilegeLevel();
+        privilegeLabel.setText(UserPrivileges.valueOf(level));
+    }
+    
     @FXML
     private void modifyPrivilege(){
-        if (!App.printConfirmationDialog("Updating Privilegee", "You are updating a privileges", "Are you sure to continue")) {
+        if (!App.printConfirmationDialog("Updating Privilege ", "You are updating a privileges", "Are you sure to continue")) {
             return;
         }
         
         int level = UserPrivileges.getLevel(privilegeCombo.getValue().toString());
         
-        //PisaFlixServices.userService.changeUserPrivileges(user, privilegeCombo.getValue());
+        UserPrivileges userPrivilege = (UserPrivileges) privilegeCombo.getValue();
+        try {
+            PisaFlixServices.userService.changeUserPrivileges(user, userPrivilege);
+        } catch (UserNotLoggedException ex) {
+            Logger.getLogger(UserCardController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidPrivilegeLevelException ex) {
+            Logger.getLogger(UserCardController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        user = PisaFlixServices.userService.getUserById(userId);
+        
+        reefreshUserCard();
         
         userImageView.setVisible(true);
         userImageView.setManaged(true);
@@ -141,7 +162,20 @@ public class UserCardController implements Initializable {
     @FXML
     private void mouseClicked(MouseEvent event) {
         if (event.isSecondaryButtonDown()) {
-            privilegeMenu.show(cardVbox, event.getScreenX(), event.getScreenY());
+            privilegeMenu.hide();
+            User loggedUser = PisaFlixServices.authenticationService.getLoggedUser();
+            
+            if(loggedUser != null){
+                try {
+                    PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.ADMIN);
+                    privilegeMenu.show(cardVbox, event.getScreenX(), event.getScreenY());
+                } catch (UserNotLoggedException ex) {
+                    Logger.getLogger(UserCardController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InvalidPrivilegeLevelException ex) {
+                    Logger.getLogger(UserCardController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
             return;
         }
         
