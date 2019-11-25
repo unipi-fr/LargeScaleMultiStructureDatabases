@@ -76,17 +76,22 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public void changeUserPrivileges(User u, UserPrivileges newPrivilegeLevel) throws UserNotLoggedException, InvalidPrivilegeLevelException {
+    public void changeUserPrivileges(User u, UserPrivileges newPrivilegeLevel) throws UserNotLoggedException, InvalidPrivilegeLevelException { 
         if (!authenticationService.isUserLogged()) {
             throw new UserNotLoggedException("You must be logged in order to change account privileges");
         }
+        User loggedUser = authenticationService.getLoggedUser();
         
         if (newPrivilegeLevel.getValue() < UserPrivileges.NORMAL_USER.getValue()) {
             throw new InvalidPrivilegeLevelException("Privilege level must me greater or equal than Normal user");
         }
         
-        if (newPrivilegeLevel.getValue() > authenticationService.getLoggedUser().getPrivilegeLevel()) {
+        if (newPrivilegeLevel.getValue() > loggedUser.getPrivilegeLevel()) {
             throw new InvalidPrivilegeLevelException("You can't set privileges greater than yours");
+        }
+        
+        if (u.getPrivilegeLevel() >= loggedUser.getPrivilegeLevel()) {
+            throw new InvalidPrivilegeLevelException("You can't change privileges to users that have privileges equal or greater than yours");
         }
         
         u.setPrivilegeLevel(newPrivilegeLevel.getValue());

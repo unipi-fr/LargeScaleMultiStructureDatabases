@@ -4,6 +4,7 @@ import com.lsmsdbgroup.pisaflix.Entities.Cinema;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.InvalidPrivilegeLevelException;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.UserNotLoggedException;
 import java.io.File;
@@ -12,6 +13,8 @@ import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -51,9 +54,6 @@ public class UserViewController implements Initializable {
     private Label commentCounterLabel;
     
     @FXML
-    private Button updateButton;
-    
-    @FXML
     private ListView favoriteList;
     
     @FXML
@@ -64,6 +64,12 @@ public class UserViewController implements Initializable {
     
     @FXML
     private Button cinemaButton;
+    
+    @FXML 
+    private Button deleteButton;
+    
+    @FXML
+    private Button updateButton;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -76,7 +82,7 @@ public class UserViewController implements Initializable {
             lastnameLabel.setText(user.getLastName());
             emailLabel.setText(user.getEmail());
             
-            commentCounterLabel.setText("(" + user.getCommentSet().size() + ")");
+            commentCounterLabel.setText("(" + user.getCommentSet().size() + ")"); 
         }
         
         Random random = new Random();
@@ -124,6 +130,21 @@ public class UserViewController implements Initializable {
         };
     }
     
+    private boolean canUpdateOrdDeleteProfile(){
+        try {
+                PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.ADMIN, "Update/Delete others account");
+            } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
+                User u = PisaFlixServices.authenticationService.getLoggedUser();
+                if(u == null){
+                    return false;
+                }
+                if(u.getIdUser() != this.user.getIdUser()){
+                    return false;
+                }
+            }
+            return true;
+    }
+    
     public void setUser(User user){
         this.user = user;
         
@@ -131,6 +152,12 @@ public class UserViewController implements Initializable {
         firstnameLabel.setText(user.getFirstName());
         lastnameLabel.setText(user.getLastName());
         emailLabel.setText(user.getEmail());
+        
+        if(!canUpdateOrdDeleteProfile()){
+           deleteButton.setDisable(true);
+           updateButton.setDisable(true);
+        }
+        
         
         commentCounterLabel.setText("(" + user.getCommentSet().size() + ")");
     }
@@ -165,16 +192,21 @@ public class UserViewController implements Initializable {
     
     @FXML
     private void updateProfile(){
-        App.setMainPageReturnsController("UpdateProfile");
+        UpdateProfileController upc = (UpdateProfileController) App.setMainPageReturnsController("UpdateProfile");
+        upc.setUser(this.user);
     }
     
     @FXML
     private void deleteProfile(){
-        if(!App.printConfirmationDialog("Deleting profile", "You're deleting your profile", "Are you sure do you want continue?")){
+        User u = this.user;
+        if(u == null){          
             return;
         }
-        try {
-            PisaFlixServices.userService.deleteLoggedAccount();
+        if(!App.printConfirmationDialog("Deleting profile", "You're deleting "+u.getUsername()+" profile", "Are you sure do you want continue?")){
+            return;
+        }
+        try { 
+            PisaFlixServices.userService.deleteUserAccount(u);
             App.setMainPageReturnsController("Welcome");
             App.resetLogin();
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {

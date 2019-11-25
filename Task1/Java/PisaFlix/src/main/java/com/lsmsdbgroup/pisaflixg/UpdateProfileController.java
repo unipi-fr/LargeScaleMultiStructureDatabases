@@ -41,10 +41,19 @@ public class UpdateProfileController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         user = PisaFlixServices.authenticationService.getLoggedUser();
         
+        refreshFields();
+    }
+    
+    private void refreshFields(){
         usernameTextField.setText(user.getUsername());
         firstnameTextField.setText(user.getFirstName());
         lastnameTextField.setText(user.getLastName());
         emailTextField.setText(user.getEmail());
+    }
+    
+    public void setUser(User u){
+        this.user = u;
+        refreshFields();
     }
     
     @FXML
@@ -69,18 +78,21 @@ public class UpdateProfileController implements Initializable {
             }
         }
         
-        if (!App.printConfirmationDialog("Profile updated", "You are changing yuor personal data", "Are you sure to continue")){
+        if (!App.printConfirmationDialog("Profile updated", "You are changing "+user.getUsername()+" personal data", "Are you sure to continue")){
             return;
         }
         
         PisaFlixServices.userService.updateUser(user);
         
-        App.setMainPageReturnsController("UserView");
+        UserViewController uvc = (UserViewController) App.setMainPageReturnsController("UserView");
+        uvc.setUser(user);
+        
     }
     
     @FXML
     private void cancelAction(){
-        App.setMainPageReturnsController("UserView");
+        UserViewController uvc = (UserViewController) App.setMainPageReturnsController("UserView");
+        uvc.setUser(user);
     }
     
 }

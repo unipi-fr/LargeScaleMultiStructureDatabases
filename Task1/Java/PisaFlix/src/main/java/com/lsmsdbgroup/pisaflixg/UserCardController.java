@@ -136,10 +136,8 @@ public class UserCardController implements Initializable {
         UserPrivileges userPrivilege = (UserPrivileges) privilegeCombo.getValue();
         try {
             PisaFlixServices.userService.changeUserPrivileges(user, userPrivilege);
-        } catch (UserNotLoggedException ex) {
-            Logger.getLogger(UserCardController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidPrivilegeLevelException ex) {
-            Logger.getLogger(UserCardController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
+            System.out.println(ex.getMessage());
         }
         
         user = PisaFlixServices.userService.getUserById(userId);
