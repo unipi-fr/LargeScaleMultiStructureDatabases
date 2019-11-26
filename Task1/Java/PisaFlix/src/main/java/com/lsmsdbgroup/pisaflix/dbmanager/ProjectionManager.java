@@ -132,7 +132,6 @@ public class ProjectionManager implements ProjectionManagerDatabaseInterface {
                 + "AND (('" + date + "' = 'all') OR dateTime between '" + date + " 00:00:00' and '" + date + " 23:59:59') "
                 + "AND ((" + room + " = -1) OR ( " + room + " = p.room)) ";
 
-
         try {
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
@@ -158,7 +157,6 @@ public class ProjectionManager implements ProjectionManagerDatabaseInterface {
                 + "AND ((" + filmId + " = -1) OR ( " + filmId + " = p.idFilm)) "
                 + "AND (('" + date + "' = 'all') OR dateTime = '" + date + "') "
                 + "AND ((" + room + " = -1) OR ( " + room + " = p.room)) ";
-
 
         try {
             entityManager = factory.createEntityManager();

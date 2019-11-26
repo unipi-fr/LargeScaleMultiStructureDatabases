@@ -2,11 +2,9 @@ package com.lsmsdbgroup.pisaflix.pisaflixservices;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CommentManagerDatabaseInterface;
-import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.AuthenticationServiceInterface;
-import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.CommentServiceInterface;
-import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.UserServiceInterface;
-import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.InvalidPrivilegeLevelException;
-import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.UserNotLoggedException;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.*;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
+import java.util.Objects;
 
 public class CommentService implements CommentServiceInterface {
 
@@ -14,7 +12,7 @@ public class CommentService implements CommentServiceInterface {
     private final UserServiceInterface userService;
     private final AuthenticationServiceInterface authenticationService;
 
-    CommentService(CommentManagerDatabaseInterface commentManager,AuthenticationServiceInterface authenticationService, UserServiceInterface userService) {
+    CommentService(CommentManagerDatabaseInterface commentManager, AuthenticationServiceInterface authenticationService, UserServiceInterface userService) {
         this.commentManager = commentManager;
         this.userService = userService;
         this.authenticationService = authenticationService;
@@ -22,16 +20,16 @@ public class CommentService implements CommentServiceInterface {
 
     @Override
     public void update(Comment comment) throws InvalidPrivilegeLevelException, UserNotLoggedException {
-        if(canUpdateOrDeleteComment(comment,"update other user comment")){
+        if (canUpdateOrDeleteComment(comment, "update other user comment")) {
             commentManager.update(comment, comment.getText());
         }
     }
-    
-    private boolean canUpdateOrDeleteComment(Comment comment, String operation) throws InvalidPrivilegeLevelException, UserNotLoggedException{
-        if(!authenticationService.isUserLogged()){
+
+    private boolean canUpdateOrDeleteComment(Comment comment, String operation) throws InvalidPrivilegeLevelException, UserNotLoggedException {
+        if (!authenticationService.isUserLogged()) {
             throw new UserNotLoggedException("You must be logged in order to " + operation);
         }
-        if(authenticationService.getLoggedUser().getIdUser() != comment.getUser().getIdUser()){
+        if (!Objects.equals(authenticationService.getLoggedUser().getIdUser(), comment.getUser().getIdUser())) {
             userService.checkUserPrivilegesForOperation(UserPrivileges.SOCIAL_MODERATOR, operation);
         }
         return true;
@@ -46,10 +44,10 @@ public class CommentService implements CommentServiceInterface {
 
     @Override
     public void delete(Comment comment) throws InvalidPrivilegeLevelException, UserNotLoggedException {
-        if(canUpdateOrDeleteComment(comment,"delete other user comment")){
+        if (canUpdateOrDeleteComment(comment, "delete other user comment")) {
             commentManager.delete(comment.getIdComment());
         }
-        
+
     }
 
     @Override

@@ -216,10 +216,10 @@ public class UserManager implements UserManagerDatabaseInterface {
     }
 
     @Override
-    public Set<User> getFiltered(String nameFilter){
+    public Set<User> getFiltered(String nameFilter) {
         Set<User> users = null;
         String name = "";
-        
+
         if (nameFilter != null) {
             name = nameFilter;
         }

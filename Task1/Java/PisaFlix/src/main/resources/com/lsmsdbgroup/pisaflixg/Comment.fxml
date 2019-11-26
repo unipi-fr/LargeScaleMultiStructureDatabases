@@ -32,7 +32,7 @@
          <contextMenu>
             <ContextMenu fx:id="commentMenu">
                <items>
-                  <MenuItem fx:id="updateMenuitem" mnemonicParsing="false" onAction="#updateComment" text="Update" />
+                  <MenuItem fx:id="updateMenuItem" mnemonicParsing="false" onAction="#updateComment" text="Update" />
                   <MenuItem fx:id="deleteMenuItem" mnemonicParsing="false" onAction="#deleteComment" text="Delete" />
                </items>
             </ContextMenu>

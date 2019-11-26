@@ -128,9 +128,7 @@ public class CommentManager implements CommentManagerDatabaseInterface {
         } finally {
             entityManager.close();
         }
-        
 
-        
         return comment;
     }
 

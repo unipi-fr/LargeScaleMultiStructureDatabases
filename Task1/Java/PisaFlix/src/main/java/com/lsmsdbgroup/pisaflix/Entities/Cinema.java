@@ -118,5 +118,5 @@ public class Cinema implements Serializable {
     public String toString() {
         return name;
     }
-    
+
 }

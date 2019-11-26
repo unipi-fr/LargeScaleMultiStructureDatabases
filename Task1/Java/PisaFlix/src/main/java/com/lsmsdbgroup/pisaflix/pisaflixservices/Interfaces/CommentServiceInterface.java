@@ -1,8 +1,7 @@
 package com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
-import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.InvalidPrivilegeLevelException;
-import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.UserNotLoggedException;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 
 public interface CommentServiceInterface {
 

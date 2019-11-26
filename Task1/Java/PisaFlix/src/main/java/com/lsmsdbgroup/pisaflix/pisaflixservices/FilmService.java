@@ -2,8 +2,7 @@ package com.lsmsdbgroup.pisaflix.pisaflixservices;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
-import java.util.Date;
-import java.util.Set;
+import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.FilmManagerDatabaseInterface;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.*;
 
@@ -61,7 +60,7 @@ public class FilmService implements FilmServiceInterface {
         userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "delete a film");
         filmManager.delete(idFilm);
     }
-    
+
     @Override
     public void updateFilm(Film film) throws UserNotLoggedException, InvalidPrivilegeLevelException {
         userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "update a film");
@@ -81,7 +80,5 @@ public class FilmService implements FilmServiceInterface {
         film.getUserSet().remove(user);
         filmManager.updateFavorites(film);
     }
-
-    
 
 }

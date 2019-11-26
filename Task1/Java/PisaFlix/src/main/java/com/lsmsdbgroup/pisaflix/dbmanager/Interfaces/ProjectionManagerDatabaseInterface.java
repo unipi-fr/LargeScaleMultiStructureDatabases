@@ -1,10 +1,7 @@
 package com.lsmsdbgroup.pisaflix.dbmanager.Interfaces;
 
-import com.lsmsdbgroup.pisaflix.Entities.Cinema;
-import com.lsmsdbgroup.pisaflix.Entities.Film;
-import com.lsmsdbgroup.pisaflix.Entities.Projection;
-import java.util.Date;
-import java.util.Set;
+import com.lsmsdbgroup.pisaflix.Entities.*;
+import java.util.*;
 
 public interface ProjectionManagerDatabaseInterface {
 

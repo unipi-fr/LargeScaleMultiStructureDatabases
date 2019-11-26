@@ -35,15 +35,18 @@
                </padding></VBox>
          </content>
       </ScrollPane>
-      <TextArea fx:id="commentArea" editable="false" layoutX="300.0" layoutY="207.0" prefHeight="195.0" prefWidth="200.0" promptText="You must be logged to comment film..." wrapText="true" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="202.0" />
-      <Button fx:id="commentButton" disable="true" layoutX="350.0" layoutY="407.0" maxHeight="30.0" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#addComment" prefHeight="30.0" text="Comment" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="450.0" />
-      <HBox fx:id="favoriteHBox" alignment="CENTER" layoutX="300.0" layoutY="125.0" spacing="5.0" AnchorPane.bottomAnchor="280.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="164.0">
+      <TextArea fx:id="commentArea" editable="false" layoutX="300.0" layoutY="230.0" prefHeight="199.0" prefWidth="150.0" promptText="You must be logged to comment film..." wrapText="true" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="230.0" />
+      <Button fx:id="commentButton" disable="true" layoutX="350.0" layoutY="429.0" maxHeight="51.0" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#addComment" prefHeight="51.0" prefWidth="150.0" text="Comment" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="429.0" />
+      <HBox fx:id="favoriteHBox" alignment="CENTER_LEFT" layoutX="300.0" layoutY="125.0" prefHeight="67.0" prefWidth="150.0" spacing="5.0" AnchorPane.bottomAnchor="249.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="164.0">
          <children>
-            <Button fx:id="favoriteButton" alignment="CENTER" disable="true" mnemonicParsing="false" onMouseClicked="#favoriteAddRemove" text="Add favorite" />
-            <Label fx:id="favoriteLabel" alignment="CENTER" />
+            <Button fx:id="favoriteButton" alignment="CENTER" disable="true" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#favoriteAddRemove" prefHeight="52.0" prefWidth="99.0" text="Add favorite" wrapText="true">
+               <rotationAxis>
+                  <Point3D />
+               </rotationAxis></Button>
+            <Label fx:id="favoriteLabel" alignment="CENTER" prefHeight="35.0" prefWidth="39.0" />
          </children>
          <padding>
-            <Insets left="5.0" right="5.0" />
+            <Insets left="5.0" />
          </padding>
       </HBox>
       <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="17.0" layoutY="69.0" prefHeight="38.0" prefWidth="259.0" text="Description" AnchorPane.bottomAnchor="373.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="224.0" AnchorPane.topAnchor="69.0" />

@@ -10,9 +10,9 @@ public interface UserServiceInterface {
     void deleteLoggedAccount() throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
     User getUserById(int id);
-    
+
     Set<User> getAll();
-    
+
     Set<User> getFiltered(String nameFilter);
 
     void register(String username, String password, String firstName, String lastName, String email);

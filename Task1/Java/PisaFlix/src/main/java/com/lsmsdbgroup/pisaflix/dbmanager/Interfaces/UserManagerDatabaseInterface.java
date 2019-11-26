@@ -1,7 +1,6 @@
 package com.lsmsdbgroup.pisaflix.dbmanager.Interfaces;
 
 import com.lsmsdbgroup.pisaflix.Entities.User;
-import java.util.Date;
 import java.util.Set;
 
 public interface UserManagerDatabaseInterface {
@@ -27,7 +26,7 @@ public interface UserManagerDatabaseInterface {
     Set<User> getByEmail(String email);
 
     boolean checkDuplicates(String username, String email);
-    
+
     Set<User> getFiltered(String nameFilter);
 
 }

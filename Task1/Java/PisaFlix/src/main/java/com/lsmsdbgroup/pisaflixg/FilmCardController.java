@@ -1,17 +1,13 @@
 package com.lsmsdbgroup.pisaflixg;
 
-import com.lsmsdbgroup.pisaflix.Entities.Comment;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import java.io.IOException;
 import javafx.beans.property.StringProperty;
 import java.net.URL;
-import java.util.Set;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
+import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
@@ -30,7 +26,7 @@ public class FilmCardController implements Initializable {
 
     @FXML
     private Label titleLabel;
-    
+
     @FXML
     private Label publishLabel;
 
@@ -42,22 +38,26 @@ public class FilmCardController implements Initializable {
 
     @FXML
     private void showFilm() {
-        Film film = PisaFlixServices.filmService.getById(filmId);
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
-
-        AnchorPane anchorPane = null;
-
         try {
-            anchorPane = loader.load();
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            Film film = PisaFlixServices.filmService.getById(filmId);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
+
+            AnchorPane anchorPane = null;
+
+            try {
+                anchorPane = loader.load();
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+
+            FilmDetailPageController filmDetailPageController = loader.getController();
+
+            filmDetailPageController.setFilm(film);
+
+            App.setMainPane(anchorPane);
+        } catch (Exception ex) {
+            App.printErrorDialog("Film Details", "There was an error loading the film's details", ex.toString() + "\n" + ex.getMessage());
         }
-
-        FilmDetailPageController filmDetailPageController = loader.getController();
-
-        filmDetailPageController.setFilm(film);
-
-        App.setMainPane(anchorPane);
     }
 
 }

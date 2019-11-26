@@ -115,7 +115,7 @@ public class Comment implements Serializable {
     }
 
     public User getUser() {
-        if(user == null){
+        if (user == null) {
             User u = new User();
             u.setIdUser(0);
             u.setUsername("Deleted User");

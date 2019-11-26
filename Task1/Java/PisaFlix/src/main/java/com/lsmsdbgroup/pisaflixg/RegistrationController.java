@@ -70,11 +70,11 @@ public class RegistrationController implements Initializable {
             errorLabel("Username or Email already exist");
             return;
         }
-        if (!firstNameTextField.getText().matches("[a-zA-Z]+")) {
+        if (!firstNameTextField.getText().matches("[a-zA-Z]+") && !firstNameTextField.getText().isEmpty()) {
             errorLabel("Only valid names are accepted");
             return;
         }
-        if (!lastNameTextField.getText().matches("[a-zA-Z]+")) {
+        if (!lastNameTextField.getText().matches("[a-zA-Z]+") && !firstNameTextField.getText().isEmpty()) {
             errorLabel("Only valid names are accepted");
             return;
         }

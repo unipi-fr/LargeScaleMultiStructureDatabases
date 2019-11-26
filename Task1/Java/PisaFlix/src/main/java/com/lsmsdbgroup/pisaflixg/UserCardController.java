@@ -96,6 +96,13 @@ public class UserCardController implements Initializable {
         
         updatePrivilegeButton.setVisible(false);
         updatePrivilegeButton.setManaged(false);
+        
+        if(!PisaFlixServices.authenticationService.isUserLogged() || PisaFlixServices.authenticationService.getLoggedUser().getPrivilegeLevel() <= user.getPrivilegeLevel()){
+            updatePrivilegeMenuItem.setVisible(false);
+        }else{
+            updatePrivilegeMenuItem.setVisible(true);
+        }
+        
     }
     
     @FXML
@@ -103,7 +110,7 @@ public class UserCardController implements Initializable {
         //cardVbox.getStyleClass().clear();
         //cardVbox.getStyleClass().add("card-user");
         
-        userImageView.setVisible(false);
+            userImageView.setVisible(false);
         userImageView.setManaged(false);
                 
         privilegeCombo.setVisible(true);
@@ -116,6 +123,7 @@ public class UserCardController implements Initializable {
         updatePrivilegeButton.setManaged(true);
         
         int userPrivilege = user.getPrivilegeLevel();
+
         privilegeCombo.getSelectionModel().select(userPrivilege);
     }
     
@@ -127,7 +135,7 @@ public class UserCardController implements Initializable {
     
     @FXML
     private void modifyPrivilege(){
-        if (!App.printConfirmationDialog("Updating Privilege ", "You are updating a privileges", "Are you sure to continue")) {
+        if (!App.printConfirmationDialog("Updating Privilege", "You are updating the privileges", "Are you sure to continue")) {
             return;
         }
         
@@ -137,7 +145,7 @@ public class UserCardController implements Initializable {
         try {
             PisaFlixServices.userService.changeUserPrivileges(user, userPrivilege);
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
-            System.out.println(ex.getMessage());
+            App.printErrorDialog("Updating Privilege", "There was an error while updating the privileges", ex.getMessage());
         }
         
         user = PisaFlixServices.userService.getUserById(userId);
@@ -167,9 +175,7 @@ public class UserCardController implements Initializable {
                 try {
                     PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.ADMIN);
                     privilegeMenu.show(cardVbox, event.getScreenX(), event.getScreenY());
-                } catch (UserNotLoggedException ex) {
-                    Logger.getLogger(UserCardController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InvalidPrivilegeLevelException ex) {
+                } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
                     Logger.getLogger(UserCardController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
