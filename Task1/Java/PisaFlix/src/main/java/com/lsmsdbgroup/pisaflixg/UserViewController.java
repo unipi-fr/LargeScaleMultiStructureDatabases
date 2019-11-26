@@ -10,6 +10,7 @@ import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.UserNotLoggedExcepti
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -134,11 +135,11 @@ public class UserViewController implements Initializable {
         try {
                 PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.ADMIN, "Update/Delete others account");
             } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
-                User u = PisaFlixServices.authenticationService.getLoggedUser();
-                if(u == null){
+                User user = PisaFlixServices.authenticationService.getLoggedUser();
+                if(user == null){
                     return false;
                 }
-                if(u.getIdUser() != this.user.getIdUser()){
+                if(!Objects.equals(user.getIdUser(), this.user.getIdUser())){
                     return false;
                 }
             }
@@ -155,7 +156,10 @@ public class UserViewController implements Initializable {
         
         if(!canUpdateOrdDeleteProfile()){
            deleteButton.setDisable(true);
-           updateButton.setDisable(true);
+        }
+        
+        if(!this.user.equals(PisaFlixServices.authenticationService.getLoggedUser())){
+            updateButton.setDisable(true);
         }
         
         

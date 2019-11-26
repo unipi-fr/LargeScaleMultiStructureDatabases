@@ -10,6 +10,7 @@ import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.InvalidPrivilegeLeve
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.UserNotLoggedException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -102,7 +103,7 @@ public class CommentController implements Initializable {
         try{
             User user = PisaFlixServices.authenticationService.getLoggedUser();
             if(user != null){
-                if(comment.getUser().getIdUser() == user.getIdUser()) {
+                if(Objects.equals(comment.getUser().getIdUser(), user.getIdUser())) {
                     return true;
                 } 
                 PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.SOCIAL_MODERATOR, "Delete/Update other user comment");
@@ -139,7 +140,11 @@ public class CommentController implements Initializable {
         comment.setText(commentTextArea.getText());
    
         try {
-            PisaFlixServices.commentService.update(comment);
+            if(comment.getUser().equals(PisaFlixServices.authenticationService.getLoggedUser())){
+               PisaFlixServices.commentService.update(comment); 
+            }else{
+                App.printErrorDialog("Updating comment", "There was an error while updating comment", "Only the user who's written the commet can update it.");
+            }
         } catch (InvalidPrivilegeLevelException | UserNotLoggedException ex) {
             App.printErrorDialog("Updating comment", "There was an error while updating comment", ex.getMessage());
         }
