@@ -29,9 +29,10 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         try {
             try {
-                scene = new Scene(loadFXML("MainPage"), 640, 480);
+                scene = new Scene(loadFXML("MainPage"), 720, 540);
                 stage.setScene(scene);
-                stage.getIcons().add(new Image("/img/Cinema.png"));
+                stage.setTitle("Pisaflix");
+                stage.getIcons().add(new Image("/img/PF.png"));
                 stage.show();
             } catch (IOException ex) {
                 App.printErrorDialog("PisaFlix", "I/O Error", ex.toString() + "\n" + ex.getMessage());
