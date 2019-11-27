@@ -16,79 +16,97 @@ public class UsersController implements Initializable {
 
     @FXML
     private AnchorPane anchorPane;
-    
+
     @FXML
     private ScrollPane scrollPane;
-    
+
     @FXML
     private TilePane tilePane;
-    
+
     @FXML
     private TextField nameFilterTextField;
-    
-    
+
     @Override
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
         searchUsers(null);
     }
-    
-    private Pane createUserCardPane(String name, String privilege, int id){
+
+    private Pane createUserCardPane(String name, String privilege, int id) {
         Pane pane = new Pane();
-        
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("UserCard.fxml"));
-            UserCardController fcc = new UserCardController(name, privilege, id);
-            loader.setController(fcc);
-            pane = loader.load();
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("UserCard.fxml"));
+                UserCardController fcc = new UserCardController(name, privilege, id);
+                loader.setController(fcc);
+                pane = loader.load();
+            } catch (IOException ex) {
+                App.printErrorDialog("User Card", "An error occurred loading the user card", ex.toString() + "\n" + ex.getMessage());
+            }
+        } catch (Exception ex) {
+            App.printErrorDialog("User Card", "An error occurred loading the user card", ex.toString() + "\n" + ex.getMessage());
         }
-        
+
         return pane;
     }
-    
-    private String returnPrivilege(int level){
-        switch(level){
-            case 1: return "Social Moderator";
-            case 2: return "Moderator";
-            case 3: return "Admin";
-            default: return "User";
+
+    private String returnPrivilege(int level) {
+        switch (level) {
+            case 1:
+                return "Social Moderator";
+            case 2:
+                return "Moderator";
+            case 3:
+                return "Admin";
+            default:
+                return "User";
         }
-    }
-    
-    public void populateScrollPane(Set<User> users){
-        tilePane.getChildren().clear();
-        String username;
-        String privilege;
-        int level;
-        int id;
-        
-        Pane pane;
-        int i = 0;
-        for(User user: users){
-            username = user.getUsername();
-            level = user.getPrivilegeLevel();
-            
-            privilege = returnPrivilege(level);
-            
-            id = user.getIdUser();
-            
-            pane = createUserCardPane(username, privilege, id);
-            tilePane.getChildren().add(pane);
-        }
-    }
-    
-    @FXML
-    private void filterUsers(){
-        String usernameFilter = nameFilterTextField.getText();
-        
-        searchUsers(usernameFilter);
     }
 
-    private void searchUsers(String usernameFilter){
-        Set<User> users = PisaFlixServices.userService.getFiltered(usernameFilter);
-        
-        populateScrollPane(users);
+    public void populateScrollPane(Set<User> users) {
+        try {
+            tilePane.getChildren().clear();
+            String username;
+            String privilege;
+            int level;
+            int id;
+
+            Pane pane;
+            int i = 0;
+            for (User user : users) {
+                username = user.getUsername();
+                level = user.getPrivilegeLevel();
+
+                privilege = returnPrivilege(level);
+
+                id = user.getIdUser();
+
+                pane = createUserCardPane(username, privilege, id);
+                tilePane.getChildren().add(pane);
+            }
+        } catch (Exception ex) {
+            App.printErrorDialog("Users", "An error occurred loading the users", ex.toString() + "\n" + ex.getMessage());
+        }
+    }
+
+    @FXML
+    private void filterUsers() {
+        try {
+            String usernameFilter = nameFilterTextField.getText();
+
+            searchUsers(usernameFilter);
+        } catch (Exception ex) {
+            App.printErrorDialog("Users", "An error occurred loading the users", ex.toString() + "\n" + ex.getMessage());
+        }
+    }
+
+    private void searchUsers(String usernameFilter) {
+        try {
+            Set<User> users = PisaFlixServices.userService.getFiltered(usernameFilter);
+
+            populateScrollPane(users);
+        } catch (Exception ex) {
+            App.printErrorDialog("Users", "An error occurred loading the users", ex.toString() + "\n" + ex.getMessage());
+        }
     }
 }

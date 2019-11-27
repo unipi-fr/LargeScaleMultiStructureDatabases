@@ -56,7 +56,7 @@ public class FilmCardController implements Initializable {
 
             App.setMainPane(anchorPane);
         } catch (Exception ex) {
-            App.printErrorDialog("Film Details", "There was an error loading the film's details", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Film Details", "An error occurred loading the film's details", ex.toString() + "\n" + ex.getMessage());
         }
     }
 

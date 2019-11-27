@@ -1,7 +1,5 @@
 package com.lsmsdbgroup.pisaflixg;
 
-import com.lsmsdbgroup.pisaflix.Entities.User;
-import com.lsmsdbgroup.pisaflix.dbmanager.DBManager;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -48,6 +46,7 @@ public class RegistrationController implements Initializable {
     
     @FXML
     private void clickRegisterButton() {
+        try{
         successLabel.setVisible(false);
         successLabel.setManaged(false);
         if (usernameTextField.getText().isBlank() || !usernameTextField.getText().matches("^[a-zA-Z0-9._-]{3,}$")) {            
@@ -90,6 +89,9 @@ public class RegistrationController implements Initializable {
         lastNameTextField.setText("");
         emailTextField.setText("");
         repeatPassPasswordField.setText("");
+        }catch(Exception ex){
+            App.printErrorDialog("Registration", "An error occurred during the registration", ex.toString() + "\n" + ex.getMessage());
+        }
     }
     
 }

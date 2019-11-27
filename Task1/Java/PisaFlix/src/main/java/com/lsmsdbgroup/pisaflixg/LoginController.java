@@ -96,7 +96,7 @@ public class LoginController implements Initializable {
                 errorLabel.setManaged(true);
             }
         } catch (Exception ex) {
-            App.printErrorDialog("Login", "There was an error during login", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Login", "An error occurred during login", ex.toString() + "\n" + ex.getMessage());
         }
     }
 
@@ -112,7 +112,7 @@ public class LoginController implements Initializable {
             update();
             App.setMainPageReturnsController("Welcome");
         } catch (Exception ex) {
-            App.printErrorDialog("Login", "There was an error", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Login", "An error occurred", ex.toString() + "\n" + ex.getMessage());
         }
     }
 

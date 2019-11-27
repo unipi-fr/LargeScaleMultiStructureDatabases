@@ -27,26 +27,31 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <ScrollPane fx:id="commentScrollPane" fitToHeight="true" fitToWidth="true" layoutY="89.0" prefHeight="391.0" prefWidth="350.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="89.0">
-         <content>
-            <VBox fx:id="commentVBox" alignment="TOP_CENTER" prefHeight="357.0" prefWidth="348.0" spacing="5.0">
-               <padding>
-                  <Insets left="5.0" right="5.0" top="1.0" />
-               </padding></VBox>
-         </content>
-      </ScrollPane>
-      <TextArea fx:id="commentArea" editable="false" layoutX="300.0" layoutY="228.0" prefHeight="208.0" prefWidth="150.0" promptText="You must be logged to comment film..." wrapText="true" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="228.0" />
-      <Button fx:id="commentButton" disable="true" layoutX="350.0" layoutY="429.0" maxHeight="51.0" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#addComment" prefHeight="51.0" prefWidth="150.0" text="Comment" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="429.0" />
-      <HBox fx:id="favoriteHBox" alignment="CENTER_LEFT" layoutX="300.0" layoutY="125.0" prefHeight="66.0" prefWidth="150.0" spacing="5.0" AnchorPane.bottomAnchor="250.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="164.0">
+      <Pane layoutY="133.0" prefHeight="359.0" prefWidth="350.0">
          <children>
-            <Button fx:id="favoriteButton" disable="true" mnemonicParsing="false" onMouseClicked="#favoriteAddRemove" prefHeight="50.0" prefWidth="104.0" text="Add favorite" />
-            <Label fx:id="favoriteLabel" alignment="CENTER" prefHeight="35.0" prefWidth="31.0" />
+            <ScrollPane fx:id="commentScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="356.0" prefWidth="350.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="89.0">
+               <content>
+                  <VBox fx:id="commentVBox" alignment="TOP_CENTER" prefHeight="336.0" prefWidth="348.0" spacing="5.0">
+                     <padding>
+                        <Insets left="5.0" right="5.0" top="1.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </children>
+      </Pane>
+      <TextArea fx:id="commentArea" editable="false" layoutX="300.0" layoutY="218.0" prefHeight="213.0" prefWidth="150.0" promptText="You must be logged to comment film..." wrapText="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="218.0" />
+      <Button fx:id="commentButton" disable="true" layoutX="350.0" layoutY="433.0" maxHeight="53.0" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#addComment" prefHeight="49.0" prefWidth="150.0" text="Comment" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="433.0" />
+      <HBox fx:id="favoriteHBox" alignment="CENTER_LEFT" layoutX="300.0" layoutY="168.0" prefHeight="53.0" prefWidth="150.0" spacing="5.0" AnchorPane.bottomAnchor="271.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="168.0">
+         <children>
+            <Button fx:id="favoriteButton" disable="true" mnemonicParsing="false" onMouseClicked="#favoriteAddRemove" prefHeight="27.0" prefWidth="104.0" text="+ Favorite" wrapText="true" />
+            <Label fx:id="favoriteLabel" alignment="CENTER" prefHeight="49.0" prefWidth="31.0" />
          </children>
          <padding>
             <Insets left="5.0" />
          </padding>
       </HBox>
-      <Button fx:id="deleteCinemaButton" layoutX="282.0" layoutY="14.0" mnemonicParsing="false" onAction="#clickDeleteCinemaButton" prefHeight="30.0" prefWidth="60.0" text="Delete" />
-      <Button fx:id="modifyCinemaButton" layoutX="282.0" layoutY="49.0" mnemonicParsing="false" onAction="#clickModifyCinemaButton" prefHeight="30.0" prefWidth="60.0" text="Modify" />
+      <Button fx:id="deleteCinemaButton" layoutX="272.0" layoutY="14.0" mnemonicParsing="false" onAction="#clickDeleteCinemaButton" prefHeight="51.0" prefWidth="70.0" text="Delete" />
+      <Button fx:id="modifyCinemaButton" layoutX="272.0" layoutY="74.0" mnemonicParsing="false" onAction="#clickModifyCinemaButton" prefHeight="51.0" prefWidth="70.0" text="Modify" />
    </children>
 </AnchorPane>

@@ -1,16 +1,12 @@
 package com.lsmsdbgroup.pisaflixg;
 
 import com.lsmsdbgroup.pisaflix.Entities.Cinema;
-import com.lsmsdbgroup.pisaflix.Entities.Comment;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Set;
 import java.util.ResourceBundle;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import javafx.beans.property.*;
+import javafx.fxml.*;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -30,7 +26,7 @@ public class CinemaCardController implements Initializable {
 
     @FXML
     private Label nameLabel;
-    
+
     @FXML
     private Label addressLabel;
 
@@ -42,23 +38,21 @@ public class CinemaCardController implements Initializable {
 
     @FXML
     private void showCinema() {
-        Cinema cinema = PisaFlixServices.cinemaService.getById(cinemaId);
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("CinemaDetailPage.fxml"));
-
-        AnchorPane anchorPane = null;
-
         try {
-            anchorPane = loader.load();
-        } catch (IOException ex) {
-            System.out.println("hello");
-            System.out.println(ex.getMessage());
+            Cinema cinema = PisaFlixServices.cinemaService.getById(cinemaId);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("CinemaDetailPage.fxml"));
+            AnchorPane anchorPane = null;
+            try {
+                anchorPane = loader.load();
+            } catch (IOException ex) {
+                App.printErrorDialog("Cinema Card", "An error occurred loading the card", ex.toString() + "\n" + ex.getMessage());
+            }
+            CinemaDetailPageController cinemaDetailPageController = loader.getController();
+            cinemaDetailPageController.setCinema(cinema);
+            App.setMainPane(anchorPane);
+        } catch (Exception ex) {
+            App.printErrorDialog("Cinema Card", "An error occurred loading the card", ex.toString() + "\n" + ex.getMessage());
         }
-
-        CinemaDetailPageController cinemaDetailPageController = loader.getController();
-
-        cinemaDetailPageController.setCinema(cinema);
-
-        App.setMainPane(anchorPane);
     }
 
 }

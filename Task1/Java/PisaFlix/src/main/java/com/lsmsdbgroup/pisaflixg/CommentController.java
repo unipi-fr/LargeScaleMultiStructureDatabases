@@ -101,7 +101,7 @@ public class CommentController implements Initializable {
             }
 
         } catch (Exception ex) {
-            App.printErrorDialog("Comment", "There was an error loading the comment", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Comment", "An error occurred loading the comment", ex.toString() + "\n" + ex.getMessage());
         }
 
     }
@@ -117,7 +117,7 @@ public class CommentController implements Initializable {
                 return true;
             }
         } catch (InvalidPrivilegeLevelException | UserNotLoggedException ex) {
-            App.printErrorDialog("Comment Menu", "There was an error", ex.getMessage());
+            App.printErrorDialog("Comment Menu", "An error occurred", ex.getMessage());
         }
         return false;
     }
@@ -150,10 +150,10 @@ public class CommentController implements Initializable {
                 if (comment.getUser().equals(PisaFlixServices.authenticationService.getLoggedUser())) {
                     PisaFlixServices.commentService.update(comment);
                 } else {
-                    App.printErrorDialog("Updating comment", "There was an error while updating comment", "Only the user who's written the commet can update it.");
+                    App.printErrorDialog("Updating comment", "An error occurred while updating comment", "Only the user who's written the commet can update it.");
                 }
             } catch (InvalidPrivilegeLevelException | UserNotLoggedException ex) {
-                App.printErrorDialog("Updating comment", "There was an error while updating comment", ex.getMessage());
+                App.printErrorDialog("Updating comment", "An error occurred while updating comment", ex.getMessage());
             }
 
             switchState(false);
@@ -162,7 +162,7 @@ public class CommentController implements Initializable {
 
             commentLabel.setText(comment.getText());
         } catch (Exception ex) {
-            App.printErrorDialog("Comment Update", "There was an error updating the comment", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Comment Update", "An error occurred updating the comment", ex.toString() + "\n" + ex.getMessage());
         }
     }
 
@@ -188,7 +188,7 @@ public class CommentController implements Initializable {
             try {
                 PisaFlixServices.commentService.delete(comment);
             } catch (InvalidPrivilegeLevelException | UserNotLoggedException ex) {
-                App.printErrorDialog("Deleting comment", "There was an error while deleting comment", ex.getMessage());
+                App.printErrorDialog("Deleting comment", "An error occurred while deleting comment", ex.getMessage());
             }
 
             if (type == 0) {
@@ -228,7 +228,7 @@ public class CommentController implements Initializable {
                 cinemaDetailPageController.refreshComment();
             }
         } catch (Exception ex) {
-            App.printErrorDialog("Delete Comment", "There was an error in deleting the comment", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Delete Comment", "An error occurred in deleting the comment", ex.toString() + "\n" + ex.getMessage());
         }
     }
 }

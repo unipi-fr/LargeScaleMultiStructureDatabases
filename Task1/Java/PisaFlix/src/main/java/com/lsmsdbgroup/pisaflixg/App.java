@@ -17,99 +17,131 @@ public class App extends Application {
     private static Scene scene;
     private static MainPageController mainPageController;
 
-
     static void resetLogin() {
-        mainPageController.resetLogin();
+        try {
+            mainPageController.resetLogin();
+        } catch (Exception ex) {
+            App.printErrorDialog("PisaFlix", "An error occurred", ex.toString() + "\n" + ex.getMessage());
+        }
     }
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("MainPage"), 640, 480);
-        stage.setScene(scene);
-        stage.getIcons().add(new Image("/img/Cinema.png"));
-        stage.show();
+        try {
+            try {
+                scene = new Scene(loadFXML("MainPage"), 640, 480);
+                stage.setScene(scene);
+                stage.getIcons().add(new Image("/img/Cinema.png"));
+                stage.show();
+            } catch (IOException ex) {
+                App.printErrorDialog("PisaFlix", "I/O Error", ex.toString() + "\n" + ex.getMessage());
+            }
+        } catch (Exception ex) {
+            App.printErrorDialog("PisaFlix", "An error occurred starting the application", ex.toString() + "\n" + ex.getMessage());
+        }
     }
 
     static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
+        try {
+            scene.setRoot(loadFXML(fxml));
+        } catch (IOException ex) {
+            App.printErrorDialog("PisaFlix", "An error occurred", ex.toString() + "\n" + ex.getMessage());
+        }
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        FXMLLoader fxmlLoader = null;
+        try {
+            fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        } catch (Exception ex) {
+            App.printErrorDialog("PisaFlix", "An error occurred", ex.toString() + "\n" + ex.getMessage());
+        }
         return fxmlLoader.load();
     }
 
-    public static void setMainPageController(MainPageController m){
+    public static void setMainPageController(MainPageController m) {
         mainPageController = m;
     }
-    
-    public static Object setMainPageReturnsController(String fxml){
+
+    public static Object setMainPageReturnsController(String fxml) {
         return mainPageController.setMainPaneReturnsController(fxml);
     }
-    
-    
-    public static void setMainPane(Pane pane){
+
+    public static void setMainPane(Pane pane) {
         mainPageController.setMainPane(pane);
     }
-    
+
     public static void main(String[] args) {
-        launch();
-    }
-    
-    public static boolean printConfirmationDialog(String title, String header, String content){
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        
-        URL resource = App.class.getResource("/styles/PisaFlix.css");
-        
-        if(resource != null){
-            DialogPane dialogPane = alert.getDialogPane();
-            dialogPane.getStylesheets().add(resource.toExternalForm());
+        try {
+            launch();
+        } catch (Exception ex) {
+            App.printErrorDialog("PisaFlix", "An error occurred lunching the application", ex.toString() + "\n" + ex.getMessage());
         }
+    }
 
-        Optional<ButtonType> result = alert.showAndWait();
-        
+    public static boolean printConfirmationDialog(String title, String header, String content) {
+        Optional<ButtonType> result = null;
+        try {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle(title);
+            alert.setHeaderText(header);
+            alert.setContentText(content);
+
+            URL resource = App.class.getResource("/styles/PisaFlix.css");
+
+            if (resource != null) {
+                DialogPane dialogPane = alert.getDialogPane();
+                dialogPane.getStylesheets().add(resource.toExternalForm());
+            }
+
+            result = alert.showAndWait();
+        } catch (Exception ex) {
+            App.printErrorDialog("PisaFlix", "An error occurred", ex.toString() + "\n" + ex.getMessage());
+        }
         return result.get() == ButtonType.OK;
     }
-    
-    public static boolean printWarningDialog(String title, String header, String content){
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        
-        URL resource = App.class.getResource("/styles/PisaFlix.css");
-        
-        if(resource != null){
-            DialogPane dialogPane = alert.getDialogPane();
-            dialogPane.getStylesheets().add(resource.toExternalForm());
-        }
 
-        Optional<ButtonType> result = alert.showAndWait();
-        
+    public static boolean printWarningDialog(String title, String header, String content) {
+        Optional<ButtonType> result = null;
+        try {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle(title);
+            alert.setHeaderText(header);
+            alert.setContentText(content);
+            URL resource = App.class.getResource("/styles/PisaFlix.css");
+            if (resource != null) {
+                DialogPane dialogPane = alert.getDialogPane();
+                dialogPane.getStylesheets().add(resource.toExternalForm());
+            }
+            result = alert.showAndWait();
+        } catch (Exception ex) {
+            App.printErrorDialog("PisaFlix", "An error occurred", ex.toString() + "\n" + ex.getMessage());
+        }
         return result.get() == ButtonType.OK;
     }
-    
-    public static void printErrorDialog(String title, String header, String content){
+
+    public static void printErrorDialog(String title, String header, String content) {
         printDialog(title, header, content, Alert.AlertType.ERROR);
     }
-    
-    private static void printDialog(String title, String header, String content, Alert.AlertType type){
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        
-        URL resource = App.class.getResource("/styles/PisaFlix.css");
-        
-        if(resource != null){
-            DialogPane dialogPane = alert.getDialogPane();
-            dialogPane.getStylesheets().add(resource.toExternalForm());
+
+    private static void printDialog(String title, String header, String content, Alert.AlertType type) {
+        try {
+            Alert alert = new Alert(type);
+            alert.setTitle(title);
+            alert.setHeaderText(header);
+            alert.setContentText(content);
+
+            URL resource = App.class.getResource("/styles/PisaFlix.css");
+
+            if (resource != null) {
+                DialogPane dialogPane = alert.getDialogPane();
+                dialogPane.getStylesheets().add(resource.toExternalForm());
+            }
+
+            alert.showAndWait();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
         }
-        
-        alert.showAndWait();
     }
 
 }

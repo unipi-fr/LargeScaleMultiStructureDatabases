@@ -44,7 +44,7 @@ public class MainPageController implements Initializable {
                 System.out.println(ex.getMessage());
             }
         } catch (Exception ex) {
-            App.printErrorDialog("Main Page", "There was an error loading the page", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Main Page", "An error occurred loading the page", ex.toString() + "\n" + ex.getMessage());
         }
         return null;
     }

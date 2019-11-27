@@ -58,7 +58,7 @@ public class FilmsController implements Initializable {
                 System.out.println(ex.getMessage());
             }
         } catch (Exception ex) {
-            App.printErrorDialog("Films", "There was an error creating the film card", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Films", "An error occurred creating the film card", ex.toString() + "\n" + ex.getMessage());
         }
         return pane;
     }
@@ -88,7 +88,7 @@ public class FilmsController implements Initializable {
 
             searchFilms(titleFilter, null);
         } catch (Exception ex) {
-            App.printErrorDialog("Films", "There was an error searching the films", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Films", "An error occurred searching the films", ex.toString() + "\n" + ex.getMessage());
         }
     }
 
@@ -103,7 +103,7 @@ public class FilmsController implements Initializable {
             }
             App.setMainPageReturnsController("AddFilm");
         } catch (Exception ex) {
-            App.printErrorDialog("Films", "There was an error", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Films", "An error occurred", ex.toString() + "\n" + ex.getMessage());
 
         }
     }
@@ -114,7 +114,7 @@ public class FilmsController implements Initializable {
             Set<Film> films = PisaFlixServices.filmService.getFilmsFiltered(titleFilter, dateFilter, dateFilter);
             populateScrollPane(films);
         } catch (Exception ex) {
-            App.printErrorDialog("Films", "There was an error searching the films", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Films", "An error occurred searching the films", ex.toString() + "\n" + ex.getMessage());
         }
     }
 }

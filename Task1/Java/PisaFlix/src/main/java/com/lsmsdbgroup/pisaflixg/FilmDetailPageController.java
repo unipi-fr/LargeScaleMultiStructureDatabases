@@ -74,7 +74,7 @@ public class FilmDetailPageController implements Initializable {
                 modifyFilmButton.setManaged(false);
             }
         } catch (Exception ex) {
-            App.printErrorDialog("Film Details", "There was an error in inizialization", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Film Details", "An error occurred in inizialization", ex.toString() + "\n" + ex.getMessage());
         }
 
     }
@@ -104,7 +104,7 @@ public class FilmDetailPageController implements Initializable {
                 App.printErrorDialog("Film Details", "IOException", ex.toString() + "\n" + ex.getMessage());
             }
         } catch (Exception ex) {
-            App.printErrorDialog("Film Details", "There was an error creating the comment", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Film Details", "An error occurred creating the comment", ex.toString() + "\n" + ex.getMessage());
         }
         return pane;
     }
@@ -146,7 +146,7 @@ public class FilmDetailPageController implements Initializable {
             Set<User> users = film.getUserSet();
 
             if (users.contains(userLogged)) {
-                favoriteButton.setText("Remove favorite");
+                favoriteButton.setText("- Favorite");
             }
         }
     }
@@ -175,7 +175,7 @@ public class FilmDetailPageController implements Initializable {
             PisaFlixServices.filmService.deleteFilm(this.film.getIdFilm());
             App.setMainPageReturnsController("Films");
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
-            App.printErrorDialog("Delete Film", "There was an error deleting the film", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Delete Film", "An error occurred deleting the film", ex.toString() + "\n" + ex.getMessage());
         }
     }
 
@@ -196,7 +196,7 @@ public class FilmDetailPageController implements Initializable {
             refreshFilm();
             refreshComment();
         } catch (Exception ex) {
-            App.printErrorDialog("Comments", "There was an error loading the comments", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Comments", "An error occurred loading the comments", ex.toString() + "\n" + ex.getMessage());
         }
     }
 
@@ -209,21 +209,21 @@ public class FilmDetailPageController implements Initializable {
 
             User user = PisaFlixServices.authenticationService.getLoggedUser();
 
-            if (favoriteButton.getText().equals("Add favorite")) {
+            if (favoriteButton.getText().equals("+ Favorite")) {
                 PisaFlixServices.filmService.addFavorite(film, user);
 
-                favoriteButton.setText("Remove favorite");
+                favoriteButton.setText("- Favorite");
             } else {
                 PisaFlixServices.filmService.removeFavourite(film, user);
 
-                favoriteButton.setText("Add favorite");
+                favoriteButton.setText("+ Favorite");
             }
 
             refreshFilm();
 
             setFavoriteCount(film.getUserSet().size());
         } catch (Exception ex) {
-            App.printErrorDialog("Favourites", "There was an error updating favourites", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Favourites", "An error occurred updating favourites", ex.toString() + "\n" + ex.getMessage());
         }
     }
 }

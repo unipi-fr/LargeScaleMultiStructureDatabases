@@ -18,7 +18,7 @@ public class WelcomeBackController implements Initializable {
 
             userLabel.setText(user.toUpperCase());
         } catch (Exception ex) {
-            App.printErrorDialog("Error", "There was an error in inizialization", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Error", "An error occurred in inizialization", ex.toString() + "\n" + ex.getMessage());
         }
     }
 }
