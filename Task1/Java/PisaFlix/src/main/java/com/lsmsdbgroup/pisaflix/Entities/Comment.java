@@ -156,7 +156,6 @@ public class Comment implements Serializable {
         return "[ idComment= " + idComment + " ]\nuser: " + user.toString()
                 + "\ntimestamp:" + timestamp.toString() + "\ntext:" + text
                 + "\ncinema: " + cinemaSet.toString();
-
     }
 
 }

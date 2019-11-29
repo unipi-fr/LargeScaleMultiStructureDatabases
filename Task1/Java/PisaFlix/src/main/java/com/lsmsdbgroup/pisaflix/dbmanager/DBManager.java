@@ -32,9 +32,9 @@ public class DBManager {
     static {
         cinemaMamager = CinemaManager.getIstance();
         userManager = UserManager.getIstance();
-        filmManager = FilmManager.getIstance();
+        filmManager = FilmManagerKV.getIstance();
         projectionManager = ProjectionManager.getIstance();
-        commentManager = CommentManager.getIstance();
+        commentManager = CommentManagerKV.getIstance();
     }
 
 }
