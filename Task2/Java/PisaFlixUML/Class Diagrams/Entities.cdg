@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="main.java.com.lsmsdbgroup.pisaflix.Entities">
+  <ClassDiagramComponents>
+    <Class name="Cinema" package="com.lsmsdbgroup.pisaflix.Entities" visibility="public" xPosition="1659.0" yPosition="-32.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="idCinema" type="Integer" visibility="private"/>
+        <Field name="name" type="String" visibility="private"/>
+        <Field name="address" type="String" visibility="private"/>
+        <Field name="userSet" type="Set&lt;User&gt;" visibility="private"/>
+        <Field name="commentSet" type="Set&lt;Comment&gt;" visibility="private"/>
+        <Field name="projectionSet" type="Set&lt;Projection&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="Integer" name="idCinema"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="Integer" name="idCinema"/>
+          <Argument type="String" name="name"/>
+          <Argument type="String" name="address"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getIdCinema" returnType="Integer" visibility="public"/>
+        <Method name="setIdCinema" returnType="void" visibility="public">
+          <Argument type="Integer" name="idCinema"/>
+        </Method>
+        <Method name="getName" returnType="String" visibility="public"/>
+        <Method name="setName" returnType="void" visibility="public">
+          <Argument type="String" name="name"/>
+        </Method>
+        <Method name="getAddress" returnType="String" visibility="public"/>
+        <Method name="setAddress" returnType="void" visibility="public">
+          <Argument type="String" name="address"/>
+        </Method>
+        <Method name="getUserSet" returnType="Set&lt;User&gt;" visibility="public"/>
+        <Method name="setUserSet" returnType="void" visibility="public">
+          <Argument type="Set&lt;User&gt;" name="userSet"/>
+        </Method>
+        <Method name="getCommentSet" returnType="Set&lt;Comment&gt;" visibility="public"/>
+        <Method name="setCommentSet" returnType="void" visibility="public">
+          <Argument type="Set&lt;Comment&gt;" name="commentSet"/>
+        </Method>
+        <Method name="getProjectionSet" returnType="Set&lt;Projection&gt;" visibility="public"/>
+        <Method name="setProjectionSet" returnType="void" visibility="public">
+          <Argument type="Set&lt;Projection&gt;" name="projectionSet"/>
+        </Method>
+        <Method name="hashCode" returnType="int" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="object"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Comment" package="com.lsmsdbgroup.pisaflix.Entities" visibility="public" xPosition="1613.0" yPosition="931.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="idComment" type="Integer" visibility="private"/>
+        <Field name="timestamp" type="Date" visibility="private"/>
+        <Field name="text" type="String" visibility="private"/>
+        <Field name="cinemaSet" type="Set&lt;Cinema&gt;" visibility="private"/>
+        <Field name="filmSet" type="Set&lt;Film&gt;" visibility="private"/>
+        <Field name="idUser" type="User" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="Integer" name="idComment"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="Integer" name="idComment"/>
+          <Argument type="Date" name="timestamp"/>
+          <Argument type="String" name="text"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="Integer" name="idComment"/>
+          <Argument type="User" name="user"/>
+          <Argument type="Film" name="film"/>
+          <Argument type="String" name="text"/>
+          <Argument type="Date" name="timestamp"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="Integer" name="idComment"/>
+          <Argument type="User" name="user"/>
+          <Argument type="Cinema" name="cinema"/>
+          <Argument type="String" name="text"/>
+          <Argument type="Date" name="timestamp"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getIdComment" returnType="Integer" visibility="public"/>
+        <Method name="setIdComment" returnType="void" visibility="public">
+          <Argument type="Integer" name="idComment"/>
+        </Method>
+        <Method name="getTimestamp" returnType="Date" visibility="public"/>
+        <Method name="setTimestamp" returnType="void" visibility="public">
+          <Argument type="Date" name="timestamp"/>
+        </Method>
+        <Method name="getText" returnType="String" visibility="public"/>
+        <Method name="setText" returnType="void" visibility="public">
+          <Argument type="String" name="text"/>
+        </Method>
+        <Method name="getCinemaSet" returnType="Set&lt;Cinema&gt;" visibility="public"/>
+        <Method name="setCinemaSet" returnType="void" visibility="public">
+          <Argument type="Set&lt;Cinema&gt;" name="cinemaSet"/>
+        </Method>
+        <Method name="getFilmSet" returnType="Set&lt;Film&gt;" visibility="public"/>
+        <Method name="setFilmSet" returnType="void" visibility="public">
+          <Argument type="Set&lt;Film&gt;" name="filmSet"/>
+        </Method>
+        <Method name="getIdUser" returnType="User" visibility="public"/>
+        <Method name="setIdUser" returnType="void" visibility="public">
+          <Argument type="User" name="idUser"/>
+        </Method>
+        <Method name="hashCode" returnType="int" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="object"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Film" package="com.lsmsdbgroup.pisaflix.Entities" visibility="public" xPosition="135.0" yPosition="878.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="idFilm" type="Integer" visibility="private"/>
+        <Field name="title" type="String" visibility="private"/>
+        <Field name="publicationDate" type="Date" visibility="private"/>
+        <Field name="description" type="String" visibility="private"/>
+        <Field name="userSet" type="Set&lt;User&gt;" visibility="private"/>
+        <Field name="commentSet" type="Set&lt;Comment&gt;" visibility="private"/>
+        <Field name="projectionSet" type="Set&lt;Projection&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="Integer" name="idFilm"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="Integer" name="idFilm"/>
+          <Argument type="String" name="title"/>
+          <Argument type="Date" name="publicationDate"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getIdFilm" returnType="Integer" visibility="public"/>
+        <Method name="setIdFilm" returnType="void" visibility="public">
+          <Argument type="Integer" name="idFilm"/>
+        </Method>
+        <Method name="getTitle" returnType="String" visibility="public"/>
+        <Method name="setTitle" returnType="void" visibility="public">
+          <Argument type="String" name="title"/>
+        </Method>
+        <Method name="getPublicationDate" returnType="Date" visibility="public"/>
+        <Method name="setPublicationDate" returnType="void" visibility="public">
+          <Argument type="Date" name="publicationDate"/>
+        </Method>
+        <Method name="getDescription" returnType="String" visibility="public"/>
+        <Method name="setDescription" returnType="void" visibility="public">
+          <Argument type="String" name="description"/>
+        </Method>
+        <Method name="getUserSet" returnType="Set&lt;User&gt;" visibility="public"/>
+        <Method name="setUserSet" returnType="void" visibility="public">
+          <Argument type="Set&lt;User&gt;" name="userSet"/>
+        </Method>
+        <Method name="getCommentSet" returnType="Set&lt;Comment&gt;" visibility="public"/>
+        <Method name="setCommentSet" returnType="void" visibility="public">
+          <Argument type="Set&lt;Comment&gt;" name="commentSet"/>
+        </Method>
+        <Method name="getProjectionSet" returnType="Set&lt;Projection&gt;" visibility="public"/>
+        <Method name="setProjectionSet" returnType="void" visibility="public">
+          <Argument type="Set&lt;Projection&gt;" name="projectionSet"/>
+        </Method>
+        <Method name="hashCode" returnType="int" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="object"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Projection" package="com.lsmsdbgroup.pisaflix.Entities" visibility="public" xPosition="52.0" yPosition="26.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="idProjection" type="Integer" visibility="private"/>
+        <Field name="dateTime" type="Date" visibility="private"/>
+        <Field name="room" type="int" visibility="private"/>
+        <Field name="idCinema" type="Cinema" visibility="private"/>
+        <Field name="idFilm" type="Film" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="Integer" name="idProjection"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="Integer" name="idProjection"/>
+          <Argument type="Date" name="dateTime"/>
+          <Argument type="int" name="room"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="Integer" name="idProjection"/>
+          <Argument type="Date" name="dateTime"/>
+          <Argument type="int" name="room"/>
+          <Argument type="Cinema" name="cinema"/>
+          <Argument type="Film" name="film"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getIdProjection" returnType="Integer" visibility="public"/>
+        <Method name="setIdProjection" returnType="void" visibility="public">
+          <Argument type="Integer" name="idProjection"/>
+        </Method>
+        <Method name="getDateTime" returnType="Date" visibility="public"/>
+        <Method name="setDateTime" returnType="void" visibility="public">
+          <Argument type="Date" name="dateTime"/>
+        </Method>
+        <Method name="getRoom" returnType="int" visibility="public"/>
+        <Method name="setRoom" returnType="void" visibility="public">
+          <Argument type="int" name="room"/>
+        </Method>
+        <Method name="getIdCinema" returnType="Cinema" visibility="public"/>
+        <Method name="getCinema" returnType="String" visibility="public"/>
+        <Method name="setIdCinema" returnType="void" visibility="public">
+          <Argument type="Cinema" name="idCinema"/>
+        </Method>
+        <Method name="getIdFilm" returnType="Film" visibility="public"/>
+        <Method name="getFilm" returnType="String" visibility="public"/>
+        <Method name="setIdFilm" returnType="void" visibility="public">
+          <Argument type="Film" name="idFilm"/>
+        </Method>
+        <Method name="hashCode" returnType="int" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="object"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="User" package="com.lsmsdbgroup.pisaflix.Entities" visibility="public" xPosition="815.0" yPosition="474.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="idUser" type="Integer" visibility="private"/>
+        <Field name="username" type="String" visibility="private"/>
+        <Field name="password" type="String" visibility="private"/>
+        <Field name="email" type="String" visibility="private"/>
+        <Field name="firstName" type="String" visibility="private"/>
+        <Field name="lastName" type="String" visibility="private"/>
+        <Field name="privilegeLevel" type="int" visibility="private"/>
+        <Field name="cinemaSet" type="Set&lt;Cinema&gt;" visibility="private"/>
+        <Field name="filmSet" type="Set&lt;Film&gt;" visibility="private"/>
+        <Field name="commentSet" type="Set&lt;Comment&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="Integer" name="idUser"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="Integer" name="idUser"/>
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="password"/>
+          <Argument type="int" name="privilegeLevel"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getIdUser" returnType="Integer" visibility="public"/>
+        <Method name="setIdUser" returnType="void" visibility="public">
+          <Argument type="Integer" name="idUser"/>
+        </Method>
+        <Method name="getUsername" returnType="String" visibility="public"/>
+        <Method name="setUsername" returnType="void" visibility="public">
+          <Argument type="String" name="username"/>
+        </Method>
+        <Method name="getPassword" returnType="String" visibility="public"/>
+        <Method name="setPassword" returnType="void" visibility="public">
+          <Argument type="String" name="password"/>
+        </Method>
+        <Method name="getEmail" returnType="String" visibility="public"/>
+        <Method name="setEmail" returnType="void" visibility="public">
+          <Argument type="String" name="email"/>
+        </Method>
+        <Method name="getFirstName" returnType="String" visibility="public"/>
+        <Method name="setFirstName" returnType="void" visibility="public">
+          <Argument type="String" name="firstName"/>
+        </Method>
+        <Method name="getLastName" returnType="String" visibility="public"/>
+        <Method name="setLastName" returnType="void" visibility="public">
+          <Argument type="String" name="lastName"/>
+        </Method>
+        <Method name="getPrivilegeLevel" returnType="int" visibility="public"/>
+        <Method name="setPrivilegeLevel" returnType="void" visibility="public">
+          <Argument type="int" name="privilegeLevel"/>
+        </Method>
+        <Method name="getCinemaSet" returnType="Set&lt;Cinema&gt;" visibility="public"/>
+        <Method name="setCinemaSet" returnType="void" visibility="public">
+          <Argument type="Set&lt;Cinema&gt;" name="cinemaSet"/>
+        </Method>
+        <Method name="getFilmSet" returnType="Set&lt;Film&gt;" visibility="public"/>
+        <Method name="setFilmSet" returnType="void" visibility="public">
+          <Argument type="Set&lt;Film&gt;" name="filmSet"/>
+        </Method>
+        <Method name="getCommentSet" returnType="Set&lt;Comment&gt;" visibility="public"/>
+        <Method name="setCommentSet" returnType="void" visibility="public">
+          <Argument type="Set&lt;Comment&gt;" name="commentSet"/>
+        </Method>
+        <Method name="hashCode" returnType="int" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="object"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Comment" target="com.lsmsdbgroup.pisaflix.Entities.Film" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="commentSet" source="com.lsmsdbgroup.pisaflix.Entities.Film" target="com.lsmsdbgroup.pisaflix.Entities.Comment" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Comment&gt;"/>
+    <HasRelation name="projectionSet" source="com.lsmsdbgroup.pisaflix.Entities.Film" target="com.lsmsdbgroup.pisaflix.Entities.Projection" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Projection&gt;"/>
+    <HasRelation name="filmSet" source="com.lsmsdbgroup.pisaflix.Entities.User" target="com.lsmsdbgroup.pisaflix.Entities.Film" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Film&gt;"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Comment" target="com.lsmsdbgroup.pisaflix.Entities.Cinema" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Cinema" target="com.lsmsdbgroup.pisaflix.Entities.User" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="projectionSet" source="com.lsmsdbgroup.pisaflix.Entities.Cinema" target="com.lsmsdbgroup.pisaflix.Entities.Projection" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Projection&gt;"/>
+    <HasRelation name="cinemaSet" source="com.lsmsdbgroup.pisaflix.Entities.User" target="com.lsmsdbgroup.pisaflix.Entities.Cinema" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Cinema&gt;"/>
+    <HasRelation name="userSet" source="com.lsmsdbgroup.pisaflix.Entities.Film" target="com.lsmsdbgroup.pisaflix.Entities.User" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;User&gt;"/>
+    <HasRelation name="commentSet" source="com.lsmsdbgroup.pisaflix.Entities.Cinema" target="com.lsmsdbgroup.pisaflix.Entities.Comment" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Comment&gt;"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Film" target="com.lsmsdbgroup.pisaflix.Entities.Projection" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Projection" target="com.lsmsdbgroup.pisaflix.Entities.Cinema" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Film" target="com.lsmsdbgroup.pisaflix.Entities.User" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.User" target="com.lsmsdbgroup.pisaflix.Entities.Film" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.User" target="com.lsmsdbgroup.pisaflix.Entities.Comment" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="commentSet" source="com.lsmsdbgroup.pisaflix.Entities.User" target="com.lsmsdbgroup.pisaflix.Entities.Comment" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Comment&gt;"/>
+    <HasRelation name="idUser" source="com.lsmsdbgroup.pisaflix.Entities.Comment" target="com.lsmsdbgroup.pisaflix.Entities.User" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="cinemaSet" source="com.lsmsdbgroup.pisaflix.Entities.Comment" target="com.lsmsdbgroup.pisaflix.Entities.Cinema" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Cinema&gt;"/>
+    <HasRelation name="idFilm" source="com.lsmsdbgroup.pisaflix.Entities.Projection" target="com.lsmsdbgroup.pisaflix.Entities.Film" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Cinema" target="com.lsmsdbgroup.pisaflix.Entities.Projection" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Comment" target="com.lsmsdbgroup.pisaflix.Entities.User" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.User" target="com.lsmsdbgroup.pisaflix.Entities.Cinema" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="filmSet" source="com.lsmsdbgroup.pisaflix.Entities.Comment" target="com.lsmsdbgroup.pisaflix.Entities.Film" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Film&gt;"/>
+    <HasRelation name="idCinema" source="com.lsmsdbgroup.pisaflix.Entities.Projection" target="com.lsmsdbgroup.pisaflix.Entities.Cinema" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Projection" target="com.lsmsdbgroup.pisaflix.Entities.Film" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Cinema" target="com.lsmsdbgroup.pisaflix.Entities.Comment" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Film" target="com.lsmsdbgroup.pisaflix.Entities.Comment" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="userSet" source="com.lsmsdbgroup.pisaflix.Entities.Cinema" target="com.lsmsdbgroup.pisaflix.Entities.User" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;User&gt;"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

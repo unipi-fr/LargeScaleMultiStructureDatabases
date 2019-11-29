@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="commentVbox" alignment="CENTER" spacing="10.0" styleClass="card" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox spacing="40.0">
+         <children>
+            <Label fx:id="usernameLabel" prefWidth="120.0" text="Username">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="timestampLabel" alignment="CENTER_RIGHT" prefWidth="120.0" text="TimeStamp">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
+      </HBox>
+      <Label fx:id="commentLabel" prefWidth="300.0" text="Comment" wrapText="true">
+         <contextMenu>
+            <ContextMenu fx:id="commentMenu">
+               <items>
+                  <MenuItem fx:id="updateMenuItem" mnemonicParsing="false" onAction="#updateComment" text="Update" />
+                  <MenuItem fx:id="deleteMenuItem" mnemonicParsing="false" onAction="#deleteComment" text="Delete" />
+               </items>
+            </ContextMenu>
+         </contextMenu>
+      </Label>
+      <TextArea fx:id="commentTextArea" maxHeight="100.0" maxWidth="280.0" minHeight="100.0" minWidth="280.0" prefHeight="100.0" prefWidth="280.0" wrapText="true" />
+      <HBox fx:id="buttonHbox" alignment="CENTER" spacing="10.0">
+         <children>
+            <Button fx:id="cancelButton" mnemonicParsing="false" onMouseClicked="#cancelComment" text="cancel" />
+            <Button fx:id="updateButton" mnemonicParsing="false" onMouseClicked="#confirmComment" text="update" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

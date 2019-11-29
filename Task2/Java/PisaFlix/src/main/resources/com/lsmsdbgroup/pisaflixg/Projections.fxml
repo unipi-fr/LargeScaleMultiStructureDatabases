@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.ProjectionsController">
+   <children>
+      <HBox prefHeight="50.0" prefWidth="200.0" spacing="5.0">
+         <children>
+            <DatePicker fx:id="datePicker" maxHeight="51.0" prefHeight="51.0" prefWidth="159.0" promptText="Data filter" />
+            <ComboBox fx:id="cinemaCombo" maxHeight="95.0" prefHeight="95.0" prefWidth="169.0" promptText="Cinema filter" />
+            <ComboBox fx:id="filmCombo" maxHeight="51.0" prefHeight="51.0" prefWidth="175.0" promptText="Film filter" />
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <Button maxHeight="76.0" mnemonicParsing="false" onMouseClicked="#showSearch" text="Search" />
+            <Button fx:id="addProjectionButton" mnemonicParsing="false" onAction="#clickAddProjectionButton" text="Add" />
+            <Button fx:id="removeProjectionButton" mnemonicParsing="false" onAction="#clickRemoveProjectionButton" text="Remove" />
+         </children>
+      </HBox>
+      <TableView fx:id="projectionTable" prefHeight="501.0" prefWidth="500.0">
+        <columns>
+          <TableColumn fx:id="dataCol" maxWidth="175.0" minWidth="175.0" prefWidth="175.0" text="DataTime" />
+          <TableColumn fx:id="roomCol" maxWidth="80.0" minWidth="80.0" text="Room" />
+            <TableColumn fx:id="cinemaCol" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Cinema" />
+            <TableColumn fx:id="filmCol" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Film" />
+        </columns>
+      </TableView>
+   </children>
+</VBox>
