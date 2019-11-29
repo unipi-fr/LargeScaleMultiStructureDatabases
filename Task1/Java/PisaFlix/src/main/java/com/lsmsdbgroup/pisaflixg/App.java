@@ -33,6 +33,11 @@ public class App extends Application {
                 stage.setScene(scene);
                 stage.setTitle("Pisaflix");
                 stage.getIcons().add(new Image("/img/PF.png"));
+                stage.setResizable(false);
+                stage.maximizedProperty().addListener((observable, oldValue, newValue) -> {
+                    if (newValue)
+                        stage.setMaximized(false);
+                });
                 stage.show();
             } catch (IOException ex) {
                 App.printErrorDialog("PisaFlix", "I/O Error", ex.toString() + "\n" + ex.getMessage());
