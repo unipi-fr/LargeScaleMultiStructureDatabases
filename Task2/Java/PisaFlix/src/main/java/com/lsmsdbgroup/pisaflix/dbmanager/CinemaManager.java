@@ -3,10 +3,13 @@ package com.lsmsdbgroup.pisaflix.dbmanager;
 import com.lsmsdbgroup.pisaflix.Entities.Cinema;
 import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CinemaManagerDatabaseInterface;
+import com.mongodb.client.*;
+import org.bson.Document;
 
 public class CinemaManager implements CinemaManagerDatabaseInterface {
 
     private static CinemaManager cinemaManager;
+    private static MongoCollection<Document> CinemaCollection;
 
     public static CinemaManager getIstance() {
         if (cinemaManager == null) {
@@ -16,21 +19,19 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
     }
 
     private CinemaManager() {
-        throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
+        CinemaCollection = DBManager.getMongoDatabase().getCollection("cinema");
     }
 
     @Override
     public void create(String name, String address) {
-        Cinema cinema = new Cinema();
-        cinema.setName(name);
-        cinema.setAddress(address);
+        Document cinemaDocument = new Document();
+        cinemaDocument.put("Name", name);
+        cinemaDocument.put("Address", address);
         try {
-
+            CinemaCollection.insertOne(cinemaDocument);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in creating the cinema!");
-        } finally {
-            throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
         }
     }
 

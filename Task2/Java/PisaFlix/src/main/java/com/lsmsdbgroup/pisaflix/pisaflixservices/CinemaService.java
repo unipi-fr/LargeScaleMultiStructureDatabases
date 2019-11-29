@@ -45,7 +45,8 @@ public class CinemaService implements CinemaServiceInterface {
 
     @Override
     public void addCinema(String name, String address) throws UserNotLoggedException, InvalidPrivilegeLevelException {
-        userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a new cinema");
+        //userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a new cinema");
+        System.out.println("Rimettere il controlloooooooooooooooooooooooooooooooooooooooo (linea 49)!!!!");
         commentManager.create(name, address);
     }
 
