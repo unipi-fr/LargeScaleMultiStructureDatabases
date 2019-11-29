@@ -11,6 +11,7 @@ import java.util.Optional;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.stage.StageStyle;
 
 public class App extends Application {
 
@@ -34,10 +35,7 @@ public class App extends Application {
                 stage.setTitle("Pisaflix");
                 stage.getIcons().add(new Image("/img/PF.png"));
                 stage.setResizable(false);
-                stage.maximizedProperty().addListener((observable, oldValue, newValue) -> {
-                    if (newValue)
-                        stage.setMaximized(false);
-                });
+                stage.initStyle(StageStyle.UTILITY);
                 stage.show();
             } catch (IOException ex) {
                 App.printErrorDialog("PisaFlix", "I/O Error", ex.toString() + "\n" + ex.getMessage());
