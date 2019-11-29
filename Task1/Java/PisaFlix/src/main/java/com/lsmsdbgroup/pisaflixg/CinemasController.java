@@ -14,9 +14,6 @@ import javafx.scene.layout.*;
 public class CinemasController implements Initializable {
 
     @FXML
-    private AnchorPane anchorPane;
-
-    @FXML
     private ScrollPane scrollPane;
 
     @FXML

@@ -15,9 +15,6 @@ import javafx.fxml.FXMLLoader;
 public class FilmsController implements Initializable {
 
     @FXML
-    private AnchorPane anchorPane;
-
-    @FXML
     private ScrollPane scrollPane;
 
     @FXML

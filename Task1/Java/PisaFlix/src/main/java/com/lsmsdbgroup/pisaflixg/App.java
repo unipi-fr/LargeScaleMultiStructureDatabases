@@ -30,12 +30,20 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         try {
             try {
-                scene = new Scene(loadFXML("MainPage"), 720, 540);
+                scene = new Scene(loadFXML("MainPage"), 1280, 720);
                 stage.setScene(scene);
                 stage.setTitle("Pisaflix");
                 stage.getIcons().add(new Image("/img/PF.png"));
                 stage.setResizable(false);
-                stage.initStyle(StageStyle.UTILITY);
+                System.out.println(System.getProperty("os.name"));
+                if(System.getProperty("os.name").split(" ")[0].equals("Mac"))
+                   stage.initStyle(StageStyle.UTILITY);
+                else {
+                    stage.maximizedProperty().addListener((observable, oldValue, newValue) -> {
+                    if (newValue)
+                        stage.setMaximized(false);
+                    });   
+                }
                 stage.show();
             } catch (IOException ex) {
                 App.printErrorDialog("PisaFlix", "I/O Error", ex.toString() + "\n" + ex.getMessage());
