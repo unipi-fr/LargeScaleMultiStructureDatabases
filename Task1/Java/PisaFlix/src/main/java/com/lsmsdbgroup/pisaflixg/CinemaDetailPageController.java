@@ -41,12 +41,6 @@ public class CinemaDetailPageController implements Initializable {
 
     @FXML
     private Button favoriteButton;
-    
-    @FXML
-    private Button deleteCinemaButton;
-    
-    @FXML
-    private Button modifyCinemaButton;
 
     @FXML
     private Label favoriteLabel;
@@ -54,22 +48,12 @@ public class CinemaDetailPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try{
-        if (PisaFlixServices.authenticationService.isUserLogged()) {
-            commentArea.setPromptText("Write here a comment for the film...");
-            commentArea.setEditable(true);
-            commentButton.setDisable(false);
-            favoriteButton.setDisable(false);
-        }
-        
-        try {
-            PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR);
-        } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
-            deleteCinemaButton.setVisible(false);
-            deleteCinemaButton.setManaged(false); 
-            
-            modifyCinemaButton.setVisible(false);
-            modifyCinemaButton.setManaged(false);
-        }
+            if (PisaFlixServices.authenticationService.isUserLogged()) {
+                commentArea.setPromptText("Write here a comment for the film...");
+                commentArea.setEditable(true);
+                commentButton.setDisable(false);
+                favoriteButton.setDisable(false);
+            }
         }catch(Exception ex){
             App.printErrorDialog("Cinema Details", "An error occurred loading the page", ex.toString() + "\n" + ex.getMessage());
         }
@@ -172,29 +156,6 @@ public class CinemaDetailPageController implements Initializable {
         }catch(Exception ex){
             App.printErrorDialog("Comments", "An error occurred loading the comments", ex.toString() + "\n" + ex.getMessage());
         }
-    }
-    
-    @FXML
-    private void clickDeleteCinemaButton(){
-        try{
-        if(!App.printConfirmationDialog("Deleting cinema", "You're deleting the cinema", "Are you sure do you want continue?")){
-            return;
-        }
-        try {
-            PisaFlixServices.cinemaService.deleteCinema(this.cinema);
-            App.setMainPageReturnsController("Cinemas");
-        } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
-            System.out.println(ex.getMessage());
-        }
-        }catch(Exception ex){
-            App.printErrorDialog("Delete Cinema", "An error occurred deleting the cinema", ex.toString() + "\n" + ex.getMessage());
-        }
-    }
-    
-    @FXML
-    private void clickModifyCinemaButton(){      
-        AddCinemaController addCinemaController = (AddCinemaController) App.setMainPageReturnsController("AddCinema");
-        addCinemaController.SetCinema(this.cinema);
     }
 
     @FXML

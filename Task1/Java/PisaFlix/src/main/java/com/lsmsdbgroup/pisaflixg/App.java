@@ -78,6 +78,10 @@ public class App extends Application {
     public static Object setMainPageReturnsController(String fxml) {
         return mainPageController.setMainPaneReturnsController(fxml);
     }
+    
+    public static void setMainPageAndController(String fxml, Object controller) {
+        mainPageController.setMainPaneAndController(fxml, controller);
+    }
 
     public static void setMainPane(Pane pane) {
         mainPageController.setMainPane(pane);

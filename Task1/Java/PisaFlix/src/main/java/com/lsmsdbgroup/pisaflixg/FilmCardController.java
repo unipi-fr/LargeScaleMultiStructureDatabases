@@ -63,7 +63,6 @@ public class FilmCardController implements Initializable {
     @FXML
     private void clickMouse(MouseEvent event) {
         if (event.isSecondaryButtonDown()) {
-            User loggedUser = PisaFlixServices.authenticationService.getLoggedUser();
             return;
         }
         
@@ -90,13 +89,13 @@ public class FilmCardController implements Initializable {
 
     @FXML
     private void deleteFilm() {
-
         if (!App.printConfirmationDialog("Deleting film", "You're deleting the film", "Are you sure do you want continue?")) {
             return;
         }
         try {
             PisaFlixServices.filmService.deleteFilm(this.film.getIdFilm());
-            App.setMainPageReturnsController("Films");
+            FilmBrowserController filmBrowserController = new FilmBrowserController();
+            App.setMainPageAndController("Browser", filmBrowserController);
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             App.printErrorDialog("Delete Film", "An error occurred deleting the film", ex.toString() + "\n" + ex.getMessage());
         }
