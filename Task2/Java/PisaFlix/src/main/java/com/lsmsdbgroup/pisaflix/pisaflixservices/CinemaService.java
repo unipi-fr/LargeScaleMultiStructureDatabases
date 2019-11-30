@@ -35,7 +35,7 @@ public class CinemaService implements CinemaServiceInterface {
     }
 
     @Override
-    public Cinema getById(int id) {
+    public Cinema getById(String id) {
         Cinema cinema;
 
         cinema = commentManager.getById(id);
@@ -52,13 +52,15 @@ public class CinemaService implements CinemaServiceInterface {
 
     @Override
     public void updateCinema(Cinema cinema) throws UserNotLoggedException, InvalidPrivilegeLevelException {
-        userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "update a cinema");
+        //userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "update a cinema");
+         System.out.println("Rimettere il controlloooooooooooooooooooooooooooooooooooooooo (linea 57)!!!!");
         commentManager.update(cinema.getIdCinema(), cinema.getName(), cinema.getAddress());
     }
 
     @Override
     public void deleteCinema(Cinema cinema) throws UserNotLoggedException, InvalidPrivilegeLevelException {
-        userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "delete a cinema");
+        //userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "delete a cinema");
+        System.out.println("Rimettere il controlloooooooooooooooooooooooooooooooooooooooo (linea 62)!!!!");
         commentManager.delete(cinema.getIdCinema());
     }
 

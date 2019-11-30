@@ -10,7 +10,7 @@ public interface CinemaServiceInterface {
 
     Set<Cinema> getFiltered(String name, String address);
 
-    Cinema getById(int id);
+    Cinema getById(String id);
 
     void addCinema(String name, String address) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 

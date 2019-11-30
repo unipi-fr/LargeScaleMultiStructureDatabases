@@ -25,6 +25,12 @@
             <artifactId>mongodb-driver-sync</artifactId>
             <version>3.11.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-core</artifactId>
+            <version>3.11.2</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

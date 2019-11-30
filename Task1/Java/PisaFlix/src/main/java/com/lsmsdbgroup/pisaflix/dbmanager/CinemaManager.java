@@ -51,7 +51,7 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace(System.out);
-            System.out.println("A problem occurred in retriving a film!");
+            System.out.println("A problem occurred in retriving the cinema!");
         } finally {
             entityManager.close();
         }
