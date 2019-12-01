@@ -32,7 +32,7 @@ public class UsersController implements Initializable {
         searchUsers(null);
     }
 
-    private Pane createUserCardPane(String name, String privilege, int id) {
+    private Pane createUserCardPane(String name, String privilege, String id) {
         Pane pane = new Pane();
         try {
             try {
@@ -69,17 +69,16 @@ public class UsersController implements Initializable {
             String username;
             String privilege;
             int level;
-            int id;
+            String id;
 
             Pane pane;
-            int i = 0;
             for (User user : users) {
                 username = user.getUsername();
                 level = user.getPrivilegeLevel();
 
                 privilege = returnPrivilege(level);
 
-                id = user.getIdUser();
+                id = user.getId();
 
                 pane = createUserCardPane(username, privilege, id);
                 tilePane.getChildren().add(pane);

@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bson.Document;
 
-public class Cinema implements Serializable {
+public class Cinema extends Entity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -45,8 +45,8 @@ public class Cinema implements Serializable {
             }
         }      
     }
-
-    public String getIdCinema() {
+    
+    public String getId() {
         return idCinema;
     }
 

@@ -21,4 +21,6 @@ public interface CinemaServiceInterface {
     void addFavorite(Cinema cinema, User user);
 
     void removeFavourite(Cinema cinema, User user);
+    
+    void refreshCommentSet(Cinema cinema);
 }

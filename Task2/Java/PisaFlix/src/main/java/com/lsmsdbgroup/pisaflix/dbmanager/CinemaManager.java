@@ -63,6 +63,7 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
         List filters = new ArrayList();
 
         if (nameFilter != null) {
+            // i flag = case insensitive
             filters.add(regex("Name", ".*" + nameFilter + ".*","i"));
         }
         if (addressFilter != null) {

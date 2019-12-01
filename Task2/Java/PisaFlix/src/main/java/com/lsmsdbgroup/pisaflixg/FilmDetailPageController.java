@@ -123,6 +123,7 @@ public class FilmDetailPageController implements Initializable {
 
     public void setFilm(Film film) {
         this.film = film;
+        PisaFlixServices.filmService.refreshCommentSet(film);
 
         setFavoriteButton();
 
@@ -152,8 +153,9 @@ public class FilmDetailPageController implements Initializable {
     }
 
     public void refreshFilm() {
-        String id = film.getIdFilm();
+        String id = film.getId();
         film = PisaFlixServices.filmService.getById(id);
+        PisaFlixServices.filmService.refreshCommentSet(film);
     }
 
     public void refreshComment() {
@@ -172,7 +174,7 @@ public class FilmDetailPageController implements Initializable {
             return;
         }
         try {
-            PisaFlixServices.filmService.deleteFilm(this.film.getIdFilm());
+            PisaFlixServices.filmService.deleteFilm(this.film.getId());
             App.setMainPageReturnsController("Films");
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             App.printErrorDialog("Delete Film", "An error occurred deleting the film", ex.toString() + "\n" + ex.getMessage());
@@ -191,7 +193,7 @@ public class FilmDetailPageController implements Initializable {
             String comment = commentArea.getText();
             User user = PisaFlixServices.authenticationService.getLoggedUser();
 
-            PisaFlixServices.commentService.addFilmComment(comment, user, film);
+            PisaFlixServices.commentService.addComment(comment, user, film);
 
             refreshFilm();
             refreshComment();

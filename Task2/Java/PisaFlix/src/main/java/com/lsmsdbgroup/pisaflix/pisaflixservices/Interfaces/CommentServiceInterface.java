@@ -2,16 +2,17 @@ package com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
+import java.util.Set;
 
 public interface CommentServiceInterface {
 
-    void addFilmComment(String comment, User user, Film film);
-
-    void addCinemaComment(String comment, User user, Cinema cinema);
+    void addComment(String comment, User user, Entity entity);
 
     void update(Comment comment) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
-    Comment getById(int id);
+    Comment getById(String id);
 
     void delete(Comment comment) throws UserNotLoggedException, InvalidPrivilegeLevelException;
+    
+    Set<Comment> getCommentSet(Entity entity);
 }

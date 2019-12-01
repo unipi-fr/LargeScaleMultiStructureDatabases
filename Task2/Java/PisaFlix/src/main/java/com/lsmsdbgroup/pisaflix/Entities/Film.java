@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bson.Document;
 
-public class Film implements Serializable {
+public class Film extends Entity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -33,12 +33,12 @@ public class Film implements Serializable {
         this.publicationDate = publicationDate;
     }
     
-    public Film(Document cinemaDocument) {
-        if(cinemaDocument.containsKey("_id") && cinemaDocument.containsKey("Title") &&cinemaDocument.containsKey("PublicationDate") ){
-            this.idFilm = cinemaDocument.get("_id").toString();
-            this.title = cinemaDocument.getString("Title");
-            this.publicationDate = cinemaDocument.getDate("PublicationDate");
-            this.description = cinemaDocument.getString("Description");
+    public Film(Document filmDocument) {
+        if(filmDocument.containsKey("_id") && filmDocument.containsKey("Title") &&filmDocument.containsKey("PublicationDate") ){
+            this.idFilm = filmDocument.get("_id").toString();
+            this.title = filmDocument.getString("Title");
+            this.publicationDate = filmDocument.getDate("PublicationDate");
+            this.description = filmDocument.getString("Description");
         }else{
             try {
                 throw new NonConvertibleDocumentException("Document not-convertible in cinema");
@@ -48,7 +48,8 @@ public class Film implements Serializable {
         }      
     }
 
-    public String getIdFilm() {
+    @Override
+    public String getId() {
         return idFilm;
     }
 

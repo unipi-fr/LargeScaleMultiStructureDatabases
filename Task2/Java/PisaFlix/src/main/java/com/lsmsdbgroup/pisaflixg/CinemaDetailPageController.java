@@ -116,7 +116,7 @@ public class CinemaDetailPageController implements Initializable {
     public void setCinema(Cinema cinema) {
         try{
         this.cinema = cinema;
-        
+        PisaFlixServices.cinemaService.refreshCommentSet(cinema);
         setFavoriteButton();
 
         setNameLabel(cinema.getName());
@@ -154,8 +154,9 @@ public class CinemaDetailPageController implements Initializable {
 
     public void refreshCinema() {
         try{
-        String id = cinema.getIdCinema();
+        String id = cinema.getId();
         cinema = PisaFlixServices.cinemaService.getById(id);
+        PisaFlixServices.cinemaService.refreshCommentSet(cinema);
         }catch(Exception ex){
             App.printErrorDialog("Cinema", "An error occurred", ex.toString() + "\n" + ex.getMessage());
         }
@@ -203,7 +204,7 @@ public class CinemaDetailPageController implements Initializable {
         String comment = commentArea.getText();
         User user = PisaFlixServices.authenticationService.getLoggedUser();
 
-        PisaFlixServices.commentService.addCinemaComment(comment, user, cinema);
+        PisaFlixServices.commentService.addComment(comment, user, cinema);
 
         refreshCinema();
         refreshComment();

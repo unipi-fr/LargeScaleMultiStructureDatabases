@@ -5,19 +5,19 @@ import java.util.Set;
 
 public interface UserManagerDatabaseInterface {
 
-    User getById(int userId);
+    User getById(String userId);
 
     void create(String username, String password, String firstName, String lastName, String email, int privilegeLevel);
 
     void updateFavorites(User user);
 
-    void delete(int userId);
+    void delete(String userId);
 
     void clearCinemaSetAndFilmSet(User user);
 
     void update(User u);
 
-    void update(int userId, String username, String firstName, String lastName, String email, String password, int privilegeLevel);
+    void update(String userId, String username, String firstName, String lastName, String email, String password, int privilegeLevel);
 
     Set<User> getAll();
 

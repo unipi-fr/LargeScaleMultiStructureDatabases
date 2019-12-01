@@ -74,7 +74,7 @@ public class FilmsController implements Initializable {
         for (Film film : films) {
             title = film.getTitle();
             publishDate = film.getPublicationDate().toString();
-            id = film.getIdFilm();
+            id = film.getId();
 
             pane = createFilmCardPane(title, publishDate, id);
             tilePane.getChildren().add(pane);

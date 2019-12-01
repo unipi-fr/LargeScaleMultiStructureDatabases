@@ -74,7 +74,7 @@ public class CinemasController implements Initializable {
         for (Cinema cinema : cinemas) {
             name = cinema.getName();
             address = cinema.getAddress();
-            id = cinema.getIdCinema();
+            id = cinema.getId();
 
             pane = createFilmCardPane(name, address, id);
             tilePane.getChildren().add(pane);

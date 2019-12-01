@@ -5,6 +5,7 @@ import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CommentManagerDatabaseInter
 import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import java.util.Objects;
+import java.util.Set;
 
 public class CommentService implements CommentServiceInterface {
 
@@ -29,14 +30,14 @@ public class CommentService implements CommentServiceInterface {
         if (!authenticationService.isUserLogged()) {
             throw new UserNotLoggedException("You must be logged in order to " + operation);
         }
-        if (!Objects.equals(authenticationService.getLoggedUser().getIdUser(), comment.getUser().getIdUser())) {
+        if (!Objects.equals(authenticationService.getLoggedUser().getId(), comment.getUser().getId())) {
             userService.checkUserPrivilegesForOperation(UserPrivileges.SOCIAL_MODERATOR, operation);
         }
         return true;
     }
 
     @Override
-    public Comment getById(int id) {
+    public Comment getById(String id) {
         Comment comment;
         comment = commentManager.getById(id);
         return comment;
@@ -45,18 +46,19 @@ public class CommentService implements CommentServiceInterface {
     @Override
     public void delete(Comment comment) throws InvalidPrivilegeLevelException, UserNotLoggedException {
         if (canUpdateOrDeleteComment(comment, "delete other user comment")) {
-            commentManager.delete(comment.getIdComment());
+            commentManager.delete(comment.getId());
         }
 
     }
 
     @Override
-    public void addFilmComment(String comment, User user, Film film) {
-        commentManager.createFilmComment(comment, user, film);
+    public void addComment(String text, User user, Entity entity) {
+        commentManager.createComment(text, user, entity);
+    }
+    
+    @Override
+    public Set<Comment> getCommentSet(Entity entity) {        
+        return commentManager.getCommentSet(entity);
     }
 
-    @Override
-    public void addCinemaComment(String comment, User user, Cinema cinema) {
-        commentManager.createCinemaComment(comment, user, cinema);
-    }
 }

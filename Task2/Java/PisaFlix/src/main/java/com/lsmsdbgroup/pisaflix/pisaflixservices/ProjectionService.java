@@ -23,7 +23,7 @@ public class ProjectionService implements ProjectionServiceInterface {
     }
 
     @Override
-    public void removeProjection(int projectionId) {
+    public void removeProjection(String projectionId) {
         projectionManager.delete(projectionId);
     }
 

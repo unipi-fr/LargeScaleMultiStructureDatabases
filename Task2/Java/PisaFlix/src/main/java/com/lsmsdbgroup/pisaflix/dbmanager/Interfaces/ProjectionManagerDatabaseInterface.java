@@ -7,13 +7,13 @@ public interface ProjectionManagerDatabaseInterface {
 
     void create(Date dateTime, int room, Film film, Cinema cinema);
 
-    void delete(int idProjection);
+    void delete(String idProjection);
 
-    void update(int idProjection, Date dateTime, int room);
+    void update(String idProjection, Date dateTime, int room);
 
     Set<Projection> getAll();
 
-    Projection getById(int projectionId);
+    Projection getById(String projectionId);
 
     Set<Projection> queryProjection(String cinemaId, String filmId, String date, int room);
 

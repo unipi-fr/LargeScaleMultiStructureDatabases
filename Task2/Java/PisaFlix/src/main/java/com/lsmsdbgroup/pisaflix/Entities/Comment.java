@@ -1,57 +1,86 @@
 package com.lsmsdbgroup.pisaflix.Entities;
 
+import com.lsmsdbgroup.pisaflix.Entities.exceptions.NonConvertibleDocumentException;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import java.io.Serializable;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.bson.Document;
 
-public class Comment implements Serializable {
+public class Comment extends Entity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer idComment;
+    private String idComment;
     private Date timestamp;
     private String text;
 
-    private Set<Cinema> cinemaSet = new LinkedHashSet<>();
-    private Set<Film> filmSet = new LinkedHashSet<>();
+    private Film film;
+    private Cinema cinema;
     private User user;
 
     public Comment() {
     }
 
-    public Comment(Integer idComment) {
+    public Comment(String idComment) {
         this.idComment = idComment;
     }
 
-    public Comment(Integer idComment, Date timestamp, String text) {
-        this.idComment = idComment;
-        this.timestamp = timestamp;
-        this.text = text;
-    }
-
-    public Comment(Integer idComment, User user, Film film, String text, Date timestamp) {
-
+    public Comment(String idComment, Date timestamp, String text) {
         this.idComment = idComment;
         this.timestamp = timestamp;
         this.text = text;
-        this.user = user;
-        filmSet.add(film);
-
     }
 
-    public Comment(Integer idComment, User user, Cinema cinema, String text, Date timestamp) {
+    public Comment(String idComment, User user, Film film, String text, Date timestamp) {
 
         this.idComment = idComment;
         this.timestamp = timestamp;
         this.text = text;
         this.user = user;
-        cinemaSet.add(cinema);
+        this.film = film;
+
     }
 
-    public Integer getIdComment() {
+    public Comment(String idComment, User user, Cinema cinema, String text, Date timestamp) {
+
+        this.idComment = idComment;
+        this.timestamp = timestamp;
+        this.text = text;
+        this.user = user;
+        this.cinema = cinema;
+    }
+    
+    public Comment(Document commentDocument) {
+        
+        if(commentDocument.containsKey("_id") && commentDocument.containsKey("Timestamp") && commentDocument.containsKey("Text") && (commentDocument.containsKey("Film")||commentDocument.containsKey("Cinema")) ){
+            this.idComment = commentDocument.get("_id").toString();
+            this.timestamp = commentDocument.getDate("Timestamp");
+            this.text = commentDocument.getString("Text");
+            if(commentDocument.containsKey("Film")){
+                this.film = PisaFlixServices.filmService.getById(commentDocument.get("Film").toString());
+            }else{
+                this.cinema = PisaFlixServices.cinemaService.getById(commentDocument.get("Cinema").toString());
+            }
+            if(commentDocument.containsKey("User")){
+                //this.user = PisaFlixServices.userService.getById(commentDocument.get("User").toString());
+            }
+        }else{
+            try {
+                throw new NonConvertibleDocumentException("Document not-convertible in cinema");
+            } catch (NonConvertibleDocumentException ex) {
+                Logger.getLogger(Cinema.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }      
+    }
+
+    @Override
+    public String getId() {
         return idComment;
     }
 
-    public void setIdComment(Integer idComment) {
+    public void setIdComment(String idComment) {
         this.idComment = idComment;
     }
 
@@ -71,34 +100,34 @@ public class Comment implements Serializable {
         this.text = text;
     }
 
-    public Set<Cinema> getCinemaSet() {
-        return cinemaSet;
+    public Cinema getCinema() {
+        return cinema;
     }
 
-    public void setCinemaSet(Set<Cinema> cinemaSet) {
-        this.cinemaSet = cinemaSet;
+    public void setCinemaSet(Cinema cinema) {
+        this.cinema = cinema;
     }
 
-    public Set<Film> getFilmSet() {
-        return filmSet;
+    public Film getFilm() {
+        return film;
     }
 
-    public void setFilmSet(Set<Film> filmSet) {
-        this.filmSet = filmSet;
+    public void setFilm(Film film) {
+        this.film = film;
     }
 
     public User getUser() {
         if (user == null) {
             User u = new User();
-            u.setIdUser(0);
+            u.setIdUser(null);
             u.setUsername("Deleted User");
             return u;
         }
         return user;
     }
 
-    public void setUser(User idUser) {
-        this.user = idUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -120,15 +149,15 @@ public class Comment implements Serializable {
     @Override
     public String toString() {
 
-        if (!filmSet.isEmpty()) {
+        if (film != null ) {
             return "[ idComment= " + idComment + " ]\nuser: " + user.toString()
                     + "\ntimestamp:" + timestamp.toString() + "\ntext:" + text
-                    + "\nfilm: " + filmSet.toString();
+                    + "\nfilm: " + film;
         }
 
         return "[ idComment= " + idComment + " ]\nuser: " + user.toString()
                 + "\ntimestamp:" + timestamp.toString() + "\ntext:" + text
-                + "\ncinema: " + cinemaSet.toString();
+                + "\ncinema: " + cinema;
 
     }
 

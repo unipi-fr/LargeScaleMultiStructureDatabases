@@ -3,74 +3,62 @@ package com.lsmsdbgroup.pisaflix.dbmanager;
 import com.lsmsdbgroup.pisaflix.Entities.*;
 import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CommentManagerDatabaseInterface;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.eq;
+import com.mongodb.client.model.UpdateOptions;
+import org.bson.Document;
+import org.bson.types.ObjectId;
 
 public class CommentManager implements CommentManagerDatabaseInterface {
 
-
-    private static CommentManager commentManager;
+private static CommentManager CommentManager;
+    private static MongoCollection<Document> CommentCollection;
+    private final int limit = 20;
+    //It's equal to sorting by publication date, index not needed
+    private final Document sort = new Document("_id",-1);
 
     public static CommentManager getIstance() {
-        if (commentManager == null) {
-            commentManager = new CommentManager();
+        if (CommentManager == null) {
+            CommentManager = new CommentManager();
         }
-        return commentManager;
+        return CommentManager;
     }
 
-    private CommentManager() {
-        throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
+    public CommentManager() {
+        CommentCollection = DBManager.getMongoDatabase().getCollection("CommentCollection");
     }
 
-    @Override
-    public void createFilmComment(String text, User user, Film film) {
-        Comment comment = new Comment();
-        comment.setText(text);
-        comment.setTimestamp(new Date());
-
-        user.getCommentSet().add(comment);
-        film.getCommentSet().add(comment);
-        Set<Film> filmSet = new LinkedHashSet<>();
-        filmSet.add(film);
-        comment.setFilmSet(filmSet);
-        comment.setUser(user);
+    
+@Override
+    public void createComment(String text, User user, Entity entity) {
+        Document commentDocument = new Document()
+                .append("Text", text)
+                .append("User", user.getId())
+                .append("Timestamp", new Date());
+        if(entity.getClass().equals(Film.class)){
+            commentDocument.put("Film", entity.getId());
+        }else{
+            commentDocument.put("Cinema", entity.getId());
+        }
+        //Upsert insert if documnet does't already exists
+        UpdateOptions options = new UpdateOptions().upsert(true);
+        //user.getCommentSet().add(comment);
+        //film.getCommentSet().add(comment);
 
         try {
-            throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
+            CommentCollection.updateOne(and(commentDocument), new Document("$set", commentDocument), options);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in creating the comment!");
-        } finally {
-            
-        }
-    }
-
-    @Override
-    public void createCinemaComment(String text, User user, Cinema cinema) {
-        Comment comment = new Comment();
-        comment.setText(text);
-        comment.setTimestamp(new Date());
-
-        user.getCommentSet().add(comment);
-        cinema.getCommentSet().add(comment);
-        Set<Cinema> cinemaSet = new LinkedHashSet<>();
-        cinemaSet.add(cinema);
-        comment.setCinemaSet(cinemaSet);
-        comment.setUser(user);
-
-        try {
-            throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            System.out.println("A problem occurred in creating the comment!");
-        } finally {
-
         }
     }
 
     @Override
     public void update(Comment comment, String text) {
-        comment.setText(text);
         try {
-            throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
+            CommentCollection.updateOne(eq("_id", new ObjectId(comment.getId())), new Document("$set", new Document("Text",text)));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in updating the Comment!");
@@ -80,10 +68,9 @@ public class CommentManager implements CommentManagerDatabaseInterface {
     }
 
     @Override
-    public void delete(int idComment) {
-        // code to delete a cinema
+    public void delete(String idComment) {
         try {
-            throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
+            CommentCollection.deleteOne(eq("_id", new ObjectId(idComment)));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in removing the Comment!");
@@ -93,18 +80,38 @@ public class CommentManager implements CommentManagerDatabaseInterface {
     }
 
     @Override
-    public Comment getById(int commentId) {
+    public Comment getById(String commentId) {
         Comment comment = null;
-        try {
-            throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
+        try (MongoCursor<Document> cursor = CommentCollection.find(eq("_id", new ObjectId(commentId))).iterator()) {
+            comment = new Comment(cursor.next());
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in retriving a comment!");
-        } finally {
-            
+        } 
+        return comment;
+    }
+    
+@Override
+    public Set<Comment> getCommentSet(Entity entity) {
+        Set<Comment> commentSet = new LinkedHashSet<>();
+        List filters = new ArrayList();
+        
+        if(entity.getClass().equals(Film.class)){
+            filters.add(new Document("Film", entity.getId()));
+        }else{
+            filters.add(new Document("Cinema", entity.getId()));
         }
 
-        return comment;
+        try (MongoCursor<Document> cursor = CommentCollection.find(and(filters)).sort(sort).limit(limit).iterator()) {
+            while (cursor.hasNext()) {
+                commentSet.add(new Comment(cursor.next()));
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("A problem occurred in retrieve comments!");
+        }
+
+        return commentSet;
     }
 
 }

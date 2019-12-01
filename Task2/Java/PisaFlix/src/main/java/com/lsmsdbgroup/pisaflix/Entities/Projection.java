@@ -3,11 +3,11 @@ package com.lsmsdbgroup.pisaflix.Entities;
 import java.io.Serializable;
 import java.util.*;
 
-public class Projection implements Serializable {
+public class Projection extends Entity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    private Integer idProjection;
+    private String idProjection;
     private Date dateTime;
     private int room;
     private Cinema idCinema;
@@ -16,28 +16,29 @@ public class Projection implements Serializable {
     public Projection() {
     }
 
-    public Projection(Integer idProjection) {
+    public Projection(String idProjection) {
         this.idProjection = idProjection;
     }
 
-    public Projection(Integer idProjection, Date dateTime, int room) {
+    public Projection(String idProjection, Date dateTime, int room) {
         this.idProjection = idProjection;
         this.dateTime = dateTime;
         this.room = room;
     }
 
-    public Projection(Integer idProjection, Date dateTime, int room, Cinema cinema, Film film) {
+    public Projection(String idProjection, Date dateTime, int room, Cinema cinema, Film film) {
 
         this(idProjection, dateTime, room);
         idCinema = cinema;
         idFilm = film;
     }
 
-    public Integer getIdProjection() {
+    @Override
+    public String getId() {
         return idProjection;
     }
 
-    public void setIdProjection(Integer idProjection) {
+    public void setIdProjection(String idProjection) {
         this.idProjection = idProjection;
     }
 

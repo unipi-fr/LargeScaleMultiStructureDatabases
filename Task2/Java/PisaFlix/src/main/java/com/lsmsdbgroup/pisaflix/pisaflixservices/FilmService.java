@@ -60,7 +60,7 @@ public class FilmService implements FilmServiceInterface {
     @Override
     public void updateFilm(Film film) throws UserNotLoggedException, InvalidPrivilegeLevelException {
         userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "update a film");
-        filmManager.update(film.getIdFilm(), film.getTitle(), film.getPublicationDate(), film.getDescription());
+        filmManager.update(film.getId(), film.getTitle(), film.getPublicationDate(), film.getDescription());
     }
 
     @Override
@@ -76,5 +76,10 @@ public class FilmService implements FilmServiceInterface {
         film.getUserSet().remove(user);
         filmManager.updateFavorites(film);
     }
+    
+    @Override
+    public void refreshCommentSet(Film film) {
+        film.setCommentSet(PisaFlixServices.commentService.getCommentSet(film));
+    }   
 
 }

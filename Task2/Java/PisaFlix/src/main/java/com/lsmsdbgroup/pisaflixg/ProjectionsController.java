@@ -101,7 +101,7 @@ public class ProjectionsController implements Initializable {
             }
 
             Projection projection = (Projection) projectionTable.getSelectionModel().getSelectedItem();
-            PisaFlixServices.projectionService.removeProjection(projection.getIdProjection());
+            PisaFlixServices.projectionService.removeProjection(projection.getId());
             showSearch();
         } catch (Exception ex) {
             App.printErrorDialog("Remove Projection", "An error occurred removing the projection", ex.toString() + "\n" + ex.getMessage());
@@ -123,14 +123,14 @@ public class ProjectionsController implements Initializable {
                 cinemaId = "-1";
             } else {
                 Cinema cinema = (Cinema) cinemaCombo.getValue();
-                cinemaId = cinema.getIdCinema();
+                cinemaId = cinema.getId();
             }
 
             if (filmCombo.getValue() == null || "All".equals(filmCombo.getValue().toString())) {
                 filmId = "-1";
             } else {
                 Film film = (Film) filmCombo.getValue();
-                filmId = film.getIdFilm();
+                filmId = film.getId();
             }
             projectionTable.getItems().setAll(getItemsToAdd(cinemaId, filmId));
         } catch (Exception ex) {
