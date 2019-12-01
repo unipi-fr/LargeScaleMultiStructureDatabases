@@ -154,7 +154,7 @@ public class CinemaDetailPageController implements Initializable {
 
     public void refreshCinema() {
         try{
-        int id = cinema.getIdCinema();
+        String id = cinema.getIdCinema();
         cinema = PisaFlixServices.cinemaService.getById(id);
         }catch(Exception ex){
             App.printErrorDialog("Cinema", "An error occurred", ex.toString() + "\n" + ex.getMessage());

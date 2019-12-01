@@ -116,11 +116,11 @@ public class ProjectionsController implements Initializable {
             cinemaCol.setCellValueFactory(new PropertyValueFactory<>("Cinema"));
             filmCol.setCellValueFactory(new PropertyValueFactory<>("Film"));
 
-            int cinemaId;
+            String cinemaId;
             int filmId;
 
             if (cinemaCombo.getValue() == null || "All".equals(cinemaCombo.getValue().toString())) {
-                cinemaId = -1;
+                cinemaId = "-1";
             } else {
                 Cinema cinema = (Cinema) cinemaCombo.getValue();
                 cinemaId = cinema.getIdCinema();
@@ -138,7 +138,7 @@ public class ProjectionsController implements Initializable {
         }
     }
 
-    private ObservableList getItemsToAdd(int cinemaId, int filmId) {
+    private ObservableList getItemsToAdd(String cinemaId, int filmId) {
 
         LocalDate localDate = datePicker.getValue();
         String dateStr;

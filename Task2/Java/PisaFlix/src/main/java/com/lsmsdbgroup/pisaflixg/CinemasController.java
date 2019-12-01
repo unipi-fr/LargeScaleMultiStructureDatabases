@@ -46,7 +46,7 @@ public class CinemasController implements Initializable {
         }
     }
 
-    private Pane createFilmCardPane(String name, String address, int id) {
+    private Pane createFilmCardPane(String name, String address, String id) {
         Pane pane = new Pane();
         try {
             try {
@@ -68,7 +68,7 @@ public class CinemasController implements Initializable {
         Pane pane;
         String name;
         String address;
-        int id;
+        String id;
 
         tilePane.getChildren().clear();
         for (Cinema cinema : cinemas) {

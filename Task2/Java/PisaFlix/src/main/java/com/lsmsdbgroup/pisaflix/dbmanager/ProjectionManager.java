@@ -96,7 +96,7 @@ public class ProjectionManager implements ProjectionManagerDatabaseInterface {
     }
 
     @Override
-    public Set<Projection> queryProjection(int cinemaId, int filmId, String date, int room) {
+    public Set<Projection> queryProjection(String cinemaId, int filmId, String date, int room) {
         Set<Projection> projections = null;
 
         String query = "SELECT p "
@@ -119,7 +119,7 @@ public class ProjectionManager implements ProjectionManagerDatabaseInterface {
     }
 
     @Override
-    public boolean checkDuplicates(int cinemaId, int filmId, String date, int room) {
+    public boolean checkDuplicates(String cinemaId, int filmId, String date, int room) {
 
         Set<Projection> projections = null;
 
