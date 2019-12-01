@@ -31,7 +31,7 @@ public class FilmService implements FilmServiceInterface {
     }
 
     @Override
-    public Film getById(int id) {
+    public Film getById(String id) {
         Film film;
         film = filmManager.getById(id);
         return film;
@@ -48,15 +48,11 @@ public class FilmService implements FilmServiceInterface {
             System.out.println("Date can't be empty");
             return;
         }
-        if (description == null) {
-            System.out.println("Description can't be empty");
-            return;
-        }
         filmManager.create(title, publicationDate, description);
     }
 
     @Override
-    public void deleteFilm(int idFilm) throws UserNotLoggedException, InvalidPrivilegeLevelException {
+    public void deleteFilm(String idFilm) throws UserNotLoggedException, InvalidPrivilegeLevelException {
         userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "delete a film");
         filmManager.delete(idFilm);
     }

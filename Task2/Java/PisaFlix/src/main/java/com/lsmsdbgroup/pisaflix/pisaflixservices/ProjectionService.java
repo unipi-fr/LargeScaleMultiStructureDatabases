@@ -28,7 +28,7 @@ public class ProjectionService implements ProjectionServiceInterface {
     }
 
     @Override
-    public Set<Projection> queryProjections(String cinemaId, int filmId, String date, int room) {
+    public Set<Projection> queryProjections(String cinemaId, String filmId, String date, int room) {
         Set<Projection> projections;
 
         projections = projectionManager.queryProjection(cinemaId, filmId, date, room);
@@ -37,7 +37,7 @@ public class ProjectionService implements ProjectionServiceInterface {
     }
 
     @Override
-    public boolean checkDuplicates(String cinemaId, int filmId, String date, int room) {
+    public boolean checkDuplicates(String cinemaId, String filmId, String date, int room) {
         return projectionManager.checkDuplicates(cinemaId, filmId, date, room);
     }
 }

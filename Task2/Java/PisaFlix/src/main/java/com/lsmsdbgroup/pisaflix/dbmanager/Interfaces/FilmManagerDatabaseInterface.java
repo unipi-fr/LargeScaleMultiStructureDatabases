@@ -5,15 +5,15 @@ import java.util.*;
 
 public interface FilmManagerDatabaseInterface {
 
-    Film getById(int filmId);
+    Film getById(String filmId);
 
     Set<Film> getAll();
 
     void create(String title, Date publicationDate, String description);
 
-    void update(int idFilm, String title, Date publicationDate, String description);
+    void update(String idFilm, String title, Date publicationDate, String description);
 
-    void delete(int idFilm);
+    void delete(String idFilm);
 
     void clearUserSet(Film film);
 

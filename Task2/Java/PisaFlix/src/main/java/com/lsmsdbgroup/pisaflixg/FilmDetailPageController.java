@@ -152,7 +152,7 @@ public class FilmDetailPageController implements Initializable {
     }
 
     public void refreshFilm() {
-        int id = film.getIdFilm();
+        String id = film.getIdFilm();
         film = PisaFlixServices.filmService.getById(id);
     }
 

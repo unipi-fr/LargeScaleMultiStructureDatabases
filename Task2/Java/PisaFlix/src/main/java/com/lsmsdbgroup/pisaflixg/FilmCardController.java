@@ -16,9 +16,9 @@ public class FilmCardController implements Initializable {
     private final StringProperty titleProperty = new SimpleStringProperty();
     private final StringProperty pusblishDateProperty = new SimpleStringProperty();
 
-    private final int filmId;
+    private final String filmId;
 
-    public FilmCardController(String title, String publishDate, int id) {
+    public FilmCardController(String title, String publishDate, String id) {
         titleProperty.set(title);
         pusblishDateProperty.set(publishDate);
         filmId = id;

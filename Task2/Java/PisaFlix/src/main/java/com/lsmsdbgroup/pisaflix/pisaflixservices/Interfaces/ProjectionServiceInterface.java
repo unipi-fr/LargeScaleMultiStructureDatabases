@@ -10,8 +10,8 @@ public interface ProjectionServiceInterface {
 
     void removeProjection(int projectionId);
 
-    Set<Projection> queryProjections(String cinemaId, int filmId, String date, int room);
+    Set<Projection> queryProjections(String cinemaId, String filmId, String date, int room);
 
-    boolean checkDuplicates(String cinemaId, int filmId, String date, int room);
+    boolean checkDuplicates(String cinemaId, String filmId, String date, int room);
 
 }

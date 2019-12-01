@@ -67,12 +67,13 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public void checkUserPrivilegesForOperation(UserPrivileges privilegesToAchieve, String operation) throws UserNotLoggedException, InvalidPrivilegeLevelException {
-        if (!authenticationService.isUserLogged()) {
+        /*if (!authenticationService.isUserLogged()) {
             throw new UserNotLoggedException("You must be logged in order to " + operation);
         }
         if (authenticationService.getLoggedUser().getPrivilegeLevel() < privilegesToAchieve.getValue()) {
             throw new InvalidPrivilegeLevelException("You don't have enought privilege to " + operation);
-        }
+        }*/
+        System.out.println("Riaggiungere il check dei privilegi!!!!!!!!!");
     }
 
     @Override

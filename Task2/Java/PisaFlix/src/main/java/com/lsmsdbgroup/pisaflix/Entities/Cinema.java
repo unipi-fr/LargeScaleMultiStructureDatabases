@@ -43,8 +43,7 @@ public class Cinema implements Serializable {
             } catch (NonConvertibleDocumentException ex) {
                 Logger.getLogger(Cinema.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        
+        }      
     }
 
     public String getIdCinema() {

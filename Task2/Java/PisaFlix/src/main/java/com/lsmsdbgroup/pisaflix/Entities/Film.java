@@ -1,13 +1,17 @@
 package com.lsmsdbgroup.pisaflix.Entities;
 
+import com.lsmsdbgroup.pisaflix.Entities.exceptions.NonConvertibleDocumentException;
 import java.io.Serializable;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.bson.Document;
 
 public class Film implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer idFilm;
+    private String idFilm;
     private String title;
     private Date publicationDate;
     private String description;
@@ -19,21 +23,36 @@ public class Film implements Serializable {
     public Film() {
     }
 
-    public Film(Integer idFilm) {
+    public Film(String idFilm) {
         this.idFilm = idFilm;
     }
 
-    public Film(Integer idFilm, String title, Date publicationDate) {
+    public Film(String idFilm, String title, Date publicationDate) {
         this.idFilm = idFilm;
         this.title = title;
         this.publicationDate = publicationDate;
     }
+    
+    public Film(Document cinemaDocument) {
+        if(cinemaDocument.containsKey("_id") && cinemaDocument.containsKey("Title") &&cinemaDocument.containsKey("PublicationDate") ){
+            this.idFilm = cinemaDocument.get("_id").toString();
+            this.title = cinemaDocument.getString("Title");
+            this.publicationDate = cinemaDocument.getDate("PublicationDate");
+            this.description = cinemaDocument.getString("Description");
+        }else{
+            try {
+                throw new NonConvertibleDocumentException("Document not-convertible in cinema");
+            } catch (NonConvertibleDocumentException ex) {
+                Logger.getLogger(Cinema.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }      
+    }
 
-    public Integer getIdFilm() {
+    public String getIdFilm() {
         return idFilm;
     }
 
-    public void setIdFilm(Integer idFilm) {
+    public void setIdFilm(String idFilm) {
         this.idFilm = idFilm;
     }
 

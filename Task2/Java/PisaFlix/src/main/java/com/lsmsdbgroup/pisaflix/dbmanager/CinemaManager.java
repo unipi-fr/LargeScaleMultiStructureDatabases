@@ -63,14 +63,15 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
         List filters = new ArrayList();
 
         if (nameFilter != null) {
-            filters.add(regex("Name", ".*" + nameFilter + ".*"));
-        } else {
-            if (addressFilter != null) {
-                filters.add(regex("Address", ".*" + addressFilter + ".*"));
-            } else {
-                return getAll();
-            }
+            filters.add(regex("Name", ".*" + nameFilter + ".*","i"));
         }
+        if (addressFilter != null) {
+            filters.add(regex("Address", ".*" + addressFilter + ".*","i"));              
+        }
+        if(nameFilter == null && addressFilter == null){
+            return getAll();
+        }
+
 
         try (MongoCursor<Document> cursor = CinemaCollection.find(or(filters)).sort(sort).limit(limit).iterator()) {
             while (cursor.hasNext()) {
@@ -110,9 +111,9 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
 
     @Override
     public void update(String idCinema, String name, String address) {
-        Document cinemaDocument = new Document();
-        cinemaDocument.put("Name", name);
-        cinemaDocument.put("Address", address);
+        Document cinemaDocument = new Document()
+                .append("Name", name)
+                .append("Address", address);
         try {
             CinemaCollection.updateOne(eq("_id", new ObjectId(idCinema)), new Document("$set", cinemaDocument));
         } catch (Exception ex) {

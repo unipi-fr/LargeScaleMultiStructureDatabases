@@ -10,13 +10,13 @@ public interface FilmServiceInterface {
 
     Set<Film> getAll();
 
-    Film getById(int id);
+    Film getById(String id);
 
     void addFilm(String title, Date publicationDate, String description) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
     void updateFilm(Film film) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
-    void deleteFilm(int idFilm) throws UserNotLoggedException, InvalidPrivilegeLevelException;
+    void deleteFilm(String idFilm) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
     void addFavorite(Film film, User user);
 
