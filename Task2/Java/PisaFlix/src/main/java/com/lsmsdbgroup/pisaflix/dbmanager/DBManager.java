@@ -35,11 +35,12 @@ public class DBManager {
 
     static {
         cinemaMamager = CinemaManager.getIstance();
+        filmManager = FilmManager.getIstance();
+        commentManager = CommentManager.getIstance();
         System.out.println("RIMETTERE ROBA NEL DBMANAGER!!!!!!!!!!!!!!");
         /*userManager = UserManager.getIstance();
-        filmManager = FilmManager.getIstance();
         projectionManager = ProjectionManager.getIstance();
-        commentManager = CommentManager.getIstance();*/
+        */
     }
 
 }

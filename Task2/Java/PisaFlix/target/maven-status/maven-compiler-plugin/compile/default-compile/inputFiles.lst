@@ -16,6 +16,7 @@ C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\Entities\Comment.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\FilmDetailPageController.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\AuthenticationServiceInterface.java
+C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\Entities\exceptions\NonConvertibleDocumentException.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\dbmanager\UserManager.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\ProjectionsController.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\CinemaServiceInterface.java
@@ -52,6 +53,7 @@ C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\exceptions\UserNotLoggedException.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\CinemaCardController.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\dbmanager\CommentManager.java
+C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\Entities\Entity.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\Entities\User.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\dbmanager\ProjectionManager.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\ProjectionServiceInterface.java

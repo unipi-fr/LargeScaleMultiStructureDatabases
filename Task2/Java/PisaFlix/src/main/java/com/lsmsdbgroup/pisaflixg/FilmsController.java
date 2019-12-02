@@ -46,7 +46,7 @@ public class FilmsController implements Initializable {
         }
     }
 
-    private Pane createFilmCardPane(String title, String publishDate, int id) {
+    private Pane createFilmCardPane(String title, String publishDate, String id) {
         Pane pane = new Pane();
         try {
             try {
@@ -67,14 +67,14 @@ public class FilmsController implements Initializable {
         tilePane.getChildren().clear();
         String title;
         String publishDate;
-        int id;
+        String id;
 
         Pane pane;
-        int i = 0;
+
         for (Film film : films) {
             title = film.getTitle();
             publishDate = film.getPublicationDate().toString();
-            id = film.getIdFilm();
+            id = film.getId();
 
             pane = createFilmCardPane(title, publishDate, id);
             tilePane.getChildren().add(pane);

@@ -3,11 +3,11 @@ package com.lsmsdbgroup.pisaflix.Entities;
 import java.io.Serializable;
 import java.util.*;
 
-public class User implements Serializable {
+public class User extends Entity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    private Integer idUser;
+    private String idUser;
     private String username;
     private String password;
     private String email;
@@ -22,22 +22,23 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Integer idUser) {
+    public User(String idUser) {
         this.idUser = idUser;
     }
 
-    public User(Integer idUser, String username, String password, int privilegeLevel) {
+    public User(String idUser, String username, String password, int privilegeLevel) {
         this.idUser = idUser;
         this.username = username;
         this.password = password;
         this.privilegeLevel = privilegeLevel;
     }
 
-    public Integer getIdUser() {
+    @Override
+    public String getId() {
         return idUser;
     }
 
-    public void setIdUser(Integer idUser) {
+    public void setIdUser(String idUser) {
         this.idUser = idUser;
     }
 

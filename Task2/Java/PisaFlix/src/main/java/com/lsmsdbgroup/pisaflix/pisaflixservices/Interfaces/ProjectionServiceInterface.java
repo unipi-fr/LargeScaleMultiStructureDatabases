@@ -8,10 +8,10 @@ public interface ProjectionServiceInterface {
 
     void addProjection(Cinema c, Film f, Date d, int room) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
-    void removeProjection(int projectionId);
+    void removeProjection(String projectionId);
 
-    Set<Projection> queryProjections(int cinemaId, int filmId, String date, int room);
+    Set<Projection> queryProjections(String cinemaId, String filmId, String date, int room);
 
-    boolean checkDuplicates(int cinemaId, int filmId, String date, int room);
+    boolean checkDuplicates(String cinemaId, String filmId, String date, int room);
 
 }

@@ -127,7 +127,7 @@ public class UserViewController implements Initializable {
             if (loggrdUser == null) {
                 return false;
             }
-            if (!Objects.equals(loggrdUser.getIdUser(), this.user.getIdUser())) {
+            if (!Objects.equals(loggrdUser.getId(), this.user.getId())) {
                 return false;
             }
         }

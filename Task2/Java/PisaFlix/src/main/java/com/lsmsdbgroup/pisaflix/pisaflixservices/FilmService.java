@@ -31,7 +31,7 @@ public class FilmService implements FilmServiceInterface {
     }
 
     @Override
-    public Film getById(int id) {
+    public Film getById(String id) {
         Film film;
         film = filmManager.getById(id);
         return film;
@@ -48,15 +48,11 @@ public class FilmService implements FilmServiceInterface {
             System.out.println("Date can't be empty");
             return;
         }
-        if (description == null) {
-            System.out.println("Description can't be empty");
-            return;
-        }
         filmManager.create(title, publicationDate, description);
     }
 
     @Override
-    public void deleteFilm(int idFilm) throws UserNotLoggedException, InvalidPrivilegeLevelException {
+    public void deleteFilm(String idFilm) throws UserNotLoggedException, InvalidPrivilegeLevelException {
         userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "delete a film");
         filmManager.delete(idFilm);
     }
@@ -64,7 +60,7 @@ public class FilmService implements FilmServiceInterface {
     @Override
     public void updateFilm(Film film) throws UserNotLoggedException, InvalidPrivilegeLevelException {
         userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "update a film");
-        filmManager.update(film.getIdFilm(), film.getTitle(), film.getPublicationDate(), film.getDescription());
+        filmManager.update(film.getId(), film.getTitle(), film.getPublicationDate(), film.getDescription());
     }
 
     @Override
@@ -80,5 +76,10 @@ public class FilmService implements FilmServiceInterface {
         film.getUserSet().remove(user);
         filmManager.updateFavorites(film);
     }
+    
+    @Override
+    public void refreshCommentSet(Film film) {
+        film.setCommentSet(PisaFlixServices.commentService.getCommentSet(film));
+    }   
 
 }

@@ -22,9 +22,9 @@ public class UserCardController implements Initializable {
     private final StringProperty userProperty = new SimpleStringProperty();
     private final StringProperty privilegeProperty = new SimpleStringProperty();
 
-    private final int userId;
+    private final String userId;
 
-    public UserCardController(String username, String privilege, int id) {
+    public UserCardController(String username, String privilege, String id) {
         userProperty.set(username);
         privilegeProperty.set(privilege);
         userId = id;

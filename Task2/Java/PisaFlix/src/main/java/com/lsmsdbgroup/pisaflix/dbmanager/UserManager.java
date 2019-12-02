@@ -21,7 +21,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     }
 
     @Override
-    public User getById(int userId) {
+    public User getById(String userId) {
         // code to get a user
         User user = null;
         try {
@@ -69,7 +69,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     }
 
     @Override
-    public void delete(int userId) {
+    public void delete(String userId) {
         clearCinemaSetAndFilmSet(getById(userId));
         try {
             throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
@@ -96,12 +96,12 @@ public class UserManager implements UserManagerDatabaseInterface {
     }
 
     @Override
-    public void update(User u) {
-        update(u.getIdUser(), u.getUsername(), u.getFirstName(), u.getLastName(), u.getEmail(), u.getPassword(), u.getPrivilegeLevel());
+    public void update(User user) {
+        update(user.getId(), user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getPrivilegeLevel());
     }
 
     @Override
-    public void update(int userId, String username, String firstName, String lastName, String email, String password, int privilegeLevel) {
+    public void update(String userId, String username, String firstName, String lastName, String email, String password, int privilegeLevel) {
         // code to update a user
         User user = new User(userId);
         user.setUsername(username);

@@ -40,7 +40,7 @@ public class ProjectionManager implements ProjectionManagerDatabaseInterface {
     }
 
     @Override
-    public void delete(int idProjection) {
+    public void delete(String idProjection) {
         // code to delete a cinema
         try {
             throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
@@ -53,7 +53,7 @@ public class ProjectionManager implements ProjectionManagerDatabaseInterface {
     }
 
     @Override
-    public void update(int idProjection, Date dateTime, int room) {
+    public void update(String idProjection, Date dateTime, int room) {
         Projection projection = new Projection(idProjection);
         projection.setDateTime(dateTime);
         projection.setRoom(room);
@@ -82,7 +82,7 @@ public class ProjectionManager implements ProjectionManagerDatabaseInterface {
     }
 
     @Override
-    public Projection getById(int projectionId) {
+    public Projection getById(String projectionId) {
         Projection projection = null;
         try {
             throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
@@ -96,7 +96,7 @@ public class ProjectionManager implements ProjectionManagerDatabaseInterface {
     }
 
     @Override
-    public Set<Projection> queryProjection(int cinemaId, int filmId, String date, int room) {
+    public Set<Projection> queryProjection(String cinemaId, String filmId, String date, int room) {
         Set<Projection> projections = null;
 
         String query = "SELECT p "
@@ -119,7 +119,7 @@ public class ProjectionManager implements ProjectionManagerDatabaseInterface {
     }
 
     @Override
-    public boolean checkDuplicates(int cinemaId, int filmId, String date, int room) {
+    public boolean checkDuplicates(String cinemaId, String filmId, String date, int room) {
 
         Set<Projection> projections = null;
 

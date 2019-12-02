@@ -1,17 +1,18 @@
 package com.lsmsdbgroup.pisaflix.dbmanager.Interfaces;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
+import java.util.Set;
 
 public interface CommentManagerDatabaseInterface {
 
-    void createFilmComment(String text, User user, Film film);
-
-    void createCinemaComment(String text, User user, Cinema cinema);
+    void createComment(String text, User user, Entity entity);
 
     void update(Comment comment, String text);
 
-    void delete(int idComment);
+    void delete(String idComment);
 
-    Comment getById(int commentId);
+    Comment getById(String commentId);
+    
+    Set<Comment> getCommentSet(Entity entity);
 
 }

@@ -23,7 +23,7 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public User getUserById(int id) {
+    public User getUserById(String id) {
         User user = userManager.getById(id);
         return user;
     }
@@ -46,16 +46,16 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public void deleteUserAccount(User u) throws UserNotLoggedException, InvalidPrivilegeLevelException {
+    public void deleteUserAccount(User user) throws UserNotLoggedException, InvalidPrivilegeLevelException {
         if (!authenticationService.isUserLogged()) {
             throw new UserNotLoggedException("You must be logged in order to delete accounts");
         }
 
-        if (!Objects.equals(authenticationService.getLoggedUser().getIdUser(), u.getIdUser()) && authenticationService.getLoggedUser().getPrivilegeLevel() < UserPrivileges.ADMIN.getValue()) {
+        if (!Objects.equals(authenticationService.getLoggedUser().getId(), user.getId()) && authenticationService.getLoggedUser().getPrivilegeLevel() < UserPrivileges.ADMIN.getValue()) {
             throw new InvalidPrivilegeLevelException("You must have administrator privileges in order to delete other user accounts");
         }
-        userManager.delete(u.getIdUser());
-        if (Objects.equals(authenticationService.getLoggedUser().getIdUser(), u.getIdUser())) {
+        userManager.delete(user.getId());
+        if (Objects.equals(authenticationService.getLoggedUser().getId(), user.getId())) {
             authenticationService.Logout();
         }
     }
@@ -67,12 +67,13 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public void checkUserPrivilegesForOperation(UserPrivileges privilegesToAchieve, String operation) throws UserNotLoggedException, InvalidPrivilegeLevelException {
-        if (!authenticationService.isUserLogged()) {
+        /*if (!authenticationService.isUserLogged()) {
             throw new UserNotLoggedException("You must be logged in order to " + operation);
         }
         if (authenticationService.getLoggedUser().getPrivilegeLevel() < privilegesToAchieve.getValue()) {
             throw new InvalidPrivilegeLevelException("You don't have enought privilege to " + operation);
-        }
+        }*/
+        System.out.println("Riaggiungere il check dei privilegi!!!!!!!!!");
     }
 
     @Override

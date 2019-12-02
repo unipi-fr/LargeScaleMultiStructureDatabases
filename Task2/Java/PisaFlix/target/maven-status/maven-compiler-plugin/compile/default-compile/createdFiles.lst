@@ -5,6 +5,7 @@ com\lsmsdbgroup\pisaflixg\CinemaCardController.class
 com\lsmsdbgroup\pisaflixg\UsersController.class
 com\lsmsdbgroup\pisaflixg\MenuController.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\PisaFlixServices.class
+com\lsmsdbgroup\pisaflix\Entities\exceptions\NonConvertibleDocumentException.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\exceptions\InvalidPrivilegeLevelValueException.class
 com\lsmsdbgroup\pisaflix\Entities\Cinema.class
 com\lsmsdbgroup\pisaflix\Entities\Film.class
@@ -16,6 +17,7 @@ com\lsmsdbgroup\pisaflix\dbmanager\UserManager.class
 com\lsmsdbgroup\pisaflix\dbmanager\Interfaces\CinemaManagerDatabaseInterface.class
 com\lsmsdbgroup\pisaflix\Entities\Projection.class
 com\lsmsdbgroup\pisaflixg\LoginController.class
+com\lsmsdbgroup\pisaflix\Entities\Entity.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\AuthenticationService.class
 com\lsmsdbgroup\pisaflix\dbmanager\ProjectionManager.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\CommentServiceInterface.class

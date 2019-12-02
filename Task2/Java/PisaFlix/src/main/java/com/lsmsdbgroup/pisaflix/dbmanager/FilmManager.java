@@ -3,44 +3,56 @@ package com.lsmsdbgroup.pisaflix.dbmanager;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.FilmManagerDatabaseInterface;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.gte;
+import static com.mongodb.client.model.Filters.lt;
+import static com.mongodb.client.model.Filters.or;
+import static com.mongodb.client.model.Filters.regex;
+import com.mongodb.client.model.UpdateOptions;
+import org.bson.Document;
+import org.bson.types.ObjectId;
 
 public class FilmManager implements FilmManagerDatabaseInterface {
 
-
-    private static FilmManager filmManager;
+    private static FilmManager FilmManager;
+    private static MongoCollection<Document> FilmCollection;
+    private final int limit = 20;
+    private final Document sort = new Document("_id",-1);
 
     public static FilmManager getIstance() {
-        if (filmManager == null) {
-            filmManager = new FilmManager();
+        if (FilmManager == null) {
+            FilmManager = new FilmManager();
         }
-
-        return filmManager;
+        return FilmManager;
     }
 
     private FilmManager() {
-        throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
+        FilmCollection = DBManager.getMongoDatabase().getCollection("FilmCollection");
     }
 
     @Override
-    public Film getById(int filmId) {
+    public Film getById(String filmId) {
         Film film = null;
-        try {
-            throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
+        try (MongoCursor<Document> cursor = FilmCollection.find(eq("_id", new ObjectId(filmId))).iterator()) {
+            film = new Film(cursor.next());
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace(System.out);
             System.out.println("A problem occurred in retriving a film!");
-        } finally {
-
-        }
+        } 
         return film;
     }
 
     @Override
     public Set<Film> getAll() {
-        Set<Film> films = null;
-        try {
-            throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
+        Set<Film> filmSet = new LinkedHashSet<>();
+        try (MongoCursor<Document> cursor = FilmCollection.find().sort(sort).limit(limit).iterator()) {
+            while (cursor.hasNext()) {
+                filmSet.add(new Film(cursor.next()));
+            }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace(System.out);
@@ -48,17 +60,21 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         } finally {
             
         }
-        return films;
+        return filmSet;
     }
 
     @Override
     public void create(String title, Date publicationDate, String description) {
-        Film film = new Film();
-        film.setTitle(title);
-        film.setDescription(description);
-        film.setPublicationDate(publicationDate);
+        Document filmDocument = new Document()
+                .append("Title", title)
+                .append("PublicationDate", publicationDate);
+        if(description != null){
+            filmDocument.put("Description", description);
+        }      
+        //Upsert insert if documnet does't already exists
+        UpdateOptions options = new UpdateOptions().upsert(true);
         try {
-            throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
+            FilmCollection.updateOne(and(filmDocument), new Document("$set", filmDocument), options);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in creating the film!");
@@ -68,13 +84,15 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     }
 
     @Override
-    public void update(int idFilm, String title, Date publicationDate, String description) {
-        Film film = new Film(idFilm);
-        film.setTitle(title);
-        film.setDescription(description);
-        film.setPublicationDate(publicationDate);
+    public void update(String idFilm, String title, Date publicationDate, String description) {
+        Document filmDocument = new Document()
+                .append("Title", title)
+                .append("PublicationDate", publicationDate);
+        if(description != null){
+            filmDocument.put("Description", description);
+        }   
         try {
-            throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
+            FilmCollection.updateOne(eq("_id", new ObjectId(idFilm)), new Document("$set", filmDocument));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in updating the film!");
@@ -84,15 +102,13 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     }
 
     @Override
-    public void delete(int idFilm) {
-        clearUserSet(getById(idFilm));
+    public void delete(String idFilm) {
+        //clearUserSet(getById(idFilm));
         try {
-            throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
+            FilmCollection.deleteOne(eq("_id", new ObjectId(idFilm)));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in deleting the film!");
-        } finally {
-
         }
     }
 
@@ -123,35 +139,32 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
     @Override
     public Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter) {
-        Set<Film> films = null;
-        String title = "";
-        String startDate = "0000-01-01";
-        String endDate = "9999-12-31";
+        Set<Film> filmSet = new LinkedHashSet<>();
+        List filters = new ArrayList();
+        
         if (titleFilter != null) {
-            title = titleFilter;
-        }
-        if (startDateFilter != null) {
-            startDate = startDateFilter.toString();
-        }
-        if (endDateFilter != null) {
-            endDate = endDateFilter.toString();
+            // i flag = case insensitive
+            filters.add(regex("Title", ".*" + titleFilter + ".*","i"));
+        }      
+        if (startDateFilter != null && endDateFilter != null) {
+            filters.add(and(gte("PublicationDate", startDateFilter),lt("PublicationDate", endDateFilter)));
+        }else{
+            if (titleFilter == null){
+                return getAll();
+            }
         }
 
-        String query = "SELECT f "
-                + "FROM Film f "
-                + "WHERE ('" + title + "'='' OR f.title LIKE '%" + title + "%') "
-                + "AND (publicationDate between '" + startDate + " 00:00:00' and '" + endDate + " 23:59:59') ";
-
-        try {
-            throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
+        try (MongoCursor<Document> cursor = FilmCollection.find(or(filters)).sort(sort).limit(limit).iterator()) {
+            while (cursor.hasNext()) {
+                filmSet.add(new Film(cursor.next()));
+            }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace(System.out);
             System.out.println("A problem occurred in retrieve films filtered!");
-        } finally {
-
-        }
-        return films;
+        } 
+        
+        return filmSet;
     }
 
 }
