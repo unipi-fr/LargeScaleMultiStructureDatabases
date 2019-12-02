@@ -2,11 +2,11 @@
 
 <ClassDiagram name="main.java.com.lsmsdbgroup.pisaflix.dbmanager">
   <ClassDiagramComponents>
-    <Class name="CinemaManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="856.0" yPosition="28.0">
+    <Class name="CinemaManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="20.0" yPosition="796.0">
       <Fields>
-        <Field name="factory" type="EntityManagerFactory" visibility="private"/>
+        <Field name="factory" type="EntityManagerFactory" visibility="private" isFinal="true"/>
         <Field name="entityManager" type="EntityManager" visibility="private"/>
-        <Field name="cm" type="CinemaManager" visibility="private" isStatic="true"/>
+        <Field name="cinemaManager" type="CinemaManager" visibility="private" isStatic="true"/>
       </Fields>
       <Constructors>
         <Constructor visibility="private"/>
@@ -41,11 +41,11 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="CommentManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="1462.0" yPosition="335.0">
+    <Class name="CommentManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="861.0" yPosition="12.0">
       <Fields>
-        <Field name="factory" type="EntityManagerFactory" visibility="private"/>
+        <Field name="factory" type="EntityManagerFactory" visibility="private" isFinal="true"/>
         <Field name="entityManager" type="EntityManager" visibility="private"/>
-        <Field name="cm" type="CommentManager" visibility="private" isStatic="true"/>
+        <Field name="commentManager" type="CommentManager" visibility="private" isStatic="true"/>
       </Fields>
       <Constructors>
         <Constructor visibility="private"/>
@@ -74,14 +74,14 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="DBManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="953.0" yPosition="748.0">
+    <Class name="DBManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="917.0" yPosition="617.0">
       <Fields>
         <Field name="factory" type="EntityManagerFactory" visibility="private" isStatic="true"/>
-        <Field name="cinemaMamager" type="ICinemaManagerDB" visibility="public" isStatic="true"/>
-        <Field name="userManager" type="IUserManagerDB" visibility="public" isStatic="true"/>
-        <Field name="filmManager" type="IFilmManagerDB" visibility="public" isStatic="true"/>
-        <Field name="projectionManager" type="IProjectionManagerDB" visibility="public" isStatic="true"/>
-        <Field name="commentManager" type="ICommentManagerDB" visibility="public" isStatic="true"/>
+        <Field name="cinemaMamager" type="CinemaManagerDatabaseInterface" visibility="public" isStatic="true"/>
+        <Field name="userManager" type="UserManagerDatabaseInterface" visibility="public" isStatic="true"/>
+        <Field name="filmManager" type="FilmManagerDatabaseInterface" visibility="public" isStatic="true"/>
+        <Field name="projectionManager" type="ProjectionManagerDatabaseInterface" visibility="public" isStatic="true"/>
+        <Field name="commentManager" type="CommentManagerDatabaseInterface" visibility="public" isStatic="true"/>
       </Fields>
       <Constructors/>
       <Methods>
@@ -90,11 +90,11 @@
         <Method name="getEntityManagerFactory" returnType="EntityManagerFactory" visibility="public" isStatic="true"/>
       </Methods>
     </Class>
-    <Class name="FilmManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="709.0" yPosition="1021.0">
+    <Class name="FilmManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="1414.0" yPosition="687.0">
       <Fields>
-        <Field name="factory" type="EntityManagerFactory" visibility="private"/>
+        <Field name="factory" type="EntityManagerFactory" visibility="private" isFinal="true"/>
         <Field name="entityManager" type="EntityManager" visibility="private"/>
-        <Field name="fm" type="FilmManager" visibility="private" isStatic="true"/>
+        <Field name="filmManager" type="FilmManager" visibility="private" isStatic="true"/>
       </Fields>
       <Constructors>
         <Constructor visibility="private"/>
@@ -132,9 +132,9 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="ProjectionManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="1379.0" yPosition="1002.0">
+    <Class name="ProjectionManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="1370.0" yPosition="12.0">
       <Fields>
-        <Field name="factory" type="EntityManagerFactory" visibility="private"/>
+        <Field name="factory" type="EntityManagerFactory" visibility="private" isFinal="true"/>
         <Field name="entityManager" type="EntityManager" visibility="private"/>
         <Field name="projectionManager" type="ProjectionManager" visibility="private" isStatic="true"/>
       </Fields>
@@ -175,11 +175,11 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="UserManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="24.0" yPosition="28.0">
+    <Class name="UserManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="20.0" yPosition="12.0">
       <Fields>
-        <Field name="factory" type="EntityManagerFactory" visibility="private"/>
+        <Field name="factory" type="EntityManagerFactory" visibility="private" isFinal="true"/>
         <Field name="entityManager" type="EntityManager" visibility="private"/>
-        <Field name="um" type="UserManager" visibility="private" isStatic="true"/>
+        <Field name="userManager" type="UserManager" visibility="private" isStatic="true"/>
       </Fields>
       <Constructors>
         <Constructor visibility="private"/>
@@ -229,9 +229,12 @@
           <Argument type="String" name="username"/>
           <Argument type="String" name="email"/>
         </Method>
+        <Method name="getFiltered" returnType="Set&lt;User&gt;" visibility="public">
+          <Argument type="String" name="nameFilter"/>
+        </Method>
       </Methods>
     </Class>
-    <Interface name="ICinemaManagerDB" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="878.0" yPosition="446.0">
+    <Interface name="CinemaManagerDatabaseInterface" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="474.0" yPosition="815.0">
       <Methods>
         <Method name="create" returnType="void" visibility="package">
           <Argument type="String" name="name"/>
@@ -261,7 +264,7 @@
         </Method>
       </Methods>
     </Interface>
-    <Interface name="ICommentManagerDB" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="1422.0" yPosition="70.0">
+    <Interface name="CommentManagerDatabaseInterface" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="861.0" yPosition="381.0">
       <Methods>
         <Method name="createFilmComment" returnType="void" visibility="package">
           <Argument type="String" name="text"/>
@@ -285,7 +288,7 @@
         </Method>
       </Methods>
     </Interface>
-    <Interface name="IFilmManagerDB" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="159.0" yPosition="818.0">
+    <Interface name="FilmManagerDatabaseInterface" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="886.0" yPosition="939.0">
       <Methods>
         <Method name="getById" returnType="Film" visibility="package">
           <Argument type="int" name="filmId"/>
@@ -318,7 +321,7 @@
         </Method>
       </Methods>
     </Interface>
-    <Interface name="IProjectionManagerDB" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="1400.0" yPosition="670.0">
+    <Interface name="ProjectionManagerDatabaseInterface" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="1398.0" yPosition="429.0">
       <Methods>
         <Method name="create" returnType="void" visibility="package">
           <Argument type="Date" name="dateTime"/>
@@ -352,7 +355,7 @@
         </Method>
       </Methods>
     </Interface>
-    <Interface name="IUserManagerDB" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="50.0" yPosition="494.0">
+    <Interface name="UserManagerDatabaseInterface" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="20.0" yPosition="467.0">
       <Methods>
         <Method name="getById" returnType="User" visibility="package">
           <Argument type="int" name="userId"/>
@@ -397,29 +400,32 @@
           <Argument type="String" name="username"/>
           <Argument type="String" name="email"/>
         </Method>
+        <Method name="getFiltered" returnType="Set&lt;User&gt;" visibility="package">
+          <Argument type="String" name="nameFilter"/>
+        </Method>
       </Methods>
     </Interface>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.CinemaManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICinemaManagerDB"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.ProjectionManager" target="com.lsmsdbgroup.pisaflix.dbmanager.ProjectionManager" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.CinemaManager" target="com.lsmsdbgroup.pisaflix.dbmanager.CinemaManager" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="um" source="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" target="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="fm" source="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" target="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="cinemaMamager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICinemaManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="cinemaMamager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CinemaManagerDatabaseInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface"/>
     <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" target="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="projectionManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IProjectionManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" target="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IUserManagerDB"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IFilmManagerDB"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICommentManagerDB"/>
-    <HasRelation name="cm" source="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" target="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="userManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IUserManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="cm" source="com.lsmsdbgroup.pisaflix.dbmanager.CinemaManager" target="com.lsmsdbgroup.pisaflix.dbmanager.CinemaManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="commentManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ICommentManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="filmManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IFilmManagerDB" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.ProjectionManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.IProjectionManagerDB"/>
+    <HasRelation name="projectionManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ProjectionManagerDatabaseInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
     <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" target="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.CinemaManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CinemaManagerDatabaseInterface"/>
     <HasRelation name="projectionManager" source="com.lsmsdbgroup.pisaflix.dbmanager.ProjectionManager" target="com.lsmsdbgroup.pisaflix.dbmanager.ProjectionManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" target="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.CinemaManager" target="com.lsmsdbgroup.pisaflix.dbmanager.CinemaManager" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="cinemaManager" source="com.lsmsdbgroup.pisaflix.dbmanager.CinemaManager" target="com.lsmsdbgroup.pisaflix.dbmanager.CinemaManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="commentManager" source="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" target="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="filmManager" source="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" target="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="commentManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CommentManagerDatabaseInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CommentManagerDatabaseInterface"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.ProjectionManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ProjectionManagerDatabaseInterface"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.FilmManagerDatabaseInterface"/>
+    <HasRelation name="filmManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.FilmManagerDatabaseInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="userManager" source="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" target="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="userManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.ProjectionManager" target="com.lsmsdbgroup.pisaflix.dbmanager.ProjectionManager" sourceCardinality="1..1" targetCardinality="1..1"/>
   </ClassDiagramRelations>
 </ClassDiagram>
