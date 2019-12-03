@@ -20,16 +20,10 @@ public class FilmDetailPageController implements Initializable {
     private Label titleLabel;
 
     @FXML
-    private ImageView moviePosterImageView;
-
-    @FXML
     private Label publishDateLabel;
 
     @FXML
     private Label descriptionLabel;
-
-    @FXML
-    private ScrollPane commentScrollPane;
 
     @FXML
     private VBox commentVBox;
@@ -41,16 +35,7 @@ public class FilmDetailPageController implements Initializable {
     private Button commentButton;
 
     @FXML
-    private HBox favoriteHBox;
-
-    @FXML
     private Button favoriteButton;
-
-    @FXML
-    private Button deleteFilmButton;
-
-    @FXML
-    private Button modifyFilmButton;
 
     @FXML
     private Label favoriteLabel;
@@ -63,15 +48,6 @@ public class FilmDetailPageController implements Initializable {
                 commentArea.setEditable(true);
                 commentButton.setDisable(false);
                 favoriteButton.setDisable(false);
-            }
-
-            try {
-                PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR);
-            } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
-                deleteFilmButton.setVisible(false);
-                deleteFilmButton.setManaged(false);
-                modifyFilmButton.setVisible(false);
-                modifyFilmButton.setManaged(false);
             }
         } catch (Exception ex) {
             App.printErrorDialog("Film Details", "An error occurred in inizialization", ex.toString() + "\n" + ex.getMessage());
@@ -123,7 +99,6 @@ public class FilmDetailPageController implements Initializable {
 
     public void setFilm(Film film) {
         this.film = film;
-        PisaFlixServices.filmService.refreshCommentSet(film);
 
         setFavoriteButton();
 
@@ -153,9 +128,8 @@ public class FilmDetailPageController implements Initializable {
     }
 
     public void refreshFilm() {
-        String id = film.getId();
+        int id = film.getIdFilm();
         film = PisaFlixServices.filmService.getById(id);
-        PisaFlixServices.filmService.refreshCommentSet(film);
     }
 
     public void refreshComment() {
@@ -168,32 +142,12 @@ public class FilmDetailPageController implements Initializable {
     }
 
     @FXML
-    private void clickDeleteFilmButton() {
-
-        if (!App.printConfirmationDialog("Deleting film", "You're deleting the film", "Are you sure do you want continue?")) {
-            return;
-        }
-        try {
-            PisaFlixServices.filmService.deleteFilm(this.film.getId());
-            App.setMainPageReturnsController("Films");
-        } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
-            App.printErrorDialog("Delete Film", "An error occurred deleting the film", ex.toString() + "\n" + ex.getMessage());
-        }
-    }
-
-    @FXML
-    private void clickModifyFilmButton() {
-        AddFilmController addFilmController = (AddFilmController) App.setMainPageReturnsController("AddFilm");
-        addFilmController.setFilm(this.film);
-    }
-
-    @FXML
     private void addComment() throws IOException {
         try {
             String comment = commentArea.getText();
             User user = PisaFlixServices.authenticationService.getLoggedUser();
 
-            PisaFlixServices.commentService.addComment(comment, user, film);
+            PisaFlixServices.commentService.addFilmComment(comment, user, film);
 
             refreshFilm();
             refreshComment();

@@ -1,52 +1,38 @@
 package com.lsmsdbgroup.pisaflixg;
 
 import com.lsmsdbgroup.pisaflix.Entities.Film;
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.*;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import com.lsmsdbgroup.pisaflix.pisaflixservices.*;
-import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.InvalidPrivilegeLevelException;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.UserNotLoggedException;
 import java.io.IOException;
-import java.util.*;
+import java.net.URL;
+import java.util.Date;
+import java.util.ResourceBundle;
+import java.util.Set;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.layout.Pane;
 
-public class FilmsController implements Initializable {
-
+public class FilmBrowserController extends BrowserController implements Initializable{
+    
+    public FilmBrowserController(){}
+   
     @FXML
-    private AnchorPane anchorPane;
-
-    @FXML
-    private ScrollPane scrollPane;
-
-    @FXML
-    private TilePane tilePane;
-
-    @FXML
-    private TextField titleFilterTextField;
-
-    @FXML
-    private Button addFilmButton;
-
     @Override
-    @FXML
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            try {
-                PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR);
-            } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
-                addFilmButton.setVisible(false);
-                addFilmButton.setManaged(false);
-            }
+            super.initialize();
+            filterTextField.setPromptText("Title filter");
             searchFilms(null, null);
         } catch (Exception ex) {
             App.printErrorDialog("Films", "There was an inizialization error", ex.toString() + "\n" + ex.getMessage());
-
         }
     }
-
-    private Pane createFilmCardPane(String title, String publishDate, String id) {
+    
+    @Override
+    public Pane createCardPane(String title, String publishDate, int id) {
         Pane pane = new Pane();
         try {
             try {
@@ -62,38 +48,22 @@ public class FilmsController implements Initializable {
         }
         return pane;
     }
-
-    public void populateScrollPane(Set<Film> films) {
-        tilePane.getChildren().clear();
-        String title;
-        String publishDate;
-        String id;
-
-        Pane pane;
-
-        for (Film film : films) {
-            title = film.getTitle();
-            publishDate = film.getPublicationDate().toString();
-            id = film.getId();
-
-            pane = createFilmCardPane(title, publishDate, id);
-            tilePane.getChildren().add(pane);
-        }
-    }
-
+    
     @FXML
-    private void filterFilms() {
+    @Override
+    public void filter() {
         try {
-            String titleFilter = titleFilterTextField.getText();
+            String titleFilter = filterTextField.getText();
 
             searchFilms(titleFilter, null);
         } catch (Exception ex) {
             App.printErrorDialog("Films", "An error occurred searching the films", ex.toString() + "\n" + ex.getMessage());
         }
     }
-
+    
     @FXML
-    private void addFilm() {
+    @Override
+    public void add() {
         try {
             try {
                 PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a new film");
@@ -104,17 +74,34 @@ public class FilmsController implements Initializable {
             App.setMainPageReturnsController("AddFilm");
         } catch (Exception ex) {
             App.printErrorDialog("Films", "An error occurred", ex.toString() + "\n" + ex.getMessage());
-
         }
     }
-
+    
     @FXML
-    private void searchFilms(String titleFilter, Date dateFilter) {
+    public void searchFilms(String titleFilter, Date dateFilter) {
         try {
             Set<Film> films = PisaFlixServices.filmService.getFilmsFiltered(titleFilter, dateFilter, dateFilter);
             populateScrollPane(films);
         } catch (Exception ex) {
             App.printErrorDialog("Films", "An error occurred searching the films", ex.toString() + "\n" + ex.getMessage());
+        }
+    }
+    
+    public void populateScrollPane(Set<Film> films) {
+        tilePane.getChildren().clear();
+        String title;
+        String publishDate;
+        int id;
+
+        Pane pane;
+        int i = 0;
+        for (Film film : films) {
+            title = film.getTitle();
+            publishDate = film.getPublicationDate().toString();
+            id = film.getIdFilm();
+
+            pane = createCardPane(title, publishDate, id);
+            tilePane.getChildren().add(pane);
         }
     }
 }

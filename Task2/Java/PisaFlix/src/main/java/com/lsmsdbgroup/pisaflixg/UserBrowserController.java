@@ -8,14 +8,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;
 import java.io.IOException;
 import java.util.Set;
 import javafx.fxml.FXMLLoader;
 
-public class UsersController implements Initializable {
-
-    @FXML
-    private AnchorPane anchorPane;
+public class UserBrowserController extends BrowserController implements Initializable {
 
     @FXML
     private ScrollPane scrollPane;
@@ -29,10 +27,17 @@ public class UsersController implements Initializable {
     @Override
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
-        searchUsers(null);
+        try {
+            super.initialize();
+            filterTextField.setPromptText("Name filter");
+            searchUsers(null);
+        } catch (Exception ex) {
+            App.printErrorDialog("Users", "An error occurred loading the page", ex.toString() + "\n" + ex.getMessage());
+        }
     }
 
-    private Pane createUserCardPane(String name, String privilege, String id) {
+    @Override
+    public Pane createCardPane(String name, String privilege, int id) {
         Pane pane = new Pane();
         try {
             try {
@@ -41,26 +46,13 @@ public class UsersController implements Initializable {
                 loader.setController(fcc);
                 pane = loader.load();
             } catch (IOException ex) {
-                App.printErrorDialog("User Card", "An error occurred loading the user card", ex.toString() + "\n" + ex.getMessage());
+                App.printErrorDialog("Users", "An error occurred loading the user card", ex.toString() + "\n" + ex.getMessage());
             }
         } catch (Exception ex) {
-            App.printErrorDialog("User Card", "An error occurred loading the user card", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Users", "An error occurred loading the user card", ex.toString() + "\n" + ex.getMessage());
         }
 
         return pane;
-    }
-
-    private String returnPrivilege(int level) {
-        switch (level) {
-            case 1:
-                return "Social Moderator";
-            case 2:
-                return "Moderator";
-            case 3:
-                return "Admin";
-            default:
-                return "User";
-        }
     }
 
     public void populateScrollPane(Set<User> users) {
@@ -69,18 +61,19 @@ public class UsersController implements Initializable {
             String username;
             String privilege;
             int level;
-            String id;
+            int id;
 
             Pane pane;
+            int i = 0;
             for (User user : users) {
                 username = user.getUsername();
                 level = user.getPrivilegeLevel();
 
-                privilege = returnPrivilege(level);
+                privilege = UserPrivileges.valueOf(level);
 
-                id = user.getId();
+                id = user.getIdUser();
 
-                pane = createUserCardPane(username, privilege, id);
+                pane = createCardPane(username, privilege, id);
                 tilePane.getChildren().add(pane);
             }
         } catch (Exception ex) {
@@ -89,7 +82,8 @@ public class UsersController implements Initializable {
     }
 
     @FXML
-    private void filterUsers() {
+    @Override
+    public void filter() {
         try {
             String usernameFilter = nameFilterTextField.getText();
 
@@ -108,4 +102,11 @@ public class UsersController implements Initializable {
             App.printErrorDialog("Users", "An error occurred loading the users", ex.toString() + "\n" + ex.getMessage());
         }
     }
+    
+    @FXML
+    @Override
+    public void add(){
+        App.setMainPageReturnsController("registration");
+    }
 }
+

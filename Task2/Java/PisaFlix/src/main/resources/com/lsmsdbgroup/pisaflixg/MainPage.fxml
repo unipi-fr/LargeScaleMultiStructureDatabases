@@ -7,11 +7,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<GridPane maxHeight="920.0" maxWidth="1080.0" minHeight="920.0" minWidth="1080.0" prefHeight="920.0" prefWidth="1080.0" stylesheets="@../../../styles/PisaFlix.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.MainPageController">
+<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../../../styles/PisaFlix.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.MainPageController">
    <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
-      <ColumnConstraints hgrow="SOMETIMES" percentWidth="80.0" />
+      <ColumnConstraints hgrow="SOMETIMES" percentWidth="12.0" />
+      <ColumnConstraints hgrow="SOMETIMES" percentWidth="88.0" />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints percentHeight="100.0" vgrow="SOMETIMES" />

@@ -10,7 +10,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" onMouseClicked="#showCinema" styleClass="card-film" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" onMousePressed="#clickMouse" styleClass="card-film" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="116.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
@@ -20,7 +20,15 @@
       <Label fx:id="nameLabel" alignment="CENTER" styleClass="card-film-title" text="Label" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="116.0">
          <font>
             <Font size="20.0" />
-         </font></Label>
+         </font>
+         <contextMenu>
+            <ContextMenu>
+              <items>
+                <MenuItem fx:id="modifyCinemaMenuItem" mnemonicParsing="false" onAction="#modifyCinema" text="Modify" />
+                  <MenuItem fx:id="deleteCinemaMenuItem" mnemonicParsing="false" onAction="#deleteCinema" text="Delete" />
+              </items>
+            </ContextMenu>
+         </contextMenu></Label>
       <Label fx:id="addressLabel" alignment="CENTER" styleClass="card-film-subtitle" text="Label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="142.0">
          <font>
             <Font size="16.0" />

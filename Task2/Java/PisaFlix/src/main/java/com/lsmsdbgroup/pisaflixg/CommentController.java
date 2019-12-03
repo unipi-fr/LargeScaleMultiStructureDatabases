@@ -110,7 +110,7 @@ public class CommentController implements Initializable {
         try {
             User user = PisaFlixServices.authenticationService.getLoggedUser();
             if (user != null) {
-                if (Objects.equals(comment.getUser().getId(), user.getId())) {
+                if (Objects.equals(comment.getUser().getIdUser(), user.getIdUser())) {
                     return true;
                 }
                 PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.SOCIAL_MODERATOR, "Delete/Update other user comment");
@@ -134,7 +134,7 @@ public class CommentController implements Initializable {
     }
 
     private void refreshComment() {
-        comment = PisaFlixServices.commentService.getById(comment.getId());
+        comment = PisaFlixServices.commentService.getById(comment.getIdComment());
     }
 
     @FXML
@@ -192,7 +192,7 @@ public class CommentController implements Initializable {
             }
 
             if (type == 0) {
-                Film film = comment.getFilm();
+                Film film = comment.getFilmSet().iterator().next();
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
                 AnchorPane anchorPane = null;
@@ -209,7 +209,7 @@ public class CommentController implements Initializable {
                 filmDetailPageController.refreshFilm();
                 filmDetailPageController.refreshComment();
             } else {
-                Cinema cinema = comment.getCinema();
+                Cinema cinema = comment.getCinemaSet().iterator().next();
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("CinemaDetailPage.fxml"));
                 AnchorPane anchorPane = null;

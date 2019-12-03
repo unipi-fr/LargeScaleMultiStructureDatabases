@@ -109,7 +109,7 @@ public class AddProjectionController implements Initializable {
 
                 int room = Integer.parseInt(roomTextField.getText());
 
-                if (PisaFlixServices.projectionService.checkDuplicates(cinema.getId(), film.getId(), dateFormat.format(date), room)) {
+                if (PisaFlixServices.projectionService.checkDuplicates(cinema.getIdCinema(), film.getIdFilm(), dateFormat.format(date), room)) {
                     errorLabel("Projection already scheduled");
                     return;
                 }

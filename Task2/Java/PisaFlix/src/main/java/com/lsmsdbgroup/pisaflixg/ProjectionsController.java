@@ -101,7 +101,7 @@ public class ProjectionsController implements Initializable {
             }
 
             Projection projection = (Projection) projectionTable.getSelectionModel().getSelectedItem();
-            PisaFlixServices.projectionService.removeProjection(projection.getId());
+            PisaFlixServices.projectionService.removeProjection(projection.getIdProjection());
             showSearch();
         } catch (Exception ex) {
             App.printErrorDialog("Remove Projection", "An error occurred removing the projection", ex.toString() + "\n" + ex.getMessage());
@@ -116,21 +116,21 @@ public class ProjectionsController implements Initializable {
             cinemaCol.setCellValueFactory(new PropertyValueFactory<>("Cinema"));
             filmCol.setCellValueFactory(new PropertyValueFactory<>("Film"));
 
-            String cinemaId;
-            String filmId;
+            int cinemaId;
+            int filmId;
 
             if (cinemaCombo.getValue() == null || "All".equals(cinemaCombo.getValue().toString())) {
-                cinemaId = "-1";
+                cinemaId = -1;
             } else {
                 Cinema cinema = (Cinema) cinemaCombo.getValue();
-                cinemaId = cinema.getId();
+                cinemaId = cinema.getIdCinema();
             }
 
             if (filmCombo.getValue() == null || "All".equals(filmCombo.getValue().toString())) {
-                filmId = "-1";
+                filmId = -1;
             } else {
                 Film film = (Film) filmCombo.getValue();
-                filmId = film.getId();
+                filmId = film.getIdFilm();
             }
             projectionTable.getItems().setAll(getItemsToAdd(cinemaId, filmId));
         } catch (Exception ex) {
@@ -138,7 +138,7 @@ public class ProjectionsController implements Initializable {
         }
     }
 
-    private ObservableList getItemsToAdd(String cinemaId, String filmId) {
+    private ObservableList getItemsToAdd(int cinemaId, int filmId) {
 
         LocalDate localDate = datePicker.getValue();
         String dateStr;

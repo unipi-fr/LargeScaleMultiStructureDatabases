@@ -11,6 +11,7 @@ import java.util.Optional;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.stage.StageStyle;
 
 public class App extends Application {
 
@@ -33,6 +34,16 @@ public class App extends Application {
                 stage.setScene(scene);
                 stage.setTitle("Pisaflix");
                 stage.getIcons().add(new Image("/img/PF.png"));
+                stage.setResizable(false);
+                System.out.println(System.getProperty("os.name"));
+                if(System.getProperty("os.name").split(" ")[0].equals("Mac"))
+                   stage.initStyle(StageStyle.UTILITY);
+                else {
+                    stage.maximizedProperty().addListener((observable, oldValue, newValue) -> {
+                    if (newValue)
+                        stage.setMaximized(false);
+                    });   
+                }
                 stage.show();
             } catch (IOException ex) {
                 App.printErrorDialog("PisaFlix", "I/O Error", ex.toString() + "\n" + ex.getMessage());
@@ -66,6 +77,10 @@ public class App extends Application {
 
     public static Object setMainPageReturnsController(String fxml) {
         return mainPageController.setMainPaneReturnsController(fxml);
+    }
+    
+    public static void setMainPageAndController(String fxml, Object controller) {
+        mainPageController.setMainPaneAndController(fxml, controller);
     }
 
     public static void setMainPane(Pane pane) {

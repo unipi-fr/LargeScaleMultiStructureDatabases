@@ -22,9 +22,9 @@ public class UserCardController implements Initializable {
     private final StringProperty userProperty = new SimpleStringProperty();
     private final StringProperty privilegeProperty = new SimpleStringProperty();
 
-    private final String userId;
+    private final int userId;
 
-    public UserCardController(String username, String privilege, String id) {
+    public UserCardController(String username, String privilege, int id) {
         userProperty.set(username);
         privilegeProperty.set(privilege);
         userId = id;
@@ -182,10 +182,10 @@ public class UserCardController implements Initializable {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("UserView.fxml"));
 
-            AnchorPane anchorPane = null;
+            GridPane gridPane = null;
 
             try {
-                anchorPane = loader.load();
+                gridPane = loader.load();
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
             }
@@ -194,7 +194,7 @@ public class UserCardController implements Initializable {
 
             userViewController.setUser(user);
 
-            App.setMainPane(anchorPane);
+            App.setMainPane(gridPane);
         } catch (Exception ex) {
             App.printErrorDialog("User Card", "An error occurred", ex.toString() + "\n" + ex.getMessage());
         }
