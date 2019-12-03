@@ -184,5 +184,4 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         }
         return films;
     }
-
 }

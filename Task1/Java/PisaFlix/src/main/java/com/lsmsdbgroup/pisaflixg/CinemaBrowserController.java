@@ -11,42 +11,20 @@ import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
-public class CinemasController implements Initializable {
-
-    @FXML
-    private AnchorPane anchorPane;
-
-    @FXML
-    private ScrollPane scrollPane;
-
-    @FXML
-    private TilePane tilePane;
-
-    @FXML
-    private TextField nameFilterTextField;
-
-    @FXML
-    private Button addCinemaButton;
+public class CinemaBrowserController extends BrowserController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            try {
-                PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR);
-            } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
-                addCinemaButton.setVisible(false);
-                addCinemaButton.setManaged(false);
-            }
-
-            Set<Cinema> cinemas = PisaFlixServices.cinemaService.getAll();
-
-            populateScrollPane(cinemas);
+            super.initialize();
+            filterTextField.setPromptText("Name filter");
+            searchCinemas(null, null);
         } catch (Exception ex) {
             App.printErrorDialog("Cinemas", "An error occurred loading the page", ex.toString() + "\n" + ex.getMessage());
         }
     }
 
-    private Pane createFilmCardPane(String name, String address, int id) {
+    public Pane createCardPane(String name, String address, int id) {
         Pane pane = new Pane();
         try {
             try {
@@ -58,7 +36,7 @@ public class CinemasController implements Initializable {
                 System.out.println(ex.getMessage());
             }
         } catch (Exception ex) {
-            App.printErrorDialog("Cinema Card", "An error occurred creating the card", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Cinemas", "An error occurred creating the card", ex.toString() + "\n" + ex.getMessage());
         }
 
         return pane;
@@ -76,15 +54,16 @@ public class CinemasController implements Initializable {
             address = cinema.getAddress();
             id = cinema.getIdCinema();
 
-            pane = createFilmCardPane(name, address, id);
+            pane = createCardPane(name, address, id);
             tilePane.getChildren().add(pane);
         }
     }
 
     @FXML
-    private void filterCinemas() {
+    @Override
+    public void filter() {
         try {
-            String nameFilter = nameFilterTextField.getText();
+            String nameFilter = filterTextField.getText();
             searchCinemas(nameFilter, null);
         } catch (Exception ex) {
             App.printErrorDialog("Search Cinemas", "An error occurred loading the cinemas", ex.toString() + "\n" + ex.getMessage());
@@ -102,7 +81,8 @@ public class CinemasController implements Initializable {
     }
 
     @FXML
-    private void addCinema() {
+    @Override
+    public void add() {
         App.setMainPageReturnsController("AddCinema");
     }
 
