@@ -29,7 +29,7 @@ public abstract class BrowserController {
         }
     }
 
-    public abstract Pane createCardPane(String title, String publishDate, int id);
+    public abstract Pane createCardPane(String title, String publishDate, String id);
 
     @FXML
     public abstract void filter();

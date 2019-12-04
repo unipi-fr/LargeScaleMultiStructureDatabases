@@ -37,7 +37,7 @@ public class UserBrowserController extends BrowserController implements Initiali
     }
 
     @Override
-    public Pane createCardPane(String name, String privilege, int id) {
+    public Pane createCardPane(String name, String privilege, String id) {
         Pane pane = new Pane();
         try {
             try {
@@ -61,19 +61,13 @@ public class UserBrowserController extends BrowserController implements Initiali
             String username;
             String privilege;
             int level;
-            int id;
-
             Pane pane;
-            int i = 0;
+
             for (User user : users) {
                 username = user.getUsername();
                 level = user.getPrivilegeLevel();
-
                 privilege = UserPrivileges.valueOf(level);
-
-                id = user.getIdUser();
-
-                pane = createCardPane(username, privilege, id);
+                pane = createCardPane(username, privilege, user.getId());
                 tilePane.getChildren().add(pane);
             }
         } catch (Exception ex) {

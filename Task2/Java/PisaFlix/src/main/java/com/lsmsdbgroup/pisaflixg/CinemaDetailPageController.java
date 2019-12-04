@@ -2,7 +2,6 @@ package com.lsmsdbgroup.pisaflixg;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.*;
-import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -100,7 +99,7 @@ public class CinemaDetailPageController implements Initializable {
     public void setCinema(Cinema cinema) {
         try{
         this.cinema = cinema;
-        
+        PisaFlixServices.cinemaService.refreshCommentSet(cinema);
         setFavoriteButton();
 
         setNameLabel(cinema.getName());
@@ -138,15 +137,15 @@ public class CinemaDetailPageController implements Initializable {
 
     public void refreshCinema() {
         try{
-        int id = cinema.getIdCinema();
-        cinema = PisaFlixServices.cinemaService.getById(id);
+        cinema = PisaFlixServices.cinemaService.getById(cinema.getId());
+        PisaFlixServices.cinemaService.refreshCommentSet(cinema);
         }catch(Exception ex){
             App.printErrorDialog("Cinema", "An error occurred", ex.toString() + "\n" + ex.getMessage());
         }
     }
 
     public void refreshComment() {
-        try{
+        try{       
         commentVBox.getChildren().clear();
         Set<Comment> comments = cinema.getCommentSet();
 
@@ -164,7 +163,7 @@ public class CinemaDetailPageController implements Initializable {
         String comment = commentArea.getText();
         User user = PisaFlixServices.authenticationService.getLoggedUser();
 
-        PisaFlixServices.commentService.addCinemaComment(comment, user, cinema);
+        PisaFlixServices.commentService.addComment(comment, user, cinema);
 
         refreshCinema();
         refreshComment();

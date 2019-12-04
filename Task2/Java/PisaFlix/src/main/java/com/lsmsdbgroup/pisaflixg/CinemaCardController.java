@@ -21,11 +21,11 @@ public class CinemaCardController implements Initializable {
     private final StringProperty nameProperty = new SimpleStringProperty();
     private final StringProperty addressProperty = new SimpleStringProperty();
 
-    private final int cinemaId;
+    private final String cinemaId;
     
     private Cinema cinema;
 
-    public CinemaCardController(String name, String address, int id) {
+    public CinemaCardController(String name, String address, String id) {
         nameProperty.set(name);
         addressProperty.set(address);
         cinemaId = id;

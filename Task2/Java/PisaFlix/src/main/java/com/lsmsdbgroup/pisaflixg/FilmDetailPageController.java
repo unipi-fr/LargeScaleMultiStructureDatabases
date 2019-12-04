@@ -2,15 +2,14 @@ package com.lsmsdbgroup.pisaflixg;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.*;
-import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Set;
 import java.util.ResourceBundle;
 import javafx.fxml.*;
 import javafx.scene.control.*;
-import javafx.scene.image.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 
 public class FilmDetailPageController implements Initializable {
 
@@ -23,7 +22,7 @@ public class FilmDetailPageController implements Initializable {
     private Label publishDateLabel;
 
     @FXML
-    private Label descriptionLabel;
+    private Text descriptionLabel;
 
     @FXML
     private VBox commentVBox;
@@ -99,6 +98,7 @@ public class FilmDetailPageController implements Initializable {
 
     public void setFilm(Film film) {
         this.film = film;
+        PisaFlixServices.filmService.refreshCommentSet(film);
 
         setFavoriteButton();
 
@@ -128,8 +128,8 @@ public class FilmDetailPageController implements Initializable {
     }
 
     public void refreshFilm() {
-        int id = film.getIdFilm();
-        film = PisaFlixServices.filmService.getById(id);
+        film = PisaFlixServices.filmService.getById(film.getId());
+        PisaFlixServices.filmService.refreshCommentSet(film);
     }
 
     public void refreshComment() {
@@ -147,7 +147,7 @@ public class FilmDetailPageController implements Initializable {
             String comment = commentArea.getText();
             User user = PisaFlixServices.authenticationService.getLoggedUser();
 
-            PisaFlixServices.commentService.addFilmComment(comment, user, film);
+            PisaFlixServices.commentService.addComment(comment, user, film);
 
             refreshFilm();
             refreshComment();

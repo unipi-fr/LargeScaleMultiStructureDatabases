@@ -22,9 +22,9 @@ public class UserCardController implements Initializable {
     private final StringProperty userProperty = new SimpleStringProperty();
     private final StringProperty privilegeProperty = new SimpleStringProperty();
 
-    private final int userId;
+    private final String userId;
 
-    public UserCardController(String username, String privilege, int id) {
+    public UserCardController(String username, String privilege, String id) {
         userProperty.set(username);
         privilegeProperty.set(privilege);
         userId = id;
@@ -57,7 +57,7 @@ public class UserCardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            user = PisaFlixServices.userService.getUserById(userId);
+            user = PisaFlixServices.userService.getById(userId);
             usernameLabel.setText(userProperty.get());
             privilegeLabel.setText(privilegeProperty.get());
 
@@ -141,7 +141,7 @@ public class UserCardController implements Initializable {
                 App.printErrorDialog("Updating Privilege", "An error occurred while updating the privileges", ex.getMessage());
             }
 
-            user = PisaFlixServices.userService.getUserById(userId);
+            user = PisaFlixServices.userService.getById(userId);
 
             reefreshUserCard();
 

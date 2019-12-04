@@ -11,7 +11,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.CinemaDetailPageController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="75.0" />
@@ -23,29 +22,49 @@
    <children>
       <AnchorPane>
          <children>
-            <VBox spacing="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+            <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+               </rowConstraints>
                <children>
-                  <Label fx:id="nameLabel" alignment="CENTER" prefHeight="44.0" prefWidth="283.0" text="Name" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="220.0" AnchorPane.topAnchor="0.0">
-                     <font>
-                        <Font name="System Bold" size="36.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="addressLabel" layoutX="13.0" layoutY="44.0" prefHeight="20.0" prefWidth="250.0" text="Address" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="237.0" AnchorPane.topAnchor="44.0">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-               </children>
-            </VBox>
-            <ScrollPane fx:id="commentScrollPane" fitToHeight="true" fitToWidth="true" layoutY="89.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
-               <content>
-                  <VBox fx:id="commentVBox" alignment="TOP_CENTER" spacing="5.0">
-                     <padding>
-                        <Insets left="5.0" right="5.0" top="1.0" />
-                     </padding>
+                  <VBox spacing="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                     <children>
+                        <Label fx:id="nameLabel" alignment="CENTER" text="Name" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="220.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="addressLabel" layoutX="13.0" layoutY="44.0" text="Address" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="237.0" AnchorPane.topAnchor="44.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
                   </VBox>
-               </content>
-            </ScrollPane>
+                  <ScrollPane fx:id="commentScrollPane" fitToHeight="true" fitToWidth="true" GridPane.rowIndex="1">
+                     <content>
+                        <VBox fx:id="commentVBox" alignment="TOP_CENTER" spacing="5.0">
+                           <padding>
+                              <Insets left="5.0" right="5.0" top="1.0" />
+                           </padding>
+                        </VBox>
+                     </content>
+                  </ScrollPane>
+               </children>
+            </GridPane>
          </children>
       </AnchorPane>
       <VBox alignment="CENTER" layoutX="350.0" spacing="15.0" GridPane.columnIndex="1">

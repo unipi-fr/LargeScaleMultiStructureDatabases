@@ -1,7 +1,6 @@
 package com.lsmsdbgroup.pisaflixg;
 
 import com.lsmsdbgroup.pisaflix.Entities.Film;
-import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.InvalidPrivilegeLevelException;
@@ -10,8 +9,6 @@ import java.io.IOException;
 import javafx.beans.property.StringProperty;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.*;
 import javafx.scene.control.*;
@@ -23,11 +20,11 @@ public class FilmCardController implements Initializable {
     private final StringProperty titleProperty = new SimpleStringProperty();
     private final StringProperty pusblishDateProperty = new SimpleStringProperty();
 
-    private final int filmId;
+    private final String filmId;
     
     private Film film;
 
-    public FilmCardController(String title, String publishDate, int id) {
+    public FilmCardController(String title, String publishDate, String id) {
         titleProperty.set(title);
         pusblishDateProperty.set(publishDate);
         filmId = id;
@@ -93,7 +90,7 @@ public class FilmCardController implements Initializable {
             return;
         }
         try {
-            PisaFlixServices.filmService.deleteFilm(this.film.getIdFilm());
+            PisaFlixServices.filmService.deleteFilm(this.film.getId());
             FilmBrowserController filmBrowserController = new FilmBrowserController();
             App.setMainPageAndController("Browser", filmBrowserController);
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {

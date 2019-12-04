@@ -32,12 +32,12 @@ public class FilmBrowserController extends BrowserController implements Initiali
     }
     
     @Override
-    public Pane createCardPane(String title, String publishDate, int id) {
+    public Pane createCardPane(String title, String publishDate, String idFilm) {
         Pane pane = new Pane();
         try {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmCard.fxml"));
-                FilmCardController fcc = new FilmCardController(title, publishDate, id);
+                FilmCardController fcc = new FilmCardController(title, publishDate, idFilm);
                 loader.setController(fcc);
                 pane = loader.load();
             } catch (IOException ex) {
@@ -87,18 +87,17 @@ public class FilmBrowserController extends BrowserController implements Initiali
         }
     }
     
-    public void populateScrollPane(Set<Film> films) {
+    public void populateScrollPane(Set<Film> filmSet) {
         tilePane.getChildren().clear();
         String title;
         String publishDate;
-        int id;
+        String id;
 
         Pane pane;
-        int i = 0;
-        for (Film film : films) {
+        for (Film film : filmSet) {
             title = film.getTitle();
             publishDate = film.getPublicationDate().toString();
-            id = film.getIdFilm();
+            id = film.getId();
 
             pane = createCardPane(title, publishDate, id);
             tilePane.getChildren().add(pane);
