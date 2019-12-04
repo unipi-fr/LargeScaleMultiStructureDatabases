@@ -45,22 +45,19 @@ public class CinemaService implements CinemaServiceInterface {
 
     @Override
     public void addCinema(String name, String address) throws UserNotLoggedException, InvalidPrivilegeLevelException {
-        //userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a new cinema");
-        System.out.println("Rimettere il controlloooooooooooooooooooooooooooooooooooooooo (linea 49)!!!!");
+        userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a new cinema");
         commentManager.create(name, address);
     }
 
     @Override
     public void updateCinema(Cinema cinema) throws UserNotLoggedException, InvalidPrivilegeLevelException {
-        //userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "update a cinema");
-         System.out.println("Rimettere il controlloooooooooooooooooooooooooooooooooooooooo (linea 57)!!!!");
+        userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "update a cinema");
         commentManager.update(cinema.getId(), cinema.getName(), cinema.getAddress());
     }
 
     @Override
     public void deleteCinema(Cinema cinema) throws UserNotLoggedException, InvalidPrivilegeLevelException {
-        //userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "delete a cinema");
-        System.out.println("Rimettere il controlloooooooooooooooooooooooooooooooooooooooo (linea 62)!!!!");
+        userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "delete a cinema");
         commentManager.delete(cinema.getId());
     }
 

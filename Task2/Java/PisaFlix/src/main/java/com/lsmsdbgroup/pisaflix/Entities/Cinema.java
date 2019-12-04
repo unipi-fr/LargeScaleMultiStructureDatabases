@@ -41,7 +41,7 @@ public class Cinema extends Entity implements Serializable {
             try {
                 throw new NonConvertibleDocumentException("Document not-convertible in cinema");
             } catch (NonConvertibleDocumentException ex) {
-                Logger.getLogger(Cinema.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex.getMessage());
             }
         }      
     }

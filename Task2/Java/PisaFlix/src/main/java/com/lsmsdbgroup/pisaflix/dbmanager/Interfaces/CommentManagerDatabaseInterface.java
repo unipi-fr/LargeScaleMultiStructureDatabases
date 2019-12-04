@@ -10,6 +10,8 @@ public interface CommentManagerDatabaseInterface {
     void update(Comment comment, String text);
 
     void delete(String idComment);
+    
+    void deleteAll(Entity entity);
 
     Comment getById(String commentId);
     

@@ -91,6 +91,7 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
         //clearUserSet(getById(idCinema));
         try {
             CinemaCollection.deleteOne(eq("_id", new ObjectId(idCinema)));
+            DBManager.commentManager.deleteAll(new Cinema(idCinema));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in removing a Cinema!");
@@ -120,8 +121,6 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in updating the film!");
-        } finally {
-
         }
     }
 

@@ -1,7 +1,9 @@
 package com.lsmsdbgroup.pisaflix.Entities;
 
+import com.lsmsdbgroup.pisaflix.Entities.exceptions.NonConvertibleDocumentException;
 import java.io.Serializable;
 import java.util.*;
+import org.bson.Document;
 
 public class User extends Entity implements Serializable {
 
@@ -31,6 +33,28 @@ public class User extends Entity implements Serializable {
         this.username = username;
         this.password = password;
         this.privilegeLevel = privilegeLevel;
+    }
+    
+    public User(Document userDocument) {     
+        if(userDocument.containsKey("_id") && userDocument.containsKey("Username") && userDocument.containsKey("Password") && userDocument.containsKey("Email") && userDocument.containsKey("PrivilegeLevel") ){
+            this.idUser = userDocument.get("_id").toString();
+            this.username = userDocument.getString("Username");
+            this.password = userDocument.getString("Password");
+            this.email = userDocument.getString("Email");
+            this.privilegeLevel = userDocument.getInteger("PrivilegeLevel");
+            if(userDocument.containsKey("FirstName")){
+                this.firstName = userDocument.getString("FirstName");
+            }
+            if(userDocument.containsKey("LastName")){
+                this.lastName = userDocument.getString("LastName");
+            }
+        }else{
+            try {
+                throw new NonConvertibleDocumentException("Document not-convertible in user");
+            } catch (NonConvertibleDocumentException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }      
     }
 
     @Override

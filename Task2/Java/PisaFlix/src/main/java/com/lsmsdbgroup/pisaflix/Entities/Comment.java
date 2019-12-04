@@ -64,13 +64,13 @@ public class Comment extends Entity implements Serializable {
                 this.cinema = PisaFlixServices.cinemaService.getById(commentDocument.get("Cinema").toString());
             }
             if(commentDocument.containsKey("User")){
-                //this.user = PisaFlixServices.userService.getById(commentDocument.get("User").toString());
+                this.user = PisaFlixServices.userService.getById(commentDocument.get("User").toString());
             }
         }else{
             try {
-                throw new NonConvertibleDocumentException("Document not-convertible in cinema");
+                throw new NonConvertibleDocumentException("Document not-convertible in comment");
             } catch (NonConvertibleDocumentException ex) {
-                Logger.getLogger(Cinema.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex.getMessage());
             }
         }      
     }

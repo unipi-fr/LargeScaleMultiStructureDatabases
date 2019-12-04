@@ -41,9 +41,9 @@ public class Film extends Entity implements Serializable {
             this.description = filmDocument.getString("Description");
         }else{
             try {
-                throw new NonConvertibleDocumentException("Document not-convertible in cinema");
+                throw new NonConvertibleDocumentException("Document not-convertible in film");
             } catch (NonConvertibleDocumentException ex) {
-                Logger.getLogger(Cinema.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex.getMessage());
             }
         }      
     }

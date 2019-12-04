@@ -44,8 +44,6 @@ private static CommentManager CommentManager;
         }
         //Upsert insert if documnet does't already exists
         UpdateOptions options = new UpdateOptions().upsert(true);
-        //user.getCommentSet().add(comment);
-        //film.getCommentSet().add(comment);
 
         try {
             CommentCollection.updateOne(and(commentDocument), new Document("$set", commentDocument), options);
@@ -62,8 +60,6 @@ private static CommentManager CommentManager;
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in updating the Comment!");
-        } finally {
-
         }
     }
 
@@ -74,10 +70,24 @@ private static CommentManager CommentManager;
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in removing the Comment!");
-        } finally {
-
         }
     }
+    
+@Override
+    public void deleteAll(Entity entity) {
+        try {
+            if(entity.getClass().equals(Film.class)){
+                CommentCollection.deleteMany(eq("Film", entity.getId()));
+            }else{
+                CommentCollection.deleteMany(eq("Cinema", entity.getId()));
+                System.out.println(entity.getId());
+            }           
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("A problem occurred in removing the Comment!");
+        }
+    }
+
 
     @Override
     public Comment getById(String commentId) {

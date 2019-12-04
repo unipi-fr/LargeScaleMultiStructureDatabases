@@ -106,6 +106,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         //clearUserSet(getById(idFilm));
         try {
             FilmCollection.deleteOne(eq("_id", new ObjectId(idFilm)));
+            DBManager.commentManager.deleteAll(new Film(idFilm));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in deleting the film!");

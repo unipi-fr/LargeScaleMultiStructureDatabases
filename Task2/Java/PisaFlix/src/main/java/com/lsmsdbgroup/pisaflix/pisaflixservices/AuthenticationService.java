@@ -13,11 +13,11 @@ import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.AuthenticationServic
 public class AuthenticationService implements AuthenticationServiceInterface {
 
     private User loggedUser;
-    private final UserManagerDatabaseInterface um;
+    private final UserManagerDatabaseInterface userManager;
 
     AuthenticationService(UserManagerDatabaseInterface userManager) {
         loggedUser = null;
-        um = userManager;
+        this.userManager = userManager;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class AuthenticationService implements AuthenticationServiceInterface {
         // TODO: aggiornare il campo password nel DB ad almeno 64 caratteri e
         // Sostituire password con hashedPassword nella chiamata alla create()
         // Controllare se l'username esist già nel db
-        um.create(username, password, firstName, lastName, email, 0);
+        userManager.create(username, password, firstName, lastName, email, 0);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class AuthenticationService implements AuthenticationServiceInterface {
         }
 
         String hashedPassword = SHA256(password);
-        Set<User> tmpSet = um.getByUsername(username);
+        Set<User> tmpSet = userManager.getByUsername(username);
 
         for (User u : tmpSet) {
             // TODO: aggiornare il campo password nel DB ad almeno 64 caratteri e sostituire l'if con
