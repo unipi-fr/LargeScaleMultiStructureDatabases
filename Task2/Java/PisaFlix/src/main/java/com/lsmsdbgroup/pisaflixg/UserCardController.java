@@ -57,7 +57,7 @@ public class UserCardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            user = PisaFlixServices.userService.getUserById(userId);
+            user = PisaFlixServices.userService.getById(userId);
             usernameLabel.setText(userProperty.get());
             privilegeLabel.setText(privilegeProperty.get());
 
@@ -141,7 +141,7 @@ public class UserCardController implements Initializable {
                 App.printErrorDialog("Updating Privilege", "An error occurred while updating the privileges", ex.getMessage());
             }
 
-            user = PisaFlixServices.userService.getUserById(userId);
+            user = PisaFlixServices.userService.getById(userId);
 
             reefreshUserCard();
 
@@ -182,10 +182,10 @@ public class UserCardController implements Initializable {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("UserView.fxml"));
 
-            AnchorPane anchorPane = null;
+            GridPane gridPane = null;
 
             try {
-                anchorPane = loader.load();
+                gridPane = loader.load();
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
             }
@@ -194,7 +194,7 @@ public class UserCardController implements Initializable {
 
             userViewController.setUser(user);
 
-            App.setMainPane(anchorPane);
+            App.setMainPane(gridPane);
         } catch (Exception ex) {
             App.printErrorDialog("User Card", "An error occurred", ex.toString() + "\n" + ex.getMessage());
         }

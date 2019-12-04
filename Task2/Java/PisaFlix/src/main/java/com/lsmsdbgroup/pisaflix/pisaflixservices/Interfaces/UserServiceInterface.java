@@ -9,7 +9,7 @@ public interface UserServiceInterface {
 
     void deleteLoggedAccount() throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
-    User getUserById(String id);
+    User getById(String id);
 
     Set<User> getAll();
 

@@ -2,51 +2,28 @@ package com.lsmsdbgroup.pisaflixg;
 
 import com.lsmsdbgroup.pisaflix.Entities.Cinema;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.*;
-import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
 import javafx.fxml.*;
-import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
-public class CinemasController implements Initializable {
-
-    @FXML
-    private AnchorPane anchorPane;
-
-    @FXML
-    private ScrollPane scrollPane;
-
-    @FXML
-    private TilePane tilePane;
-
-    @FXML
-    private TextField nameFilterTextField;
-
-    @FXML
-    private Button addCinemaButton;
+public class CinemaBrowserController extends BrowserController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            try {
-                PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR);
-            } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
-                addCinemaButton.setVisible(false);
-                addCinemaButton.setManaged(false);
-            }
-
-            Set<Cinema> cinemas = PisaFlixServices.cinemaService.getAll();
-
-            populateScrollPane(cinemas);
+            super.initialize();
+            filterTextField.setPromptText("Name filter");
+            searchCinemas(null, null);
         } catch (Exception ex) {
             App.printErrorDialog("Cinemas", "An error occurred loading the page", ex.toString() + "\n" + ex.getMessage());
         }
     }
 
-    private Pane createFilmCardPane(String name, String address, String id) {
+    @Override
+    public Pane createCardPane(String name, String address, String id) {
         Pane pane = new Pane();
         try {
             try {
@@ -58,33 +35,34 @@ public class CinemasController implements Initializable {
                 System.out.println(ex.getMessage());
             }
         } catch (Exception ex) {
-            App.printErrorDialog("Cinema Card", "An error occurred creating the card", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Cinemas", "An error occurred creating the card", ex.toString() + "\n" + ex.getMessage());
         }
 
         return pane;
     }
 
-    public void populateScrollPane(Set<Cinema> cinemas) {
+    public void populateScrollPane(Set<Cinema> cinemaSet) {
         Pane pane;
         String name;
         String address;
         String id;
 
         tilePane.getChildren().clear();
-        for (Cinema cinema : cinemas) {
+        for (Cinema cinema : cinemaSet) {
             name = cinema.getName();
             address = cinema.getAddress();
             id = cinema.getId();
 
-            pane = createFilmCardPane(name, address, id);
+            pane = createCardPane(name, address, id);
             tilePane.getChildren().add(pane);
         }
     }
 
     @FXML
-    private void filterCinemas() {
+    @Override
+    public void filter() {
         try {
-            String nameFilter = nameFilterTextField.getText();
+            String nameFilter = filterTextField.getText();
             searchCinemas(nameFilter, null);
         } catch (Exception ex) {
             App.printErrorDialog("Search Cinemas", "An error occurred loading the cinemas", ex.toString() + "\n" + ex.getMessage());
@@ -102,7 +80,8 @@ public class CinemasController implements Initializable {
     }
 
     @FXML
-    private void addCinema() {
+    @Override
+    public void add() {
         App.setMainPageReturnsController("AddCinema");
     }
 
