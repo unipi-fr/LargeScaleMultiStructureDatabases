@@ -28,7 +28,7 @@
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints vgrow="ALWAYS" />
-                  <RowConstraints vgrow="ALWAYS" />
+                  <RowConstraints prefHeight="551.0" vgrow="ALWAYS" />
                </rowConstraints>
                <children>
                   <ScrollPane fx:id="commentScrollPane" fitToHeight="true" fitToWidth="true" layoutY="183.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0" GridPane.rowIndex="1">
@@ -57,12 +57,29 @@
                            <padding>
                               <Insets left="10.0" />
                            </padding>
+                           <VBox.margin>
+                              <Insets top="-10.0" />
+                           </VBox.margin>
                         </Label>
-                        <Text fx:id="descriptionLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Description">
+                        <Separator halignment="RIGHT">
+                           <VBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding></Separator>
+                        <Text fx:id="descriptionLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="800.0">
                            <VBox.margin>
                               <Insets left="5.0" />
                            </VBox.margin>
                         </Text>
+                        <Separator halignment="RIGHT">
+                           <VBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding></Separator>
                      </children>
                   </VBox>
                </children>

@@ -27,8 +27,8 @@
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints vgrow="SOMETIMES" />
-                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+                  <RowConstraints prefHeight="590.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
                   <VBox spacing="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
@@ -49,9 +49,16 @@
                               <Insets left="5.0" />
                            </padding>
                            <VBox.margin>
-                              <Insets bottom="10.0" />
+                              <Insets />
                            </VBox.margin>
                         </Label>
+                        <Separator>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </VBox.margin></Separator>
                      </children>
                   </VBox>
                   <ScrollPane fx:id="commentScrollPane" fitToHeight="true" fitToWidth="true" GridPane.rowIndex="1">
