@@ -113,7 +113,7 @@ public class CommentController implements Initializable {
                 if (Objects.equals(comment.getUser().getId(), user.getId())) {
                     return true;
                 }
-                PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.SOCIAL_MODERATOR, "Delete/Update other user comment");
+                PisaFlixServices.authenticationService.checkUserPrivilegesForOperation(UserPrivileges.SOCIAL_MODERATOR, "Delete/Update other user comment");
                 return true;
             }
         } catch (InvalidPrivilegeLevelException | UserNotLoggedException ex) {

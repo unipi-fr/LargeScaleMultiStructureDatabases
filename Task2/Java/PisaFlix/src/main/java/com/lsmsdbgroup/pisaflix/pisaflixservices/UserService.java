@@ -4,8 +4,14 @@ import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.*;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UserService implements UserServiceInterface {
 
@@ -56,24 +62,11 @@ public class UserService implements UserServiceInterface {
         }
         userManager.delete(user.getId());
         if (Objects.equals(authenticationService.getLoggedUser().getId(), user.getId())) {
-            authenticationService.Logout();
+            authenticationService.logout();
         }
     }
 
-    @Override
-    public void checkUserPrivilegesForOperation(UserPrivileges privilegesToAchieve) throws UserNotLoggedException, InvalidPrivilegeLevelException {
-        checkUserPrivilegesForOperation(privilegesToAchieve, "do this operation");
-    }
-
-    @Override
-    public void checkUserPrivilegesForOperation(UserPrivileges privilegesToAchieve, String operation) throws UserNotLoggedException, InvalidPrivilegeLevelException {
-        if (!authenticationService.isUserLogged()) {
-            throw new UserNotLoggedException("You must be logged in order to " + operation);
-        }
-        if (authenticationService.getLoggedUser().getPrivilegeLevel() < privilegesToAchieve.getValue()) {
-            throw new InvalidPrivilegeLevelException("You don't have enought privilege to " + operation);
-        }
-    }
+    
 
     @Override
     public void changeUserPrivileges(User u, UserPrivileges newPrivilegeLevel) throws UserNotLoggedException, InvalidPrivilegeLevelException {
@@ -98,13 +91,51 @@ public class UserService implements UserServiceInterface {
         userManager.update(u);
     }
 
-    @Override
-    public boolean checkDuplicates(String username, String email) {
+    private boolean checkDuplicates(String username, String email) {
         return userManager.checkDuplicates(username, email);
     }
 
     @Override
-    public void register(String username, String password, String firstName, String lastName, String email) {
-        userManager.create(username, password, firstName, lastName, email, 0);
+    public void register(String username, String password, String email, String firstName, String lastName) throws InvalidFieldException {
+        if (password.isBlank()) {
+            throw new InvalidFieldException("Password is mandatory");
+        }
+        String hashedPassword = SHA256(password);
+        if (username.isBlank() || !username.matches("^[a-zA-Z0-9._-]{3,}$")) {
+            throw new InvalidFieldException("Only valid usernames are accepted");
+        }
+        if (checkDuplicates(username, email)) {
+            throw new InvalidFieldException("Username or Email already exist");
+        }
+        if (email.isBlank() || !email.matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$")) {
+            throw new InvalidFieldException("Only valid emails are accepted");
+        }
+        if (!firstName.matches("[a-zA-Z]+") && !firstName.isEmpty()) {
+            throw new InvalidFieldException("Only valid names are accepted");
+        }
+        if (!lastName.matches("[a-zA-Z]+") && !lastName.isEmpty()) {
+            throw new InvalidFieldException("Only valid names are accepted");
+        }
+        // TODO: aggiornare il campo password nel DB ad almeno 64 caratteri e
+        // Sostituire password con hashedPassword nella chiamata alla create()
+        // Controllare se l'username esist già nel db
+        userManager.create(username, hashedPassword, firstName, lastName, email, 0);
+    }
+    
+    private String SHA256(String text) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+
+            // Change this to UTF-16 if needed
+            md.update(text.getBytes(StandardCharsets.UTF_8));
+            byte[] digest = md.digest();
+            String hex = String.format("%064x", new BigInteger(1, digest));
+
+            return hex;
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(PisaFlixServices.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return null;
     }
 }

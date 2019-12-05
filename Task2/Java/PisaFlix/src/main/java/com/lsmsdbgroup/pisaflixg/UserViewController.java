@@ -121,7 +121,7 @@ public class UserViewController implements Initializable {
 
     private boolean canUpdateOrdDeleteProfile() {
         try {
-            PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.ADMIN, "Update/Delete others account");
+            PisaFlixServices.authenticationService.checkUserPrivilegesForOperation(UserPrivileges.ADMIN, "Update/Delete others account");
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             User loggrdUser = PisaFlixServices.authenticationService.getLoggedUser();
             if (loggrdUser == null) {

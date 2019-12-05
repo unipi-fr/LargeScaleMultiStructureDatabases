@@ -9,11 +9,11 @@ import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.*;
 public class FilmService implements FilmServiceInterface {
 
     private final FilmManagerDatabaseInterface filmManager;
-    private final UserServiceInterface userService;
+    private final AuthenticationServiceInterface authenticationService;
 
-    FilmService(FilmManagerDatabaseInterface filmManager, UserServiceInterface userService) {
+    FilmService(FilmManagerDatabaseInterface filmManager, AuthenticationServiceInterface authenticationService) {
         this.filmManager = filmManager;
-        this.userService = userService;
+        this.authenticationService = authenticationService;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class FilmService implements FilmServiceInterface {
 
     @Override
     public void addFilm(String title, Date publicationDate, String description) throws UserNotLoggedException, InvalidPrivilegeLevelException {
-        userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a film");
+        authenticationService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a film");
         if (title == null || title.isBlank()) {
             System.out.println("Title can't be empty");
             return;
@@ -53,13 +53,13 @@ public class FilmService implements FilmServiceInterface {
 
     @Override
     public void deleteFilm(String idFilm) throws UserNotLoggedException, InvalidPrivilegeLevelException {
-        userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "delete a film");
+        authenticationService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "delete a film");
         filmManager.delete(idFilm);
     }
 
     @Override
     public void updateFilm(Film film) throws UserNotLoggedException, InvalidPrivilegeLevelException {
-        userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "update a film");
+        authenticationService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "update a film");
         filmManager.update(film.getId(), film.getTitle(), film.getPublicationDate(), film.getDescription());
     }
 

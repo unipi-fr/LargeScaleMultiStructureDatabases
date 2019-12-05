@@ -21,16 +21,7 @@ public class AuthenticationService implements AuthenticationServiceInterface {
     }
 
     @Override
-    public void Register(String username, String password, String email, String firstName, String lastName) {
-        String hashedPassword = SHA256(password);
-        // TODO: aggiornare il campo password nel DB ad almeno 64 caratteri e
-        // Sostituire password con hashedPassword nella chiamata alla create()
-        // Controllare se l'username esist già nel db
-        userManager.create(username, password, firstName, lastName, email, 0);
-    }
-
-    @Override
-    public void Login(String username, String password) throws UserAlredyLoggedException, InvalidCredentialsException {
+    public void login(String username, String password) throws UserAlredyLoggedException, InvalidCredentialsException {
         if (isUserLogged()) {
             throw new UserAlredyLoggedException("User is alredy logged as " + loggedUser.toString() + ".");
         }
@@ -39,9 +30,8 @@ public class AuthenticationService implements AuthenticationServiceInterface {
         Set<User> tmpSet = userManager.getByUsername(username);
 
         for (User u : tmpSet) {
-            // TODO: aggiornare il campo password nel DB ad almeno 64 caratteri e sostituire l'if con
-            // if( u.getPassword().equals(hashedPassword) ){
-            if (u.getPassword().equals(password)) {
+            if( u.getPassword().equals(hashedPassword) ){
+            //if (u.getPassword().equals(password)) {
                 loggedUser = u;
                 return;
             }
@@ -51,7 +41,7 @@ public class AuthenticationService implements AuthenticationServiceInterface {
     }
 
     @Override
-    public void Logout() {
+    public void logout() {
         if (!isUserLogged()) {
             System.out.println("WARNING: Logout() called when alredy not logged.");
         }
@@ -92,5 +82,20 @@ public class AuthenticationService implements AuthenticationServiceInterface {
     @Override
     public User getLoggedUser() {
         return loggedUser;
+    }
+    
+    @Override
+    public void checkUserPrivilegesForOperation(UserPrivileges privilegesToAchieve) throws UserNotLoggedException, InvalidPrivilegeLevelException {
+        checkUserPrivilegesForOperation(privilegesToAchieve, "do this operation");
+    }
+
+    @Override
+    public void checkUserPrivilegesForOperation(UserPrivileges privilegesToAchieve, String operation) throws UserNotLoggedException, InvalidPrivilegeLevelException {
+        if (!this.isUserLogged()) {
+            throw new UserNotLoggedException("You must be logged in order to " + operation);
+        }
+        if (this.loggedUser.getPrivilegeLevel() < privilegesToAchieve.getValue()) {
+            throw new InvalidPrivilegeLevelException("You don't have enought privilege to " + operation);
+        }
     }
 }

@@ -49,7 +49,7 @@ public class ProjectionsController implements Initializable {
         try {
 
             try {
-                PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR);
+                PisaFlixServices.authenticationService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR);
             } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
                 addProjectionButton.setVisible(false);
                 addProjectionButton.setManaged(false);

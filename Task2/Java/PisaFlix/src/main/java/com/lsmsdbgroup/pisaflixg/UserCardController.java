@@ -170,7 +170,7 @@ public class UserCardController implements Initializable {
 
                 if (loggedUser != null) {
                     try {
-                        PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.ADMIN);
+                        PisaFlixServices.authenticationService.checkUserPrivilegesForOperation(UserPrivileges.ADMIN);
                         privilegeMenu.show(cardVbox, event.getScreenX(), event.getScreenY());
                     } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
                         Logger.getLogger(UserCardController.class.getName()).log(Level.SEVERE, null, ex);

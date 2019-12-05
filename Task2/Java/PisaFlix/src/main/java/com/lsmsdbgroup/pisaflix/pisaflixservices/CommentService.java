@@ -10,12 +10,10 @@ import java.util.Set;
 public class CommentService implements CommentServiceInterface {
 
     private final CommentManagerDatabaseInterface commentManager;
-    private final UserServiceInterface userService;
     private final AuthenticationServiceInterface authenticationService;
 
-    CommentService(CommentManagerDatabaseInterface commentManager, AuthenticationServiceInterface authenticationService, UserServiceInterface userService) {
+    CommentService(CommentManagerDatabaseInterface commentManager, AuthenticationServiceInterface authenticationService) {
         this.commentManager = commentManager;
-        this.userService = userService;
         this.authenticationService = authenticationService;
     }
 
@@ -31,7 +29,7 @@ public class CommentService implements CommentServiceInterface {
             throw new UserNotLoggedException("You must be logged in order to " + operation);
         }
         if (!Objects.equals(authenticationService.getLoggedUser().getId(), comment.getUser().getId())) {
-            userService.checkUserPrivilegesForOperation(UserPrivileges.SOCIAL_MODERATOR, operation);
+            authenticationService.checkUserPrivilegesForOperation(UserPrivileges.SOCIAL_MODERATOR, operation);
         }
         return true;
     }

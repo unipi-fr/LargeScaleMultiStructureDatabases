@@ -22,7 +22,7 @@ public abstract class BrowserController {
 
     public void initialize(){
         try {
-            PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR);
+            PisaFlixServices.authenticationService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR);
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
             addButton.setVisible(false);
             addButton.setManaged(false);

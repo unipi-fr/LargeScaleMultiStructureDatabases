@@ -15,17 +15,11 @@ public interface UserServiceInterface {
 
     Set<User> getFiltered(String nameFilter);
 
-    void register(String username, String password, String firstName, String lastName, String email);
+    void register(String username, String password, String email, String firstName, String lastName) throws InvalidFieldException;
 
     void updateUser(User user);
 
     void deleteUserAccount(User u) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
-    void checkUserPrivilegesForOperation(UserPrivileges privilegesToAchieve) throws UserNotLoggedException, InvalidPrivilegeLevelException;
-
-    void checkUserPrivilegesForOperation(UserPrivileges privilegesToAchieve, String operation) throws UserNotLoggedException, InvalidPrivilegeLevelException;
-
     void changeUserPrivileges(User u, UserPrivileges newPrivilegeLevel) throws UserNotLoggedException, InvalidPrivilegeLevelException;
-
-    boolean checkDuplicates(String username, String email);
 }

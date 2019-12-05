@@ -66,7 +66,7 @@ public class FilmBrowserController extends BrowserController implements Initiali
     public void add() {
         try {
             try {
-                PisaFlixServices.userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a new film");
+                PisaFlixServices.authenticationService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a new film");
             } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
                 System.out.println(ex.getMessage());
                 return;

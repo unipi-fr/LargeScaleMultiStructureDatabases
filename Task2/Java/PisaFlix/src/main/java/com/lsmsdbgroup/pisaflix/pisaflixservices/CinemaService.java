@@ -9,11 +9,11 @@ import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.*;
 public class CinemaService implements CinemaServiceInterface {
 
     private final CinemaManagerDatabaseInterface commentManager;
-    private final UserServiceInterface userService;
+    private final AuthenticationServiceInterface authenticationService;
 
-    public CinemaService(CinemaManagerDatabaseInterface commentManager, UserServiceInterface userService) {
+    public CinemaService(CinemaManagerDatabaseInterface commentManager, AuthenticationServiceInterface authenticationService) {
         this.commentManager = commentManager;
-        this.userService = userService;
+        this.authenticationService = authenticationService;
     }
 
     @Override
@@ -45,19 +45,19 @@ public class CinemaService implements CinemaServiceInterface {
 
     @Override
     public void addCinema(String name, String address) throws UserNotLoggedException, InvalidPrivilegeLevelException {
-        userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a new cinema");
+        authenticationService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a new cinema");
         commentManager.create(name, address);
     }
 
     @Override
     public void updateCinema(Cinema cinema) throws UserNotLoggedException, InvalidPrivilegeLevelException {
-        userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "update a cinema");
+        authenticationService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "update a cinema");
         commentManager.update(cinema.getId(), cinema.getName(), cinema.getAddress());
     }
 
     @Override
     public void deleteCinema(Cinema cinema) throws UserNotLoggedException, InvalidPrivilegeLevelException {
-        userService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "delete a cinema");
+        authenticationService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "delete a cinema");
         commentManager.delete(cinema.getId());
     }
 

@@ -27,8 +27,6 @@ public class AddProjectionController implements Initializable {
     @FXML
     private Label successLabel;
 
-    DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
@@ -102,21 +100,18 @@ public class AddProjectionController implements Initializable {
                 Film film = (Film) filmComboBox.getValue();
                 LocalTime lt = (LocalTime) timeComboBox.getValue();
                 LocalDate ld = dateDatePicker.getValue();
-                dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
                 LocalDateTime ldt = LocalDateTime.of(ld, lt);
                 Date date = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
 
                 int room = Integer.parseInt(roomTextField.getText());
 
-                if (PisaFlixServices.projectionService.checkDuplicates(cinema.getId(), film.getId(), dateFormat.format(date), room)) {
-                    errorLabel("Projection already scheduled");
-                    return;
-                }
-
                 try {
                     PisaFlixServices.projectionService.addProjection(cinema, film, date, room);
-                } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
+                }catch(InvalidFieldException ex){
+                    errorLabel(ex.getMessage());
+                } 
+                catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
                     System.out.println(ex.getMessage());
                 }
                 successLabel.setTextFill(Color.GREEN);
