@@ -1,0 +1,7 @@
+ROADMAP:
+
+[controlla altri file riguardanti i commenti]
+
+1. Scrivere uno script python che cancelli i record duplicati
+2. convertire i file tsv in csv
+3. associare i titoli ai rating
