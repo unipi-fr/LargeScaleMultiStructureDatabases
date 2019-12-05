@@ -5,7 +5,6 @@ import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.or;
 import static com.mongodb.client.model.Filters.regex;

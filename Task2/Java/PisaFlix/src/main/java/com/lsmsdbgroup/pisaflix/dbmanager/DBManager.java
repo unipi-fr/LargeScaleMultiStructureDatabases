@@ -5,7 +5,7 @@ import com.mongodb.client.*;
 
 public class DBManager {
     
-    private static final MongoClient MongoClient = MongoClients.create("mongodb://localhost:27017");
+    private static final MongoClient MongoClient = MongoClients.create("mongodb+srv://root:root@lsmsdcluster-yeauu.mongodb.net/test?retryWrites=true&w=majority");
     private static MongoDatabase MongoDatabase;
 
     public static void start() {
