@@ -2,7 +2,6 @@ package com.lsmsdbgroup.pisaflixg;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.*;
-import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
