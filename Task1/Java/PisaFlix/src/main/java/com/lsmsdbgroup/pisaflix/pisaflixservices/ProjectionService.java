@@ -9,6 +9,7 @@ import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.*;
 public class ProjectionService implements ProjectionServiceInterface {
 
     private final ProjectionManagerDatabaseInterface projectionManager;
+
     private final UserServiceInterface userManager;
 
     public ProjectionService(ProjectionManagerDatabaseInterface projectionManager, UserServiceInterface userManager) {
@@ -30,9 +31,7 @@ public class ProjectionService implements ProjectionServiceInterface {
     @Override
     public Set<Projection> queryProjections(int cinemaId, int filmId, String date, int room) {
         Set<Projection> projections;
-
         projections = projectionManager.queryProjection(cinemaId, filmId, date, room);
-
         return projections;
     }
 

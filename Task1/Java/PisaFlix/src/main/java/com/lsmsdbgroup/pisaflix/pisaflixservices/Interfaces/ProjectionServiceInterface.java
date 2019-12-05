@@ -13,5 +13,4 @@ public interface ProjectionServiceInterface {
     Set<Projection> queryProjections(int cinemaId, int filmId, String date, int room);
 
     boolean checkDuplicates(int cinemaId, int filmId, String date, int room);
-
 }

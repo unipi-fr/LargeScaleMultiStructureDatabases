@@ -9,7 +9,9 @@ import java.util.Objects;
 public class CommentService implements CommentServiceInterface {
 
     private final CommentManagerDatabaseInterface commentManager;
+
     private final UserServiceInterface userService;
+
     private final AuthenticationServiceInterface authenticationService;
 
     CommentService(CommentManagerDatabaseInterface commentManager, AuthenticationServiceInterface authenticationService, UserServiceInterface userService) {
@@ -47,7 +49,6 @@ public class CommentService implements CommentServiceInterface {
         if (canUpdateOrDeleteComment(comment, "delete other user comment")) {
             commentManager.delete(comment.getIdComment());
         }
-
     }
 
     @Override

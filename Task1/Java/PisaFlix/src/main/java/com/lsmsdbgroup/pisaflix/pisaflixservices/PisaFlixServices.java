@@ -5,12 +5,17 @@ import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.*;
 
 public class PisaFlixServices {
 
-    public final static AuthenticationServiceInterface authenticationService;
-    public final static UserServiceInterface userService;
-    public final static FilmServiceInterface filmService;
-    public final static CinemaServiceInterface cinemaService;
-    public final static CommentServiceInterface commentService;
-    public final static ProjectionServiceInterface projectionService;
+    public static final AuthenticationServiceInterface authenticationService;
+
+    public static final UserServiceInterface userService;
+
+    public static final FilmServiceInterface filmService;
+
+    public static final CinemaServiceInterface cinemaService;
+
+    public static final CommentServiceInterface commentService;
+
+    public static final ProjectionServiceInterface projectionService;
 
     static {
         authenticationService = new AuthenticationService(DBManager.userManager);

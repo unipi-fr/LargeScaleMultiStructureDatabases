@@ -5,11 +5,9 @@ import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 
 public interface AuthenticationServiceInterface {
 
-    void Register(String username, String password, String email, String firstName, String lastName);
+    void login(String username, String password) throws UserAlredyLoggedException, InvalidCredentialsException;
 
-    void Login(String username, String password) throws UserAlredyLoggedException, InvalidCredentialsException;
-
-    void Logout();
+    void logout();
 
     boolean isUserLogged();
 

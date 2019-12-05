@@ -9,6 +9,7 @@ import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.*;
 public class FilmService implements FilmServiceInterface {
 
     private final FilmManagerDatabaseInterface filmManager;
+
     private final UserServiceInterface userService;
 
     FilmService(FilmManagerDatabaseInterface filmManager, UserServiceInterface userService) {
@@ -80,5 +81,4 @@ public class FilmService implements FilmServiceInterface {
         film.getUserSet().remove(user);
         filmManager.updateFavorites(film);
     }
-
 }

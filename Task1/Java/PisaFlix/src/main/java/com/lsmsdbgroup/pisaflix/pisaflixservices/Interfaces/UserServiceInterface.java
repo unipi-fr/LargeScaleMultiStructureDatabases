@@ -15,9 +15,9 @@ public interface UserServiceInterface {
 
     Set<User> getFiltered(String nameFilter);
 
-    void register(String username, String password, String firstName, String lastName, String email);
-
     void updateUser(User user);
+
+    void register(String username, String password, String email, String firstName, String lastName) throws InvalidFieldException;
 
     void deleteUserAccount(User u) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
@@ -26,6 +26,4 @@ public interface UserServiceInterface {
     void checkUserPrivilegesForOperation(UserPrivileges privilegesToAchieve, String operation) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
     void changeUserPrivileges(User u, UserPrivileges newPrivilegeLevel) throws UserNotLoggedException, InvalidPrivilegeLevelException;
-
-    boolean checkDuplicates(String username, String email);
 }

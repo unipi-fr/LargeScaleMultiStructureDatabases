@@ -2,10 +2,10 @@
 
 <ClassDiagram name="main.java.com.lsmsdbgroup.pisaflix.pisaflixservices">
   <ClassDiagramComponents>
-    <Class name="AuthenticationService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="23.0" yPosition="1170.0">
+    <Class name="AuthenticationService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="73.0" yPosition="967.0">
       <Fields>
         <Field name="loggedUser" type="User" visibility="private"/>
-        <Field name="um" type="UserManagerDatabaseInterface" visibility="private" isFinal="true"/>
+        <Field name="userManager" type="UserManagerDatabaseInterface" visibility="private" isFinal="true"/>
       </Fields>
       <Constructors>
         <Constructor visibility="package">
@@ -13,27 +13,17 @@
         </Constructor>
       </Constructors>
       <Methods>
-        <Method name="Register" returnType="void" visibility="public">
-          <Argument type="String" name="username"/>
-          <Argument type="String" name="password"/>
-          <Argument type="String" name="email"/>
-          <Argument type="String" name="firstName"/>
-          <Argument type="String" name="lastName"/>
-        </Method>
-        <Method name="Login" returnType="void" visibility="public">
+        <Method name="login" returnType="void" visibility="public">
           <Argument type="String" name="username"/>
           <Argument type="String" name="password"/>
         </Method>
-        <Method name="Logout" returnType="void" visibility="public"/>
+        <Method name="logout" returnType="void" visibility="public"/>
         <Method name="isUserLogged" returnType="boolean" visibility="public"/>
         <Method name="getInfoString" returnType="String" visibility="public"/>
-        <Method name="SHA256" returnType="String" visibility="private">
-          <Argument type="String" name="text"/>
-        </Method>
         <Method name="getLoggedUser" returnType="User" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="CinemaService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="23.0" yPosition="21.0">
+    <Class name="CinemaService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="10.0" yPosition="9.0">
       <Fields>
         <Field name="commentManager" type="CinemaManagerDatabaseInterface" visibility="private" isFinal="true"/>
         <Field name="userService" type="UserServiceInterface" visibility="private" isFinal="true"/>
@@ -73,7 +63,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="CommentService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="23.0" yPosition="846.0">
+    <Class name="CommentService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="10.0" yPosition="653.0">
       <Fields>
         <Field name="commentManager" type="CommentManagerDatabaseInterface" visibility="private" isFinal="true"/>
         <Field name="userService" type="UserServiceInterface" visibility="private" isFinal="true"/>
@@ -112,7 +102,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="InvalidCredentialsException" package="com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions" visibility="public" xPosition="690.0" yPosition="9.0">
+    <Class name="InvalidCredentialsException" package="com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions" visibility="public" xPosition="1569.0" yPosition="9.0">
       <Fields/>
       <Constructors>
         <Constructor visibility="public">
@@ -121,7 +111,7 @@
       </Constructors>
       <Methods/>
     </Class>
-    <Class name="InvalidPrivilegeLevelException" package="com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions" visibility="public" xPosition="996.0" yPosition="9.0">
+    <Class name="InvalidFieldException" package="com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions" visibility="public" xPosition="1060.0" yPosition="1136.0">
       <Fields/>
       <Constructors>
         <Constructor visibility="public">
@@ -130,7 +120,7 @@
       </Constructors>
       <Methods/>
     </Class>
-    <Class name="InvalidPrivilegeLevelValueException" package="com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions" visibility="public" xPosition="1314.0" yPosition="9.0">
+    <Class name="InvalidPrivilegeLevelException" package="com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions" visibility="public" xPosition="1251.0" yPosition="9.0">
       <Fields/>
       <Constructors>
         <Constructor visibility="public">
@@ -139,7 +129,7 @@
       </Constructors>
       <Methods/>
     </Class>
-    <Class name="UserAlredyLoggedException" package="com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions" visibility="public" xPosition="1663.0" yPosition="9.0">
+    <Class name="InvalidPrivilegeLevelValueException" package="com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions" visibility="public" xPosition="1821.0" yPosition="123.0">
       <Fields/>
       <Constructors>
         <Constructor visibility="public">
@@ -148,7 +138,7 @@
       </Constructors>
       <Methods/>
     </Class>
-    <Class name="UserNotLoggedException" package="com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions" visibility="public" xPosition="1972.0" yPosition="9.0">
+    <Class name="UserAlredyLoggedException" package="com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions" visibility="public" xPosition="484.0" yPosition="1136.0">
       <Fields/>
       <Constructors>
         <Constructor visibility="public">
@@ -157,7 +147,16 @@
       </Constructors>
       <Methods/>
     </Class>
-    <Class name="FilmService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="1258.0" yPosition="127.0">
+    <Class name="UserNotLoggedException" package="com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions" visibility="public" xPosition="1875.0" yPosition="9.0">
+      <Fields/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="errorMessage"/>
+        </Constructor>
+      </Constructors>
+      <Methods/>
+    </Class>
+    <Class name="FilmService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="653.0" yPosition="9.0">
       <Fields>
         <Field name="filmManager" type="FilmManagerDatabaseInterface" visibility="private" isFinal="true"/>
         <Field name="userService" type="UserServiceInterface" visibility="private" isFinal="true"/>
@@ -199,7 +198,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="PisaFlixServices" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="764.0" yPosition="548.0">
+    <Class name="PisaFlixServices" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="1101.0" yPosition="653.0">
       <Fields>
         <Field name="authenticationService" type="AuthenticationServiceInterface" visibility="public" isStatic="true" isFinal="true"/>
         <Field name="userService" type="UserServiceInterface" visibility="public" isStatic="true" isFinal="true"/>
@@ -211,7 +210,7 @@
       <Constructors/>
       <Methods/>
     </Class>
-    <Class name="ProjectionService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="1559.0" yPosition="496.0">
+    <Class name="ProjectionService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="1528.0" yPosition="344.0">
       <Fields>
         <Field name="projectionManager" type="ProjectionManagerDatabaseInterface" visibility="private" isFinal="true"/>
         <Field name="userManager" type="UserServiceInterface" visibility="private" isFinal="true"/>
@@ -246,7 +245,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="UserService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="1389.0" yPosition="1102.0">
+    <Class name="UserService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="1329.0" yPosition="889.0">
       <Fields>
         <Field name="authenticationService" type="AuthenticationServiceInterface" visibility="private" isFinal="true"/>
         <Field name="userManager" type="UserManagerDatabaseInterface" visibility="private" isFinal="true"/>
@@ -283,39 +282,32 @@
           <Argument type="User" name="u"/>
           <Argument type="UserPrivileges" name="newPrivilegeLevel"/>
         </Method>
-        <Method name="checkDuplicates" returnType="boolean" visibility="public">
-          <Argument type="String" name="username"/>
-          <Argument type="String" name="email"/>
-        </Method>
         <Method name="register" returnType="void" visibility="public">
           <Argument type="String" name="username"/>
           <Argument type="String" name="password"/>
+          <Argument type="String" name="email"/>
           <Argument type="String" name="firstName"/>
           <Argument type="String" name="lastName"/>
+        </Method>
+        <Method name="checkDuplicates" returnType="boolean" visibility="private">
+          <Argument type="String" name="username"/>
           <Argument type="String" name="email"/>
         </Method>
       </Methods>
     </Class>
-    <Interface name="AuthenticationServiceInterface" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="722.0" yPosition="1183.0">
+    <Interface name="AuthenticationServiceInterface" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="752.0" yPosition="951.0">
       <Methods>
-        <Method name="Register" returnType="void" visibility="package">
-          <Argument type="String" name="username"/>
-          <Argument type="String" name="password"/>
-          <Argument type="String" name="email"/>
-          <Argument type="String" name="firstName"/>
-          <Argument type="String" name="lastName"/>
-        </Method>
-        <Method name="Login" returnType="void" visibility="package">
+        <Method name="login" returnType="void" visibility="package">
           <Argument type="String" name="username"/>
           <Argument type="String" name="password"/>
         </Method>
-        <Method name="Logout" returnType="void" visibility="package"/>
+        <Method name="logout" returnType="void" visibility="package"/>
         <Method name="isUserLogged" returnType="boolean" visibility="package"/>
         <Method name="getInfoString" returnType="String" visibility="package"/>
         <Method name="getLoggedUser" returnType="User" visibility="package"/>
       </Methods>
     </Interface>
-    <Interface name="CinemaServiceInterface" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="41.0" yPosition="371.0">
+    <Interface name="CinemaServiceInterface" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="10.0" yPosition="327.0">
       <Methods>
         <Method name="getAll" returnType="Set&lt;Cinema&gt;" visibility="package"/>
         <Method name="getFiltered" returnType="Set&lt;Cinema&gt;" visibility="package">
@@ -345,7 +337,7 @@
         </Method>
       </Methods>
     </Interface>
-    <Interface name="CommentServiceInterface" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="41.0" yPosition="636.0">
+    <Interface name="CommentServiceInterface" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="387.0" yPosition="344.0">
       <Methods>
         <Method name="addFilmComment" returnType="void" visibility="package">
           <Argument type="String" name="comment"/>
@@ -368,7 +360,7 @@
         </Method>
       </Methods>
     </Interface>
-    <Interface name="FilmServiceInterface" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="690.0" yPosition="127.0">
+    <Interface name="FilmServiceInterface" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="904.0" yPosition="364.0">
       <Methods>
         <Method name="getFilmsFiltered" returnType="Set&lt;Film&gt;" visibility="package">
           <Argument type="String" name="titleFilter"/>
@@ -400,7 +392,7 @@
         </Method>
       </Methods>
     </Interface>
-    <Interface name="ProjectionServiceInterface" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="1808.0" yPosition="165.0">
+    <Interface name="ProjectionServiceInterface" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="1286.0" yPosition="136.0">
       <Methods>
         <Method name="addProjection" returnType="void" visibility="package">
           <Argument type="Cinema" name="c"/>
@@ -425,7 +417,7 @@
         </Method>
       </Methods>
     </Interface>
-    <Interface name="UserServiceInterface" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="1258.0" yPosition="745.0">
+    <Interface name="UserServiceInterface" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="1611.0" yPosition="588.0">
       <Methods>
         <Method name="deleteLoggedAccount" returnType="void" visibility="package"/>
         <Method name="getUserById" returnType="User" visibility="package">
@@ -435,15 +427,15 @@
         <Method name="getFiltered" returnType="Set&lt;User&gt;" visibility="package">
           <Argument type="String" name="nameFilter"/>
         </Method>
+        <Method name="updateUser" returnType="void" visibility="package">
+          <Argument type="User" name="user"/>
+        </Method>
         <Method name="register" returnType="void" visibility="package">
           <Argument type="String" name="username"/>
           <Argument type="String" name="password"/>
+          <Argument type="String" name="email"/>
           <Argument type="String" name="firstName"/>
           <Argument type="String" name="lastName"/>
-          <Argument type="String" name="email"/>
-        </Method>
-        <Method name="updateUser" returnType="void" visibility="package">
-          <Argument type="User" name="user"/>
         </Method>
         <Method name="deleteUserAccount" returnType="void" visibility="package">
           <Argument type="User" name="u"/>
@@ -459,13 +451,9 @@
           <Argument type="User" name="u"/>
           <Argument type="UserPrivileges" name="newPrivilegeLevel"/>
         </Method>
-        <Method name="checkDuplicates" returnType="boolean" visibility="package">
-          <Argument type="String" name="username"/>
-          <Argument type="String" name="email"/>
-        </Method>
       </Methods>
     </Interface>
-    <Enum name="UserPrivileges" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="2000.0" yPosition="846.0">
+    <Enum name="UserPrivileges" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="2012.0" yPosition="914.0">
       <Literals>
         <Literal name="NORMAL_USER"/>
         <Literal name="SOCIAL_MODERATOR"/>
@@ -475,25 +463,25 @@
     </Enum>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
-    <HasRelation name="userService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.CommentService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.UserServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.CinemaService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.CinemaServiceInterface"/>
-    <HasRelation name="authenticationService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.AuthenticationServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="userService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.CinemaService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.UserServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.CommentService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.CommentServiceInterface"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.pisaflixservices.UserService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="commentService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.CommentServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="projectionService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.ProjectionServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.ProjectionService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.ProjectionServiceInterface"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.UserServiceInterface" target="com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="userService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.UserServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="cinemaService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.CinemaServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="filmService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.FilmServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
     <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.AuthenticationService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.AuthenticationServiceInterface"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.UserService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.UserServiceInterface"/>
+    <HasRelation name="authenticationService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.AuthenticationServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
     <HasRelation name="userService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.FilmService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.UserServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.UserService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.UserServiceInterface"/>
     <HasRelation name="userManager" source="com.lsmsdbgroup.pisaflix.pisaflixservices.ProjectionService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.UserServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="authenticationService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.CommentService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.AuthenticationServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.CinemaService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.CinemaServiceInterface"/>
+    <HasRelation name="filmService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.FilmServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="userService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.CommentService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.UserServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="" source="com.lsmsdbgroup.pisaflix.pisaflixservices.UserService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="cinemaService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.CinemaServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
     <HasRelation name="authenticationService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.UserService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.AuthenticationServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.CommentService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.CommentServiceInterface"/>
+    <HasRelation name="userService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.CinemaService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.UserServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.ProjectionService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.ProjectionServiceInterface"/>
+    <HasRelation name="authenticationService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.CommentService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.AuthenticationServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
     <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.FilmService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.FilmServiceInterface"/>
+    <HasRelation name="projectionService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.ProjectionServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.UserServiceInterface" target="com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="commentService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.CommentServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="userService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.UserServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
   </ClassDiagramRelations>
 </ClassDiagram>

@@ -9,6 +9,7 @@ import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.*;
 public class CinemaService implements CinemaServiceInterface {
 
     private final CinemaManagerDatabaseInterface commentManager;
+
     private final UserServiceInterface userService;
 
     public CinemaService(CinemaManagerDatabaseInterface commentManager, UserServiceInterface userService) {
@@ -19,18 +20,14 @@ public class CinemaService implements CinemaServiceInterface {
     @Override
     public Set<Cinema> getAll() {
         Set<Cinema> cinemas = null;
-
         cinemas = commentManager.getAll();
-
         return cinemas;
     }
 
     @Override
     public Set<Cinema> getFiltered(String name, String address) {
         Set<Cinema> cinemas = null;
-
         cinemas = commentManager.getFiltered(name, address);
-
         return cinemas;
     }
 
@@ -74,5 +71,4 @@ public class CinemaService implements CinemaServiceInterface {
         cinema.getUserSet().remove(user);
         commentManager.updateFavorites(cinema);
     }
-
 }
