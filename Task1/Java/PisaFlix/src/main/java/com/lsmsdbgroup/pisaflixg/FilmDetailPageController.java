@@ -2,15 +2,14 @@ package com.lsmsdbgroup.pisaflixg;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.*;
-import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Set;
 import java.util.ResourceBundle;
 import javafx.fxml.*;
 import javafx.scene.control.*;
-import javafx.scene.image.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 
 public class FilmDetailPageController implements Initializable {
 
@@ -23,7 +22,7 @@ public class FilmDetailPageController implements Initializable {
     private Label publishDateLabel;
 
     @FXML
-    private Label descriptionLabel;
+    private Text descriptionLabel;
 
     @FXML
     private VBox commentVBox;
