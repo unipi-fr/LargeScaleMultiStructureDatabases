@@ -164,21 +164,8 @@ public class UserCardController implements Initializable {
     @FXML
     private void mouseClicked(MouseEvent event) {
         try {
-            if (event.isSecondaryButtonDown()) {
-                privilegeMenu.hide();
-                User loggedUser = PisaFlixServices.authenticationService.getLoggedUser();
-
-                if (loggedUser != null) {
-                    try {
-                        PisaFlixServices.authenticationService.checkUserPrivilegesForOperation(UserPrivileges.ADMIN);
-                        privilegeMenu.show(cardVbox, event.getScreenX(), event.getScreenY());
-                    } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
-                        Logger.getLogger(UserCardController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-
+            if (event.isSecondaryButtonDown())
                 return;
-            }
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("UserView.fxml"));
 

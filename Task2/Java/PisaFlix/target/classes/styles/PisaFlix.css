@@ -499,6 +499,10 @@
  * Label                                                                       *
  *                                                                             *
  ******************************************************************************/
+.label-title{
+    -fx-font-size: 24.0px;
+}
+
 .label {
     -fx-text-fill: -fx-text-base-color;
 }
