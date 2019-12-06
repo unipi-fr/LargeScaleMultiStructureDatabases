@@ -53,10 +53,10 @@ public class UserManager implements UserManagerDatabaseInterface {
                 .append("Email", email)
                 .append("PrivilegeLevel", privilegeLevel);
         if(lastName != null && !"".equals(lastName)){
-            userDocument.put("lastName", lastName);
+            userDocument.put("LastName", lastName);
         }
         if(firstName != null && !"".equals(firstName)){
-            userDocument.put("firstName", firstName);
+            userDocument.put("FirstName", firstName);
         }
         //Upsert insert if documnet does't already exists
         UpdateOptions options = new UpdateOptions().upsert(true);
