@@ -15,8 +15,7 @@ import org.bson.types.ObjectId;
 public class CinemaManager implements CinemaManagerDatabaseInterface {
 
     private static CinemaManager cinemaManager;
-    private static MongoCollection<Document> CinemaCollection;
-    private final int limit = 20;
+    private static MongoCollection<Document> cinemaCollection;
     private final Document sort = new Document("_id",-1);
 
     public static CinemaManager getIstance() {
@@ -27,7 +26,7 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
     }
 
     private CinemaManager() {
-        CinemaCollection = DBManager.getMongoDatabase().getCollection("CinemaCollection");
+        cinemaCollection = DBManager.getMongoDatabase().getCollection("CinemaCollection");
     }
 
     @Override
@@ -38,7 +37,7 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
         //Upsert insert if documnet does't already exists
         UpdateOptions options = new UpdateOptions().upsert(true);
         try {
-            CinemaCollection.updateOne(and(cinemaDocument), new Document("$set", cinemaDocument), options);
+            cinemaCollection.updateOne(and(cinemaDocument), new Document("$set", cinemaDocument), options);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in creating the cinema!");
@@ -48,7 +47,7 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
     @Override
     public Cinema getById(String cinemaId) {
         Cinema cinema = null;
-        try (MongoCursor<Document> cursor = CinemaCollection.find(eq("_id", new ObjectId(cinemaId))).iterator()) {
+        try (MongoCursor<Document> cursor = cinemaCollection.find(eq("_id", new ObjectId(cinemaId))).iterator()) {
             cinema = new Cinema(cursor.next());
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -74,7 +73,7 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
             filters.add(regex("Address", ".*" + addressFilter + ".*","i"));              
         }
         
-        try (MongoCursor<Document> cursor = CinemaCollection.find(or(filters)).sort(sort).limit(limit).skip(skip).iterator()) {
+        try (MongoCursor<Document> cursor = cinemaCollection.find(or(filters)).sort(sort).limit(limit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 cinemaSet.add(new Cinema(cursor.next()));
             }
@@ -90,7 +89,7 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
     public void delete(String idCinema) {
         //clearUserSet(getById(idCinema));
         try {
-            CinemaCollection.deleteOne(eq("_id", new ObjectId(idCinema)));
+            cinemaCollection.deleteOne(eq("_id", new ObjectId(idCinema)));
             DBManager.commentManager.deleteAll(new Cinema(idCinema));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -117,7 +116,7 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
                 .append("Name", name)
                 .append("Address", address);
         try {
-            CinemaCollection.updateOne(eq("_id", new ObjectId(idCinema)), new Document("$set", cinemaDocument));
+            cinemaCollection.updateOne(eq("_id", new ObjectId(idCinema)), new Document("$set", cinemaDocument));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in updating the film!");
@@ -128,7 +127,7 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
     public Set<Cinema> getAll(int limit, int skip) {
         Set<Cinema> cinemaSet = new LinkedHashSet<>();
 
-        try (MongoCursor<Document> cursor = CinemaCollection.find().sort(sort).limit(limit).skip(skip).iterator()) {
+        try (MongoCursor<Document> cursor = cinemaCollection.find().sort(sort).limit(limit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 cinemaSet.add(new Cinema(cursor.next()));
             }

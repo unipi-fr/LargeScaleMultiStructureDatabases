@@ -13,20 +13,20 @@ import org.bson.types.ObjectId;
 
 public class CommentManager implements CommentManagerDatabaseInterface {
 
-private static CommentManager CommentManager;
-    private static MongoCollection<Document> CommentCollection;
+    private static CommentManager commentManager;
+    private static MongoCollection<Document> commentCollection;
     //It's equal to sorting by publication date, index not needed
     private final Document sort = new Document("_id",-1);
 
     public static CommentManager getIstance() {
-        if (CommentManager == null) {
-            CommentManager = new CommentManager();
+        if (commentManager == null) {
+            commentManager = new CommentManager();
         }
-        return CommentManager;
+        return commentManager;
     }
 
     public CommentManager() {
-        CommentCollection = DBManager.getMongoDatabase().getCollection("CommentCollection");
+        commentCollection = DBManager.getMongoDatabase().getCollection("CommentCollection");
     }
 
     
@@ -45,7 +45,7 @@ private static CommentManager CommentManager;
         UpdateOptions options = new UpdateOptions().upsert(true);
 
         try {
-            CommentCollection.updateOne(and(commentDocument), new Document("$set", commentDocument), options);
+            commentCollection.updateOne(and(commentDocument), new Document("$set", commentDocument), options);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in creating the comment!");
@@ -55,7 +55,7 @@ private static CommentManager CommentManager;
     @Override
     public void update(Comment comment, String text) {
         try {
-            CommentCollection.updateOne(eq("_id", new ObjectId(comment.getId())), new Document("$set", new Document("Text",text)));
+            commentCollection.updateOne(eq("_id", new ObjectId(comment.getId())), new Document("$set", new Document("Text",text)));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in updating the Comment!");
@@ -65,7 +65,7 @@ private static CommentManager CommentManager;
     @Override
     public void delete(String idComment) {
         try {
-            CommentCollection.deleteOne(eq("_id", new ObjectId(idComment)));
+            commentCollection.deleteOne(eq("_id", new ObjectId(idComment)));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in removing the Comment!");
@@ -76,9 +76,9 @@ private static CommentManager CommentManager;
     public void deleteAll(Entity entity) {
         try {
             if(entity.getClass().equals(Film.class)){
-                CommentCollection.deleteMany(eq("Film", entity.getId()));
+                commentCollection.deleteMany(eq("Film", entity.getId()));
             }else{
-                CommentCollection.deleteMany(eq("Cinema", entity.getId()));
+                commentCollection.deleteMany(eq("Cinema", entity.getId()));
                 System.out.println(entity.getId());
             }           
         } catch (Exception ex) {
@@ -91,7 +91,7 @@ private static CommentManager CommentManager;
     @Override
     public Comment getById(String commentId) {
         Comment comment = null;
-        try (MongoCursor<Document> cursor = CommentCollection.find(eq("_id", new ObjectId(commentId))).iterator()) {
+        try (MongoCursor<Document> cursor = commentCollection.find(eq("_id", new ObjectId(commentId))).iterator()) {
             comment = new Comment(cursor.next());
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -111,7 +111,7 @@ private static CommentManager CommentManager;
             filters.add(new Document("Cinema", entity.getId()));
         }
 
-        try (MongoCursor<Document> cursor = CommentCollection.find(and(filters)).sort(sort).limit(limit).skip(skip).iterator()) {
+        try (MongoCursor<Document> cursor = commentCollection.find(and(filters)).sort(sort).limit(limit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 commentSet.add(new Comment(cursor.next()));
             }

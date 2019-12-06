@@ -3,10 +3,17 @@ package com.lsmsdbgroup.pisaflix.dbmanager;
 import com.lsmsdbgroup.pisaflix.Entities.*;
 import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ProjectionManagerDatabaseInterface;
+import com.mongodb.client.MongoCollection;
+import static com.mongodb.client.model.Filters.and;
+import com.mongodb.client.model.UpdateOptions;
+import org.bson.Document;
 
 public class ProjectionManager implements ProjectionManagerDatabaseInterface {
 
     private static ProjectionManager projectionManager;
+    private static MongoCollection<Document> projectionCollection;
+    //It's equal to sorting by publication date, index not needed
+    private final Document sort = new Document("_id",-1);
 
     public static ProjectionManager getIstance() {
         if (projectionManager == null) {
@@ -17,20 +24,22 @@ public class ProjectionManager implements ProjectionManagerDatabaseInterface {
     }
 
     private ProjectionManager() {
-        throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
+        projectionCollection = DBManager.getMongoDatabase().getCollection("ProjectionCollection");
     }
 
     @Override
     public void create(Date dateTime, int room, Film film, Cinema cinema) {
-        Projection projection = new Projection();
-        projection.setDateTime(dateTime);
-        projection.setRoom(room);
-        projection.setIdCinema(cinema);
-        projection.setIdFilm(film);
-        cinema.getProjectionSet().add(projection);
-        film.getProjectionSet().add(projection);
+        Document projectionDocument = new Document()
+                .append("DateTime", dateTime)
+                .append("Room", room)
+                .append("Cinema", cinema.getId())
+                .append("Film", film.getId());
+
+        //Upsert insert if documnet does't already exists
+        UpdateOptions options = new UpdateOptions().upsert(true);
+        
         try {
-            throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
+            projectionCollection.updateOne(and(projectionDocument), new Document("$set", projectionDocument), options);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in creating the projection!");
