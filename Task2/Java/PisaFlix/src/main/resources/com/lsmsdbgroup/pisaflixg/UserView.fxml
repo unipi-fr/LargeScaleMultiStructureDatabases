@@ -54,7 +54,7 @@
                            <children>
                               <VBox layoutX="10.0">
                                  <children>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="10.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="10.0"pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../../../img/Favorites.png" />
                                        </image>
@@ -73,7 +73,7 @@
                                           <Image url="@../../../img/Comments.png" />
                                        </image>
                                     </ImageView>
-                                    <Label fx:id="commentCounterLabel" alignment="CENTER" prefHeight="40.0" prefWidth="40.0" text="(-)" />
+                                    <Label fx:id="commentCounterLabel" alignment="CENTER"prefHeight="40.0" prefWidth="40.0" text="(-)" />
                                  </children>
                               </VBox>
                            </children>
