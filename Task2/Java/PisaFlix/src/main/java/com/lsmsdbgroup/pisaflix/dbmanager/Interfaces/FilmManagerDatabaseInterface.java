@@ -7,7 +7,7 @@ public interface FilmManagerDatabaseInterface {
 
     Film getById(String filmId);
 
-    Set<Film> getAll();
+    Set<Film> getAll(int limit, int skip);
 
     void create(String title, Date publicationDate, String description);
 
@@ -19,5 +19,5 @@ public interface FilmManagerDatabaseInterface {
 
     void updateFavorites(Film film);
 
-    Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter);
+    Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit, int skip);
 }

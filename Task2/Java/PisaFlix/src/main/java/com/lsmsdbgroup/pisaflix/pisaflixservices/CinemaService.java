@@ -20,7 +20,7 @@ public class CinemaService implements CinemaServiceInterface {
     public Set<Cinema> getAll() {
         Set<Cinema> cinemas = null;
 
-        cinemas = commentManager.getAll();
+        cinemas = commentManager.getAll(0, 0);
 
         return cinemas;
     }
@@ -29,7 +29,7 @@ public class CinemaService implements CinemaServiceInterface {
     public Set<Cinema> getFiltered(String name, String address) {
         Set<Cinema> cinemas = null;
 
-        cinemas = commentManager.getFiltered(name, address);
+        cinemas = commentManager.getFiltered(name, address, 0, 0);
 
         return cinemas;
     }

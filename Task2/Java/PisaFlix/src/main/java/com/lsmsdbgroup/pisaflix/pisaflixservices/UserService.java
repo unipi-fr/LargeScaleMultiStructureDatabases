@@ -36,13 +36,13 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public Set<User> getAll() {
-        Set<User> users = userManager.getAll();
+        Set<User> users = userManager.getAll(0, 0);
         return users;
     }
 
     @Override
     public Set<User> getFiltered(String nameFilter) {
-        Set<User> users = userManager.getFiltered(nameFilter);
+        Set<User> users = userManager.getFiltered(nameFilter, 0, 0);
         return users;
     }
 
@@ -92,7 +92,7 @@ public class UserService implements UserServiceInterface {
     }
 
     private boolean checkDuplicates(String username, String email) {
-        return userManager.checkDuplicates(username, email);
+        return userManager.checkDuplicates(username, email, 0, 0);
     }
 
     @Override

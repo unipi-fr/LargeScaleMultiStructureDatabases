@@ -3,6 +3,7 @@ package com.lsmsdbgroup.pisaflix.dbmanager;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import static com.mongodb.client.model.Filters.eq;
@@ -16,7 +17,6 @@ public class UserManager implements UserManagerDatabaseInterface {
 
     private static UserManager UserManager;
     private static MongoCollection<Document> UserCollection;
-    private final int limit = 20;
     //It's equal to sorting by registration date, index not needed
     private final Document sort = new Document("_id",-1);
 
@@ -149,10 +149,10 @@ public class UserManager implements UserManagerDatabaseInterface {
     }
 
     @Override
-    public Set<User> getAll() {
+    public Set<User> getAll(int limit, int skip) {
         // code to retrieve all users
         Set<User> userSet = new LinkedHashSet<>();
-        try (MongoCursor<Document> cursor = UserCollection.find().sort(sort).limit(limit).iterator()) {
+        try (MongoCursor<Document> cursor = UserCollection.find().sort(sort).limit(limit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 userSet.add(new User(cursor.next()));
             }
@@ -164,9 +164,9 @@ public class UserManager implements UserManagerDatabaseInterface {
     }
 
     @Override
-    public Set<User> getByUsername(String username) {
+    public Set<User> getByUsername(String username, int limit, int skip) {
         Set<User> userSet = new LinkedHashSet<>();
-        try(MongoCursor<Document> cursor = UserCollection.find(eq("Username", username)).sort(sort).limit(limit).iterator()) {
+        try(MongoCursor<Document> cursor = UserCollection.find(eq("Username", username)).sort(sort).limit(limit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 userSet.add(new User(cursor.next()));
             }
@@ -178,9 +178,9 @@ public class UserManager implements UserManagerDatabaseInterface {
     }
 
     @Override
-    public Set<User> getByEmail(String email) {
+    public Set<User> getByEmail(String email, int limit, int skip) {
         Set<User> userSet = new LinkedHashSet<>();
-        try(MongoCursor<Document> cursor = UserCollection.find(eq("Email", email)).sort(sort).limit(limit).iterator()) {
+        try(MongoCursor<Document> cursor = UserCollection.find(eq("Email", email)).sort(sort).limit(limit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 userSet.add(new User(cursor.next()));
             }
@@ -192,9 +192,9 @@ public class UserManager implements UserManagerDatabaseInterface {
     }
 
     @Override
-    public boolean checkDuplicates(String username, String email) {
+    public boolean checkDuplicates(String username, String email, int limit, int skip) {
         Set<User> userSet = new LinkedHashSet<>();
-        try(MongoCursor<Document> cursor = UserCollection.find(or(new Document("Username", username),new Document("Email", email))).sort(sort).limit(limit).iterator()) {
+        try(MongoCursor<Document> cursor = UserCollection.find(or(new Document("Username", username),new Document("Email", email))).sort(sort).limit(limit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 userSet.add(new User(cursor.next()));
             }
@@ -206,7 +206,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     }
 
     @Override
-    public Set<User> getFiltered(String usernameFilter) {
+    public Set<User> getFiltered(String usernameFilter, int limit, int skip) {
         Set<User> userSet = new LinkedHashSet<>();        
         List filters = new ArrayList();
         
@@ -215,11 +215,11 @@ public class UserManager implements UserManagerDatabaseInterface {
         }
         
         // i flag = case insensitive
-            filters.add(regex("Username", ".*" + usernameFilter + ".*","i"));
+        filters.add(regex("Username", ".*" + usernameFilter + ".*","i"));
         
-        try (MongoCursor<Document> cursor = UserCollection.find(or(filters)).sort(sort).limit(limit).iterator()) {
+        try (MongoCursor<Document> cursor = UserCollection.find(or(filters)).sort(sort).limit(limit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
-                userSet.add(new User(cursor.next()));              
+                userSet.add(new User(cursor.next()));          
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());

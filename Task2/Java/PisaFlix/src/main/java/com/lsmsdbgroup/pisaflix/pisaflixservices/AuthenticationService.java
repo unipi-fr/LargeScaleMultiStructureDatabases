@@ -27,7 +27,7 @@ public class AuthenticationService implements AuthenticationServiceInterface {
         }
 
         String hashedPassword = SHA256(password);
-        Set<User> tmpSet = userManager.getByUsername(username);
+        Set<User> tmpSet = userManager.getByUsername(username, 0, 0);
 
         for (User u : tmpSet) {
             if( u.getPassword().equals(hashedPassword) ){

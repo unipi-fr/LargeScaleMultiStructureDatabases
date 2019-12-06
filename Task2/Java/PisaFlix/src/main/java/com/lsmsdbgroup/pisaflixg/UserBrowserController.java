@@ -15,15 +15,6 @@ import javafx.fxml.FXMLLoader;
 
 public class UserBrowserController extends BrowserController implements Initializable {
 
-    @FXML
-    private ScrollPane scrollPane;
-
-    @FXML
-    private TilePane tilePane;
-
-    @FXML
-    private TextField nameFilterTextField;
-
     @Override
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
@@ -79,7 +70,7 @@ public class UserBrowserController extends BrowserController implements Initiali
     @Override
     public void filter() {
         try {
-            String usernameFilter = nameFilterTextField.getText();
+            String usernameFilter = filterTextField.getText();
 
             searchUsers(usernameFilter);
         } catch (Exception ex) {

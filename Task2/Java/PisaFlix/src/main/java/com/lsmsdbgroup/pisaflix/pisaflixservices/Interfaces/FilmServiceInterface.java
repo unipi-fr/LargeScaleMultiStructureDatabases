@@ -21,6 +21,4 @@ public interface FilmServiceInterface {
     void addFavorite(Film film, User user);
 
     void removeFavourite(Film film, User user);
-    
-    void refreshCommentSet(Film film);
 }

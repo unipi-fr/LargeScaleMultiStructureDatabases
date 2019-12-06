@@ -98,7 +98,7 @@ public class FilmDetailPageController implements Initializable {
 
     public void setFilm(Film film) {
         this.film = film;
-        PisaFlixServices.filmService.refreshCommentSet(film);
+        film.setCommentSet(PisaFlixServices.commentService.getCommentSet(film));
 
         setFavoriteButton();
 
@@ -129,7 +129,7 @@ public class FilmDetailPageController implements Initializable {
 
     public void refreshFilm() {
         film = PisaFlixServices.filmService.getById(film.getId());
-        PisaFlixServices.filmService.refreshCommentSet(film);
+        film.setCommentSet(PisaFlixServices.commentService.getCommentSet(film));
     }
 
     public void refreshComment() {

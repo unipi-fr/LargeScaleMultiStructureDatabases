@@ -19,7 +19,6 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
     private static FilmManager FilmManager;
     private static MongoCollection<Document> FilmCollection;
-    private final int limit = 20;
     private final Document sort = new Document("_id",-1);
 
     public static FilmManager getIstance() {
@@ -47,9 +46,9 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     }
 
     @Override
-    public Set<Film> getAll() {
+    public Set<Film> getAll(int limit, int skip) {
         Set<Film> filmSet = new LinkedHashSet<>();
-        try (MongoCursor<Document> cursor = FilmCollection.find().sort(sort).limit(limit).iterator()) {
+        try (MongoCursor<Document> cursor = FilmCollection.find().sort(sort).limit(limit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 filmSet.add(new Film(cursor.next()));
             }
@@ -139,23 +138,21 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     }
 
     @Override
-    public Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter) {
+    public Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit, int skip) {
         Set<Film> filmSet = new LinkedHashSet<>();
         List filters = new ArrayList();
         
-        if (titleFilter != null) {
-            // i flag = case insensitive
-            filters.add(regex("Title", ".*" + titleFilter + ".*","i"));
-        }      
-        if (startDateFilter != null && endDateFilter != null) {
-            filters.add(and(gte("PublicationDate", startDateFilter),lt("PublicationDate", endDateFilter)));
-        }else{
-            if (titleFilter == null){
-                return getAll();
-            }
+        if((startDateFilter == null || endDateFilter == null) && titleFilter == null){
+            return getAll(limit, skip);
         }
+        
+        if(titleFilter != null)
+            filters.add(regex("Title", ".*" + titleFilter + ".*","i"));
+        
+        if (startDateFilter != null && endDateFilter != null)
+            filters.add(and(gte("PublicationDate", startDateFilter),lt("PublicationDate", endDateFilter)));
 
-        try (MongoCursor<Document> cursor = FilmCollection.find(or(filters)).sort(sort).limit(limit).iterator()) {
+        try (MongoCursor<Document> cursor = FilmCollection.find(or(filters)).sort(sort).limit(limit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 filmSet.add(new Film(cursor.next()));
             }

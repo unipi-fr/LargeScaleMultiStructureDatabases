@@ -9,7 +9,7 @@ public interface CinemaManagerDatabaseInterface {
 
     Cinema getById(String cinemaId);
 
-    Set<Cinema> getFiltered(String nameFilter, String addressFilter);
+    Set<Cinema> getFiltered(String nameFilter, String addressFilter, int limit, int skip);
 
     void delete(String idCinema);
 
@@ -17,7 +17,7 @@ public interface CinemaManagerDatabaseInterface {
 
     void update(String idCinema, String name, String address);
 
-    Set<Cinema> getAll();
+    Set<Cinema> getAll(int limit, int skip);
 
     void updateFavorites(Cinema cinema);
 }

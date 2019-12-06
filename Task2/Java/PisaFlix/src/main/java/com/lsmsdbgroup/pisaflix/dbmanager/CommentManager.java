@@ -15,7 +15,6 @@ public class CommentManager implements CommentManagerDatabaseInterface {
 
 private static CommentManager CommentManager;
     private static MongoCollection<Document> CommentCollection;
-    private final int limit = 20;
     //It's equal to sorting by publication date, index not needed
     private final Document sort = new Document("_id",-1);
 
@@ -102,7 +101,7 @@ private static CommentManager CommentManager;
     }
     
 @Override
-    public Set<Comment> getCommentSet(Entity entity) {
+    public Set<Comment> getCommentSet(Entity entity, int limit, int skip) {
         Set<Comment> commentSet = new LinkedHashSet<>();
         List filters = new ArrayList();
         
@@ -112,7 +111,7 @@ private static CommentManager CommentManager;
             filters.add(new Document("Cinema", entity.getId()));
         }
 
-        try (MongoCursor<Document> cursor = CommentCollection.find(and(filters)).sort(sort).limit(limit).iterator()) {
+        try (MongoCursor<Document> cursor = CommentCollection.find(and(filters)).sort(sort).limit(limit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 commentSet.add(new Comment(cursor.next()));
             }

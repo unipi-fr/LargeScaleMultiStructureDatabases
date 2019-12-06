@@ -15,6 +15,6 @@ public interface CommentManagerDatabaseInterface {
 
     Comment getById(String commentId);
     
-    Set<Comment> getCommentSet(Entity entity);
+    Set<Comment> getCommentSet(Entity entity, int limit, int skip);
 
 }

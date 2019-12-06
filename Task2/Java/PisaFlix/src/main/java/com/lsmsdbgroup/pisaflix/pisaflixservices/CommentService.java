@@ -56,7 +56,7 @@ public class CommentService implements CommentServiceInterface {
     
     @Override
     public Set<Comment> getCommentSet(Entity entity) {        
-        return commentManager.getCommentSet(entity);
+        return commentManager.getCommentSet(entity, 0, 0);
     }
 
 }

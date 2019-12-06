@@ -19,14 +19,14 @@ public interface UserManagerDatabaseInterface {
 
     void update(String userId, String username, String firstName, String lastName, String email, String password, int privilegeLevel);
 
-    Set<User> getAll();
+    Set<User> getAll(int limit, int skip);
 
-    Set<User> getByUsername(String username);
+    Set<User> getByUsername(String username, int limit, int skip);
 
-    Set<User> getByEmail(String email);
+    Set<User> getByEmail(String email, int limit, int skip);
 
-    boolean checkDuplicates(String username, String email);
+    boolean checkDuplicates(String username, String email, int limit, int skip);
 
-    Set<User> getFiltered(String nameFilter);
+    Set<User> getFiltered(String nameFilter, int limit, int skip);
 
 }

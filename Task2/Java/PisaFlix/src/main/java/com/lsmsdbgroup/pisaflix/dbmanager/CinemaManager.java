@@ -58,10 +58,14 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
     }
 
     @Override
-    public Set<Cinema> getFiltered(String nameFilter, String addressFilter) {
+    public Set<Cinema> getFiltered(String nameFilter, String addressFilter, int limit, int skip) {
         Set<Cinema> cinemaSet = new LinkedHashSet<>();
         List filters = new ArrayList();
 
+        if(nameFilter == null && addressFilter == null){
+            return getAll(skip, limit);
+        }
+        
         if (nameFilter != null) {
             // i flag = case insensitive
             filters.add(regex("Name", ".*" + nameFilter + ".*","i"));
@@ -69,12 +73,8 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
         if (addressFilter != null) {
             filters.add(regex("Address", ".*" + addressFilter + ".*","i"));              
         }
-        if(nameFilter == null && addressFilter == null){
-            return getAll();
-        }
-
-
-        try (MongoCursor<Document> cursor = CinemaCollection.find(or(filters)).sort(sort).limit(limit).iterator()) {
+        
+        try (MongoCursor<Document> cursor = CinemaCollection.find(or(filters)).sort(sort).limit(limit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 cinemaSet.add(new Cinema(cursor.next()));
             }
@@ -125,10 +125,10 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
     }
 
     @Override
-    public Set<Cinema> getAll() {
+    public Set<Cinema> getAll(int limit, int skip) {
         Set<Cinema> cinemaSet = new LinkedHashSet<>();
 
-        try (MongoCursor<Document> cursor = CinemaCollection.find().sort(sort).limit(limit).iterator()) {
+        try (MongoCursor<Document> cursor = CinemaCollection.find().sort(sort).limit(limit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 cinemaSet.add(new Cinema(cursor.next()));
             }

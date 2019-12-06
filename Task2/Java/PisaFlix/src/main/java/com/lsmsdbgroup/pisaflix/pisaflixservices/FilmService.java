@@ -19,14 +19,14 @@ public class FilmService implements FilmServiceInterface {
     @Override
     public Set<Film> getFilmsFiltered(String titleFilter, Date startDateFilter, Date endDateFilter) {
         Set<Film> films = null;
-        films = filmManager.getFiltered(titleFilter, startDateFilter, endDateFilter);
+        films = filmManager.getFiltered(titleFilter, startDateFilter, endDateFilter, 0, 0);
         return films;
     }
 
     @Override
     public Set<Film> getAll() {
         Set<Film> films = null;
-        films = filmManager.getAll();
+        films = filmManager.getAll(0, 0);
         return films;
     }
 
@@ -76,10 +76,4 @@ public class FilmService implements FilmServiceInterface {
         film.getUserSet().remove(user);
         filmManager.updateFavorites(film);
     }
-    
-    @Override
-    public void refreshCommentSet(Film film) {
-        film.setCommentSet(PisaFlixServices.commentService.getCommentSet(film));
-    }   
-
 }
