@@ -91,9 +91,6 @@ public class KeyValueDBManager {
     }
 
     
-    
-    
-    
     // parte projection 
 
     public void createProjection(Date dateTime, int room, Cinema cinema, Film film){
