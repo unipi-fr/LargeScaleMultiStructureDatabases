@@ -26,3 +26,6 @@ In modo tale da non dover chiamare il metodo nel FilmManager
 
 Bloccare ricorsione settando a null i set dei commenti quando si chiama la getUserById
 
+CAMBIO DI PROGRAMMA ho inserito un booleano che controlla se andare avanti nella ricerca dei commenti oppure no. 
+Ricordare di mettere un controllo prima della chiusura dell'entity manager per ogni metodo che usa i metodi
+di retreive basati sul KV.

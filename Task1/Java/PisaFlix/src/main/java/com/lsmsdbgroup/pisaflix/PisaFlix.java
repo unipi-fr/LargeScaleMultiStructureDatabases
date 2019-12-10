@@ -17,6 +17,7 @@ public class PisaFlix {
         LogManager.getLogManager().getLogger("").setLevel(Level.OFF);
         //App.main(args);
         
+        
         User u = PisaFlixServices.userService.getUserById(1);
         
         System.out.println(u.toString());

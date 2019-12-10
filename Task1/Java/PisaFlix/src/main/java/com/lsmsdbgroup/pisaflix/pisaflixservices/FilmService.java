@@ -33,7 +33,7 @@ public class FilmService implements FilmServiceInterface {
     @Override
     public Film getById(int id) {
         Film film;
-        film = filmManager.getById(id);
+        film = filmManager.getById(id, true);
         return film;
     }
 

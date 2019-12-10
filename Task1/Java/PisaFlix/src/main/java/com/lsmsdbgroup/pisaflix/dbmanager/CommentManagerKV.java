@@ -252,7 +252,7 @@ public class CommentManagerKV extends KeyValueDBManager implements CommentManage
     private Comment getFilmCommentById(int commentId, String idUser, String idFilm, String text, String timestamp){
     
         User user = UserManager.getIstance().getById(Integer.parseInt(idUser));
-        Film film = FilmManagerKV.getIstance().getById(Integer.parseInt(idFilm));
+        Film film = FilmManagerKV.getIstance().getById(Integer.parseInt(idFilm), false);
         Date date;
         try{
             date = dateFormat.parse(timestamp);

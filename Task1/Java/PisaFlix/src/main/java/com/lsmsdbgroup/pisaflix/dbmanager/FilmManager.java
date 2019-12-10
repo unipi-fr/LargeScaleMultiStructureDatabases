@@ -25,7 +25,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     }
 
     @Override
-    public Film getById(int filmId) {
+    public Film getById(int filmId, boolean retreiveComments) {
         Film film = null;
         try {
             entityManager = factory.createEntityManager();
@@ -101,7 +101,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
     @Override
     public void delete(int idFilm) {
-        clearUserSet(getById(idFilm));
+        clearUserSet(getById(idFilm, true));
         try {
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();

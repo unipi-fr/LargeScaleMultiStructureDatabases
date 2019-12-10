@@ -30,22 +30,25 @@ public class FilmManagerKV extends KeyValueDBManager implements FilmManagerDatab
     }
 
     @Override
-    public Film getById(int filmId) {
+    public Film getById(int filmId, boolean retreiveComments) {
         Film film = null;
         try {
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
             film = entityManager.find(Film.class, filmId);
-            // ricorda di recuperare i commenti e di settarli
-            film.setCommentSet(CommentManagerKV.getIstance().getCommentsFilm(film));
+            
+            // ricorda di recuperare i commenti e di settarli nel caso in cui
+            // retreiveComments è settato a true (per evitare la ricorsione infinita)
+            if(retreiveComments)
+                film.setCommentSet(CommentManagerKV.getIstance().getCommentsFilm(film));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace(System.out);
             System.out.println("A problem occurred in retriving a film!");
         } finally {
-            entityManager.close();
+            if(entityManager.isOpen())
+                entityManager.close();
         }
-        
         
         return film;
     }
@@ -66,7 +69,8 @@ public class FilmManagerKV extends KeyValueDBManager implements FilmManagerDatab
             ex.printStackTrace(System.out);
             System.out.println("A problem occurred in retrieve all films!");
         } finally {
-            entityManager.close();
+            if(entityManager.isOpen())
+                entityManager.close();
         }
         
         return films;
@@ -112,7 +116,7 @@ public class FilmManagerKV extends KeyValueDBManager implements FilmManagerDatab
 
     @Override
     public void delete(int idFilm) {
-        clearUserSet(getById(idFilm));
+        clearUserSet(getById(idFilm, false));
         try {
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
@@ -123,7 +127,8 @@ public class FilmManagerKV extends KeyValueDBManager implements FilmManagerDatab
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in deleting the film!");
         } finally {
-            entityManager.close();
+            if(entityManager.isOpen())
+                entityManager.close();
         }
         
     }
@@ -193,10 +198,9 @@ public class FilmManagerKV extends KeyValueDBManager implements FilmManagerDatab
             ex.printStackTrace(System.out);
             System.out.println("A problem occurred in retrieve films filtered!");
         } finally {
-            entityManager.close();
+            if(entityManager.isOpen())
+              entityManager.close();
         }
-        
-        // ricorda di recuperare i commenti e di settarli ad ogni film in films
         
         return films;
     }

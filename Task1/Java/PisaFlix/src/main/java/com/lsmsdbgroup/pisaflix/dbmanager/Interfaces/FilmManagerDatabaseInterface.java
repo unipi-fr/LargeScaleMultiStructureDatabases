@@ -5,7 +5,7 @@ import java.util.*;
 
 public interface FilmManagerDatabaseInterface {
 
-    Film getById(int filmId);
+    Film getById(int filmId, boolean retreiveComments);
 
     Set<Film> getAll();
 
