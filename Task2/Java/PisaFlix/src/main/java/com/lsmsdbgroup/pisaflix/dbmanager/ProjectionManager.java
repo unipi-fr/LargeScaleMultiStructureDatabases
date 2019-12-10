@@ -106,7 +106,7 @@ public class ProjectionManager implements ProjectionManagerDatabaseInterface {
 
     @Override
     public Set<Projection> getAll(int limit, int skip) {
-        Set<Projection> projectionsSet = new LinkedHashSet<>();;
+        Set<Projection> projectionsSet = new LinkedHashSet<>();
         try (MongoCursor<Document> cursor = projectionCollection.find().sort(sort).limit(limit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 Document projectionDocument = cursor.next();
@@ -141,7 +141,7 @@ public class ProjectionManager implements ProjectionManagerDatabaseInterface {
 
     @Override
     public Set<Projection> queryProjection(String cinemaId, String filmId, String date, int room, int limit, int skip) {
-        Set<Projection> projectionsSet = null;
+        Set<Projection> projectionsSet = new LinkedHashSet<>();
         List filters = new ArrayList();
         
         if(date.equals("all") && cinemaId.equals("-1") && filmId.equals("-1") && room == -1){
