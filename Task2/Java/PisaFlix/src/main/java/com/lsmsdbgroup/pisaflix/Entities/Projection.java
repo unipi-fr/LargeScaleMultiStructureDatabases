@@ -1,7 +1,9 @@
 package com.lsmsdbgroup.pisaflix.Entities;
 
+import com.lsmsdbgroup.pisaflix.Entities.exceptions.NonConvertibleDocumentException;
 import java.io.Serializable;
 import java.util.*;
+import org.bson.Document;
 
 public class Projection extends Entity implements Serializable {
 
@@ -10,8 +12,8 @@ public class Projection extends Entity implements Serializable {
     private String idProjection;
     private Date dateTime;
     private int room;
-    private Cinema idCinema;
-    private Film idFilm;
+    private Cinema cinema;
+    private Film film;
 
     public Projection() {
     }
@@ -27,10 +29,9 @@ public class Projection extends Entity implements Serializable {
     }
 
     public Projection(String idProjection, Date dateTime, int room, Cinema cinema, Film film) {
-
         this(idProjection, dateTime, room);
-        idCinema = cinema;
-        idFilm = film;
+        this.cinema = cinema;
+        this.film = film;
     }
 
     @Override
@@ -59,27 +60,27 @@ public class Projection extends Entity implements Serializable {
     }
 
     public Cinema getIdCinema() {
-        return idCinema;
+        return cinema;
     }
 
-    public String getCinema() {
-        return idCinema.getName();
+    public Cinema getCinema() {
+        return cinema;
     }
 
-    public void setIdCinema(Cinema idCinema) {
-        this.idCinema = idCinema;
+    public void setIdCinema(Cinema cinema) {
+        this.cinema = cinema;
     }
 
     public Film getIdFilm() {
-        return idFilm;
+        return film;
     }
 
-    public String getFilm() {
-        return idFilm.getTitle();
+    public Film getFilm() {
+        return film;
     }
 
-    public void setIdFilm(Film idFilm) {
-        this.idFilm = idFilm;
+    public void setIdFilm(Film film) {
+        this.film = film;
     }
 
     @Override
@@ -103,7 +104,7 @@ public class Projection extends Entity implements Serializable {
     public String toString() {
         return "idProjection=" + idProjection + " ]\ndateTime:"
                 + dateTime.toString() + "\nroom:" + room + "\ncinema:"
-                + idCinema.toString() + "\nfilm:" + idFilm.toString();
+                + cinema.toString() + "\nfilm:" + film.toString();
     }
 
 }

@@ -150,11 +150,12 @@ public class ProjectionsController implements Initializable {
         }
 
         Set<Projection> projectionSet = PisaFlixServices.projectionService.queryProjections(cinemaId, filmId, dateStr, -1);
-        ObservableList observableProjectionSet = FXCollections.observableArrayList(projectionSet);
-
+        
         if (projectionSet == null) {
             return null;
         }
+        
+        ObservableList observableProjectionSet = FXCollections.observableArrayList(projectionSet);
 
         return observableProjectionSet;
     }

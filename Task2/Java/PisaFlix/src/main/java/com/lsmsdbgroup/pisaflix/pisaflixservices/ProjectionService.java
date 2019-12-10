@@ -1,6 +1,7 @@
 package com.lsmsdbgroup.pisaflix.pisaflixservices;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
+import com.lsmsdbgroup.pisaflix.dbmanager.DBManager;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.ProjectionManagerDatabaseInterface;
@@ -23,9 +24,9 @@ public class ProjectionService implements ProjectionServiceInterface {
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         String formattedDate = sdf.format(date);
-        if (checkDuplicates(cinema.getId(), film.getId(), formattedDate, room)) {
+        /*if (checkDuplicates(cinema.getId(), film.getId(), formattedDate, room)) {
             throw new InvalidFieldException("a projection arledy exists with those fields");
-        }
+        }*/
         projectionManager.create(date, room, film, cinema);
     }
 
@@ -38,12 +39,12 @@ public class ProjectionService implements ProjectionServiceInterface {
     public Set<Projection> queryProjections(String cinemaId, String filmId, String date, int room) {
         Set<Projection> projections;
 
-        projections = projectionManager.queryProjection(cinemaId, filmId, date, room);
+        projections = projectionManager.queryProjection(cinemaId, filmId, date, room, 0, 0);
 
         return projections;
     }
 
     private boolean checkDuplicates(String cinemaId, String filmId, String date, int room) {
-        return projectionManager.checkDuplicates(cinemaId, filmId, date, room);
+        return projectionManager.checkDuplicates(cinemaId, filmId, date, room, 0, 0);
     }
 }

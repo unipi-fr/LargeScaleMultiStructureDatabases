@@ -38,8 +38,7 @@ public class DBManager {
         filmManager = FilmManager.getIstance();
         commentManager = CommentManager.getIstance();
         userManager = UserManager.getIstance();
-        System.out.println("RIMETTERE ROBA NEL DBMANAGER!!!!!!!!!!!!!!");
-        // projectionManager = ProjectionManager.getIstance();
+        projectionManager = ProjectionManager.getIstance();
     }
 
 }

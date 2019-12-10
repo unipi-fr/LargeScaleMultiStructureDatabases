@@ -36,14 +36,14 @@ public class App extends Application {
                 stage.getIcons().add(new Image("/img/PF.png"));
                 stage.setResizable(false);
                 System.out.println(System.getProperty("os.name"));
-                if(System.getProperty("os.name").split(" ")[0].equals("Mac"))
+                /*if(System.getProperty("os.name").split(" ")[0].equals("Mac"))
                    stage.initStyle(StageStyle.UTILITY);
                 else {
                     stage.maximizedProperty().addListener((observable, oldValue, newValue) -> {
                     if (newValue)
                         stage.setMaximized(false);
                     });   
-                }
+                }*/
                 stage.show();
             } catch (IOException ex) {
                 App.printErrorDialog("PisaFlix", "I/O Error", ex.toString() + "\n" + ex.getMessage());
