@@ -1,5 +1,6 @@
 package com.lsmsdbgroup.pisaflix.pisaflixservices;
 
+import com.lsmsdbgroup.pisaflix.DateConverter;
 import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.DBManager;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
@@ -36,15 +37,29 @@ public class ProjectionService implements ProjectionServiceInterface {
     }
 
     @Override
-    public Set<Projection> queryProjections(String cinemaId, String filmId, String date, int room) {
+    public Set<Projection> queryProjections(Cinema cinema, Film film, Date startDate,Date endDate, int room) {
         Set<Projection> projections;
-
-        projections = projectionManager.queryProjection(cinemaId, filmId, date, room, 0, 0);
+        
+        String cinemaID = "-1";
+        String filmID = "-1";
+        
+        if(cinema != null){
+            cinemaID = cinema.getId();
+        }
+        if(film != null){
+            filmID = film.getId();
+        }
+        
+        projections = projectionManager.queryProjection(cinemaID, filmID, startDate, endDate, room, 0, 0);
 
         return projections;
     }
 
-    private boolean checkDuplicates(String cinemaId, String filmId, String date, int room) {
-        return projectionManager.checkDuplicates(cinemaId, filmId, date, room, 0, 0);
+    private boolean checkDuplicates(String cinemaId, String filmId, Date date, int room) {
+        Date startDate = date;
+        Date endDate = DateConverter.addMinutesToDate(date, 5);
+
+        Set<Projection> projections = projectionManager.queryProjection(cinemaId, filmId, startDate, endDate, room, 0, 0);
+        return !projections.isEmpty();
     }
 }

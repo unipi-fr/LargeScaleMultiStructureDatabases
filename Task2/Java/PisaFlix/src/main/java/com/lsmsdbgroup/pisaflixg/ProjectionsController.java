@@ -1,5 +1,6 @@
 package com.lsmsdbgroup.pisaflixg;
 
+import com.lsmsdbgroup.pisaflix.DateConverter;
 import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
@@ -116,40 +117,27 @@ public class ProjectionsController implements Initializable {
             cinemaCol.setCellValueFactory(new PropertyValueFactory<>("Cinema"));
             filmCol.setCellValueFactory(new PropertyValueFactory<>("Film"));
 
-            String cinemaId;
-            String filmId;
-
-            if (cinemaCombo.getValue() == null || "All".equals(cinemaCombo.getValue().toString())) {
-                cinemaId = "-1";
-            } else {
-                Cinema cinema = (Cinema) cinemaCombo.getValue();
-                cinemaId = cinema.getId();
-            }
-
-            if (filmCombo.getValue() == null || "All".equals(filmCombo.getValue().toString())) {
-                filmId = "-1";
-            } else {
-                Film film = (Film) filmCombo.getValue();
-                filmId = film.getId();
-            }
-            projectionTable.getItems().setAll(getItemsToAdd(cinemaId, filmId));
+            Cinema cinema = (Cinema) cinemaCombo.getValue();
+            Film film = (Film) filmCombo.getValue();
+            
+            projectionTable.getItems().setAll(getItemsToAdd(cinema, film));
         } catch (Exception ex) {
             App.printErrorDialog("Projection Search", "An error occurred loading the projections", ex.toString() + "\n" + ex.getMessage());
         }
     }
 
-    private ObservableList getItemsToAdd(String cinemaId, String filmId) {
+    private ObservableList getItemsToAdd(Cinema cinema, Film film) {
 
         LocalDate localDate = datePicker.getValue();
-        String dateStr;
-
-        if (localDate != null) {
-            dateStr = localDate.toString();
-        } else {
-            dateStr = "all";
+        Date startDate = null;
+        Date endDate = null;
+        if(localDate != null){
+            startDate = DateConverter.LocalDateToDate(localDate);
+            endDate = DateConverter.addHoursToDate(startDate, 24 );
         }
+        
 
-        Set<Projection> projectionSet = PisaFlixServices.projectionService.queryProjections(cinemaId, filmId, dateStr, -1);
+        Set<Projection> projectionSet = PisaFlixServices.projectionService.queryProjections(cinema,film,startDate,endDate, -1);
         
         if (projectionSet == null) {
             return null;

@@ -15,8 +15,6 @@ public interface ProjectionManagerDatabaseInterface {
 
     Projection getById(String projectionId);
 
-    Set<Projection> queryProjection(String cinemaId, String filmId, String date, int room, int limit, int skip);
-
-    boolean checkDuplicates(String cinemaId, String filmId, String date, int room, int limit, int skip);
+    Set<Projection> queryProjection(String cinemaId, String filmId, Date startDate, Date endDate, int room, int limit, int skip);
 
 }

@@ -1,5 +1,6 @@
 package com.lsmsdbgroup.pisaflixg;
 
+import com.lsmsdbgroup.pisaflix.DateConverter;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
@@ -69,7 +70,7 @@ public class AddFilmController implements Initializable {
     private void addFilm() {
         try {
 
-            Date date = Date.from(datePicker.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+            Date date = DateConverter.LocalDateToDate(datePicker.getValue());
             String title = titleTextField.getText();
             String description = descriptionTextArea.getText();
 
@@ -92,7 +93,7 @@ public class AddFilmController implements Initializable {
 
     private void modifyFilm() {
         try {
-            Date date = Date.from(datePicker.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+            Date date = DateConverter.LocalDateToDate(datePicker.getValue());
             String title = titleTextField.getText();
             String description = descriptionTextArea.getText();
 

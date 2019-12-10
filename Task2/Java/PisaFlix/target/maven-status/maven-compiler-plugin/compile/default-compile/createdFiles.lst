@@ -48,6 +48,7 @@ com\lsmsdbgroup\pisaflix\dbmanager\DBManager.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\ProjectionServiceInterface.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\exceptions\UserAlredyLoggedException.class
 com\lsmsdbgroup\pisaflix\dbmanager\Interfaces\ProjectionManagerDatabaseInterface.class
+com\lsmsdbgroup\pisaflix\DateConverter.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\ProjectionService.class
 com\lsmsdbgroup\pisaflix\PisaFlix.class
 com\lsmsdbgroup\pisaflixg\WelcomeBackController.class

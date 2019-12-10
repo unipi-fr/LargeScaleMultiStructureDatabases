@@ -1,5 +1,6 @@
 package com.lsmsdbgroup.pisaflix.dbmanager;
 
+import com.lsmsdbgroup.pisaflix.DateConverter;
 import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.Entities.exceptions.NonConvertibleDocumentException;
 import java.util.*;
@@ -9,6 +10,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import static com.mongodb.client.model.Filters.*;
 import com.mongodb.client.model.UpdateOptions;
+import java.time.LocalDate;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -140,11 +142,11 @@ public class ProjectionManager implements ProjectionManagerDatabaseInterface {
     }
 
     @Override
-    public Set<Projection> queryProjection(String cinemaId, String filmId, String date, int room, int limit, int skip) {
+    public Set<Projection> queryProjection(String cinemaId, String filmId, Date startDate, Date endDate, int room, int limit, int skip) {
         Set<Projection> projectionsSet = new LinkedHashSet<>();
         List filters = new ArrayList();
         
-        if(date.equals("all") && cinemaId.equals("-1") && filmId.equals("-1") && room == -1){
+        if(startDate == null && endDate == null && cinemaId.equals("-1") && filmId.equals("-1") && room == -1){
             return getAll(limit, skip);
         }
         
@@ -154,8 +156,16 @@ public class ProjectionManager implements ProjectionManagerDatabaseInterface {
         if(!filmId.equals("-1"))
             filters.add(eq("Film", filmId));
         
-        if(!date.equals("all"))
-            filters.add(and(gte("DateTime", date + "T00:00:00.000+00:00"),lt("DateTime", date + "T23:59:59.000+00:00")));
+        if( startDate != null && endDate != null){
+            filters.add(and(gte("DateTime", startDate),lt("DateTime", endDate)));      
+        }else{
+            if(startDate != null){
+                filters.add(gte("DateTime", startDate));
+            }
+            if(endDate != null){
+                filters.add(lt("DateTime", startDate));
+            } 
+        }
         
         if(room != -1)
             filters.add(eq("Room", room));
@@ -176,27 +186,5 @@ public class ProjectionManager implements ProjectionManagerDatabaseInterface {
         }
 
         return projectionsSet;
-    }
-
-    @Override
-    public boolean checkDuplicates(String cinemaId, String filmId, String date, int room, int limit, int skip) {
-
-        Set<Projection> projections = null;
-
-        /*try() {
-            while (cursor.hasNext()) {
-                projections.add(new Projection(cursor.next()));
-            }
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            System.out.println("A problem occurred in checking duplicates!");
-        } finally {
-
-        }*/
-
-        //return !projections.isEmpty();
-        
-        return false;
-
     }
 }

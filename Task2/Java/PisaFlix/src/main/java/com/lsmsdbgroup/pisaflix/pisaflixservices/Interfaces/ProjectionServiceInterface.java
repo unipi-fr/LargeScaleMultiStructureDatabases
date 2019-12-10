@@ -10,5 +10,5 @@ public interface ProjectionServiceInterface {
 
     void removeProjection(String projectionId);
 
-    Set<Projection> queryProjections(String cinemaId, String filmId, String date, int room);
+    Set<Projection> queryProjections(Cinema cinema, Film film, Date startDate,Date endDate, int room);
 }
