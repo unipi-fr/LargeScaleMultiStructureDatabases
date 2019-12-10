@@ -5,7 +5,6 @@ import com.lsmsdbgroup.pisaflix.Entities.Comment;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CommentManagerDatabaseInterface;
-import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -302,7 +301,9 @@ public class CommentManagerKV extends KeyValueDBManager implements CommentManage
     
     */
         
-    public Set<Comment> getCommentsFilm(int idFilm){
+    public Set<Comment> getCommentsFilm(Film film){
+        
+        int idFilm = film.getIdFilm();
         
         String commentiConcatenatiFilm = get("film:" + idFilm + ":comments");
     

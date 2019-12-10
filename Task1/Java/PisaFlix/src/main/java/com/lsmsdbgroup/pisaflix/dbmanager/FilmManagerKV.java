@@ -37,7 +37,7 @@ public class FilmManagerKV extends KeyValueDBManager implements FilmManagerDatab
             entityManager.getTransaction().begin();
             film = entityManager.find(Film.class, filmId);
             // ricorda di recuperare i commenti e di settarli
-            film.setCommentSet(CommentManagerKV.getIstance().getCommentsFilm(film.getIdFilm()));
+            film.setCommentSet(CommentManagerKV.getIstance().getCommentsFilm(film));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace(System.out);
@@ -59,7 +59,7 @@ public class FilmManagerKV extends KeyValueDBManager implements FilmManagerDatab
             films = new LinkedHashSet<>(entityManager.createQuery("FROM Film").getResultList());
             // ricorda di recuperare i commenti e di settarli per ogni film in films
             for(Film film : films){
-                film.setCommentSet(CommentManagerKV.getIstance().getCommentsFilm(film.getIdFilm()));
+                film.setCommentSet(CommentManagerKV.getIstance().getCommentsFilm(film));
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -186,7 +186,7 @@ public class FilmManagerKV extends KeyValueDBManager implements FilmManagerDatab
             films = new LinkedHashSet<>(entityManager.createQuery(query).getResultList());
             // ricorda di recuperare i commenti e di settarli per ogni film in films
             for(Film film : films){
-                film.setCommentSet(CommentManagerKV.getIstance().getCommentsFilm(film.getIdFilm()));
+                film.setCommentSet(CommentManagerKV.getIstance().getCommentsFilm(film));
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
