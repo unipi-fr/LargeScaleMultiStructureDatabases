@@ -34,7 +34,7 @@ public class App extends Application {
                 stage.setScene(scene);
                 stage.setTitle("Pisaflix");
                 stage.getIcons().add(new Image("/img/PF.png"));
-                stage.setResizable(false);
+                stage.setResizable(true);
                 System.out.println(System.getProperty("os.name"));
                 if(System.getProperty("os.name").split(" ")[0].equals("Mac"))
                    stage.initStyle(StageStyle.UTILITY);

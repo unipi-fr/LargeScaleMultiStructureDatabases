@@ -195,7 +195,7 @@ public class CommentController implements Initializable {
                 Film film = comment.getFilmSet().iterator().next();
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
-                AnchorPane anchorPane = null;
+                Pane anchorPane = null;
                 try {
                     anchorPane = loader.load();
                 } catch (IOException ex) {
@@ -212,7 +212,7 @@ public class CommentController implements Initializable {
                 Cinema cinema = comment.getCinemaSet().iterator().next();
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("CinemaDetailPage.fxml"));
-                AnchorPane anchorPane = null;
+                Pane anchorPane = null;
                 try {
                     anchorPane = loader.load();
                 } catch (IOException ex) {
