@@ -11,7 +11,7 @@ import javafx.collections.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 
 public class UserViewController implements Initializable {
 
@@ -82,10 +82,10 @@ public class UserViewController implements Initializable {
             cinemaListener = (ObservableValue<? extends Cinema> observable, Cinema oldValue, Cinema newValue) -> {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("CinemaDetailPage.fxml"));
 
-                AnchorPane anchorPane = null;
+                GridPane gridPane = null;
 
                 try {
-                    anchorPane = loader.load();
+                    gridPane = loader.load();
                 } catch (IOException ex) {
                     System.out.println(ex.getMessage());
                 }
@@ -94,16 +94,16 @@ public class UserViewController implements Initializable {
 
                 cinemaDetailPageController.setCinema(newValue);
 
-                App.setMainPane(anchorPane);
+                App.setMainPane(gridPane);
             };
 
             filmListener = (ObservableValue<? extends Film> observable, Film oldValue, Film newValue) -> {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
 
-                AnchorPane anchorPane = null;
+                GridPane gridPane = null;
 
                 try {
-                    anchorPane = loader.load();
+                    gridPane = loader.load();
                 } catch (IOException ex) {
                     System.out.println(ex.getMessage());
                 }
@@ -112,7 +112,7 @@ public class UserViewController implements Initializable {
 
                 filmDetailPageController.setFilm(newValue);
 
-                App.setMainPane(anchorPane);
+                App.setMainPane(gridPane);
             };
         } catch (Exception ex) {
             App.printErrorDialog("User Details", "An error occurred loading the user's details", ex.toString() + "\n" + ex.getMessage());
