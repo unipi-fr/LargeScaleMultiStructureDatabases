@@ -114,7 +114,7 @@ public class CinemaManagerKV extends KeyValueDBManager implements CinemaManagerD
 
     
     @Override
-    public void delete(int idCinema) {
+    public void delete(int idCinema){
         clearUserSet(getById(idCinema, false));
         try {
             entityManager = factory.createEntityManager();

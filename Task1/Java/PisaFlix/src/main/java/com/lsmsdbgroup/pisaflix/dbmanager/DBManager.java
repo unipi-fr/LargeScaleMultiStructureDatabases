@@ -31,7 +31,7 @@ public class DBManager {
 
     static {
         cinemaManager = CinemaManagerKV.getIstance();
-        userManager = UserManager.getIstance();
+        userManager = UserManagerKV.getIstance();
         filmManager = FilmManagerKV.getIstance();
         projectionManager = ProjectionManager.getIstance();
         commentManager = CommentManagerKV.getIstance();

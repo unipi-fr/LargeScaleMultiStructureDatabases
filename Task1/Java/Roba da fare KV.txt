@@ -1,31 +1,12 @@
 Testa tutti i metodi con main ad hoc
 
-Metti a posto le note di hibernate per user
-
 Aggiusta la retreive del set dei commenti in user manager
 
-Creare CinemaManagerKV
-
-Aggiusta la get cinema comment perche usa erroneamente CinemaManager anziche CinemaManagerKV
-
-
-Il problema generale è che c'è una ricorsione infinita di chiamate. esempio:
-
--Cerco di prendere un film by id
--il film possiede un set di commenti
-- quindi faccio la getCommentsFilm per popolare il suddetto set
-- ma se ci sono dei commenti associati al film io li prendo facendo la getCommentById
-- Ma quando faccio la getCommentById devo cercare anche il film associato a questo commento
-e quindi mi ritrovo da punto a capo. => ricorsione infinita.
-
-Devo capire come spezzare questa ricorsione.
-
-Implementare un metodo privato in commentManagerKV che associa un commento a un film dato il riferimento del film 
-In modo tale da non dover chiamare il metodo nel FilmManager
-
-
-Bloccare ricorsione settando a null i set dei commenti quando si chiama la getUserById
 
 CAMBIO DI PROGRAMMA ho inserito un booleano che controlla se andare avanti nella ricerca dei commenti oppure no. 
 Ricordare di mettere un controllo prima della chiusura dell'entity manager per ogni metodo che usa i metodi
 di retreive basati sul KV.
+
+Sistemare la parte relativa agli utenti con commenti e preferiti associati ad essi
+
+Probabilmente avrò bisogno di estendere i metodi della parte KV.
