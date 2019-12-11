@@ -41,9 +41,8 @@ public class UserManagerKV extends KeyValueDBManager implements UserManagerDatab
             // che recupera il set di cinema preferiti dell'utente
             // probabilmente dovrò estendere la parte KV per aggiungere
             // altri indici associati ad ogni id utente.
-            user.setCinemaSet(); 
-            user.setFilmSet();
-            user.setCommentSet();
+            
+            //user.setCommentSet();
             
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
