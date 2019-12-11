@@ -23,14 +23,14 @@ public class DBManager {
         return factory;
     }
 
-    public static CinemaManagerDatabaseInterface cinemaMamager;
+    public static CinemaManagerDatabaseInterface cinemaManager;
     public static UserManagerDatabaseInterface userManager;
     public static FilmManagerDatabaseInterface filmManager;
     public static ProjectionManagerDatabaseInterface projectionManager;
     public static CommentManagerDatabaseInterface commentManager;
 
     static {
-        cinemaMamager = CinemaManager.getIstance();
+        cinemaManager = CinemaManagerKV.getIstance();
         userManager = UserManager.getIstance();
         filmManager = FilmManagerKV.getIstance();
         projectionManager = ProjectionManager.getIstance();

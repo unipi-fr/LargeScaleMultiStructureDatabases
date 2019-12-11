@@ -1,28 +1,34 @@
+
 package com.lsmsdbgroup.pisaflix.dbmanager;
 
 import com.lsmsdbgroup.pisaflix.Entities.Cinema;
-import java.util.*;
-import javax.persistence.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CinemaManagerDatabaseInterface;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
-public class CinemaManager implements CinemaManagerDatabaseInterface {
 
+public class CinemaManagerKV extends KeyValueDBManager implements CinemaManagerDatabaseInterface{
+    
     private final EntityManagerFactory factory;
     private EntityManager entityManager;
 
-    private static CinemaManager cinemaManager;
+    private static CinemaManagerKV cinemaManager;
 
-    public static CinemaManager getIstance() {
+    public static CinemaManagerKV getIstance() {
         if (cinemaManager == null) {
-            cinemaManager = new CinemaManager();
+            cinemaManager = new CinemaManagerKV();
         }
         return cinemaManager;
     }
 
-    private CinemaManager() {
+    private CinemaManagerKV() {
         factory = DBManager.getEntityManagerFactory();
+        super.settings();
     }
 
+    
     @Override
     public void create(String name, String address) {
         Cinema cinema = new Cinema();
@@ -41,6 +47,7 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
         }
     }
 
+    
     @Override
     public Cinema getById(int cinemaId, boolean retreiveComments) {
         Cinema cinema = null;
@@ -48,16 +55,24 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
             cinema = entityManager.find(Cinema.class, cinemaId);
+            
+            // ricorda di recuperare i commenti e di settarli nel caso in cui
+            // retreiveComments è settato a true (per evitare la ricorsione infinita)
+            if(retreiveComments){
+                cinema.setCommentSet(CommentManagerKV.getIstance().getCommentsCinema(cinema.getIdCinema()));
+            }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace(System.out);
             System.out.println("A problem occurred in retriving a film!");
         } finally {
-            entityManager.close();
+            if(entityManager.isOpen())
+                entityManager.close();
         }
         return cinema;
     }
 
+    
     @Override
     public Set<Cinema> getFiltered(String nameFilter, String addressFilter) {
         Set<Cinema> cinemas = null;
@@ -79,19 +94,25 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
             cinemas = new LinkedHashSet<>(entityManager.createQuery(query).getResultList());
-            if (cinemas == null) {
+            if (cinemas.isEmpty()) {
                 System.out.println("cinemas are empty!");
+            }
+            // ricorda di recuperare i commenti e di settarli per ogni cinema in cinemas
+            for(Cinema cinema: cinemas){
+                cinema.setCommentSet(CommentManagerKV.getIstance().getCommentsCinema(cinema.getIdCinema()));
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace(System.out);
             System.out.println("A problem occurred in retrieve cinemas filtered!");
         } finally {
-            entityManager.close();
+            if(entityManager.isOpen())
+                entityManager.close();
         }
         return cinemas;
     }
 
+    
     @Override
     public void delete(int idCinema) {
         clearUserSet(getById(idCinema, false));
@@ -105,9 +126,11 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in removing a Cinema!");
         } finally {
-            entityManager.close();
+            if(entityManager.isOpen())
+                entityManager.close();
         }
     }
+
 
     @Override
     public void clearUserSet(Cinema cinema) {
@@ -125,6 +148,7 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
         }
     }
 
+   
     @Override
     public void update(int idCinema, String name, String address) {
         Cinema cinema = new Cinema(idCinema);
@@ -143,6 +167,7 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
         }
     }
 
+    
     @Override
     public Set<Cinema> getAll() {
         Set<Cinema> cinemas = null;
@@ -150,19 +175,25 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
             cinemas = new LinkedHashSet<>(entityManager.createQuery("FROM Cinema").getResultList());
-            if (cinemas == null) {
+            if (cinemas.isEmpty()) {
                 System.out.println("Cinema is empty!");
+            }
+             // ricorda di recuperare i commenti e di settarli per ogni cinema in cinemas
+            for(Cinema cinema: cinemas){
+                cinema.setCommentSet(CommentManagerKV.getIstance().getCommentsCinema(cinema.getIdCinema()));
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace(System.out);
             System.out.println("A problem occurred in retrieve all cinemas!");
         } finally {
-            entityManager.close();
+            if(entityManager.isOpen())
+                entityManager.close();
         }
         return cinemas;
     }
 
+    
     @Override
     public void updateFavorites(Cinema cinema) {
         try {
@@ -177,5 +208,5 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
             entityManager.close();
         }
     }
-
+    
 }

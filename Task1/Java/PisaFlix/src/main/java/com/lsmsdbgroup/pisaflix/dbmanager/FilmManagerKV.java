@@ -20,7 +20,6 @@ public class FilmManagerKV extends KeyValueDBManager implements FilmManagerDatab
         if (filmManager == null) {
             filmManager = new FilmManagerKV();
         }
-
         return filmManager;
     }
 
@@ -40,7 +39,7 @@ public class FilmManagerKV extends KeyValueDBManager implements FilmManagerDatab
             // ricorda di recuperare i commenti e di settarli nel caso in cui
             // retreiveComments è settato a true (per evitare la ricorsione infinita)
             if(retreiveComments)
-                film.setCommentSet(CommentManagerKV.getIstance().getCommentsFilm(film));
+                film.setCommentSet(CommentManagerKV.getIstance().getCommentsFilm(film.getIdFilm()));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace(System.out);
@@ -62,7 +61,7 @@ public class FilmManagerKV extends KeyValueDBManager implements FilmManagerDatab
             films = new LinkedHashSet<>(entityManager.createQuery("FROM Film").getResultList());
             // ricorda di recuperare i commenti e di settarli per ogni film in films
             for(Film film : films){
-                film.setCommentSet(CommentManagerKV.getIstance().getCommentsFilm(film));
+                film.setCommentSet(CommentManagerKV.getIstance().getCommentsFilm(film.getIdFilm()));
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -191,7 +190,7 @@ public class FilmManagerKV extends KeyValueDBManager implements FilmManagerDatab
             films = new LinkedHashSet<>(entityManager.createQuery(query).getResultList());
             // ricorda di recuperare i commenti e di settarli per ogni film in films
             for(Film film : films){
-                film.setCommentSet(CommentManagerKV.getIstance().getCommentsFilm(film));
+                film.setCommentSet(CommentManagerKV.getIstance().getCommentsFilm(film.getIdFilm()));
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -201,7 +200,6 @@ public class FilmManagerKV extends KeyValueDBManager implements FilmManagerDatab
             if(entityManager.isOpen())
               entityManager.close();
         }
-        
         return films;
     }
     

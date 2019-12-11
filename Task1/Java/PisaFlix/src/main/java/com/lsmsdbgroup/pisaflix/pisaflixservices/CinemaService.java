@@ -38,7 +38,7 @@ public class CinemaService implements CinemaServiceInterface {
     public Cinema getById(int id) {
         Cinema cinema;
 
-        cinema = commentManager.getById(id);
+        cinema = commentManager.getById(id, true);
 
         return cinema;
     }

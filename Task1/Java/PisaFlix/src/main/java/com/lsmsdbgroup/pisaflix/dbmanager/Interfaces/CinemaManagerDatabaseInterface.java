@@ -7,7 +7,7 @@ public interface CinemaManagerDatabaseInterface {
 
     void create(String name, String address);
 
-    Cinema getById(int cinemaId);
+    Cinema getById(int cinemaId, boolean retreiveComments);
 
     Set<Cinema> getFiltered(String nameFilter, String addressFilter);
 

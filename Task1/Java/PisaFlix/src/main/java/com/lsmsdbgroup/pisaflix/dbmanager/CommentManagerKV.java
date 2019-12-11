@@ -271,7 +271,7 @@ public class CommentManagerKV extends KeyValueDBManager implements CommentManage
     private Comment getCinemaCommentById(int commentId, String idUser, String idCinema, String text, String timestamp){
     
         User user = UserManager.getIstance().getById(Integer.parseInt(idUser));
-        Cinema cinema = CinemaManager.getIstance().getById(Integer.parseInt(idCinema));
+        Cinema cinema = CinemaManagerKV.getIstance().getById(Integer.parseInt(idCinema), false);
         Date date;
         try{
             date = dateFormat.parse(timestamp);
@@ -301,9 +301,8 @@ public class CommentManagerKV extends KeyValueDBManager implements CommentManage
     
     */
         
-    public Set<Comment> getCommentsFilm(Film film){
+    public Set<Comment> getCommentsFilm(int idFilm){
         
-        int idFilm = film.getIdFilm();
         
         String commentiConcatenatiFilm = get("film:" + idFilm + ":comments");
     
