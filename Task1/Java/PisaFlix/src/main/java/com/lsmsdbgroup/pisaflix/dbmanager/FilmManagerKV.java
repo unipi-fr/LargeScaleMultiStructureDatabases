@@ -54,7 +54,7 @@ public class FilmManagerKV extends KeyValueDBManager implements FilmManagerDatab
     }
 
     @Override
-    public Set<Film> getAll() {
+    public Set<Film> getAll(){
         Set<Film> films = null;
         try {
             entityManager = factory.createEntityManager();
@@ -77,7 +77,7 @@ public class FilmManagerKV extends KeyValueDBManager implements FilmManagerDatab
     }
 
     @Override
-    public void create(String title, Date publicationDate, String description) {
+    public void create(String title, Date publicationDate, String description){
         Film film = new Film();
         film.setTitle(title);
         film.setDescription(description);

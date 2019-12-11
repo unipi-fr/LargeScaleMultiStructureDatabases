@@ -340,14 +340,16 @@ public class CommentManagerKV extends KeyValueDBManager implements CommentManage
     private Set<Comment> getSet(String commentiConcatenati){
         
         String[] arrayCommentiVecchi = commentiConcatenati.split(":");
-        Comment[] arrayCommenti = new Comment[arrayCommentiVecchi.length];
-        int i = 0;
+        Set<Comment> returnSet = new LinkedHashSet<>();
+        Comment c;
         
         for(String idCommento: arrayCommentiVecchi){
-            arrayCommenti[i] = getById(Integer.valueOf(idCommento));
+            c = getById(Integer.valueOf(idCommento));
+            if(c != null)
+                returnSet.add(c);
         }
          
-        return new LinkedHashSet<>(Arrays.asList(arrayCommenti));
+        return returnSet;
     }
     
     

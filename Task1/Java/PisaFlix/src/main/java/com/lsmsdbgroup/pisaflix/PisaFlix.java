@@ -15,16 +15,16 @@ public class PisaFlix {
 
     public static void main(String[] args) {
         LogManager.getLogManager().getLogger("").setLevel(Level.OFF);
-        //App.main(args);
+        App.main(args);
         
-        
-        User u = PisaFlixServices.userService.getUserById(1);
+        /*
+        User u = PisaFlixServices.userService.getUserById(3);
         
         System.out.println(u.toString());
         
-        Film f = PisaFlixServices.filmService.getById(1);
+        Film f = PisaFlixServices.filmService.getById(2);
         
-        PisaFlixServices.commentService.addFilmComment("AlbaKiara fa cagare",u , f);
+        PisaFlixServices.commentService.addFilmComment("ARGGGGHHHHH!!!!",u , f);
         
         Set<Film> films = PisaFlixServices.filmService.getAll();
         
@@ -38,6 +38,7 @@ public class PisaFlix {
             }
             
         }
+        */
         
         DBManager.stop();
         KeyValueDBManager.stop();
