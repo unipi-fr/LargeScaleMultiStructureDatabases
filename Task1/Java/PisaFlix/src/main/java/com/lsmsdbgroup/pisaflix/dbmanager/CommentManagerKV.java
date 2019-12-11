@@ -251,7 +251,7 @@ public class CommentManagerKV extends KeyValueDBManager implements CommentManage
     // serve a differenziare il caso del commenti di un film dal caso di commento di un cinema
     private Comment getFilmCommentById(int commentId, String idUser, String idFilm, String text, String timestamp){
     
-        User user = UserManager.getIstance().getById(Integer.parseInt(idUser));
+        User user = UserManagerKV.getIstance().getById(Integer.parseInt(idUser), false);
         Film film = FilmManagerKV.getIstance().getById(Integer.parseInt(idFilm), false);
         Date date;
         try{
@@ -270,7 +270,7 @@ public class CommentManagerKV extends KeyValueDBManager implements CommentManage
     
     private Comment getCinemaCommentById(int commentId, String idUser, String idCinema, String text, String timestamp){
     
-        User user = UserManager.getIstance().getById(Integer.parseInt(idUser));
+        User user = UserManagerKV.getIstance().getById(Integer.parseInt(idUser), false);
         Cinema cinema = CinemaManagerKV.getIstance().getById(Integer.parseInt(idCinema), false);
         Date date;
         try{
@@ -351,6 +351,6 @@ public class CommentManagerKV extends KeyValueDBManager implements CommentManage
         return returnSet;
     }
     
-    
+
     
 }

@@ -1,5 +1,6 @@
 package com.lsmsdbgroup.pisaflix.dbmanager;
 
+import com.lsmsdbgroup.pisaflix.Entities.Comment;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface;
 import java.util.LinkedHashSet;
@@ -26,9 +27,9 @@ public class UserManagerKV extends KeyValueDBManager implements UserManagerDatab
         super.settings();
     }
 
-    // Da Controllare
+    
     @Override
-    public User getById(int userId) {
+    public User getById(int userId, boolean retreiveComments) {
         User user = null;
         try {
             entityManager = factory.createEntityManager();
@@ -37,13 +38,10 @@ public class UserManagerKV extends KeyValueDBManager implements UserManagerDatab
             if (user == null) {
                 System.out.println("User not found!");
             }
-            // devo implementare un nuovo metodo nel comment manager
-            // che recupera il set di cinema preferiti dell'utente
-            // probabilmente dovrò estendere la parte KV per aggiungere
-            // altri indici associati ad ogni id utente.
-            
-            //user.setCommentSet();
-            
+            else{
+                if(retreiveComments)
+                    user.setCommentSet(retreiveCommentsOfUser(user.getIdUser()));
+            }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace(System.out);
@@ -54,6 +52,31 @@ public class UserManagerKV extends KeyValueDBManager implements UserManagerDatab
         return user;
     }
 
+    // recupera tutti i commenti associati all'utente
+    private Set<Comment> retreiveCommentsOfUser(int idUser){
+    
+         Set<Comment> returnSet = new LinkedHashSet<>();
+        
+        int lastCommentId = Integer.parseInt(get("setting:lastCommentKey"));
+    
+        for(int i = 1; i <= lastCommentId; i++){
+        
+            String stringUserId = get("comment:" + i + ":user");
+            
+            if(stringUserId == null) continue;
+            
+            int idUserRed = Integer.parseInt(stringUserId);
+            
+            if(idUserRed == idUser){
+                Comment commentToAdd = CommentManagerKV.getIstance().getById(i);
+                if (commentToAdd != null)
+                    returnSet.add(commentToAdd);
+            }
+        }
+        
+        return returnSet;
+    }
+    
     
     @Override
     public void create(String username, String password, String firstName, String lastName, String email, int privilegeLevel) {
@@ -95,10 +118,10 @@ public class UserManagerKV extends KeyValueDBManager implements UserManagerDatab
         }
     }
 
-    // Da Controllare
+    // penso che vada bene
     @Override
     public void delete(int userId){
-        clearCinemaSetAndFilmSet(getById(userId));
+        clearCinemaSetAndFilmSet(getById(userId, false));
         try {
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
@@ -113,7 +136,7 @@ public class UserManagerKV extends KeyValueDBManager implements UserManagerDatab
         }
     }
 
-    // Da Controllare
+    // penso che vada bene
     @Override
     public void clearCinemaSetAndFilmSet(User user) {
         user.setCinemaSet(new LinkedHashSet<>());
@@ -131,13 +154,13 @@ public class UserManagerKV extends KeyValueDBManager implements UserManagerDatab
         }
     }
 
-    // Da Controllare
+    
     @Override
     public void update(User u) {
         update(u.getIdUser(), u.getUsername(), u.getFirstName(), u.getLastName(), u.getEmail(), u.getPassword(), u.getPrivilegeLevel());
     }
 
-    // Da Controllare
+    
     @Override
     public void update(int userId, String username, String firstName, String lastName, String email, String password, int privilegeLevel) {
         // code to update a user
@@ -164,15 +187,15 @@ public class UserManagerKV extends KeyValueDBManager implements UserManagerDatab
     // Da Controllare
     @Override
     public Set<User> getAll() {
-        // code to retrieve all users
         System.out.println("Retrieving users");
         Set<User> users = null;
         try {
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
             users = new LinkedHashSet<>(entityManager.createQuery("FROM User").getResultList());
-            if (users == null) {
-                System.out.println("User is empty!");
+            
+            for(User user: users){
+                user.setCommentSet(retreiveCommentsOfUser(user.getIdUser()));
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -184,17 +207,17 @@ public class UserManagerKV extends KeyValueDBManager implements UserManagerDatab
         return users;
     }
 
-    // Da Controllare
+    
     @Override
     public Set<User> getByUsername(String username) {
         Set<User> users = null;
         try {
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
-            //TODO: da vedere se è sicuro <- SQLInjection
+           
             users = new LinkedHashSet<>(entityManager.createQuery("SELECT u FROM User u WHERE u.username = '" + username + "'").getResultList());
-            if (users == null) {
-                System.out.println("Users is empty!");
+            for(User user: users){
+                user.setCommentSet(retreiveCommentsOfUser(user.getIdUser()));
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -206,7 +229,7 @@ public class UserManagerKV extends KeyValueDBManager implements UserManagerDatab
         return users;
     }
 
-    // Da Controllare
+    
     @Override
     public Set<User> getByEmail(String email) {
         Set<User> users = null;
@@ -215,8 +238,8 @@ public class UserManagerKV extends KeyValueDBManager implements UserManagerDatab
             entityManager.getTransaction().begin();
 
             users = new LinkedHashSet<>(entityManager.createQuery("SELECT u FROM User u WHERE u.email = '" + email + "'").getResultList());
-            if (users == null) {
-                //System.out.println("Users is empty!");
+            for(User user: users){
+                user.setCommentSet(retreiveCommentsOfUser(user.getIdUser()));
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -228,13 +251,13 @@ public class UserManagerKV extends KeyValueDBManager implements UserManagerDatab
         return users;
     }
 
-    // Da Controllare
+    
     @Override
     public boolean checkDuplicates(String username, String email) {
         return !(getByUsername(username).isEmpty() && getByEmail(email).isEmpty());
     }
 
-    // Da Controllare
+    
     @Override
     public Set<User> getFiltered(String nameFilter) {
         Set<User> users = null;
@@ -252,8 +275,8 @@ public class UserManagerKV extends KeyValueDBManager implements UserManagerDatab
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
             users = new LinkedHashSet<>(entityManager.createQuery(query).getResultList());
-            if (users == null) {
-                System.out.println("Users are empty!");
+            for(User user: users){
+                user.setCommentSet(retreiveCommentsOfUser(user.getIdUser()));
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());

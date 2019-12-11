@@ -9,4 +9,10 @@ di retreive basati sul KV.
 
 Sistemare la parte relativa agli utenti con commenti e preferiti associati ad essi
 
-Probabilmente avrò bisogno di estendere i metodi della parte KV.
+
+Devi sistemare le chiamate ricorsive dello UserManagerKV
+
+Aggiusta anche la documentazione
+
+
+Ultima cosa da modificare è chiudere l'entity manager correttamente

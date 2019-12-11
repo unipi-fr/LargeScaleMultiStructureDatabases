@@ -3,9 +3,9 @@ package com.lsmsdbgroup.pisaflix.dbmanager.Interfaces;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import java.util.Set;
 
-public interface UserManagerDatabaseInterface {
+public interface UserManagerDatabaseInterface{
 
-    User getById(int userId);
+    User getById(int userId, boolean retreiveComments);
 
     void create(String username, String password, String firstName, String lastName, String email, int privilegeLevel);
 

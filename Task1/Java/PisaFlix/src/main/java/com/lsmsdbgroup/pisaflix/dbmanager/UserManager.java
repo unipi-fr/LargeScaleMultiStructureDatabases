@@ -25,7 +25,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     }
 
     @Override
-    public User getById(int userId) {
+    public User getById(int userId, boolean retreiveComments) {
         // code to get a user
         User user = null;
         try {
@@ -86,7 +86,7 @@ public class UserManager implements UserManagerDatabaseInterface {
 
     @Override
     public void delete(int userId) {
-        clearCinemaSetAndFilmSet(getById(userId));
+        clearCinemaSetAndFilmSet(getById(userId, false));
         try {
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();

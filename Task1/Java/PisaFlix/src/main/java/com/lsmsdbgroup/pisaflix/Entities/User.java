@@ -36,10 +36,10 @@ public class User implements Serializable {
     @Column(name = "privilegeLevel")
     private int privilegeLevel;
 
-    @Transient
+    @ManyToMany(mappedBy = "userSet", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Set<Cinema> cinemaSet = new LinkedHashSet<>();
 
-    @Transient
+    @ManyToMany(mappedBy = "userSet", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Set<Film> filmSet = new LinkedHashSet<>();
 
     @Transient
