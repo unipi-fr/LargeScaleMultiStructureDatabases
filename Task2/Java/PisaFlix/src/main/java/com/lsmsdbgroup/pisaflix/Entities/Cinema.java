@@ -14,8 +14,9 @@ public class Cinema extends Entity implements Serializable {
     private String idCinema;
     private String name;
     private String address;
+    
+    private int favoriteCounter;
 
-    private Set<User> userSet = new LinkedHashSet<>();
     private Set<Comment> commentSet = new LinkedHashSet<>();
     private Set<Projection> projectionSet = new LinkedHashSet<>();
 
@@ -37,6 +38,7 @@ public class Cinema extends Entity implements Serializable {
             this.idCinema = cinemaDocument.get("_id").toString();
             this.name = cinemaDocument.getString("Name");
             this.address = cinemaDocument.getString("Address");
+            this.favoriteCounter = cinemaDocument.getInteger("FavoriteCounter");
         }else{
             try {
                 throw new NonConvertibleDocumentException("Document not-convertible in cinema");
@@ -70,14 +72,6 @@ public class Cinema extends Entity implements Serializable {
         this.address = address;
     }
 
-    public Set<User> getUserSet() {
-        return userSet;
-    }
-
-    public void setUserSet(Set<User> userSet) {
-        this.userSet = userSet;
-    }
-
     public Set<Comment> getCommentSet() {
         return commentSet;
     }
@@ -94,13 +88,21 @@ public class Cinema extends Entity implements Serializable {
         this.projectionSet = projectionSet;
     }
 
+    public int getFavoriteCounter() {
+        return favoriteCounter;
+    }
+
+    public void setFavoriteCounter(int favoriteCounter) {
+        this.favoriteCounter = favoriteCounter;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (idCinema != null ? idCinema.hashCode() : 0);
         return hash;
     }
-
+    
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof Cinema)) {
@@ -109,7 +111,7 @@ public class Cinema extends Entity implements Serializable {
         Cinema other = (Cinema) object;
         return !((this.idCinema == null && other.idCinema != null) || (this.idCinema != null && !this.idCinema.equals(other.idCinema)));
     }
-
+    
     @Override
     public String toString() {
         return name;

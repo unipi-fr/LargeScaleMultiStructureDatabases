@@ -66,15 +66,17 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     public void create(String title, Date publicationDate, String description) {
         Document filmDocument = new Document()
                 .append("Title", title)
-                .append("PublicationDate", publicationDate);
+                .append("PublicationDate", publicationDate)
+                .append("FavoriteCounter", 0);
+        
         if(description != null){
             filmDocument.put("Description", description);
         }      
         //Upsert insert if documnet does't already exists
         UpdateOptions options = new UpdateOptions().upsert(true);
-        try {
+        try{
             FilmCollection.updateOne(and(filmDocument), new Document("$set", filmDocument), options);
-        } catch (Exception ex) {
+        }catch (Exception ex){
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in creating the film!");
         } finally {
@@ -87,9 +89,11 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         Document filmDocument = new Document()
                 .append("Title", title)
                 .append("PublicationDate", publicationDate);
+        
         if(description != null){
             filmDocument.put("Description", description);
-        }   
+        }
+        
         try {
             FilmCollection.updateOne(eq("_id", new ObjectId(idFilm)), new Document("$set", filmDocument));
         } catch (Exception ex) {
@@ -114,7 +118,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
     @Override
     public void clearUserSet(Film film) {
-        film.setUserSet(new LinkedHashSet<>());
+        //film.setUserSet(new LinkedHashSet<>());
         try {
             throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
         } catch (Exception ex) {
@@ -127,8 +131,11 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
     @Override
     public void updateFavorites(Film film) {
+        String idFilm = film.getId();
+        int favoriteCounter = film.getFavoriteCounter();
+        
         try {
-            throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
+            FilmCollection.updateOne(new Document("_id", new ObjectId(idFilm)), new Document("$set", new Document("FavoriteCounter", favoriteCounter)));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred updating favorite films!");

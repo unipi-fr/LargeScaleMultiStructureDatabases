@@ -33,7 +33,9 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
     public void create(String name, String address) {
         Document cinemaDocument = new Document()
                 .append("Name", name)
-                .append("Address", address);
+                .append("Address", address)
+                .append("FavoriteCounter", 0);
+        
         //Upsert insert if documnet does't already exists
         UpdateOptions options = new UpdateOptions().upsert(true);
         try {
@@ -99,7 +101,7 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
 
     @Override
     public void clearUserSet(Cinema cinema) {
-        cinema.setUserSet(new LinkedHashSet<>());
+        //cinema.setUserSet(new LinkedHashSet<>());
         try {
             throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
         } catch (Exception ex) {
@@ -141,11 +143,14 @@ public class CinemaManager implements CinemaManagerDatabaseInterface {
 
     @Override
     public void updateFavorites(Cinema cinema) {
+        String idCinema = cinema.getId();
+        int favoriteCounter = cinema.getFavoriteCounter();
+        
         try {
-            throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
+            cinemaCollection.updateOne(new Document("_id", new ObjectId(idCinema)), new Document("$set", new Document("FavoriteCounter", favoriteCounter)));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
-            System.out.println("A problem occurred updating favorite cinemas!");
+            System.out.println("A problem occurred updating favorite films!");
         } finally {
 
         }

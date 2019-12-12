@@ -4,16 +4,19 @@ import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.FilmManagerDatabaseInterface;
+import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.*;
 
 public class FilmService implements FilmServiceInterface {
 
     private final FilmManagerDatabaseInterface filmManager;
     private final AuthenticationServiceInterface authenticationService;
+    private final UserManagerDatabaseInterface userManager;
 
-    FilmService(FilmManagerDatabaseInterface filmManager, AuthenticationServiceInterface authenticationService) {
+    FilmService(FilmManagerDatabaseInterface filmManager, AuthenticationServiceInterface authenticationService, UserManagerDatabaseInterface userManager) {
         this.filmManager = filmManager;
         this.authenticationService = authenticationService;
+        this.userManager = userManager;
     }
 
     @Override
@@ -62,18 +65,44 @@ public class FilmService implements FilmServiceInterface {
         authenticationService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "update a film");
         filmManager.update(film.getId(), film.getTitle(), film.getPublicationDate(), film.getDescription());
     }
-
+    
+    
+    
     @Override
-    public void addFavorite(Film film, User user) {
-        user.getFilmSet().add(film);
-        film.getUserSet().add(user);
+    public void addFavorite(Film film, User user){
+        Set<Film> films = user.getFilmSet();
+        
+        if (films.contains(film))
+           return;
+        
+        int counter = film.getFavoriteCounter();
+        counter += 1;
+        
+        film.setFavoriteCounter(counter);
+        
         filmManager.updateFavorites(film);
+        
+        user.getFilmSet().add(film);
+        
+        userManager.updateFavoritesFilm(user);
     }
 
     @Override
-    public void removeFavourite(Film film, User user) {
-        user.getFilmSet().remove(film);
-        film.getUserSet().remove(user);
+    public void removeFavourite(Film film, User user){
+        Set<Film> films = user.getFilmSet();
+        
+        if (!films.contains(film))
+           return;
+        
+        int counter = film.getFavoriteCounter();
+        counter -= 1;
+        
+        film.setFavoriteCounter(counter);
+        
         filmManager.updateFavorites(film);
+        
+        user.getFilmSet().remove(film);
+        
+        userManager.updateFavoritesFilm(user);
     }
 }

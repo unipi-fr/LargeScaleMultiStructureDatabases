@@ -35,6 +35,12 @@ public class User extends Entity implements Serializable {
         this.privilegeLevel = privilegeLevel;
     }
     
+    public User(String idUser, String username, String password, int privilegeLevel, String firstName, String lastName) {
+        this(idUser, username, password, privilegeLevel);
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+    
     public User(Document userDocument) {     
         if(userDocument.containsKey("_id") && userDocument.containsKey("Username") && userDocument.containsKey("Password") && userDocument.containsKey("Email") && userDocument.containsKey("PrivilegeLevel") ){
             this.idUser = userDocument.get("_id").toString();

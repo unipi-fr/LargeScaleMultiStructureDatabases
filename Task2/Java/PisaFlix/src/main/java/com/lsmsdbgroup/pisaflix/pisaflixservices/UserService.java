@@ -1,6 +1,8 @@
 package com.lsmsdbgroup.pisaflix.pisaflixservices;
 
+import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.User;
+import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.FilmManagerDatabaseInterface;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.*;
@@ -66,8 +68,6 @@ public class UserService implements UserServiceInterface {
         }
     }
 
-    
-
     @Override
     public void changeUserPrivileges(User u, UserPrivileges newPrivilegeLevel) throws UserNotLoggedException, InvalidPrivilegeLevelException {
         if (!authenticationService.isUserLogged()) {
@@ -121,7 +121,7 @@ public class UserService implements UserServiceInterface {
         // Controllare se l'username esist già nel db
         userManager.create(username, hashedPassword, firstName, lastName, email, 0);
     }
-    
+
     private String SHA256(String text) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");

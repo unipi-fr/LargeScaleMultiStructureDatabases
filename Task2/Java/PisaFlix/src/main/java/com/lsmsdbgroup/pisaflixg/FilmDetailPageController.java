@@ -97,31 +97,35 @@ public class FilmDetailPageController implements Initializable {
     }
 
     public void setFilm(Film film) {
-        this.film = film;
-        film.setCommentSet(PisaFlixServices.commentService.getCommentSet(film));
+        try{
+            this.film = film;
+            film.setCommentSet(PisaFlixServices.commentService.getCommentSet(film));
 
-        setFavoriteButton();
+            setFavoriteButton();
 
-        setTitleLabel(film.getTitle());
-        setPublishDate(film.getPublicationDate().toString());
-        setDescription(film.getDescription());
+            setTitleLabel(film.getTitle());
+            setPublishDate(film.getPublicationDate().toString());
+            setDescription(film.getDescription());
 
-        Set<Comment> comments = film.getCommentSet();
+            Set<Comment> comments = film.getCommentSet();
 
-        comments.forEach((comment) -> {
-            addComment(comment);
-        });
+            comments.forEach((comment) -> {
+                addComment(comment);
+            });
 
-        setFavoriteCount(film.getUserSet().size());
+            setFavoriteCount(film.getFavoriteCounter());
+        }catch(Exception ex){
+            App.printErrorDialog("Film", "An error occurred", ex.toString() + "\n" + ex.getMessage());
+        }
     }
 
     public void setFavoriteButton() {
         if (PisaFlixServices.authenticationService.isUserLogged()) {
             User userLogged = PisaFlixServices.authenticationService.getLoggedUser();
 
-            Set<User> users = film.getUserSet();
+            Set<Film> films = userLogged.getFilmSet();
 
-            if (users.contains(userLogged)) {
+            if (films.contains(film)) {
                 favoriteButton.setText("- Favorite");
             }
         }
@@ -177,7 +181,7 @@ public class FilmDetailPageController implements Initializable {
 
             refreshFilm();
 
-            setFavoriteCount(film.getUserSet().size());
+            setFavoriteCount(film.getFavoriteCounter());
         } catch (Exception ex) {
             App.printErrorDialog("Favourites", "An error occurred updating favourites", ex.toString() + "\n" + ex.getMessage());
         }

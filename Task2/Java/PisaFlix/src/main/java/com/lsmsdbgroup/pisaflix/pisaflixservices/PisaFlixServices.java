@@ -15,8 +15,8 @@ public class PisaFlixServices {
     static {
         authenticationService = new AuthenticationService(DBManager.userManager);
         userService = new UserService(DBManager.userManager, authenticationService);
-        filmService = new FilmService(DBManager.filmManager, authenticationService);
-        cinemaService = new CinemaService(DBManager.cinemaMamager, authenticationService);
+        filmService = new FilmService(DBManager.filmManager, authenticationService, DBManager.userManager);
+        cinemaService = new CinemaService(DBManager.cinemaMamager, authenticationService, DBManager.userManager);
         commentService = new CommentService(DBManager.commentManager, authenticationService);
         projectionService = new ProjectionService(DBManager.projectionManager, authenticationService);
     }

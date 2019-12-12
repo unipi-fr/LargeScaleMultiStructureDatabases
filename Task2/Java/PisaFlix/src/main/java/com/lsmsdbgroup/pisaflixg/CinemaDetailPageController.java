@@ -98,40 +98,38 @@ public class CinemaDetailPageController implements Initializable {
 
     public void setCinema(Cinema cinema) {
         try{
-        this.cinema = cinema;
-        PisaFlixServices.cinemaService.refreshCommentSet(cinema);
-        setFavoriteButton();
+            this.cinema = cinema;
+            PisaFlixServices.cinemaService.refreshCommentSet(cinema);
+            
+            setFavoriteButton();
 
-        setNameLabel(cinema.getName());
-        setAddress(cinema.getAddress());
+            setNameLabel(cinema.getName());
+            setAddress(cinema.getAddress());
 
-        Set<Comment> comments = cinema.getCommentSet();
+            Set<Comment> comments = cinema.getCommentSet();
 
-        comments.forEach((comment) -> {
-            addComment(comment);
-        });
+            comments.forEach((comment) -> {
+                addComment(comment);
+            });
 
-        setFavoriteCount(cinema.getUserSet().size());
+            setFavoriteCount(cinema.getFavoriteCounter());
+            
         }catch(Exception ex){
             App.printErrorDialog("Cinema", "An error occurred", ex.toString() + "\n" + ex.getMessage());
         }
     }
     
     public void setFavoriteButton(){
-        try{
         if(PisaFlixServices.authenticationService.isUserLogged())
         {
             User userLogged = PisaFlixServices.authenticationService.getLoggedUser();
-            
-            Set<User> users = cinema.getUserSet();
-            
-            if(users.contains(userLogged))
+
+            Set<Cinema> cinemas = userLogged.getCinemaSet();
+
+            if(cinemas.contains(cinema))
             {
                 favoriteButton.setText("- Favorite");
             }
-        }
-        }catch(Exception ex){
-            App.printErrorDialog("Favourites", "An error occurred", ex.toString() + "\n" + ex.getMessage());
         }
     }
 
@@ -192,7 +190,7 @@ public class CinemaDetailPageController implements Initializable {
         
         refreshCinema();
 
-        setFavoriteCount(cinema.getUserSet().size());
+        setFavoriteCount(cinema.getFavoriteCounter());
         }catch(Exception ex){
             App.printErrorDialog("Favourites", "An error occurred updating favourites", ex.toString() + "\n" + ex.getMessage());
         }

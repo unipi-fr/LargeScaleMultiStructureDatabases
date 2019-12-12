@@ -1,5 +1,6 @@
 package com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces;
 
+import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;

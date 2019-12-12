@@ -1,5 +1,6 @@
 package com.lsmsdbgroup.pisaflix.dbmanager.Interfaces;
 
+import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import java.util.Set;
 
@@ -9,7 +10,9 @@ public interface UserManagerDatabaseInterface {
 
     void create(String username, String password, String firstName, String lastName, String email, int privilegeLevel);
 
-    void updateFavorites(User user);
+    void updateFavoritesFilm(User user);
+    
+    void updateFavoritesCinema(User user);
 
     void delete(String userId);
 

@@ -15,8 +15,9 @@ public class Film extends Entity implements Serializable {
     private String title;
     private Date publicationDate;
     private String description;
+    
+    private int favoriteCounter;
 
-    private Set<User> userSet = new LinkedHashSet<>();
     private Set<Comment> commentSet = new LinkedHashSet<>();
     private Set<Projection> projectionSet = new LinkedHashSet<>();
 
@@ -39,6 +40,7 @@ public class Film extends Entity implements Serializable {
             this.title = filmDocument.getString("Title");
             this.publicationDate = filmDocument.getDate("PublicationDate");
             this.description = filmDocument.getString("Description");
+            this.favoriteCounter = filmDocument.getInteger("FavoriteCounter");
         }else{
             try {
                 throw new NonConvertibleDocumentException("Document not-convertible in film");
@@ -81,14 +83,6 @@ public class Film extends Entity implements Serializable {
         this.description = description;
     }
 
-    public Set<User> getUserSet() {
-        return userSet;
-    }
-
-    public void setUserSet(Set<User> userSet) {
-        this.userSet = userSet;
-    }
-
     public Set<Comment> getCommentSet() {
         return commentSet;
     }
@@ -104,14 +98,22 @@ public class Film extends Entity implements Serializable {
     public void setProjectionSet(Set<Projection> projectionSet) {
         this.projectionSet = projectionSet;
     }
-
+    
+    public int getFavoriteCounter() {
+        return favoriteCounter;
+    }
+    
+    public void setFavoriteCounter(int favoriteCounter) {
+        this.favoriteCounter = favoriteCounter;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (idFilm != null ? idFilm.hashCode() : 0);
         return hash;
     }
-
+    
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof Film)) {
