@@ -48,6 +48,27 @@ public class MainPageController implements Initializable {
         }
         return null;
     }
+    
+    private void setPane(Pane pane, String fxml, Object controller) {
+        try {
+            pane.getChildren().clear();
+            Pane newLoadedPane;
+            try {
+                URL resurce = App.class.getResource(fxml + ".fxml");
+                if (resurce != null) {
+
+                    FXMLLoader loader = new FXMLLoader(resurce);
+                    loader.setController(controller);
+                    newLoadedPane = loader.load();
+                    pane.getChildren().add(newLoadedPane);
+                }
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+        } catch (Exception ex) {
+            App.printErrorDialog("Main Page", "An error occurred loading the page", ex.toString() + "\n" + ex.getMessage());
+        }
+    }
 
     private void setPane(Pane paneParent, Pane paneChild) {
         paneParent.getChildren().clear();
@@ -56,6 +77,10 @@ public class MainPageController implements Initializable {
 
     public Object setMainPaneReturnsController(String fxml) {
         return setPane(mainStackPane, fxml);
+    }
+    
+    public void setMainPaneAndController(String fxml, Object controller) {
+        setPane(mainStackPane, fxml, controller);
     }
 
     public void setMainPane(Pane pane) {

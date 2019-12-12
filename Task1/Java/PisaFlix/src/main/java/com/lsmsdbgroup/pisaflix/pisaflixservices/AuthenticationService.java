@@ -30,7 +30,7 @@ public class AuthenticationService implements AuthenticationServiceInterface {
     }
 
     @Override
-    public void Login(String username, String password) throws UserAlredyLoggedException, InvalidCredentialsException {
+    public void login(String username, String password) throws UserAlredyLoggedException, InvalidCredentialsException {
         if (isUserLogged()) {
             throw new UserAlredyLoggedException("User is alredy logged as " + loggedUser.toString() + ".");
         }
@@ -51,7 +51,7 @@ public class AuthenticationService implements AuthenticationServiceInterface {
     }
 
     @Override
-    public void Logout() {
+    public void logout() {
         if (!isUserLogged()) {
             System.out.println("WARNING: Logout() called when alredy not logged.");
         }

@@ -15,7 +15,7 @@ public interface UserServiceInterface {
 
     Set<User> getFiltered(String nameFilter);
 
-    void register(String username, String password, String firstName, String lastName, String email);
+    void register(String username, String password, String firstName, String lastName, String email) throws InvalidFieldException;
 
     void updateUser(User user);
 

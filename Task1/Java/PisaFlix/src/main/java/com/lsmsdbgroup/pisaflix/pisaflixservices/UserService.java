@@ -56,7 +56,7 @@ public class UserService implements UserServiceInterface {
         }
         userManager.delete(u.getIdUser());
         if (Objects.equals(authenticationService.getLoggedUser().getIdUser(), u.getIdUser())) {
-            authenticationService.Logout();
+            authenticationService.logout();
         }
     }
 
@@ -104,7 +104,25 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public void register(String username, String password, String firstName, String lastName, String email) {
+    public void register(String username, String password, String email, String firstName, String lastName) throws InvalidFieldException {
+        if (username.isBlank() || !username.matches("^[a-zA-Z0-9._-]{3,}$")) {
+            throw new InvalidFieldException("Only valid usernames are accepted");
+        }
+        if (checkDuplicates(username, email)) {
+            throw new InvalidFieldException("Username or Email already exist");
+        }
+        if (email.isBlank() || !email.matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$")) {
+            throw new InvalidFieldException("Only valid emails are accepted");
+        }
+        if (password.isBlank()) {
+            throw new InvalidFieldException("Password is mandatory");
+        }
+        if (!firstName.matches("[a-zA-Z]+") && !firstName.isEmpty()) {
+            throw new InvalidFieldException("Only valid names are accepted");
+        }
+        if (!lastName.matches("[a-zA-Z]+") && !lastName.isEmpty()) {
+            throw new InvalidFieldException("Only valid names are accepted");
+        }
         userManager.create(username, password, firstName, lastName, email, 0);
     }
 }
