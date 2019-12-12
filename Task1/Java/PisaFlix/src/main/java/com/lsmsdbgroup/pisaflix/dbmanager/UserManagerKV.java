@@ -47,7 +47,8 @@ public class UserManagerKV extends KeyValueDBManager implements UserManagerDatab
             ex.printStackTrace(System.out);
             System.out.println("A problem occurred in retriving a user!");
         } finally {
-            entityManager.close();
+            if(entityManager.isOpen())
+                entityManager.close();
         }
         return user;
     }
@@ -202,7 +203,9 @@ public class UserManagerKV extends KeyValueDBManager implements UserManagerDatab
             ex.printStackTrace(System.out);
             System.out.println("A problem occurred in retriving a user!");
         } finally {
-            entityManager.close();
+            if(entityManager.isOpen()){
+                entityManager.close();
+            }
         }
         return users;
     }
@@ -224,7 +227,9 @@ public class UserManagerKV extends KeyValueDBManager implements UserManagerDatab
             ex.printStackTrace(System.out);
             System.out.println("A problem occurred in retriving a user!");
         } finally {
-            entityManager.close();
+            if(entityManager.isOpen()){
+                entityManager.close();
+            }
         }
         return users;
     }
@@ -246,7 +251,9 @@ public class UserManagerKV extends KeyValueDBManager implements UserManagerDatab
             ex.printStackTrace(System.out);
             System.out.println("A problem occurred in retriving a user!");
         } finally {
-            entityManager.close();
+            if(entityManager.isOpen()){
+                entityManager.close();
+            }
         }
         return users;
     }
@@ -283,7 +290,9 @@ public class UserManagerKV extends KeyValueDBManager implements UserManagerDatab
             ex.printStackTrace(System.out);
             System.out.println("A problem occurred in retrieve users filtered!");
         } finally {
-            entityManager.close();
+            if(entityManager.isOpen()){
+                entityManager.close();
+            }
         }
         return users;
     }
