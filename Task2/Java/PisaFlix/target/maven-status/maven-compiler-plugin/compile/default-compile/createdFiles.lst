@@ -38,7 +38,6 @@ com/lsmsdbgroup/pisaflixg/MenuController.class
 com/lsmsdbgroup/pisaflix/pisaflixservices/Interfaces/CinemaServiceInterface.class
 com/lsmsdbgroup/pisaflixg/WelcomeBackController.class
 com/lsmsdbgroup/pisaflix/Entities/Comment.class
-.netbeans_automatic_build
 com/lsmsdbgroup/pisaflix/pisaflixservices/FilmService.class
 com/lsmsdbgroup/pisaflix/pisaflixservices/Interfaces/CommentServiceInterface.class
 com/lsmsdbgroup/pisaflix/pisaflixservices/UserService.class
