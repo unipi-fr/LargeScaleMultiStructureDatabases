@@ -28,9 +28,13 @@ public class CommentController implements Initializable {
 
     public CommentController(String username, String timestamp, String commment, int type) {
         usernameProperty.set(username);
-
+        
         String[] timestampSplit = timestamp.split(":");
-        String timestampStr = timestampSplit[0] + ":" + timestampSplit[1];
+        String lastPart = timestampSplit[2];
+        
+        String[] lastSplit = lastPart.split(" ");
+        
+        String timestampStr = lastSplit[2] + " " + timestampSplit[0] + ":" + timestampSplit[1];
         timestampProperty.set(timestampStr);
         commentProperty.set(commment);
 

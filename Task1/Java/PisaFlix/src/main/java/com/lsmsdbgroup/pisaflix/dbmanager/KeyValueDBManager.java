@@ -29,7 +29,7 @@ public class KeyValueDBManager {
     private static DB KeyValueDB;
     private static final Options options = new Options();
     
-    DateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY HH.mm.ss");
+    DateFormat dateFormat = new SimpleDateFormat("dd:MM:yyyy HH.mm.ss");
 
     
     public static DB getKVFactory(){
