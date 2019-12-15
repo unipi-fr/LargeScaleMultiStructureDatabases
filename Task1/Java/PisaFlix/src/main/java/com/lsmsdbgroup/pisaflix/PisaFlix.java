@@ -12,7 +12,6 @@ public class PisaFlix {
     public static void main(String[] args) throws ParseException {
         LogManager.getLogManager().getLogger("").setLevel(Level.OFF);
         
-        
         App.main(args);
       
         DBManager.stop();
