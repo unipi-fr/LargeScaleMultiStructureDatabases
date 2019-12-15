@@ -2,13 +2,11 @@ package com.lsmsdbgroup.pisaflixg;
 
 import com.lsmsdbgroup.pisaflix.Entities.Cinema;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.*;
-import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
 import javafx.fxml.*;
-import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
 public class CinemaBrowserController extends BrowserController implements Initializable {
@@ -24,6 +22,7 @@ public class CinemaBrowserController extends BrowserController implements Initia
         }
     }
 
+    @Override
     public Pane createCardPane(String name, String address, int id) {
         Pane pane = new Pane();
         try {

@@ -58,7 +58,7 @@ public class FilmManagerKV extends KeyValueDBManager implements FilmManagerDatab
         try {
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
-            films = new LinkedHashSet<>(entityManager.createQuery("FROM Film").getResultList());
+            films = new LinkedHashSet<>(entityManager.createQuery("FROM Film f").getResultList());
             // ricorda di recuperare i commenti e di settarli per ogni film in films
             for(Film film : films){
                 film.setCommentSet(CommentManagerKV.getIstance().getCommentsFilm(film.getIdFilm()));

@@ -91,8 +91,12 @@ public class UserViewController implements Initializable {
                 }
 
                 CinemaDetailPageController cinemaDetailPageController = loader.getController();
-
-                cinemaDetailPageController.setCinema(newValue);
+                // altrimenti l'oggetto cinema preso dal set dei cinema preferiti di un utente
+                // non possiede i commenti associati ad esso e cliccando su questo
+                // cinema non avrei una scheda del cinema completa
+                Cinema completeCinema = PisaFlixServices.cinemaService.getById(newValue.getIdCinema());
+                
+                cinemaDetailPageController.setCinema(completeCinema);
 
                 App.setMainPane(gridPane);
             };
@@ -110,7 +114,12 @@ public class UserViewController implements Initializable {
 
                 FilmDetailPageController filmDetailPageController = loader.getController();
 
-                filmDetailPageController.setFilm(newValue);
+                // altrimenti l'oggetto film preso dal set dei film preferiti di un utente
+                // non possiede i commenti associati ad esso e cliccando su questo
+                // film non avrei una scheda del film completa
+                Film completeFilm = PisaFlixServices.filmService.getById(newValue.getIdFilm());
+                
+                filmDetailPageController.setFilm(completeFilm);
 
                 App.setMainPane(gridPane);
             };

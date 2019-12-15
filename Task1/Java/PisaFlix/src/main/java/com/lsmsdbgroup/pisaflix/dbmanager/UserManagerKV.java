@@ -193,7 +193,7 @@ public class UserManagerKV extends KeyValueDBManager implements UserManagerDatab
         try {
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
-            users = new LinkedHashSet<>(entityManager.createQuery("FROM User").getResultList());
+            users = new LinkedHashSet<>(entityManager.createQuery("FROM User u").getResultList());
             
             for(User user: users){
                 user.setCommentSet(retreiveCommentsOfUser(user.getIdUser()));

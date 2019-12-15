@@ -91,10 +91,8 @@ public class ProjectionManager implements ProjectionManagerDatabaseInterface {
         try {
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
-            projections = new LinkedHashSet<>(entityManager.createQuery("FROM projection").getResultList());
-            if (projections == null) {
-                System.out.println("Projection is empty!");
-            }
+            projections = new LinkedHashSet<>(entityManager.createQuery("FROM Projection p").getResultList());
+            
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in retrieve all projections!");
@@ -149,7 +147,7 @@ public class ProjectionManager implements ProjectionManagerDatabaseInterface {
     @Override
     public boolean checkDuplicates(int cinemaId, int filmId, String date, int room) {
 
-        Set<Projection> projections = null;
+        Set<Projection> projections = new LinkedHashSet<>();
 
         String query = "SELECT p "
                 + "FROM Projection p "
