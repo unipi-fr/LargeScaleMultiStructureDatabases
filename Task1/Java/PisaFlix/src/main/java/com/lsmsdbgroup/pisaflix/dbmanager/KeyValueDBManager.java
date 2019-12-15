@@ -41,7 +41,7 @@ public class KeyValueDBManager {
     }
     
     
-    public static void start() { //Sono obbligato a metterle non statiche
+    public static void start() { 
         try {
             KeyValueDB = factory.open(new File("KeyValueDB"), options);
         } catch (IOException ex) {
