@@ -27,18 +27,14 @@ public class DBManager {
         return MongoDatabase;
     }
 
-    public static CinemaManagerDatabaseInterface cinemaMamager;
     public static UserManagerDatabaseInterface userManager;
     public static FilmManagerDatabaseInterface filmManager;
-    public static ProjectionManagerDatabaseInterface projectionManager;
     public static CommentManagerDatabaseInterface commentManager;
 
     static {
-        cinemaMamager = CinemaManager.getIstance();
         filmManager = FilmManager.getIstance();
         commentManager = CommentManager.getIstance();
         userManager = UserManager.getIstance();
-        projectionManager = ProjectionManager.getIstance();
     }
 
 }

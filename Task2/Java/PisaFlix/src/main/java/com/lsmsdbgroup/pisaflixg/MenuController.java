@@ -19,10 +19,7 @@ public class MenuController implements Initializable {
     private Button filmsButton;
 
     @FXML
-    private Button cinemasButton;
-
-    @FXML
-    private Button projectionsButton;
+    private Button AnalyticsButton;
 
     @FXML
     private Button usersButton;
@@ -48,20 +45,14 @@ public class MenuController implements Initializable {
     }
 
     @FXML
-    private void clickCinemasButton() {
-        CinemaBrowserController cinemaBrowserController = new CinemaBrowserController();
-        App.setMainPageAndController("Browser", cinemaBrowserController);
+    private void clickAnalyticsButton() {
+        App.setMainPageReturnsController("Analytics");
     }
     
     @FXML
     private void clickUsersButton() {
         UserBrowserController userBrowserController = new UserBrowserController();
         App.setMainPageAndController("Browser", userBrowserController);
-    }
-
-    @FXML
-    private void clickProjectionsButton() {
-        App.setMainPageReturnsController("Projections");
     }
 
 }

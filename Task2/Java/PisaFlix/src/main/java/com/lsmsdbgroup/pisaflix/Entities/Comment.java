@@ -17,7 +17,6 @@ public class Comment extends Entity implements Serializable {
     private String text;
 
     private Film film;
-    private Cinema cinema;
     private User user;
 
     public Comment() {
@@ -43,13 +42,12 @@ public class Comment extends Entity implements Serializable {
 
     }
 
-    public Comment(String idComment, User user, Cinema cinema, String text, Date timestamp) {
+    public Comment(String idComment, User user, String text, Date timestamp) {
 
         this.idComment = idComment;
         this.timestamp = timestamp;
         this.text = text;
         this.user = user;
-        this.cinema = cinema;
     }
     
     public Comment(Document commentDocument) {
@@ -58,11 +56,9 @@ public class Comment extends Entity implements Serializable {
             this.idComment = commentDocument.get("_id").toString();
             this.timestamp = commentDocument.getDate("Timestamp");
             this.text = commentDocument.getString("Text");
-            if(commentDocument.containsKey("Film")){
+            if(commentDocument.containsKey("Film"))
                 this.film = PisaFlixServices.filmService.getById(commentDocument.get("Film").toString());
-            }else{
-                this.cinema = PisaFlixServices.cinemaService.getById(commentDocument.get("Cinema").toString());
-            }
+            
             if(commentDocument.containsKey("User")){
                 this.user = PisaFlixServices.userService.getById(commentDocument.get("User").toString());
             }
@@ -98,14 +94,6 @@ public class Comment extends Entity implements Serializable {
 
     public void setText(String text) {
         this.text = text;
-    }
-
-    public Cinema getCinema() {
-        return cinema;
-    }
-
-    public void setCinemaSet(Cinema cinema) {
-        this.cinema = cinema;
     }
 
     public Film getFilm() {
@@ -156,8 +144,7 @@ public class Comment extends Entity implements Serializable {
         }
 
         return "[ idComment= " + idComment + " ]\nuser: " + user.toString()
-                + "\ntimestamp:" + timestamp.toString() + "\ntext:" + text
-                + "\ncinema: " + cinema;
+                + "\ntimestamp:" + timestamp.toString() + "\ntext:" + text;
 
     }
 

@@ -100,7 +100,6 @@ public class UserManager implements UserManagerDatabaseInterface {
 
     @Override
     public void clearCinemaSetAndFilmSet(User user) {
-        user.setCinemaSet(new LinkedHashSet<>());
         user.setFilmSet(new LinkedHashSet<>());
         try {
             throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");

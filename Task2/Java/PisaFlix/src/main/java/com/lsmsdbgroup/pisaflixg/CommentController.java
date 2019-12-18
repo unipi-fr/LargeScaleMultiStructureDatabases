@@ -191,42 +191,22 @@ public class CommentController implements Initializable {
                 App.printErrorDialog("Deleting comment", "An error occurred while deleting comment", ex.getMessage());
             }
 
-            if (type == 0) {
-                Film film = comment.getFilm();
+            Film film = comment.getFilm();
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
-                AnchorPane anchorPane = null;
-                try {
-                    anchorPane = loader.load();
-                } catch (IOException ex) {
-                    System.out.println(ex.getMessage());
-                }
-                FilmDetailPageController filmDetailPageController = loader.getController();
-                filmDetailPageController.setFilm(film);
-
-                App.setMainPane(anchorPane);
-
-                filmDetailPageController.refreshFilm();
-                filmDetailPageController.refreshComment();
-            } else {
-                Cinema cinema = comment.getCinema();
-
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("CinemaDetailPage.fxml"));
-                AnchorPane anchorPane = null;
-                try {
-                    anchorPane = loader.load();
-                } catch (IOException ex) {
-                    System.out.println(ex.getMessage());
-                }
-
-                CinemaDetailPageController cinemaDetailPageController = loader.getController();
-                cinemaDetailPageController.setCinema(cinema);
-
-                App.setMainPane(anchorPane);
-
-                cinemaDetailPageController.refreshCinema();
-                cinemaDetailPageController.refreshComment();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
+            AnchorPane anchorPane = null;
+            try {
+                anchorPane = loader.load();
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
             }
+            FilmDetailPageController filmDetailPageController = loader.getController();
+            filmDetailPageController.setFilm(film);
+
+            App.setMainPane(anchorPane);
+
+            filmDetailPageController.refreshFilm();
+            filmDetailPageController.refreshComment();
         } catch (Exception ex) {
             App.printErrorDialog("Delete Comment", "An error occurred in deleting the comment", ex.toString() + "\n" + ex.getMessage());
         }

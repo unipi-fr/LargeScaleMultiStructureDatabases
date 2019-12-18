@@ -18,7 +18,6 @@ public class Film extends Entity implements Serializable {
 
     private Set<User> userSet = new LinkedHashSet<>();
     private Set<Comment> commentSet = new LinkedHashSet<>();
-    private Set<Projection> projectionSet = new LinkedHashSet<>();
 
     public Film() {
     }
@@ -95,14 +94,6 @@ public class Film extends Entity implements Serializable {
 
     public void setCommentSet(Set<Comment> commentSet) {
         this.commentSet = commentSet;
-    }
-
-    public Set<Projection> getProjectionSet() {
-        return projectionSet;
-    }
-
-    public void setProjectionSet(Set<Projection> projectionSet) {
-        this.projectionSet = projectionSet;
     }
 
     @Override

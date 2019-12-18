@@ -17,7 +17,6 @@ public class User extends Entity implements Serializable {
     private String lastName;
     private int privilegeLevel;
 
-    private Set<Cinema> cinemaSet = new LinkedHashSet<>();
     private Set<Film> filmSet = new LinkedHashSet<>();
     private Set<Comment> commentSet = new LinkedHashSet<>();
 
@@ -112,14 +111,6 @@ public class User extends Entity implements Serializable {
 
     public void setPrivilegeLevel(int privilegeLevel) {
         this.privilegeLevel = privilegeLevel;
-    }
-
-    public Set<Cinema> getCinemaSet() {
-        return cinemaSet;
-    }
-
-    public void setCinemaSet(Set<Cinema> cinemaSet) {
-        this.cinemaSet = cinemaSet;
     }
 
     public Set<Film> getFilmSet() {

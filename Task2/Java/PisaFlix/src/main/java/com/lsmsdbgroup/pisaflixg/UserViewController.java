@@ -17,8 +17,6 @@ public class UserViewController implements Initializable {
 
     private User user;
 
-    private ChangeListener<Cinema> cinemaListener;
-
     private ChangeListener<Film> filmListener;
 
     @FXML
@@ -79,24 +77,6 @@ public class UserViewController implements Initializable {
             Image image = new Image(file.toURI().toString());
             userImage.setImage(image);
 
-            cinemaListener = (ObservableValue<? extends Cinema> observable, Cinema oldValue, Cinema newValue) -> {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("CinemaDetailPage.fxml"));
-
-                AnchorPane anchorPane = null;
-
-                try {
-                    anchorPane = loader.load();
-                } catch (IOException ex) {
-                    System.out.println(ex.getMessage());
-                }
-
-                CinemaDetailPageController cinemaDetailPageController = loader.getController();
-
-                cinemaDetailPageController.setCinema(newValue);
-
-                App.setMainPane(anchorPane);
-            };
-
             filmListener = (ObservableValue<? extends Film> observable, Film oldValue, Film newValue) -> {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
 
@@ -114,6 +94,9 @@ public class UserViewController implements Initializable {
 
                 App.setMainPane(anchorPane);
             };
+            
+            if(user != null)
+                showFavoriteFilms();
         } catch (Exception ex) {
             App.printErrorDialog("User Details", "An error occurred loading the user's details", ex.toString() + "\n" + ex.getMessage());
         }
@@ -152,17 +135,15 @@ public class UserViewController implements Initializable {
             }
 
             commentCounterLabel.setText("(" + user.getCommentSet().size() + ")");
+            showFavoriteFilms();
         } catch (Exception ex) {
             App.printErrorDialog("Users", "An error occurred loading the users", ex.toString() + "\n" + ex.getMessage());
         }
     }
 
-    @FXML
     private void showFavoriteFilms() {
         try {
             favoriteCounterLabel.setText("(" + user.getFilmSet().size() + ")");
-
-            favoriteList.getSelectionModel().selectedItemProperty().removeListener(cinemaListener);
 
             Set<Film> films = user.getFilmSet();
 
@@ -172,24 +153,6 @@ public class UserViewController implements Initializable {
             favoriteList.getSelectionModel().selectedItemProperty().addListener(filmListener);
         } catch (Exception ex) {
             App.printErrorDialog("Favorite Films", "An error occurred loading the favorite films", ex.toString() + "\n" + ex.getMessage());
-        }
-    }
-
-    @FXML
-    private void showFavoriteCinema() {
-        try {
-            favoriteCounterLabel.setText("(" + user.getCinemaSet().size() + ")");
-
-            favoriteList.getSelectionModel().selectedItemProperty().removeListener(filmListener);
-
-            Set<Cinema> cinemas = user.getCinemaSet();
-
-            ObservableList<Cinema> observableCinemas = FXCollections.observableArrayList(cinemas);
-            favoriteList.setItems(observableCinemas);
-
-            favoriteList.getSelectionModel().selectedItemProperty().addListener(cinemaListener);
-        } catch (Exception ex) {
-            App.printErrorDialog("Favorite Cinemas", "An error occurred loading the favorite cinemas", ex.toString() + "\n" + ex.getMessage());
         }
     }
 

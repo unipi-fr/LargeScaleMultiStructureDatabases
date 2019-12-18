@@ -31,37 +31,26 @@
                         <Label fx:id="emailLabel" prefHeight="25.0" prefWidth="323.0" text="e-mail" AnchorPane.bottomAnchor="360.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="166.0" AnchorPane.topAnchor="95.0" />
                      </children>
                   </VBox>
-                  <HBox alignment="CENTER_LEFT" spacing="50.0">
+                  <HBox spacing="15.0">
                      <children>
-                        <HBox spacing="15.0">
+                        <VBox>
                            <children>
-                              <VBox>
-                                 <children>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../../img/Favorites.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Label fx:id="favoriteCounterLabel" alignment="CENTER" prefHeight="40.0" prefWidth="40.0" text="(-)" />
-                                 </children>
-                              </VBox>
-                              <VBox layoutX="58.0" layoutY="148.0">
-                                 <children>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../../img/Comments.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Label fx:id="commentCounterLabel" alignment="CENTER" prefHeight="40.0" prefWidth="40.0" text="(-)" />
-                                 </children>
-                              </VBox>
+                              <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../img/Favorites.png" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="favoriteCounterLabel" alignment="CENTER" prefHeight="40.0" prefWidth="40.0" text="(-)" />
                            </children>
-                        </HBox>
-                        <VBox alignment="CENTER" spacing="5.0">
+                        </VBox>
+                        <VBox layoutX="58.0" layoutY="148.0">
                            <children>
-                              <Label text="Favourites:" />
-                              <Button fx:id="filmButton" mnemonicParsing="false" onMouseClicked="#showFavoriteFilms" text="Film" AnchorPane.bottomAnchor="299.0" AnchorPane.leftAnchor="141.0" AnchorPane.rightAnchor="209.0" AnchorPane.topAnchor="151.0" />
-                              <Button fx:id="cinemaButton" mnemonicParsing="false" onMouseClicked="#showFavoriteCinema" text="Cinema" AnchorPane.bottomAnchor="263.0" AnchorPane.leftAnchor="141.0" AnchorPane.rightAnchor="209.0" AnchorPane.topAnchor="187.0" />
+                              <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../img/Comments.png" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="commentCounterLabel" alignment="CENTER" prefHeight="40.0" prefWidth="40.0" text="(-)" />
                            </children>
                         </VBox>
                      </children>
