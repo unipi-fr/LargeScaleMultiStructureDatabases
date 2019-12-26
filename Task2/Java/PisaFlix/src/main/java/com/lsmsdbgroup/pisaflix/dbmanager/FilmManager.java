@@ -1,7 +1,10 @@
 package com.lsmsdbgroup.pisaflix.dbmanager;
 
 import com.lsmsdbgroup.pisaflix.Entities.Comment;
+import com.lsmsdbgroup.pisaflix.Entities.Entity;
+import com.lsmsdbgroup.pisaflix.Entities.Entity.EntityType;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
+import com.lsmsdbgroup.pisaflix.Entities.User;
 import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.FilmManagerDatabaseInterface;
 import com.mongodb.client.MongoCollection;
@@ -15,6 +18,8 @@ import static com.mongodb.client.model.Filters.or;
 import static com.mongodb.client.model.Filters.regex;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Updates;
+import static java.util.Objects.hash;
+import static java.util.Set.of;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
@@ -70,7 +75,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         Document filmDocument = new Document()
                 .append("Title", title)
                 .append("PublicationDate", publicationDate)
-                .append("RecentComments", new ArrayList<Comment>());
+                .append("RecentComments", new ArrayList<Document>());
         if(description != null){
             filmDocument.put("Description", description);
         }      
@@ -166,15 +171,41 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     }
     
     @Override
-    public void addComment(Film film, Comment comment){
-        if(film.getCommentSet().size() == commentsMaxSize){
-            //sposto l'ultimo commento
+    public void addComment(Film film, User user, String text){ 
+        Date timestamp = new Date();
+                Document commentDocument = new Document()
+                .append("_id", hash(timestamp))
+                .append("User", new ObjectId(user.getId())) //Non importa salvare il film, è scontato
+                .append(EntityType.COMMENT +"-" + "Timestamp",timestamp)
+                .append("Text", text);
+        Set<Comment> commentSet = film.getCommentSet();
+        if(commentSet.size() == commentsMaxSize){
+            Comment lastComment = (Comment) commentSet.toArray()[commentSet.size() - 1];
+            DBManager.commentManager.createComment(lastComment.getText(), lastComment.getUser(), film);
         }
        try {
-            FilmCollection.updateOne(eq("_id", new ObjectId(film.getId())), Updates.addToSet("RecentComments", comment.toDocument()));
+            FilmCollection.updateOne(eq("_id", new ObjectId(film.getId())), Updates.push("RecentComments", commentDocument));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in updating the film!");
         }
+    }
+    
+    @Override
+    public void getRecentComment(Film film){
+        try (MongoCursor<Document> cursor = FilmCollection.find(eq("_id", new ObjectId(film.getId()))).iterator()) {
+            ArrayList<Document> DocumentSet = (ArrayList<Document>) cursor.next().get("RecentComments");
+            Set<Comment> CommentSet = new LinkedHashSet<>();
+            DocumentSet.forEach((commentDocument) -> {
+                Comment comment = new Comment(commentDocument);
+                comment.setFilm(film);
+                CommentSet.add(comment);
+            });
+            film.setCommentSet(CommentSet);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace(System.out);
+            System.out.println("A problem occurred in retriving a film!");
+        } 
     }
 }

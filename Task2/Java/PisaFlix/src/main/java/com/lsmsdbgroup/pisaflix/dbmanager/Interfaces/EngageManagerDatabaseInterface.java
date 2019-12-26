@@ -8,7 +8,7 @@ import java.util.Set;
 
 public interface EngageManagerDatabaseInterface {
     
-    void create(User user, Film film, Entity.Type type);
+    void create(User user, Film film, Entity.EntityType type);
 
     void delete(String idEngage);
     

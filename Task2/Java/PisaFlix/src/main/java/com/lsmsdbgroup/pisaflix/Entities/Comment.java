@@ -4,6 +4,7 @@ import com.lsmsdbgroup.pisaflix.Entities.exceptions.NonConvertibleDocumentExcept
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import java.io.Serializable;
 import java.util.*;
+import static java.util.Objects.hash;
 import org.bson.Document;
 
 public class Comment extends Engage implements Serializable {
@@ -46,9 +47,9 @@ public class Comment extends Engage implements Serializable {
     
     public Comment(Document commentDocument) {
         
-        if(commentDocument.containsKey("_id") && commentDocument.containsKey("Timestamp") && commentDocument.containsKey("Text") && commentDocument.containsKey("Film") ){
+        if(commentDocument.containsKey("_id") && commentDocument.containsKey(EntityType.COMMENT+"-"+"Timestamp") && commentDocument.containsKey("Text")){         
+            this.timestamp = commentDocument.getDate(EntityType.COMMENT+"-"+"Timestamp");
             this.idComment = commentDocument.get("_id").toString();
-            this.timestamp = commentDocument.getDate("Timestamp");
             this.text = commentDocument.getString("Text");
             if(commentDocument.containsKey("Film"))
                 this.film = PisaFlixServices.filmService.getById(commentDocument.get("Film").toString());            
@@ -146,15 +147,6 @@ public class Comment extends Engage implements Serializable {
         return "[ idComment= " + idComment + " ]\nuser: " + user.toString()
                 + "\ntimestamp:" + timestamp.toString() + "\ntext:" + text;
 
-    }
-    
-    public Document toDocument() {
-        Document CommentDocument = new Document()
-                .append("User", user.getId())
-                .append(Type.COMMENT + "Timestamp", new Date())
-                .append("Film", film.getId())
-                .append("Text", text);
-        return CommentDocument;
     }
 
 }

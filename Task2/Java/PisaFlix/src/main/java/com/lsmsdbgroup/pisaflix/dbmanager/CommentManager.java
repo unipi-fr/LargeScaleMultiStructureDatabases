@@ -1,6 +1,7 @@
 package com.lsmsdbgroup.pisaflix.dbmanager;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
+import com.lsmsdbgroup.pisaflix.Entities.Entity.EntityType;
 import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CommentManagerDatabaseInterface;
 import com.mongodb.client.MongoCursor;
@@ -25,7 +26,7 @@ public class CommentManager extends EngageManager implements CommentManagerDatab
         Document commentDocument = new Document()
                 .append("Text", text)
                 .append("User", user.getId())
-                .append("Timestamp", new Date());
+                .append(EntityType.COMMENT+"-"+"Timestamp", new Date());
         if(entity.getClass().equals(Film.class)){
             commentDocument.put("Film", entity.getId());
         }else{

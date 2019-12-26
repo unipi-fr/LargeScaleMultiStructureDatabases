@@ -14,7 +14,7 @@ public class Engage extends Entity implements Serializable{
     protected Date timestamp;
     protected Film film;
     protected User user;
-    protected Type type;
+    protected EntityType type;
 
     public Engage() {
     }
@@ -28,7 +28,7 @@ public class Engage extends Entity implements Serializable{
         this.timestamp = timestamp;
     }
 
-    public Engage(String idEngage, User user, Film film, Date timestamp, Type type) {
+    public Engage(String idEngage, User user, Film film, Date timestamp, EntityType type) {
 
         this.idEngage = idEngage;
         this.timestamp = timestamp;
@@ -50,17 +50,17 @@ public class Engage extends Entity implements Serializable{
             this.idEngage = engageDocument.get("_id").toString();          
             this.user = PisaFlixServices.userService.getById(engageDocument.get("User").toString());           
             this.film = PisaFlixServices.filmService.getById(engageDocument.get("Film").toString());            
-            if(engageDocument.containsKey(Type.COMMENT + "Timestamp")){
-                this.timestamp = engageDocument.getDate(Type.COMMENT + "Timestamp");
-                this.type = Type.COMMENT;
+            if(engageDocument.containsKey(EntityType.COMMENT+"-"+ "Timestamp")){
+                this.timestamp = engageDocument.getDate(EntityType.COMMENT + "Timestamp");
+                this.type = EntityType.COMMENT;
             }
-            if(engageDocument.containsKey(Type.VIEW + "Timestamp")){
-                this.timestamp = engageDocument.getDate(Type.VIEW + "Timestamp");
-                this.type = Type.FAVOURITE;
+            if(engageDocument.containsKey(EntityType.VIEW+"-"+"Timestamp")){
+                this.timestamp = engageDocument.getDate(EntityType.VIEW + "Timestamp");
+                this.type = EntityType.FAVOURITE;
             }
-            if(engageDocument.containsKey(Type.FAVOURITE + "Timestamp")){
-                this.timestamp = engageDocument.getDate(Type.COMMENT + "Timestamp");
-                this.type = Type.FAVOURITE;
+            if(engageDocument.containsKey(EntityType.FAVOURITE+"-"+"Timestamp")){
+                this.timestamp = engageDocument.getDate(EntityType.COMMENT + "Timestamp");
+                this.type = EntityType.FAVOURITE;
             }
         }else{
             try {
@@ -76,11 +76,11 @@ public class Engage extends Entity implements Serializable{
         return idEngage;
     }
     
-    public Type getType() {
+    public EntityType getType() {
         return type;
     }
    
-    public Type setType(Type type) {
+    public EntityType setType(EntityType type) {
         return type;
     }
 

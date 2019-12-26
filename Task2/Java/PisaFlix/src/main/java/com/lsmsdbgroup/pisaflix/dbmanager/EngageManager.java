@@ -2,7 +2,7 @@ package com.lsmsdbgroup.pisaflix.dbmanager;
 
 import com.lsmsdbgroup.pisaflix.Entities.Engage;
 import com.lsmsdbgroup.pisaflix.Entities.Entity;
-import com.lsmsdbgroup.pisaflix.Entities.Entity.Type;
+import com.lsmsdbgroup.pisaflix.Entities.Entity.EntityType;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.EngageManagerDatabaseInterface;
@@ -37,7 +37,7 @@ public class EngageManager implements EngageManagerDatabaseInterface {
     }
     
     @Override
-    public void create(User user, Film film, Type type) {
+    public void create(User user, Film film, EntityType type) {
         Document engageDocument = new Document()
                 .append("User", user.getId())
                 .append(type + "Timestamp", new Date())

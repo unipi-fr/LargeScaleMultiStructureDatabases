@@ -2,6 +2,7 @@ package com.lsmsdbgroup.pisaflix.dbmanager.Interfaces;
 
 import com.lsmsdbgroup.pisaflix.Entities.Comment;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
+import com.lsmsdbgroup.pisaflix.Entities.User;
 import java.util.*;
 
 public interface FilmManagerDatabaseInterface {
@@ -20,7 +21,9 @@ public interface FilmManagerDatabaseInterface {
 
     void updateFavorites(Film film);
     
-    void addComment(Film film, Comment comment);
+    void addComment(Film film, User user, String text);
+    
+    void getRecentComment(Film film);
 
     Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit, int skip);
 }
