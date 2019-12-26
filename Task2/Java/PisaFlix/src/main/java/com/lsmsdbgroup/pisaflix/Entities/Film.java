@@ -3,8 +3,6 @@ package com.lsmsdbgroup.pisaflix.Entities;
 import com.lsmsdbgroup.pisaflix.Entities.exceptions.NonConvertibleDocumentException;
 import java.io.Serializable;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.bson.Document;
 
 public class Film extends Entity implements Serializable {

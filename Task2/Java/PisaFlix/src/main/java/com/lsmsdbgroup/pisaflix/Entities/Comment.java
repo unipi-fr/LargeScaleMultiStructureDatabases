@@ -4,20 +4,14 @@ import com.lsmsdbgroup.pisaflix.Entities.exceptions.NonConvertibleDocumentExcept
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import java.io.Serializable;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.bson.Document;
 
-public class Comment extends Entity implements Serializable {
+public class Comment extends Engage implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String idComment;
-    private Date timestamp;
+    private String idComment = idEngage;
     private String text;
-
-    private Film film;
-    private User user;
 
     public Comment() {
     }
@@ -52,13 +46,12 @@ public class Comment extends Entity implements Serializable {
     
     public Comment(Document commentDocument) {
         
-        if(commentDocument.containsKey("_id") && commentDocument.containsKey("Timestamp") && commentDocument.containsKey("Text") && (commentDocument.containsKey("Film")||commentDocument.containsKey("Cinema")) ){
+        if(commentDocument.containsKey("_id") && commentDocument.containsKey("Timestamp") && commentDocument.containsKey("Text") && commentDocument.containsKey("Film") ){
             this.idComment = commentDocument.get("_id").toString();
             this.timestamp = commentDocument.getDate("Timestamp");
             this.text = commentDocument.getString("Text");
             if(commentDocument.containsKey("Film"))
-                this.film = PisaFlixServices.filmService.getById(commentDocument.get("Film").toString());
-            
+                this.film = PisaFlixServices.filmService.getById(commentDocument.get("Film").toString());            
             if(commentDocument.containsKey("User")){
                 this.user = PisaFlixServices.userService.getById(commentDocument.get("User").toString());
             }
@@ -76,14 +69,17 @@ public class Comment extends Entity implements Serializable {
         return idComment;
     }
 
+    @Override
     public void setIdComment(String idComment) {
         this.idComment = idComment;
     }
 
+    @Override
     public Date getTimestamp() {
         return timestamp;
     }
 
+    @Override
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
@@ -96,14 +92,17 @@ public class Comment extends Entity implements Serializable {
         this.text = text;
     }
 
+    @Override
     public Film getFilm() {
         return film;
     }
 
+    @Override
     public void setFilm(Film film) {
         this.film = film;
     }
 
+    @Override
     public User getUser() {
         if (user == null) {
             User u = new User();
@@ -114,6 +113,7 @@ public class Comment extends Entity implements Serializable {
         return user;
     }
 
+    @Override
     public void setUser(User user) {
         this.user = user;
     }
@@ -146,6 +146,15 @@ public class Comment extends Entity implements Serializable {
         return "[ idComment= " + idComment + " ]\nuser: " + user.toString()
                 + "\ntimestamp:" + timestamp.toString() + "\ntext:" + text;
 
+    }
+    
+    public Document toDocument() {
+        Document CommentDocument = new Document()
+                .append("User", user.getId())
+                .append(Type.COMMENT + "Timestamp", new Date())
+                .append("Film", film.getId())
+                .append("Text", text);
+        return CommentDocument;
     }
 
 }

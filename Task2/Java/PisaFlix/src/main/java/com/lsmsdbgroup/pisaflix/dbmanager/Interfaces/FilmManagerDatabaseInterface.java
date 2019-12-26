@@ -1,5 +1,6 @@
 package com.lsmsdbgroup.pisaflix.dbmanager.Interfaces;
 
+import com.lsmsdbgroup.pisaflix.Entities.Comment;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import java.util.*;
 
@@ -18,6 +19,8 @@ public interface FilmManagerDatabaseInterface {
     void clearUserSet(Film film);
 
     void updateFavorites(Film film);
+    
+    void addComment(Film film, Comment comment);
 
     Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit, int skip);
 }

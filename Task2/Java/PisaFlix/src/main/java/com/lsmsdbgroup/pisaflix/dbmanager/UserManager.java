@@ -3,7 +3,6 @@ package com.lsmsdbgroup.pisaflix.dbmanager;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import static com.mongodb.client.model.Filters.eq;

@@ -30,11 +30,13 @@ public class DBManager {
     public static UserManagerDatabaseInterface userManager;
     public static FilmManagerDatabaseInterface filmManager;
     public static CommentManagerDatabaseInterface commentManager;
+    public static EngageManagerDatabaseInterface engageManager;
 
     static {
         filmManager = FilmManager.getIstance();
         commentManager = CommentManager.getIstance();
         userManager = UserManager.getIstance();
+        engageManager = EngageManager.getIstance();
     }
 
 }

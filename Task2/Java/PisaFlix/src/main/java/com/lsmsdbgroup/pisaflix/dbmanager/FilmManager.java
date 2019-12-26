@@ -1,10 +1,12 @@
 package com.lsmsdbgroup.pisaflix.dbmanager;
 
+import com.lsmsdbgroup.pisaflix.Entities.Comment;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.FilmManagerDatabaseInterface;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.Aggregates;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.gte;
@@ -12,7 +14,9 @@ import static com.mongodb.client.model.Filters.lt;
 import static com.mongodb.client.model.Filters.or;
 import static com.mongodb.client.model.Filters.regex;
 import com.mongodb.client.model.UpdateOptions;
+import com.mongodb.client.model.Updates;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 public class FilmManager implements FilmManagerDatabaseInterface {
@@ -20,6 +24,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     private static FilmManager FilmManager;
     private static MongoCollection<Document> FilmCollection;
     private final Document sort = new Document("_id",-1);
+    private final int commentsMaxSize = 50;
 
     public static FilmManager getIstance() {
         if (FilmManager == null) {
@@ -56,8 +61,6 @@ public class FilmManager implements FilmManagerDatabaseInterface {
             System.out.println(ex.getMessage());
             ex.printStackTrace(System.out);
             System.out.println("A problem occurred in retrieve all films!");
-        } finally {
-            
         }
         return filmSet;
     }
@@ -66,7 +69,8 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     public void create(String title, Date publicationDate, String description) {
         Document filmDocument = new Document()
                 .append("Title", title)
-                .append("PublicationDate", publicationDate);
+                .append("PublicationDate", publicationDate)
+                .append("RecentComments", new ArrayList<Comment>());
         if(description != null){
             filmDocument.put("Description", description);
         }      
@@ -77,9 +81,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in creating the film!");
-        } finally {
-
-        }
+        } 
     }
 
     @Override
@@ -95,8 +97,6 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in updating the film!");
-        } finally {
-
         }
     }
 
@@ -105,7 +105,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         //clearUserSet(getById(idFilm));
         try {
             FilmCollection.deleteOne(eq("_id", new ObjectId(idFilm)));
-            DBManager.commentManager.deleteAll(new Film(idFilm));
+            DBManager.commentManager.deleteAllRelated(new Film(idFilm));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in deleting the film!");
@@ -164,5 +164,17 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         
         return filmSet;
     }
-
+    
+    @Override
+    public void addComment(Film film, Comment comment){
+        if(film.getCommentSet().size() == commentsMaxSize){
+            //sposto l'ultimo commento
+        }
+       try {
+            FilmCollection.updateOne(eq("_id", new ObjectId(film.getId())), Updates.addToSet("RecentComments", comment.toDocument()));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("A problem occurred in updating the film!");
+        }
+    }
 }

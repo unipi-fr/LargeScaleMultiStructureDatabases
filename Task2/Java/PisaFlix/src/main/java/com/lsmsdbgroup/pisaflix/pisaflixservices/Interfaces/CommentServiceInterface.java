@@ -13,6 +13,4 @@ public interface CommentServiceInterface {
     Comment getById(String id);
 
     void delete(Comment comment) throws UserNotLoggedException, InvalidPrivilegeLevelException;
-    
-    Set<Comment> getCommentSet(Entity entity);
 }
