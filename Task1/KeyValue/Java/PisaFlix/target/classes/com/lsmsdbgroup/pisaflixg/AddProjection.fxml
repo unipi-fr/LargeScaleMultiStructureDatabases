@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.AddProjectionController">
+   <children>
+      <Label text="Add Projection" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <HBox alignment="CENTER" spacing="10.0">
+         <children>
+            <ComboBox fx:id="cinemaComboBox" prefWidth="150.0" promptText="Cinema" />
+            <ComboBox fx:id="filmComboBox" prefWidth="150.0" promptText="Film" />
+            <TextField fx:id="roomTextField" prefHeight="25.0" prefWidth="68.0" promptText="Room" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" spacing="10.0">
+         <children>
+            <DatePicker fx:id="dateDatePicker" promptText="Date" />
+            <ComboBox fx:id="timeComboBox" promptText="Time" />
+         </children>
+      </HBox>
+      <Button fx:id="addProjectionButton" defaultButton="true" mnemonicParsing="false" onAction="#clickAddProjectionButton" styleClass="button-raised" text="Add Projection" />
+      <Label fx:id="successLabel" text="Projection added successfully!" textFill="#00ab1a">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
+</VBox>

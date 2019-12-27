@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.LoginController">
+   <children>
+      <TextField fx:id="usernameTextField" prefHeight="27.0" prefWidth="100.0" promptText="Username">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </TextField>
+      <PasswordField fx:id="passwordTextField" prefHeight="27.0" prefWidth="104.0" promptText="Password">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </PasswordField>
+      <HBox alignment="CENTER" spacing="10.0">
+         <children>
+            <Button fx:id="loginButton" defaultButton="true" mnemonicParsing="false" onAction="#clickLoginButton" styleClass="button-raised" text="Login" />
+            <Button fx:id="registerButton" mnemonicParsing="false" onAction="#clickRegisterButton" styleClass="button-raised" text="Register" />
+         </children>
+      </HBox>
+      <Label fx:id="loginStatusLabel" text="Logged as: ">
+          <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </Label>
+      <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#clickLogoutButton" styleClass="button-raised" text="Logout">
+          <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </Button>
+       <Button fx:id="showProfileButton" mnemonicParsing="false" onMouseClicked="#showUser" text="Show Profile" />
+      <Label fx:id="errorLabel" />
+   </children>
+</VBox>
