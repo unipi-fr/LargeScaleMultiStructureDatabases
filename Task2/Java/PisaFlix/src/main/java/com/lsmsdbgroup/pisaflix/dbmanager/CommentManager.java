@@ -22,15 +22,19 @@ public class CommentManager extends EngageManager implements CommentManagerDatab
     }
  
 @Override
-    public void createComment(String text, User user, Entity entity) {
+    public void createComment(String text, User user, Entity entity, Date timestamp) {
         Document commentDocument = new Document()
                 .append("Text", text)
-                .append("User", user.getId())
-                .append(EntityType.COMMENT+"-"+"Timestamp", new Date());
+                .append("User", user.getId());
         if(entity.getClass().equals(Film.class)){
             commentDocument.put("Film", entity.getId());
         }else{
             commentDocument.put("Cinema", entity.getId());
+        }
+        if(timestamp == null){           
+            commentDocument.put(EntityType.COMMENT+"-"+"Timestamp", new Date());
+        }else{
+            commentDocument.put(EntityType.COMMENT+"-"+"Timestamp", timestamp);
         }
         //Upsert insert if documnet does't already exists
         UpdateOptions options = new UpdateOptions().upsert(true);

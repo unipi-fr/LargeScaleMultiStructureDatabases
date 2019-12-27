@@ -51,7 +51,7 @@ public class CommentService implements CommentServiceInterface {
 
     @Override
     public void addComment(String text, User user, Entity entity) {
-        commentManager.createComment(text, user, entity);
+        commentManager.createComment(text, user, entity, null);
     }
     
 }
