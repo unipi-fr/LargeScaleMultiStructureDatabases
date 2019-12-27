@@ -180,7 +180,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
                 .append("User", new ObjectId(user.getId())) //Non importa salvare il film, è scontato
                 .append(EntityType.COMMENT + "-" + "Timestamp", timestamp)
                 .append("Text", text);
-        getRecentComment(film);
+        getRecentComments(film);
         Set<Comment> commentSet = film.getCommentSet();
         try {
             if (commentSet.size() >= commentsMaxSize) {
@@ -191,25 +191,25 @@ public class FilmManager implements FilmManagerDatabaseInterface {
             FilmCollection.updateOne(eq("_id", new ObjectId(film.getId())), Updates.push("RecentComments", commentDocument));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
-            System.out.println("A problem occurred in updating the film!");
+            System.out.println("A problem occurred in adding the comment!");
         }
     }
 
     @Override
-    public void getRecentComment(Film film) {
+    public void getRecentComments(Film film) {
         try (MongoCursor<Document> cursor = FilmCollection.find(eq("_id", new ObjectId(film.getId()))).iterator()) {
             ArrayList<Document> DocumentSet = (ArrayList<Document>) cursor.next().get("RecentComments");
-            Set<Comment> CommentSet = new LinkedHashSet<>();
+            List<Comment> CommentSet = new ArrayList<>();
             DocumentSet.forEach((commentDocument) -> {
                 Comment comment = new Comment(commentDocument);
                 comment.setFilm(film);
-                CommentSet.add(comment);
+                CommentSet.add(0, comment);   
             });
-            film.setCommentSet(CommentSet);
+            film.setCommentSet(new LinkedHashSet<>(CommentSet));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace(System.out);
-            System.out.println("A problem occurred in retriving a film!");
+            System.out.println("A problem occurred in retriving recent comments!");
         }
     }
 }

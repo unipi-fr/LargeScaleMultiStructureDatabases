@@ -76,4 +76,14 @@ public class FilmService implements FilmServiceInterface {
         film.getUserSet().remove(user);
         filmManager.updateFavorites(film);
     }
+    
+    @Override
+    public void getRecentComments(Film film){
+        filmManager.getRecentComments(film);
+    }
+    
+    @Override
+    public void addComment(Film film, User user, String text){
+        filmManager.addComment(film, user, text);
+    }
 }

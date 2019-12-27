@@ -23,7 +23,7 @@ public interface FilmManagerDatabaseInterface {
     
     void addComment(Film film, User user, String text);
     
-    void getRecentComment(Film film);
+    void getRecentComments(Film film);
 
     Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit, int skip);
 }

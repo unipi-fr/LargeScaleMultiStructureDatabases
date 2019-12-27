@@ -39,6 +39,7 @@ com\lsmsdbgroup\pisaflix\dbmanager\Interfaces\UserManagerDatabaseInterface.class
 com\lsmsdbgroup\pisaflix\Entities\Comment.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\AuthenticationServiceInterface.class
 com\lsmsdbgroup\pisaflixg\App.class
+.netbeans_automatic_build
 com\lsmsdbgroup\pisaflix\dbmanager\DBManager.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\exceptions\UserAlredyLoggedException.class
 com\lsmsdbgroup\pisaflix\DateConverter.class

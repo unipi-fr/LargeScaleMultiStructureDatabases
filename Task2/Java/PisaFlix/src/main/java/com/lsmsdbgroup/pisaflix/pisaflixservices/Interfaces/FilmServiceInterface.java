@@ -21,4 +21,8 @@ public interface FilmServiceInterface {
     void addFavorite(Film film, User user);
 
     void removeFavourite(Film film, User user);
+    
+    void getRecentComments(Film film);
+    
+    void addComment(Film film, User user, String text);
 }
