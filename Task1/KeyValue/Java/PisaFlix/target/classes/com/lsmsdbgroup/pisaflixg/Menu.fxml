@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="anchorPane" alignment="TOP_CENTER" spacing="1.0" stylesheets="@../../../styles/PisaFlix.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.MenuController">
+   <children>
+      <Button fx:id="filmsButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#clickFilmsButton" prefWidth="120.0" text="Films" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS" />
+      <Button fx:id="cinemasButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickCinemasButton" text="Cinemas" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="36.0" VBox.vgrow="ALWAYS" />
+      <Button fx:id="usersButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickUsersButton" text="Users" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="72.0" VBox.vgrow="ALWAYS" />
+      <Button fx:id="projectionButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickProjectionsButton" text="Projections" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="108.0" VBox.vgrow="ALWAYS" />
+   </children>
+</VBox>
