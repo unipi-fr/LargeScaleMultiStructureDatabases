@@ -9,11 +9,13 @@ public class PisaFlixServices {
     public final static UserServiceInterface userService;
     public final static FilmServiceInterface filmService;
     public final static CommentServiceInterface commentService;
-
+    public final static EngageServiceInterface engageService;
+    
     static {
         authenticationService = new AuthenticationService(DBManager.userManager);
         userService = new UserService(DBManager.userManager, authenticationService);
         filmService = new FilmService(DBManager.filmManager, authenticationService);
         commentService = new CommentService(DBManager.commentManager, authenticationService);
+        engageService = new EngageService(DBManager.engageManager, authenticationService);
     }
 }

@@ -4,6 +4,7 @@ import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.Set;
 import java.util.ResourceBundle;
 import javafx.fxml.*;
@@ -38,6 +39,8 @@ public class FilmDetailPageController implements Initializable {
 
     @FXML
     private Label favoriteLabel;
+    
+    private boolean newVisit = true;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -113,6 +116,16 @@ public class FilmDetailPageController implements Initializable {
         });
 
         setFavoriteCount(film.getUserSet().size());
+        
+         if(newVisit){
+            newVisit = false;
+            if(PisaFlixServices.authenticationService.isUserLogged()){
+                PisaFlixServices.engageService.create(PisaFlixServices.authenticationService.getLoggedUser(), film, Entity.EntityType.VIEW); 
+            }else{
+                PisaFlixServices.engageService.create(new User("anonymous"), film, Entity.EntityType.VIEW); 
+            }
+             
+        }
     }
 
     public void setFavoriteButton() {

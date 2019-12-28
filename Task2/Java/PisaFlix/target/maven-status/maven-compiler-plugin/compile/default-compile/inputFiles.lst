@@ -1,4 +1,5 @@
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\Entities\Engage.java
+C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\EngageServiceInterface.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\LoginController.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\MainPageController.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\AuthenticationService.java
@@ -6,6 +7,7 @@ C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\UserCardController.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\Entities\Film.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\UserPrivileges.java
+C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\EngageService.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\AnalyticsController.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\exceptions\InvalidPrivilegeLevelValueException.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\DateConverter.java

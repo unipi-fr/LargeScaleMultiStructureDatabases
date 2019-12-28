@@ -40,7 +40,7 @@ public class EngageManager implements EngageManagerDatabaseInterface {
     public void create(User user, Film film, EntityType type) {
         Document engageDocument = new Document()
                 .append("User", user.getId())
-                .append(type + "Timestamp", new Date())
+                .append(type + "-"+ "Timestamp", new Date())
                 .append("Film", film.getId());
 
         //Upsert insert if documnet does't already exists
