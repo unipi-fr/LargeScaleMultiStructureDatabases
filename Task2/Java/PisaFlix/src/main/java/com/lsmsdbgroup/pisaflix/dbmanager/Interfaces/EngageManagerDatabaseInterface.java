@@ -17,4 +17,6 @@ public interface EngageManagerDatabaseInterface {
     Engage getById(String engageId);
     
     Set<Engage> getEngageSet(Entity entity, int limit, int skip);
+
+    void deleteFiltred(User user, Film film, Entity.EntityType type);
 }

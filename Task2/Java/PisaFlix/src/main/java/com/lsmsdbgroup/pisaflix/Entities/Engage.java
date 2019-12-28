@@ -50,17 +50,17 @@ public class Engage extends Entity implements Serializable{
             this.idEngage = engageDocument.get("_id").toString();          
             this.user = PisaFlixServices.userService.getById(engageDocument.get("User").toString());           
             this.film = PisaFlixServices.filmService.getById(engageDocument.get("Film").toString());            
-            if(engageDocument.containsKey(EntityType.COMMENT+"-"+ "Timestamp")){
-                this.timestamp = engageDocument.getDate(EntityType.COMMENT + "Timestamp");
+            if(engageDocument.get("Type") == EntityType.COMMENT){
+                this.timestamp = engageDocument.getDate("Timestamp");
                 this.type = EntityType.COMMENT;
             }
-            if(engageDocument.containsKey(EntityType.VIEW+"-"+"Timestamp")){
-                this.timestamp = engageDocument.getDate(EntityType.VIEW + "Timestamp");
+            if(engageDocument.get("Type") == EntityType.FAVOURITE){
+                this.timestamp = engageDocument.getDate("Timestamp");
                 this.type = EntityType.FAVOURITE;
             }
-            if(engageDocument.containsKey(EntityType.FAVOURITE+"-"+"Timestamp")){
-                this.timestamp = engageDocument.getDate(EntityType.COMMENT + "Timestamp");
-                this.type = EntityType.FAVOURITE;
+            if(engageDocument.get("Type") == EntityType.VIEW){
+                this.timestamp = engageDocument.getDate("Timestamp");
+                this.type = EntityType.VIEW;
             }
         }else{
             try {

@@ -37,4 +37,10 @@ public class  EngageService implements EngageServiceInterface{
     public Set<Engage> getEngageSet(Entity entity, int limit, int skip){
         return DBManager.engageManager.getEngageSet(entity, limit, skip);
     }
+
+    @Override
+    public void deleteFiltred(User user, Film film, Entity.EntityType type) {
+        DBManager.engageManager.deleteFiltred(user, film, type);
+    }
+    
 }

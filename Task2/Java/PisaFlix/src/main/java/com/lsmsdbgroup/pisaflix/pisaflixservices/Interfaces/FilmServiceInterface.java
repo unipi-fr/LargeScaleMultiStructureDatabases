@@ -17,11 +17,7 @@ public interface FilmServiceInterface {
     void updateFilm(Film film) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
     void deleteFilm(String idFilm) throws UserNotLoggedException, InvalidPrivilegeLevelException;
-
-    void addFavorite(Film film, User user);
-
-    void removeFavourite(Film film, User user);
-    
+ 
     void getRecentComments(Film film);
     
     void addComment(Film film, User user, String text);

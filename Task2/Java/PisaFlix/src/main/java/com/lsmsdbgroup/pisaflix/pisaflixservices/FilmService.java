@@ -64,20 +64,6 @@ public class FilmService implements FilmServiceInterface {
     }
 
     @Override
-    public void addFavorite(Film film, User user) {
-        user.getFilmSet().add(film);
-        film.getUserSet().add(user);
-        filmManager.updateFavorites(film);
-    }
-
-    @Override
-    public void removeFavourite(Film film, User user) {
-        user.getFilmSet().remove(film);
-        film.getUserSet().remove(user);
-        filmManager.updateFavorites(film);
-    }
-    
-    @Override
     public void getRecentComments(Film film){
         filmManager.getRecentComments(film);
     }
@@ -86,4 +72,5 @@ public class FilmService implements FilmServiceInterface {
     public void addComment(Film film, User user, String text){
         filmManager.addComment(film, user, text);
     }
+    
 }

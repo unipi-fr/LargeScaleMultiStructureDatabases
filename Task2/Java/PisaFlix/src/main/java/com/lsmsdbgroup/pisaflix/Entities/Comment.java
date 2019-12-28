@@ -47,8 +47,8 @@ public class Comment extends Engage implements Serializable {
     
     public Comment(Document commentDocument) {
         
-        if(commentDocument.containsKey("_id") && commentDocument.containsKey(EntityType.COMMENT+"-"+"Timestamp") && commentDocument.containsKey("Text")){         
-            this.timestamp = commentDocument.getDate(EntityType.COMMENT+"-"+"Timestamp");
+        if(commentDocument.containsKey("_id") && commentDocument.containsKey("Timestamp") && commentDocument.containsKey("Text")){         
+            this.timestamp = commentDocument.getDate("Timestamp");
             this.idComment = commentDocument.get("_id").toString();
             this.text = commentDocument.getString("Text");
             if(commentDocument.containsKey("Film"))

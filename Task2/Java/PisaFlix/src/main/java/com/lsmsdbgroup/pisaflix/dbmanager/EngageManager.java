@@ -8,9 +8,11 @@ import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.EngageManagerDatabaseInterface;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.client.model.UpdateOptions;
+import com.mongodb.client.result.DeleteResult;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashSet;
@@ -40,8 +42,9 @@ public class EngageManager implements EngageManagerDatabaseInterface {
     public void create(User user, Film film, EntityType type) {
         Document engageDocument = new Document()
                 .append("User", user.getId())
-                .append(type + "-"+ "Timestamp", new Date())
-                .append("Film", film.getId());
+                .append("Timestamp", new Date())
+                .append("Film", film.getId())
+                .append("Type", type.toString());
 
         //Upsert insert if documnet does't already exists
         UpdateOptions options = new UpdateOptions().upsert(true);
@@ -116,6 +119,16 @@ public class EngageManager implements EngageManagerDatabaseInterface {
         }
 
         return engageSet;
+    }
+    
+    @Override
+    public void deleteFiltred(User user, Film film, Entity.EntityType type){
+        try {
+            EngageCollection.deleteOne(and(eq("User",user.getId()), eq("Film", film.getId()), eq("Type", type.toString())));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("A problem occurred in removing the Comment!");
+        }
     }
 
 }

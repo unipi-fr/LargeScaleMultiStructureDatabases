@@ -178,7 +178,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         Document commentDocument = new Document()
                 .append("_id", hash(timestamp))
                 .append("User", new ObjectId(user.getId())) //Non importa salvare il film, è scontato
-                .append(EntityType.COMMENT + "-" + "Timestamp", timestamp)
+                .append("Timestamp", timestamp)
                 .append("Text", text);
         getRecentComments(film);
         Set<Comment> commentSet = film.getCommentSet();

@@ -132,9 +132,9 @@ public class FilmDetailPageController implements Initializable {
         if (PisaFlixServices.authenticationService.isUserLogged()) {
             User userLogged = PisaFlixServices.authenticationService.getLoggedUser();
 
-            Set<User> users = film.getUserSet();
+           // Set<User> users = film.getUserSet(); NO!
 
-            if (users.contains(userLogged)) {
+            if (/*users.contains(userLogged)*/true) {
                 favoriteButton.setText("- Favorite");
             }
         }
@@ -175,15 +175,12 @@ public class FilmDetailPageController implements Initializable {
             if (!PisaFlixServices.authenticationService.isUserLogged()) {
                 return;
             }
-
-            User user = PisaFlixServices.authenticationService.getLoggedUser();
-
             if (favoriteButton.getText().equals("+ Favorite")) {
-                PisaFlixServices.filmService.addFavorite(film, user);
+                PisaFlixServices.engageService.create(PisaFlixServices.authenticationService.getLoggedUser(), film, Entity.EntityType.FAVOURITE);
 
                 favoriteButton.setText("- Favorite");
             } else {
-                PisaFlixServices.filmService.removeFavourite(film, user);
+                PisaFlixServices.engageService.deleteFiltred(PisaFlixServices.authenticationService.getLoggedUser(),film, Entity.EntityType.FAVOURITE);
 
                 favoriteButton.setText("+ Favorite");
             }
