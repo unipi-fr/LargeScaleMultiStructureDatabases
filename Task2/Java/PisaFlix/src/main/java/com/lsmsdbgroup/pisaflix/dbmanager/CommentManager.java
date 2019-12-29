@@ -72,12 +72,30 @@ public class CommentManager extends EngageManager implements CommentManagerDatab
     }
     
     @Override
-    public void delete(String idComment){
-        super.delete(idComment);
+    public void delete(Comment comment){
+        if(comment.isRecent() ){
+           DBManager.filmManager.deleteComment(comment); 
+        }else{
+           super.delete(comment.getId());
+        }       
     }
     
     @Override
     public void deleteAllRelated(Entity entity){
-        super.deleteAllRelated(entity);
+        super.deleteAllRelated(entity); //Aggiungere il tipo!!!!!!!
+    }
+    
+    @Override
+    public Set<Comment> getAll(Film film, int skip, int limit){
+        Set<Comment> commentSet = new LinkedHashSet<>();
+        try (MongoCursor<Document> cursor = EngageCollection.find(and(eq("Film", film.getId()), eq("Type",EntityType.COMMENT.toString()))).sort(sort).limit(limit).skip(skip).iterator()) {
+            while(cursor.hasNext()){
+                commentSet.add(new Comment(cursor.next()));
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("A problem occurred in retriving the comments!");
+        } 
+        return commentSet;
     }
 }

@@ -42,5 +42,18 @@ public class  EngageService implements EngageServiceInterface{
     public void deleteFiltred(User user, Film film, Entity.EntityType type) {
         DBManager.engageManager.deleteFiltred(user, film, type);
     }
+
+    @Override
+    public long count(Film film, Entity.EntityType type) {
+        return DBManager.engageManager.count(film, type);
+    }
     
+    @Override
+    public boolean isAlreadyPresent(User userLogged, Film film, Entity.EntityType entityType){
+        if (DBManager.engageManager.count(userLogged, film, entityType) > 0){
+            return true;
+        }else{
+            return(false);
+        }
+    }
 }

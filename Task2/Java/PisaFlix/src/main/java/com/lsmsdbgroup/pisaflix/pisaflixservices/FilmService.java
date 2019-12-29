@@ -73,4 +73,20 @@ public class FilmService implements FilmServiceInterface {
         filmManager.addComment(film, user, text);
     }
     
+        
+    @Override
+    public long getCommentPageSize(){
+       return filmManager.getCommentPageSize();
+    }
+    
+    @Override
+    public void getCommentPage(Film film, int page){
+        int pageSize = (int) getCommentPageSize();
+        if(page == 0){
+            getRecentComments(film);
+        }else{
+           filmManager.getComments(film, (page - 1)*pageSize, pageSize); 
+        }
+    }
+    
 }

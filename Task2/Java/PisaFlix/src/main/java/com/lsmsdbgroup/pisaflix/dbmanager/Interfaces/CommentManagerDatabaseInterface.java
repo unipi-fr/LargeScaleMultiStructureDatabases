@@ -2,6 +2,7 @@ package com.lsmsdbgroup.pisaflix.dbmanager.Interfaces;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
 import java.util.Date;
+import java.util.Set;
 
 public interface CommentManagerDatabaseInterface {
 
@@ -9,9 +10,11 @@ public interface CommentManagerDatabaseInterface {
 
     void update(Comment comment, String text);
 
-    void delete(String idComment);
+    void delete(Comment comment);
     
     void deleteAllRelated(Entity entity);
 
     Comment getById(String commentId);
+    
+    Set<Comment> getAll(Film film, int skip, int limit);
 }

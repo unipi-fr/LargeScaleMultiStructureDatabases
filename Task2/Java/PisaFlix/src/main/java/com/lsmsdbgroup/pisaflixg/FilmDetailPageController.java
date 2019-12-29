@@ -4,7 +4,6 @@ import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.*;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Locale;
 import java.util.Set;
 import java.util.ResourceBundle;
 import javafx.fxml.*;
@@ -39,7 +38,10 @@ public class FilmDetailPageController implements Initializable {
 
     @FXML
     private Label favoriteLabel;
-    
+
+    @FXML
+    private Pagination pagination;
+
     private boolean newVisit = true;
 
     @Override
@@ -51,6 +53,8 @@ public class FilmDetailPageController implements Initializable {
                 commentButton.setDisable(false);
                 favoriteButton.setDisable(false);
             }
+            pagination.currentPageIndexProperty().addListener((obs, oldIndex, newIndex)
+                    -> refreshComments(newIndex.intValue()));
         } catch (Exception ex) {
             App.printErrorDialog("Film Details", "An error occurred in inizialization", ex.toString() + "\n" + ex.getMessage());
         }
@@ -95,7 +99,7 @@ public class FilmDetailPageController implements Initializable {
         commentVBox.getChildren().add(createComment(username, timestamp, commentStr, comment));
     }
 
-    public void setFavoriteCount(int count) {
+    public void setFavoriteCount(long count) {
         favoriteLabel.setText("(" + count + ")");
     }
 
@@ -115,26 +119,24 @@ public class FilmDetailPageController implements Initializable {
             addComment(comment);
         });
 
-        setFavoriteCount(film.getUserSet().size());
-        
-         if(newVisit){
+        setFavoriteCount(PisaFlixServices.engageService.count(film, Entity.EntityType.FAVOURITE));
+
+        if (newVisit) {
             newVisit = false;
-            if(PisaFlixServices.authenticationService.isUserLogged()){
-                PisaFlixServices.engageService.create(PisaFlixServices.authenticationService.getLoggedUser(), film, Entity.EntityType.VIEW); 
-            }else{
-                PisaFlixServices.engageService.create(new User("anonymous"), film, Entity.EntityType.VIEW); 
+            if (PisaFlixServices.authenticationService.isUserLogged()) {
+                PisaFlixServices.engageService.create(PisaFlixServices.authenticationService.getLoggedUser(), film, Entity.EntityType.VIEW);
+            } else {
+                PisaFlixServices.engageService.create(new User("anonymous"), film, Entity.EntityType.VIEW);
             }
-             
         }
+        refreshPageCount();
     }
 
     public void setFavoriteButton() {
         if (PisaFlixServices.authenticationService.isUserLogged()) {
             User userLogged = PisaFlixServices.authenticationService.getLoggedUser();
 
-           // Set<User> users = film.getUserSet(); NO!
-
-            if (/*users.contains(userLogged)*/true) {
+            if (PisaFlixServices.engageService.isAlreadyPresent(userLogged, film, Entity.EntityType.FAVOURITE)) {
                 favoriteButton.setText("- Favorite");
             }
         }
@@ -144,14 +146,20 @@ public class FilmDetailPageController implements Initializable {
         film = PisaFlixServices.filmService.getById(film.getId());
         PisaFlixServices.filmService.getRecentComments(film);
     }
+    
+    public int getCurrentPage(){
+        return pagination.getCurrentPageIndex();
+    }
 
-    public void refreshComment() {
+    public void refreshComments(int page) {
+        PisaFlixServices.filmService.getCommentPage(film, page);
         commentVBox.getChildren().clear();
         Set<Comment> comments = film.getCommentSet();
 
         comments.forEach((comment) -> {
             addComment(comment);
         });
+        refreshPageCount();
     }
 
     @FXML
@@ -161,9 +169,9 @@ public class FilmDetailPageController implements Initializable {
             User user = PisaFlixServices.authenticationService.getLoggedUser();
 
             PisaFlixServices.filmService.addComment(film, user, comment);
-
+            
             refreshFilm();
-            refreshComment();
+            refreshComments(getCurrentPage());
         } catch (Exception ex) {
             App.printErrorDialog("Comments", "An error occurred loading the comments", ex.toString() + "\n" + ex.getMessage());
         }
@@ -176,20 +184,29 @@ public class FilmDetailPageController implements Initializable {
                 return;
             }
             if (favoriteButton.getText().equals("+ Favorite")) {
-                PisaFlixServices.engageService.create(PisaFlixServices.authenticationService.getLoggedUser(), film, Entity.EntityType.FAVOURITE);
-
+                PisaFlixServices.engageService.create(PisaFlixServices.authenticationService.getLoggedUser(), film, Entity.EntityType.FAVOURITE);               
                 favoriteButton.setText("- Favorite");
             } else {
-                PisaFlixServices.engageService.deleteFiltred(PisaFlixServices.authenticationService.getLoggedUser(),film, Entity.EntityType.FAVOURITE);
-
+                PisaFlixServices.engageService.deleteFiltred(PisaFlixServices.authenticationService.getLoggedUser(), film, Entity.EntityType.FAVOURITE);
                 favoriteButton.setText("+ Favorite");
             }
 
             refreshFilm();
 
-            setFavoriteCount(film.getUserSet().size());
+            setFavoriteCount(PisaFlixServices.engageService.count(film, Entity.EntityType.FAVOURITE));
         } catch (Exception ex) {
             App.printErrorDialog("Favourites", "An error occurred updating favourites", ex.toString() + "\n" + ex.getMessage());
+        }
+    }
+
+    private void refreshPageCount() {
+        long savedComments = PisaFlixServices.engageService.count(film, Entity.EntityType.COMMENT);
+        if (savedComments == 0) {
+            pagination.pageCountProperty().setValue(1);
+        } else {
+            long pageLenght = PisaFlixServices.filmService.getCommentPageSize();
+            long pageNumber = (long) Math.floor((savedComments - 1)/ pageLenght) + 2;
+            pagination.pageCountProperty().setValue(pageNumber);
         }
     }
 }

@@ -1,15 +1,12 @@
 package com.lsmsdbgroup.pisaflix.dbmanager;
 
 import com.lsmsdbgroup.pisaflix.Entities.Comment;
-import com.lsmsdbgroup.pisaflix.Entities.Entity;
-import com.lsmsdbgroup.pisaflix.Entities.Entity.EntityType;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.FilmManagerDatabaseInterface;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import com.mongodb.client.model.Aggregates;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.gte;
@@ -19,9 +16,7 @@ import static com.mongodb.client.model.Filters.regex;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Updates;
 import static java.util.Objects.hash;
-import static java.util.Set.of;
 import org.bson.Document;
-import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 public class FilmManager implements FilmManagerDatabaseInterface {
@@ -29,7 +24,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     private static FilmManager FilmManager;
     private static MongoCollection<Document> FilmCollection;
     private final Document sort = new Document("_id", -1);
-    private final int commentsMaxSize = 5;
+    private final int commentPageSize = 5;
 
     public static FilmManager getIstance() {
         if (FilmManager == null) {
@@ -107,38 +102,12 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
     @Override
     public void delete(String idFilm) {
-        //clearUserSet(getById(idFilm));
         try {
             FilmCollection.deleteOne(eq("_id", new ObjectId(idFilm)));
-            DBManager.commentManager.deleteAllRelated(new Film(idFilm));
+            DBManager.engageManager.deleteAllRelated(new Film(idFilm));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in deleting the film!");
-        }
-    }
-
-    @Override
-    public void clearUserSet(Film film) {
-        film.setUserSet(new LinkedHashSet<>());
-        try {
-            throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            System.out.println("A problem occurred clearing the film's userset!");
-        } finally {
-
-        }
-    }
-
-    @Override
-    public void updateFavorites(Film film) {
-        try {
-            throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            System.out.println("A problem occurred updating favorite films!");
-        } finally {
-
         }
     }
 
@@ -176,14 +145,14 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     public void addComment(Film film, User user, String text) {
         Date timestamp = new Date();
         Document commentDocument = new Document()
-                .append("_id", hash(timestamp))
+                .append("_id", String.valueOf(hash(timestamp)))
                 .append("User", new ObjectId(user.getId())) //Non importa salvare il film, è scontato
                 .append("Timestamp", timestamp)
                 .append("Text", text);
         getRecentComments(film);
         Set<Comment> commentSet = film.getCommentSet();
         try {
-            if (commentSet.size() >= commentsMaxSize) {
+            if (commentSet.size() >= commentPageSize) {
                 Comment lastComment = (Comment) commentSet.toArray()[commentSet.size() - 1];
                 DBManager.commentManager.createComment(lastComment.getText(), lastComment.getUser(), film, lastComment.getTimestamp());
                 FilmCollection.updateOne(eq("_id", new ObjectId(film.getId())), Updates.popFirst("RecentComments"));
@@ -210,6 +179,41 @@ public class FilmManager implements FilmManagerDatabaseInterface {
             System.out.println(ex.getMessage());
             ex.printStackTrace(System.out);
             System.out.println("A problem occurred in retriving recent comments!");
+        }
+    }
+    
+    @Override
+    public long getCommentPageSize(){
+        return commentPageSize;
+    }
+    
+    @Override
+    public void getComments(Film film, int skip, int limit){
+       try {
+            film.setCommentSet(new LinkedHashSet<>(DBManager.commentManager.getAll(film, skip, limit)));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("A problem occurred in retriving the comments!");
+        }
+    }
+
+    @Override
+    public void deleteComment(Comment comment) {
+        try {
+        FilmCollection.updateOne(eq("_id", new ObjectId(comment.getFilm().getId())), Updates.pull("RecentComments", new Document("_id", comment.getId())));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("A problem occurred in deleting the comments!");
+        }
+    }
+
+    @Override
+    public void updateComment(Comment comment) {
+       try {
+        FilmCollection.updateOne(and(new Document("_id", new ObjectId(comment.getFilm().getId())), new Document("RecentComments._id", comment.getId())), Updates.set("RecentComments.$.Text", comment.getText()));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("A problem occurred in updating the comments!");
         }
     }
 }

@@ -1,11 +1,11 @@
 package com.lsmsdbgroup.pisaflix.pisaflixservices;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
+import com.lsmsdbgroup.pisaflix.dbmanager.DBManager;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CommentManagerDatabaseInterface;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import java.util.Objects;
-import java.util.Set;
 
 public class CommentService implements CommentServiceInterface {
 
@@ -20,7 +20,11 @@ public class CommentService implements CommentServiceInterface {
     @Override
     public void update(Comment comment) throws InvalidPrivilegeLevelException, UserNotLoggedException {
         if (canUpdateOrDeleteComment(comment, "update other user comment")) {
-            commentManager.update(comment, comment.getText());
+            if(comment.isRecent()){
+              DBManager.filmManager.updateComment(comment);
+            }else{
+              commentManager.update(comment, comment.getText());  
+            }
         }
     }
 
@@ -44,7 +48,8 @@ public class CommentService implements CommentServiceInterface {
     @Override
     public void delete(Comment comment) throws InvalidPrivilegeLevelException, UserNotLoggedException {
         if (canUpdateOrDeleteComment(comment, "delete other user comment")) {
-            commentManager.delete(comment.getId());
+            commentManager.delete(comment);
+            comment.getFilm().getCommentSet().remove(comment);
         }
 
     }

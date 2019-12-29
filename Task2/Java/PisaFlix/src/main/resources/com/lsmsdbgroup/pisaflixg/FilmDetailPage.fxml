@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.image.*?>
@@ -33,10 +34,30 @@
                <children>
                   <ScrollPane fx:id="commentScrollPane" fitToHeight="true" fitToWidth="true" layoutY="183.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0" GridPane.rowIndex="1">
                      <content>
-                        <VBox fx:id="commentVBox" alignment="TOP_CENTER" spacing="5.0">
-                           <padding>
-                              <Insets left="5.0" right="5.0" top="1.0" />
-                           </padding>
+                        <VBox>
+                           <children>
+                              <VBox fx:id="commentVBox" alignment="TOP_CENTER" spacing="5.0">
+                                 <padding>
+                                    <Insets left="5.0" right="5.0" top="1.0" />
+                                 </padding>
+                              </VBox>
+                              <Separator halignment="RIGHT">
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                              </Separator>
+                              <Pagination fx:id="pagination">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <padding>
+                                    <Insets bottom="10.0" />
+                                 </padding>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Pagination>
+                           </children>
                         </VBox>
                      </content>
                   </ScrollPane>
@@ -67,7 +88,8 @@
                            </VBox.margin>
                            <padding>
                               <Insets left="20.0" right="20.0" />
-                           </padding></Separator>
+                           </padding>
+                        </Separator>
                         <Text fx:id="descriptionLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="800.0">
                            <VBox.margin>
                               <Insets left="5.0" />
@@ -79,7 +101,8 @@
                            </VBox.margin>
                            <padding>
                               <Insets left="20.0" right="20.0" />
-                           </padding></Separator>
+                           </padding>
+                        </Separator>
                      </children>
                   </VBox>
                </children>

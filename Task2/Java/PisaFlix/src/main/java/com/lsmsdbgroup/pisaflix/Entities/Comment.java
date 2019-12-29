@@ -4,7 +4,6 @@ import com.lsmsdbgroup.pisaflix.Entities.exceptions.NonConvertibleDocumentExcept
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import java.io.Serializable;
 import java.util.*;
-import static java.util.Objects.hash;
 import org.bson.Document;
 
 public class Comment extends Engage implements Serializable {
@@ -13,7 +12,8 @@ public class Comment extends Engage implements Serializable {
 
     private String idComment = idEngage;
     private String text;
-
+    private boolean recent = false;
+            
     public Comment() {
     }
 
@@ -51,8 +51,11 @@ public class Comment extends Engage implements Serializable {
             this.timestamp = commentDocument.getDate("Timestamp");
             this.idComment = commentDocument.get("_id").toString();
             this.text = commentDocument.getString("Text");
-            if(commentDocument.containsKey("Film"))
-                this.film = PisaFlixServices.filmService.getById(commentDocument.get("Film").toString());            
+            if(commentDocument.containsKey("Film")){
+                this.film = PisaFlixServices.filmService.getById(commentDocument.get("Film").toString()); 
+            }else{
+                this.recent = true; //Se non ha il campo film il commento è dentro la sua lista
+            }                           
             if(commentDocument.containsKey("User")){
                 this.user = PisaFlixServices.userService.getById(commentDocument.get("User").toString());
             }
@@ -117,6 +120,10 @@ public class Comment extends Engage implements Serializable {
     @Override
     public void setUser(User user) {
         this.user = user;
+    }
+    
+    public boolean isRecent(){
+        return recent;
     }
 
     @Override

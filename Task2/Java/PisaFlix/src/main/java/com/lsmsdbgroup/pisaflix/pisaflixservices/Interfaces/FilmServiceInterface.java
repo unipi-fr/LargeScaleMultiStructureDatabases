@@ -21,4 +21,8 @@ public interface FilmServiceInterface {
     void getRecentComments(Film film);
     
     void addComment(Film film, User user, String text);
+    
+    long getCommentPageSize();
+
+    void getCommentPage(Film film, int page);
 }

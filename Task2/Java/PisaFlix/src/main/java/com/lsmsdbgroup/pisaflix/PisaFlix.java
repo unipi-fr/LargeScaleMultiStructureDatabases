@@ -7,7 +7,7 @@ import java.util.logging.*;
 public class PisaFlix {
 
     public static void main(String[] args) {
-        LogManager.getLogManager().getLogger("").setLevel(Level.OFF);   
+        LogManager.getLogManager().getLogger("").setLevel(Level.OFF);
         App.main(args);
         DBManager.stop();
     }

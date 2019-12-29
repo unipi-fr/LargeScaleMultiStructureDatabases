@@ -8,11 +8,9 @@ import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.EngageManagerDatabaseInterface;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.client.model.UpdateOptions;
-import com.mongodb.client.result.DeleteResult;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashSet;
@@ -66,7 +64,7 @@ public class EngageManager implements EngageManagerDatabaseInterface {
             EngageCollection.deleteOne(eq("_id", new ObjectId(idEngage)));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
-            System.out.println("A problem occurred in removing the Comment!");
+            System.out.println("A problem occurred in removing the Engage!");
         }
     }
     
@@ -129,6 +127,30 @@ public class EngageManager implements EngageManagerDatabaseInterface {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in removing the Comment!");
         }
+    }
+    
+    @Override
+    public long count(Film film, Entity.EntityType type){
+        long count = 0;
+        try {
+            count = EngageCollection.countDocuments(and(eq("Film", film.getId()), eq("Type", type.toString())));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("A problem occurred in removing the Comment!");
+        }
+        return count;
+    }
+    
+        @Override
+    public long count(User user, Film film, Entity.EntityType type){
+        long count = 0;
+        try {
+            count = EngageCollection.countDocuments(and(eq("Film", film.getId()),eq("User", user.getId()), eq("Type", type.toString())));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("A problem occurred in removing the Comment!");
+        }
+        return count;
     }
 
 }

@@ -14,12 +14,6 @@ import javafx.scene.layout.*;
 
 public class CommentController implements Initializable {
 
-    /*
-        0 = Film
-        1 = Cinema
-     */
-    private final int type;
-
     private final StringProperty usernameProperty = new SimpleStringProperty();
     private final StringProperty timestampProperty = new SimpleStringProperty();
     private final StringProperty commentProperty = new SimpleStringProperty();
@@ -33,8 +27,6 @@ public class CommentController implements Initializable {
         String timestampStr = timestampSplit[0] + ":" + timestampSplit[1];
         timestampProperty.set(timestampStr);
         commentProperty.set(commment);
-
-        this.type = type;
     }
 
     public void setComment(Comment comment) {
@@ -133,8 +125,9 @@ public class CommentController implements Initializable {
         commentLabel.setManaged(!state);
     }
 
-    private void refreshComment() {
-        comment = PisaFlixServices.commentService.getById(comment.getId());
+    private void refreshComments() {
+        FilmDetailPageController filmDetailPageController = App.getLoader().getController();
+        filmDetailPageController.refreshComments(filmDetailPageController.getCurrentPage());
     }
 
     @FXML
@@ -158,7 +151,7 @@ public class CommentController implements Initializable {
 
             switchState(false);
 
-            refreshComment();
+            refreshComments();
 
             commentLabel.setText(comment.getText());
         } catch (Exception ex) {
@@ -190,23 +183,7 @@ public class CommentController implements Initializable {
             } catch (InvalidPrivilegeLevelException | UserNotLoggedException ex) {
                 App.printErrorDialog("Deleting comment", "An error occurred while deleting comment", ex.getMessage());
             }
-
-            Film film = comment.getFilm();
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
-            AnchorPane anchorPane = null;
-            try {
-                anchorPane = loader.load();
-            } catch (IOException ex) {
-                System.out.println(ex.getMessage());
-            }
-            FilmDetailPageController filmDetailPageController = loader.getController();
-            filmDetailPageController.setFilm(film);
-
-            App.setMainPane(anchorPane);
-
-            filmDetailPageController.refreshFilm();
-            filmDetailPageController.refreshComment();
+            refreshComments();
         } catch (Exception ex) {
             App.printErrorDialog("Delete Comment", "An error occurred in deleting the comment", ex.toString() + "\n" + ex.getMessage());
         }

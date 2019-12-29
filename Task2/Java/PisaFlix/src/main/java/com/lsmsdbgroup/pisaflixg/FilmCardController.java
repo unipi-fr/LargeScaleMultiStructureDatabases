@@ -65,7 +65,7 @@ public class FilmCardController implements Initializable {
         
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
-
+            App.setLoader(loader);
             GridPane gridPane = null;
 
             try {

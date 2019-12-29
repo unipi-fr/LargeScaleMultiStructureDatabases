@@ -17,13 +17,17 @@ public interface FilmManagerDatabaseInterface {
 
     void delete(String idFilm);
 
-    void clearUserSet(Film film);
-
-    void updateFavorites(Film film);
-    
     void addComment(Film film, User user, String text);
     
     void getRecentComments(Film film);
+    
+    long getCommentPageSize();
 
     Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit, int skip);
+
+    void getComments(Film film, int skip, int limit);
+
+    void deleteComment(Comment comment);
+
+    public void updateComment(Comment comment);
 }

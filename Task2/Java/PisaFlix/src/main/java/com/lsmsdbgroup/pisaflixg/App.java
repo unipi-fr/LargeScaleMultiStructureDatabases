@@ -10,13 +10,14 @@ import java.net.URL;
 import java.util.Optional;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.StageStyle;
 
 public class App extends Application {
 
     private static Scene scene;
     private static MainPageController mainPageController;
+    private static FXMLLoader loader;
 
     static void resetLogin() {
         try {
@@ -24,6 +25,10 @@ public class App extends Application {
         } catch (Exception ex) {
             App.printErrorDialog("PisaFlix", "An error occurred", ex.toString() + "\n" + ex.getMessage());
         }
+    }
+
+    public static void setLoader(FXMLLoader loader) {
+        App.loader = loader;
     }
 
     @Override
@@ -62,13 +67,16 @@ public class App extends Application {
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = null;
         try {
-            fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+            loader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         } catch (Exception ex) {
             App.printErrorDialog("PisaFlix", "An error occurred", ex.toString() + "\n" + ex.getMessage());
         }
-        return fxmlLoader.load();
+        return loader.load();
+    }
+    
+    public static FXMLLoader getLoader(){
+        return loader;
     }
 
     public static void setMainPageController(MainPageController m) {
@@ -138,6 +146,10 @@ public class App extends Application {
 
     public static void printErrorDialog(String title, String header, String content) {
         printDialog(title, header, content, Alert.AlertType.ERROR);
+    }
+    
+    public static MainPageController getMainPageController() {
+        return mainPageController;
     }
 
     private static void printDialog(String title, String header, String content, Alert.AlertType type) {

@@ -19,4 +19,8 @@ public interface EngageManagerDatabaseInterface {
     Set<Engage> getEngageSet(Entity entity, int limit, int skip);
 
     void deleteFiltred(User user, Film film, Entity.EntityType type);
+    
+    long count(Film film, Entity.EntityType type);
+    
+    long count(User user, Film film, Entity.EntityType type);
 }
