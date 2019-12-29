@@ -7,13 +7,13 @@ import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.FilmManagerDatabaseInterface;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.gte;
 import static com.mongodb.client.model.Filters.lt;
 import static com.mongodb.client.model.Filters.or;
 import static com.mongodb.client.model.Filters.regex;
+import com.mongodb.client.model.Projections;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Updates;
 import static java.util.Objects.hash;
@@ -25,7 +25,8 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     private static FilmManager FilmManager;
     private static MongoCollection<Document> FilmCollection;
     private final Document sort = new Document("_id", -1);
-    private final int commentPageSize = 5;
+    private final int commentPageSize = 10;
+    private final int filmLimit = 27;
 
     public static FilmManager getIstance() {
         if (FilmManager == null) {
@@ -41,7 +42,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     @Override
     public Film getById(String filmId) {
         Film film = null;
-        try (MongoCursor<Document> cursor = FilmCollection.find(eq("_id", new ObjectId(filmId))).iterator()) {
+        try (MongoCursor<Document> cursor = FilmCollection.find(eq("_id", new ObjectId(filmId))).projection(Projections.exclude("RecentComments")).iterator()) {
             film = new Film(cursor.next());
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -54,7 +55,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     @Override
     public Set<Film> getAll(int limit, int skip) {
         Set<Film> filmSet = new LinkedHashSet<>();
-        try (MongoCursor<Document> cursor = FilmCollection.find().sort(sort).limit(limit).skip(skip).iterator()) {
+        try (MongoCursor<Document> cursor = FilmCollection.find().projection(Projections.exclude("RecentComments")).sort(sort).limit(filmLimit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 filmSet.add(new Film(cursor.next()));
             }
@@ -129,7 +130,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
             filters.add(and(gte("PublicationDate", startDateFilter), lt("PublicationDate", endDateFilter)));
         }
 
-        try (MongoCursor<Document> cursor = FilmCollection.find(or(filters)).sort(sort).limit(limit).skip(skip).iterator()) {
+        try (MongoCursor<Document> cursor = FilmCollection.find(or(filters)).projection(Projections.exclude("RecentComments")).sort(sort).limit(filmLimit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 filmSet.add(new Film(cursor.next()));
             }

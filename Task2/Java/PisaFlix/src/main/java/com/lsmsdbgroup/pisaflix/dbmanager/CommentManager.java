@@ -35,9 +35,7 @@ public class CommentManager extends EngageManager implements CommentManagerDatab
             commentDocument.put("Timestamp", comment.getTimestamp());
         }
         
-        if(comment.getLastModified()== null){           
-            commentDocument.put("LastModified", new Date());
-        }else{
+        if(comment.getLastModified()!= null){           
             commentDocument.put("LastModified", comment.getTimestamp());
         }
         //Upsert insert if documnet does't already exists
