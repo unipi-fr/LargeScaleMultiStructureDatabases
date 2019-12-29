@@ -55,8 +55,12 @@ public class CommentService implements CommentServiceInterface {
     }
 
     @Override
-    public void addComment(String text, User user, Entity entity) {
-        commentManager.createComment(text, user, entity, null);
+    public void addComment(String text, User user, Film film) {
+        Comment comment = new Comment();
+        comment.setText(text);
+        comment.setFilm(film);
+        comment.setUser(user);
+        commentManager.createComment(comment);
     }
     
 }

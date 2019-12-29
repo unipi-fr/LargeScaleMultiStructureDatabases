@@ -3,7 +3,6 @@ package com.lsmsdbgroup.pisaflixg;
 import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import javafx.beans.property.*;
@@ -22,10 +21,7 @@ public class CommentController implements Initializable {
 
     public CommentController(String username, String timestamp, String commment, int type) {
         usernameProperty.set(username);
-
-        String[] timestampSplit = timestamp.split(":");
-        String timestampStr = timestampSplit[0] + ":" + timestampSplit[1];
-        timestampProperty.set(timestampStr);
+        timestampProperty.set(timestamp);
         commentProperty.set(commment);
     }
 

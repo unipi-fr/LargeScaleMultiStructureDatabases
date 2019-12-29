@@ -76,6 +76,7 @@ public class EngageManager implements EngageManagerDatabaseInterface {
             }
             if(entity.getClass().equals(User.class)){
                 EngageCollection.deleteMany(eq("User", entity.getId()));
+                DBManager.filmManager.deleteReleted((User) entity);
             }  
         } catch (Exception ex) {
             System.out.println(ex.getMessage());

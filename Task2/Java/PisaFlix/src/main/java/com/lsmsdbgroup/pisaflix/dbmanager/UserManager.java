@@ -75,38 +75,13 @@ public class UserManager implements UserManagerDatabaseInterface {
     }
 
     @Override
-    public void updateFavorites(User user) {
-        try {
-            throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            System.out.println("A problem occurred in updating favorites!");
-        } finally {
-            
-        }
-    }
-
-    @Override
     public void delete(String idUser) {
-        clearCinemaSetAndFilmSet(getById(idUser));
+        DBManager.engageManager.deleteAllRelated(new User(idUser));
         try {
             UserCollection.deleteOne(eq("_id", new ObjectId(idUser)));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in removing a User!");
-        }
-    }
-
-    @Override
-    public void clearCinemaSetAndFilmSet(User user) {
-        user.setFilmSet(new LinkedHashSet<>());
-        try {
-            throw new UnsupportedOperationException("DA IMPLEMENTARE!!!!!!!!!!!!");
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            System.out.println("A problem occurred clearing the user's cinemaset and filmset!");
-        } finally {
-            
         }
     }
 

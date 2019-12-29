@@ -93,7 +93,12 @@ public class FilmDetailPageController implements Initializable {
 
     public void addComment(Comment comment) {
         String username = comment.getUser().getUsername();
-        String timestamp = comment.getTimestamp().toString();
+        String timestamp;
+        if(comment.getLastModified() != null){
+             timestamp = comment.getTimestamp().toString() + ", Last Modified at: " + comment.getLastModified().toString();
+        }else{
+            timestamp = comment.getTimestamp().toString();
+        }
         String commentStr = comment.getText();
 
         commentVBox.getChildren().add(createComment(username, timestamp, commentStr, comment));

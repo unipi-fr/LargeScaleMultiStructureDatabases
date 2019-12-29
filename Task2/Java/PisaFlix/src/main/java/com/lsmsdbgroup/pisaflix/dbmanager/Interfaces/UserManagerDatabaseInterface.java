@@ -9,11 +9,7 @@ public interface UserManagerDatabaseInterface {
 
     void create(String username, String password, String firstName, String lastName, String email, int privilegeLevel);
 
-    void updateFavorites(User user);
-
     void delete(String userId);
-
-    void clearCinemaSetAndFilmSet(User user);
 
     void update(User u);
 

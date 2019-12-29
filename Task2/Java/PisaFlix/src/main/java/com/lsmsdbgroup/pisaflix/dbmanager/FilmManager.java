@@ -7,6 +7,7 @@ import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.FilmManagerDatabaseInterface;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.gte;
@@ -146,7 +147,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         Date timestamp = new Date();
         Document commentDocument = new Document()
                 .append("_id", String.valueOf(hash(timestamp)))
-                .append("User", new ObjectId(user.getId())) //Non importa salvare il film, è scontato
+                .append("User", user.getId()) //Non importa salvare il film, è scontato
                 .append("Timestamp", timestamp)
                 .append("Text", text);
         getRecentComments(film);
@@ -154,7 +155,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         try {
             if (commentSet.size() >= commentPageSize) {
                 Comment lastComment = (Comment) commentSet.toArray()[commentSet.size() - 1];
-                DBManager.commentManager.createComment(lastComment.getText(), lastComment.getUser(), film, lastComment.getTimestamp());
+                DBManager.commentManager.createComment(lastComment);
                 FilmCollection.updateOne(eq("_id", new ObjectId(film.getId())), Updates.popFirst("RecentComments"));
             }
             FilmCollection.updateOne(eq("_id", new ObjectId(film.getId())), Updates.push("RecentComments", commentDocument));
@@ -210,8 +211,19 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     @Override
     public void updateComment(Comment comment) {
        try {
-        FilmCollection.updateOne(and(new Document("_id", new ObjectId(comment.getFilm().getId())), new Document("RecentComments._id", comment.getId())), Updates.set("RecentComments.$.Text", comment.getText()));
+        Document update = new Document("RecentComments.$.Text", comment.getText()).append("RecentComments.$.LastModified", new Date());
+        FilmCollection.updateOne(and(new Document("_id", new ObjectId(comment.getFilm().getId())), new Document("RecentComments._id", comment.getId())), new Document("$set",update));
         } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("A problem occurred in updating the comments!");
+        }
+    }
+    
+    @Override
+    public void deleteReleted(User user){
+        try {
+        FilmCollection.updateMany(new Document(), Updates.pull("RecentComments", new Document("User", user.getId())));
+         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in updating the comments!");
         }

@@ -29,5 +29,7 @@ public interface FilmManagerDatabaseInterface {
 
     void deleteComment(Comment comment);
 
-    public void updateComment(Comment comment);
+    void updateComment(Comment comment);
+
+    void deleteReleted(User user);
 }

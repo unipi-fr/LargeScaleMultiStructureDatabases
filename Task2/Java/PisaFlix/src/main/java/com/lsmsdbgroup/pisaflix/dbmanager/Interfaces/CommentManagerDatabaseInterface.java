@@ -1,12 +1,11 @@
 package com.lsmsdbgroup.pisaflix.dbmanager.Interfaces;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
-import java.util.Date;
 import java.util.Set;
 
 public interface CommentManagerDatabaseInterface {
 
-    void createComment(String text, User user, Entity entity, Date timestamp);
+    void createComment(Comment comment);
 
     void update(Comment comment, String text);
 

@@ -22,21 +22,23 @@ public class CommentManager extends EngageManager implements CommentManagerDatab
     }
  
 @Override
-    public void createComment(String text, User user, Entity entity, Date timestamp) {
+    public void createComment(Comment comment) {
         Document commentDocument = new Document()
-                .append("Text", text)
-                .append("User", user.getId())
+                .append("Text", comment.getText())
+                .append("User", comment.getUser().getId())
+                .append("Film", comment.getFilm().getId())
                 .append("Type", EntityType.COMMENT.toString());
                 
-        if(entity.getClass().equals(Film.class)){
-            commentDocument.put("Film", entity.getId());
-        }else{
-            commentDocument.put("Cinema", entity.getId());
-        }
-        if(timestamp == null){           
+        if(comment.getTimestamp()== null){           
             commentDocument.put("Timestamp", new Date());
         }else{
-            commentDocument.put("Timestamp", timestamp);
+            commentDocument.put("Timestamp", comment.getTimestamp());
+        }
+        
+        if(comment.getLastModified()== null){           
+            commentDocument.put("LastModified", new Date());
+        }else{
+            commentDocument.put("LastModified", comment.getTimestamp());
         }
         //Upsert insert if documnet does't already exists
         UpdateOptions options = new UpdateOptions().upsert(true);
@@ -52,7 +54,7 @@ public class CommentManager extends EngageManager implements CommentManagerDatab
     @Override
     public void update(Comment comment, String text) {
         try {
-            EngageCollection.updateOne(eq("_id", new ObjectId(comment.getId())), new Document("$set", new Document("Text",text)));
+            EngageCollection.updateOne(eq("_id", new ObjectId(comment.getId())), new Document("$set", new Document("Text",text).append("LastModified", new Date())));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in updating the Comment!");

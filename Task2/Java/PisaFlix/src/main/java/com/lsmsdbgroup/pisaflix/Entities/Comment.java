@@ -13,6 +13,7 @@ public class Comment extends Engage implements Serializable {
     private String idComment = idEngage;
     private String text;
     private boolean recent = false;
+    private Date lastModified;
             
     public Comment() {
     }
@@ -58,6 +59,9 @@ public class Comment extends Engage implements Serializable {
             }                           
             if(commentDocument.containsKey("User")){
                 this.user = PisaFlixServices.userService.getById(commentDocument.get("User").toString());
+            }
+            if(commentDocument.containsKey("LastModified")){
+                this.lastModified = commentDocument.getDate("LastModified");
             }
         }else{
             try {
@@ -154,6 +158,10 @@ public class Comment extends Engage implements Serializable {
         return "[ idComment= " + idComment + " ]\nuser: " + user.toString()
                 + "\ntimestamp:" + timestamp.toString() + "\ntext:" + text;
 
+    }
+
+    public Object getLastModified() {
+        return lastModified;
     }
 
 }
