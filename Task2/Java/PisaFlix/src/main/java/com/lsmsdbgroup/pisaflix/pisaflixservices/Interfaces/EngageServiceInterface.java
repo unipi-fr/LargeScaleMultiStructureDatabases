@@ -13,7 +13,7 @@ public interface EngageServiceInterface {
     
     Engage getById(String engageId);
     
-    Set<Engage> getEngageSet(Entity entity, int limit, int skip);
+    Set<Engage> getEngageSet(Entity entity, int limit, int skip, Entity.EntityType type);
 
     void deleteFiltred(User user, Film film, Entity.EntityType type);
     

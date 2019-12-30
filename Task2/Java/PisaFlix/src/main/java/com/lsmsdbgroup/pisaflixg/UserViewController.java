@@ -66,8 +66,6 @@ public class UserViewController implements Initializable {
                 firstnameLabel.setText(user.getFirstName());
                 lastnameLabel.setText(user.getLastName());
                 emailLabel.setText(user.getEmail());
-
-                commentCounterLabel.setText("Comments: " + PisaFlixServices.commentService.count(user));
             }
 
             Random random = new Random();

@@ -34,8 +34,8 @@ public class  EngageService implements EngageServiceInterface{
     }
     
     @Override
-    public Set<Engage> getEngageSet(Entity entity, int limit, int skip){
-        return DBManager.engageManager.getEngageSet(entity, limit, skip);
+    public Set<Engage> getEngageSet(Entity entity, int limit, int skip, Entity.EntityType type){
+        return DBManager.engageManager.getEngageSet(entity, limit, skip, type);
     }
 
     @Override

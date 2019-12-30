@@ -1,6 +1,8 @@
 package com.lsmsdbgroup.pisaflix.dbmanager;
 
 import com.lsmsdbgroup.pisaflix.Entities.Engage;
+import com.lsmsdbgroup.pisaflix.Entities.Entity;
+import com.lsmsdbgroup.pisaflix.Entities.Entity.EntityType;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface;
@@ -181,7 +183,8 @@ public class UserManager implements UserManagerDatabaseInterface {
     
     @Override
     public void getFavourites(User user){
-        Set<Engage> engageSet = DBManager.engageManager.getEngageSet(user, 0, 0);
+        Set<Engage> engageSet = DBManager.engageManager.getEngageSet(user, 0, 0, EntityType.FAVOURITE);
+        user.getFilmSet().clear();
         engageSet.forEach((engage) -> {
             user.getFilmSet().add(engage.getFilm());
         });

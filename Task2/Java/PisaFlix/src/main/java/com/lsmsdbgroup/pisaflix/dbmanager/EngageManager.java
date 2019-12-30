@@ -97,9 +97,10 @@ public class EngageManager implements EngageManagerDatabaseInterface {
     }
     
     @Override
-    public Set<Engage> getEngageSet(Entity entity, int limit, int skip) {
+    public Set<Engage> getEngageSet(Entity entity, int limit, int skip, Entity.EntityType type ) {
         Set<Engage> engageSet = new LinkedHashSet<>();
         List filters = new ArrayList();
+        filters.add(new Document("Type", type.toString()));
         
         if(entity.getClass().equals(Film.class)){
             filters.add(new Document("Film", entity.getId()));

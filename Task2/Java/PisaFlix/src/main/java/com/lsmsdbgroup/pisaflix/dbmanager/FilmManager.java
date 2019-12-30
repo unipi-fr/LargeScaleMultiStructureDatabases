@@ -8,6 +8,8 @@ import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.FilmManagerDatabaseInterface;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.gte;
@@ -241,13 +243,14 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     public long count(Entity entity){
         long count = 0;
         try {
-        if(entity.getClass() == User.class){
-            count = FilmCollection.countDocuments(new Document("RecentComments.$.User", entity.getId()));
+        if(entity.getClass() == User.class){                        
+        count = (int) FilmCollection.aggregate(Arrays.asList(
+                    Aggregates.match(new Document("RecentComments.User",entity.getId())), //Trovo i film che contengono commenti con l'utente giusto
+                    Aggregates.unwind("$RecentComments"),//Divido i commenti per ogni film in documenti singoli
+                    Aggregates.match(new Document("RecentComments.User",entity.getId())), //Trovo i commenti che contengono l'utente giusto
+                    Aggregates.count())).first().get("count"); //Li conto
         }
-        if(entity.getClass() == Film.class){
-            System.out.println("Da implementare!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        }
-         } catch (Exception ex) {
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in updating the comments!");
         }
