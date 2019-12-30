@@ -20,7 +20,7 @@ public interface EngageManagerDatabaseInterface {
 
     void deleteFiltred(User user, Film film, Entity.EntityType type);
     
-    long count(Film film, Entity.EntityType type);
+    long count(Entity entity, Entity.EntityType type);
     
     long count(User user, Film film, Entity.EntityType type);
 }

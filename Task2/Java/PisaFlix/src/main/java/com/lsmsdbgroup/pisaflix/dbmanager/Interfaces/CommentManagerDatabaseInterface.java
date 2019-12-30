@@ -16,4 +16,6 @@ public interface CommentManagerDatabaseInterface {
     Comment getById(String commentId);
     
     Set<Comment> getAll(Film film, int skip, int limit);
+
+    long count(Entity entity);
 }

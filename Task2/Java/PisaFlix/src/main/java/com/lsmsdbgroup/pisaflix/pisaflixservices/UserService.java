@@ -94,6 +94,11 @@ public class UserService implements UserServiceInterface {
     private boolean checkDuplicates(String username, String email) {
         return userManager.checkDuplicates(username, email, 0, 0);
     }
+    
+    @Override
+    public void getFavourites(User user){
+        userManager.getFavourites(user);
+    }
 
     @Override
     public void register(String username, String password, String email, String firstName, String lastName) throws InvalidFieldException {

@@ -98,4 +98,9 @@ public class CommentManager extends EngageManager implements CommentManagerDatab
         } 
         return commentSet;
     }
+    
+    @Override
+    public long count(Entity entity){
+        return DBManager.engageManager.count(entity, EntityType.COMMENT) + DBManager.filmManager.count(entity);
+    }
 }

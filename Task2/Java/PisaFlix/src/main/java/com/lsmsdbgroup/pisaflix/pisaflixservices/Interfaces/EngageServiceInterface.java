@@ -17,7 +17,7 @@ public interface EngageServiceInterface {
 
     void deleteFiltred(User user, Film film, Entity.EntityType type);
     
-    long count(Film film, Entity.EntityType type);
+    long count(Entity entity, Entity.EntityType type);
 
     boolean isAlreadyPresent(User userLogged, Film film, Entity.EntityType entityType);
 }

@@ -69,25 +69,32 @@ public class AddFilmController implements Initializable {
 
     private void addFilm() {
         try {
-
+            boolean success = false;
             Date date = DateConverter.LocalDateToDate(datePicker.getValue());
             String title = titleTextField.getText();
             String description = descriptionTextArea.getText();
 
             try {
-                PisaFlixServices.filmService.addFilm(title, date, description);
+                success = PisaFlixServices.filmService.addFilm(title, date, description);
             } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
                 System.out.println(ex.getMessage());
                 return;
             }
-
-            successLabel.setTextFill(Color.GREEN);
+            
+            if(success){
+                successLabel.setTextFill(Color.GREEN);
             successLabel.setText("Film successfully added!");
             successLabel.setVisible(true);
             successLabel.setManaged(true);
             resetFields();
+            }else{
+                successLabel.setTextFill(Color.RED);
+            successLabel.setText("An indentical film already exists");
+            successLabel.setVisible(true);
+            successLabel.setManaged(true);
+            }
         } catch (Exception ex) {
-            App.printErrorDialog("Add FIlm", "An error occurred creating the film", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Add Film", "An error occurred creating the film", ex.toString() + "\n" + ex.getMessage());
         }
     }
 

@@ -104,7 +104,7 @@ public class EngageManager implements EngageManagerDatabaseInterface {
         if(entity.getClass().equals(Film.class)){
             filters.add(new Document("Film", entity.getId()));
         }
-        if(entity.getClass().equals(Film.class)){
+        if(entity.getClass().equals(User.class)){
             filters.add(new Document("User", entity.getId()));
         }
 
@@ -131,10 +131,15 @@ public class EngageManager implements EngageManagerDatabaseInterface {
     }
     
     @Override
-    public long count(Film film, Entity.EntityType type){
+    public long count(Entity entity, Entity.EntityType type){
         long count = 0;
         try {
-            count = EngageCollection.countDocuments(and(eq("Film", film.getId()), eq("Type", type.toString())));
+            if(entity.getClass() == Film.class){
+                count = EngageCollection.countDocuments(and(eq("Film", entity.getId()), eq("Type", type.toString())));
+            }
+            if(entity.getClass() == User.class){
+                count = EngageCollection.countDocuments(and(eq("User", entity.getId()), eq("Type", type.toString())));
+            }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in removing the Comment!");

@@ -1,6 +1,7 @@
 package com.lsmsdbgroup.pisaflix.dbmanager.Interfaces;
 
 import com.lsmsdbgroup.pisaflix.Entities.Comment;
+import com.lsmsdbgroup.pisaflix.Entities.Entity;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import java.util.*;
@@ -11,7 +12,7 @@ public interface FilmManagerDatabaseInterface {
 
     Set<Film> getAll(int limit, int skip);
 
-    void create(String title, Date publicationDate, String description);
+    boolean create(String title, Date publicationDate, String description);
 
     void update(String idFilm, String title, Date publicationDate, String description);
 
@@ -32,4 +33,6 @@ public interface FilmManagerDatabaseInterface {
     void updateComment(Comment comment);
 
     void deleteReleted(User user);
+
+    long count(Entity entity);
 }

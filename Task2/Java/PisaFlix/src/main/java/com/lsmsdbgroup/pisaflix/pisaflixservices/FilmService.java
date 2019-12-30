@@ -38,17 +38,17 @@ public class FilmService implements FilmServiceInterface {
     }
 
     @Override
-    public void addFilm(String title, Date publicationDate, String description) throws UserNotLoggedException, InvalidPrivilegeLevelException {
+    public boolean addFilm(String title, Date publicationDate, String description) throws UserNotLoggedException, InvalidPrivilegeLevelException {
         authenticationService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "add a film");
         if (title == null || title.isBlank()) {
             System.out.println("Title can't be empty");
-            return;
+            return false;
         }
         if (publicationDate == null) {
             System.out.println("Date can't be empty");
-            return;
+            return false;
         }
-        filmManager.create(title, publicationDate, description);
+        return filmManager.create(title, publicationDate, description);
     }
 
     @Override

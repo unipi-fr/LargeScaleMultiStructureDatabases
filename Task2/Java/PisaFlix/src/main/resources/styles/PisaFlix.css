@@ -950,3 +950,8 @@
     -fx-background-color: -swatch-400;
     -fx-text-fill: white;
 }
+
+#tableTitle{
+    -fx-font-size: 20;
+    -fx-text-fill: -swatch-400;
+}

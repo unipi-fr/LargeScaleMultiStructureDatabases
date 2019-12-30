@@ -12,6 +12,7 @@ import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 
 public class UserViewController implements Initializable {
 
@@ -66,7 +67,7 @@ public class UserViewController implements Initializable {
                 lastnameLabel.setText(user.getLastName());
                 emailLabel.setText(user.getEmail());
 
-                commentCounterLabel.setText("(" + user.getCommentSet().size() + ")");
+                commentCounterLabel.setText("Comments: " + PisaFlixServices.commentService.count(user));
             }
 
             Random random = new Random();
@@ -80,10 +81,10 @@ public class UserViewController implements Initializable {
             filmListener = (ObservableValue<? extends Film> observable, Film oldValue, Film newValue) -> {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
 
-                AnchorPane anchorPane = null;
+                GridPane gridPane = null;
 
                 try {
-                    anchorPane = loader.load();
+                    gridPane = loader.load();
                 } catch (IOException ex) {
                     System.out.println(ex.getMessage());
                 }
@@ -92,7 +93,7 @@ public class UserViewController implements Initializable {
 
                 filmDetailPageController.setFilm(newValue);
 
-                App.setMainPane(anchorPane);
+                App.setMainPane(gridPane);
             };
             
             if(user != null)
@@ -106,11 +107,11 @@ public class UserViewController implements Initializable {
         try {
             PisaFlixServices.authenticationService.checkUserPrivilegesForOperation(UserPrivileges.ADMIN, "Update/Delete others account");
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
-            User loggrdUser = PisaFlixServices.authenticationService.getLoggedUser();
-            if (loggrdUser == null) {
+            User loggedUser = PisaFlixServices.authenticationService.getLoggedUser();
+            if (loggedUser == null) {
                 return false;
             }
-            if (!Objects.equals(loggrdUser.getId(), this.user.getId())) {
+            if (!Objects.equals(loggedUser.getId(), this.user.getId())) {
                 return false;
             }
         }
@@ -134,7 +135,7 @@ public class UserViewController implements Initializable {
                 updateButton.setDisable(true);
             }
 
-            commentCounterLabel.setText("(" + user.getCommentSet().size() + ")");
+            commentCounterLabel.setText("Comments: " + PisaFlixServices.commentService.count(user));
             showFavoriteFilms();
         } catch (Exception ex) {
             App.printErrorDialog("Users", "An error occurred loading the users", ex.toString() + "\n" + ex.getMessage());
@@ -143,8 +144,8 @@ public class UserViewController implements Initializable {
 
     private void showFavoriteFilms() {
         try {
-            favoriteCounterLabel.setText("(" + user.getFilmSet().size() + ")");
-
+            favoriteCounterLabel.setText("Favourites: " + PisaFlixServices.engageService.count(user, Entity.EntityType.FAVOURITE));
+            PisaFlixServices.userService.getFavourites(user);
             Set<Film> films = user.getFilmSet();
 
             ObservableList<Film> observableFilms = FXCollections.observableArrayList(films);

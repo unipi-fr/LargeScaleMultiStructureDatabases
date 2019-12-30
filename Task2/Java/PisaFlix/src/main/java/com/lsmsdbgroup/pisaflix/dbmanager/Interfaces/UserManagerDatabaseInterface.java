@@ -25,4 +25,6 @@ public interface UserManagerDatabaseInterface {
 
     Set<User> getFiltered(String nameFilter, int limit, int skip);
 
+    void getFavourites(User user);
+
 }

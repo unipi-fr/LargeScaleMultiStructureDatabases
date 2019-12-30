@@ -12,4 +12,6 @@ public interface CommentServiceInterface {
     Comment getById(String id);
 
     void delete(Comment comment) throws UserNotLoggedException, InvalidPrivilegeLevelException;
+
+    long count(Entity user);
 }

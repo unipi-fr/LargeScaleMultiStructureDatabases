@@ -53,9 +53,14 @@ public class CommentService implements CommentServiceInterface {
         }
 
     }
-
+    
     @Override
-    public void addComment(String text, User user, Film film) {
+    public long count(Entity user){
+        return commentManager.count(user);
+    }
+    
+    @Override
+     public void addComment(String text, User user, Film film) {
         Comment comment = new Comment();
         comment.setText(text);
         comment.setFilm(film);

@@ -1,5 +1,6 @@
 package com.lsmsdbgroup.pisaflix.dbmanager;
 
+import com.lsmsdbgroup.pisaflix.Entities.Engage;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface;
@@ -176,6 +177,14 @@ public class UserManager implements UserManagerDatabaseInterface {
             System.out.println("A problem occurred in retriving a user!");
         }
         return !userSet.isEmpty();
+    }
+    
+    @Override
+    public void getFavourites(User user){
+        Set<Engage> engageSet = DBManager.engageManager.getEngageSet(user, 0, 0);
+        engageSet.forEach((engage) -> {
+            user.getFilmSet().add(engage.getFilm());
+        });
     }
 
     @Override

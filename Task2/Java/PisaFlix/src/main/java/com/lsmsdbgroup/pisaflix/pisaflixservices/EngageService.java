@@ -44,8 +44,8 @@ public class  EngageService implements EngageServiceInterface{
     }
 
     @Override
-    public long count(Film film, Entity.EntityType type) {
-        return DBManager.engageManager.count(film, type);
+    public long count(Entity entity, Entity.EntityType type) {
+        return DBManager.engageManager.count(entity, type);
     }
     
     @Override

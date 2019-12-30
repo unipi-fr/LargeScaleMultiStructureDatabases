@@ -18,7 +18,22 @@
       <RowConstraints minHeight="10.0" percentHeight="55.0" prefHeight="30.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <ListView fx:id="favoriteList" GridPane.rowIndex="1" />
+      <VBox GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <children>
+            <GridPane alignment="CENTER">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Text id="tableTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Favourite Films:" textAlignment="JUSTIFY" />
+               </children>
+            </GridPane>
+            <ListView fx:id="favoriteList" prefHeight="353.0" prefWidth="1217.0" GridPane.rowIndex="1" />
+         </children>
+      </VBox>
       <HBox spacing="520.0">
          <children>
             <VBox spacing="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -31,30 +46,38 @@
                         <Label fx:id="emailLabel" prefHeight="25.0" prefWidth="323.0" text="e-mail" AnchorPane.bottomAnchor="360.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="166.0" AnchorPane.topAnchor="95.0" />
                      </children>
                   </VBox>
-                  <HBox spacing="15.0">
+                  <VBox>
                      <children>
-                        <VBox>
+                        <HBox alignment="CENTER_LEFT">
                            <children>
                               <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../../img/Favorites.png" />
                                  </image>
                               </ImageView>
-                              <Label fx:id="favoriteCounterLabel" alignment="CENTER" prefHeight="40.0" prefWidth="40.0" text="(-)" />
+                              <Label fx:id="favoriteCounterLabel" alignment="CENTER" text="(-)">
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
                            </children>
-                        </VBox>
-                        <VBox layoutX="58.0" layoutY="148.0">
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT">
                            <children>
                               <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../../img/Comments.png" />
                                  </image>
                               </ImageView>
-                              <Label fx:id="commentCounterLabel" alignment="CENTER" prefHeight="40.0" prefWidth="40.0" text="(-)" />
+                              <Label fx:id="commentCounterLabel" alignment="CENTER" text="(-)">
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </Label>
                            </children>
-                        </VBox>
+                        </HBox>
                      </children>
-                  </HBox>
+                  </VBox>
                </children>
             </VBox>
             <VBox alignment="CENTER" spacing="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

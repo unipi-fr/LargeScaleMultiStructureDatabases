@@ -22,4 +22,6 @@ public interface UserServiceInterface {
     void deleteUserAccount(User u) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
     void changeUserPrivileges(User u, UserPrivileges newPrivilegeLevel) throws UserNotLoggedException, InvalidPrivilegeLevelException;
+
+    void getFavourites(User user);
 }

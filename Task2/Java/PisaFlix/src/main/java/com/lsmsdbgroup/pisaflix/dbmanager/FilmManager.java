@@ -1,6 +1,7 @@
 package com.lsmsdbgroup.pisaflix.dbmanager;
 
 import com.lsmsdbgroup.pisaflix.Entities.Comment;
+import com.lsmsdbgroup.pisaflix.Entities.Entity;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import java.util.*;
@@ -16,6 +17,7 @@ import static com.mongodb.client.model.Filters.regex;
 import com.mongodb.client.model.Projections;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Updates;
+import com.mongodb.client.result.UpdateResult;
 import static java.util.Objects.hash;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -68,7 +70,8 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     }
 
     @Override
-    public void create(String title, Date publicationDate, String description) {
+    public boolean create(String title, Date publicationDate, String description) {
+        boolean success = false;
         Document filmDocument = new Document()
                 .append("Title", title)
                 .append("PublicationDate", publicationDate)
@@ -79,11 +82,15 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         //Upsert insert if documnet does't already exists
         UpdateOptions options = new UpdateOptions().upsert(true);
         try {
-            FilmCollection.updateOne(and(filmDocument), new Document("$set", filmDocument), options);
+            UpdateResult result = FilmCollection.updateOne(and(filmDocument), new Document("$set", filmDocument), options);
+            if(result.getUpsertedId() != null){
+                success = true;
+            }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in creating the film!");
         }
+        return success;
     }
 
     @Override
@@ -228,5 +235,22 @@ public class FilmManager implements FilmManagerDatabaseInterface {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in updating the comments!");
         }
+    }
+    
+    @Override
+    public long count(Entity entity){
+        long count = 0;
+        try {
+        if(entity.getClass() == User.class){
+            count = FilmCollection.countDocuments(new Document("RecentComments.$.User", entity.getId()));
+        }
+        if(entity.getClass() == Film.class){
+            System.out.println("Da implementare!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        }
+         } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("A problem occurred in updating the comments!");
+        }
+        return count;
     }
 }
