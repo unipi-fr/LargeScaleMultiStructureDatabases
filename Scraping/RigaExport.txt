@@ -1,0 +1,1 @@
+mongoexport --collection=FilmCollection --db=DBProva --out=Films.csv --type=csv --fields=_id,Description,Title,PublicationDate,Rating,Genres,Directors,Actors,RecentComments
