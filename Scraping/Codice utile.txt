@@ -1,0 +1,13 @@
+CODICE UTILE
+
+ESEMPIO COMANDO DA INSERIRE PER ESEGUIRE L'EXPORT DELLA COLLECTION DEI FILM:
+mongoexport --collection=FilmCollection --db=DBProva --out=Films.csv --type=csv --fields=_id,Description,Title,PublicationDate,Rating,Genres,Directors,Actors,RecentComments
+
+
+INSERT FILM CREATI AD HOC:
+db.NomeCollection.insert({Description: "descrizione", Title: "titolo 1", PublicationDate: 1996, Rating: 6.0, Genres:["Horror", "Roba"], Directors: ["Quentin Tarantella", "Christopher Volano"], Actors: ["George Clooney", "Boh"], RecentComments:[{idUser: "783649462983yehjwkfebk","Timestamp" : ISODate("2019-12-29T18:22:19.768Z"), Text: "nfresiofvpnfdvfd" }, {idUser: "783649462983yehjwkfebk","Timestamp" : ISODate("2019-12-29T18:22:19.768Z"), Text: "nfresiofvpnfdvfd" }] })
+
+IMPORT PER IL CLUSTER:
+
+
+mongoimport --host LsmsdCluster-shard-0/lsmsdcluster-shard-00-00-yeauu.mongodb.net:27017,lsmsdcluster-shard-00-01-yeauu.mongodb.net:27017,lsmsdcluster-shard-00-02-yeauu.mongodb.net:27017 --ssl --username root --password root --authenticationDatabase admin --db PisaFlix --collection NOMEDELLACOLLECTION --type csv --file SPECIFICARE PERCORSO PER IL FILE DA INSERIRE --headerline

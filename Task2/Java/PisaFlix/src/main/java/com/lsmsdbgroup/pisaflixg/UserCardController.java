@@ -7,7 +7,6 @@ import java.io.*;
 import javafx.beans.property.StringProperty;
 import java.net.URL;
 import java.util.*;
-import java.util.logging.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.*;
 import javafx.scene.control.*;
@@ -119,7 +118,7 @@ public class UserCardController implements Initializable {
         }
     }
 
-    private void reefreshUserCard() {
+    private void refreshUserCard() {
         usernameLabel.setText(user.getUsername());
         int level = user.getPrivilegeLevel();
         privilegeLabel.setText(UserPrivileges.valueOf(level));
@@ -143,7 +142,7 @@ public class UserCardController implements Initializable {
 
             user = PisaFlixServices.userService.getById(userId);
 
-            reefreshUserCard();
+            refreshUserCard();
 
             userImageView.setVisible(true);
             userImageView.setManaged(true);

@@ -11,7 +11,6 @@ import javafx.collections.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
 public class UserViewController implements Initializable {
@@ -101,7 +100,7 @@ public class UserViewController implements Initializable {
         }
     }
 
-    private boolean canUpdateOrdDeleteProfile() {
+    private boolean canUpdateOrDeleteProfile() {
         try {
             PisaFlixServices.authenticationService.checkUserPrivilegesForOperation(UserPrivileges.ADMIN, "Update/Delete others account");
         } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
@@ -125,7 +124,7 @@ public class UserViewController implements Initializable {
             lastnameLabel.setText(user.getLastName());
             emailLabel.setText(user.getEmail());
 
-            if (!canUpdateOrdDeleteProfile()) {
+            if (!canUpdateOrDeleteProfile()) {
                 deleteButton.setDisable(true);
             }
 
