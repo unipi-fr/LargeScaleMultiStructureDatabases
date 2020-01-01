@@ -1,6 +1,6 @@
 import csv
 
-with open('movies_metadata.tsv', encoding='utf-8') as tsvfile:
+with open('UsersPolished.tsv', encoding='utf-8') as tsvfile:
     reader = csv.reader(tsvfile, dialect='excel-tab')
   
     lista = []
@@ -8,7 +8,7 @@ with open('movies_metadata.tsv', encoding='utf-8') as tsvfile:
     for row in reader:
         lista.append(row)
 
-with open('MetadatiFilm.csv', mode='w' , newline = '') as csv_file:
+with open('UsersPolished.csv', mode='w' , newline = '') as csv_file:
     CSVwriter = csv.writer(csv_file, delimiter=',')
 
     CSVwriter.writerows(lista)
