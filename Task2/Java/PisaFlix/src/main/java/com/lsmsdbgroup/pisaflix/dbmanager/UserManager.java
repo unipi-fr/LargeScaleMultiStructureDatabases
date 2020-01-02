@@ -1,7 +1,6 @@
 package com.lsmsdbgroup.pisaflix.dbmanager;
 
 import com.lsmsdbgroup.pisaflix.Entities.Engage;
-import com.lsmsdbgroup.pisaflix.Entities.Entity;
 import com.lsmsdbgroup.pisaflix.Entities.Entity.EntityType;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import java.util.*;
@@ -21,6 +20,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     private static MongoCollection<Document> UserCollection;
     //It's equal to sorting by registration date, index not needed
     private final Document sort = new Document("_id",-1);
+    private final int UsersLimit = 27;
 
     public static UserManager getIstance() {
         if (UserManager == null) {
@@ -202,7 +202,7 @@ public class UserManager implements UserManagerDatabaseInterface {
         // i flag = case insensitive
         filters.add(regex("Username", ".*" + usernameFilter + ".*","i"));
         
-        try (MongoCursor<Document> cursor = UserCollection.find(or(filters)).sort(sort).limit(limit).skip(skip).iterator()) {
+        try (MongoCursor<Document> cursor = UserCollection.find(or(filters)).sort(sort).limit(UsersLimit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 userSet.add(new User(cursor.next()));          
             }
