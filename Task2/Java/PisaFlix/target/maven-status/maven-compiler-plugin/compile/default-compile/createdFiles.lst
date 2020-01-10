@@ -1,5 +1,7 @@
 com\lsmsdbgroup\pisaflix\dbmanager\Interfaces\CommentManagerDatabaseInterface.class
 com\lsmsdbgroup\pisaflix\dbmanager\FilmManager.class
+com\lsmsdbgroup\pisaflix\dbmanager\Interfaces\AnalyticsManagerDatabaseInterface$RatingType.class
+com\lsmsdbgroup\pisaflix\pisaflixservices\AnalyticsService.class
 com\lsmsdbgroup\pisaflixg\MenuController.class
 com\lsmsdbgroup\pisaflixg\BrowserController.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\PisaFlixServices.class
@@ -11,12 +13,16 @@ com\lsmsdbgroup\pisaflix\Entities\Film.class
 com\lsmsdbgroup\pisaflixg\CommentController.class
 com\lsmsdbgroup\pisaflixg\UserBrowserController.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\exceptions\UserNotLoggedException.class
+com\lsmsdbgroup\pisaflix\dbmanager\AnalyticsManager.class
 com\lsmsdbgroup\pisaflixg\MainPageController.class
 com\lsmsdbgroup\pisaflix\dbmanager\UserManager.class
+com\lsmsdbgroup\pisaflix\dbmanager\Interfaces\AnalyticsManagerDatabaseInterface$RankingType.class
+com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\AnalyticsServiceInterface.class
 com\lsmsdbgroup\pisaflixg\LoginController.class
 com\lsmsdbgroup\pisaflix\Entities\Entity.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\AuthenticationService.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\CommentServiceInterface.class
+com\lsmsdbgroup\pisaflix\AnalyticsClasses\ResultDetailed.class
 com\lsmsdbgroup\pisaflixg\AddFilmController.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\UserPrivileges.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\exceptions\InvalidCredentialsException.class
@@ -27,6 +33,8 @@ com\lsmsdbgroup\pisaflix\dbmanager\EngageManager.class
 com\lsmsdbgroup\pisaflix\Entities\Engage$EngageType.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\EngageService.class
 com\lsmsdbgroup\pisaflixg\UserCardController.class
+com\lsmsdbgroup\pisaflix\AnalyticsClasses\BaseResult.class
+com\lsmsdbgroup\pisaflix\dbmanager\Interfaces\AnalyticsManagerDatabaseInterface.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\UserService.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\exceptions\InvalidFieldException.class
 com\lsmsdbgroup\pisaflixg\FilmCardController.class

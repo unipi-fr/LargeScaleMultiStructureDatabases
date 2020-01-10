@@ -10,6 +10,15 @@ import com.mongodb.client.MongoCollection;
 import java.util.Date;
 import org.bson.Document;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.AnalyticsManagerDatabaseInterface;
+import com.mongodb.client.AggregateIterable;
+import com.mongodb.client.FindIterable;
+import static com.mongodb.client.model.Accumulators.avg;
+import static com.mongodb.client.model.Aggregates.group;
+import static com.mongodb.client.model.Aggregates.match;
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.gte;
+import static com.mongodb.client.model.Filters.lt;
+import java.util.Arrays;
 
 /**
  *
@@ -41,7 +50,17 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
 
     @Override
     public Object ratingAnalytics(Date startdate, Date endDate, RatingType typeOfRating) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        AggregateIterable<Document> result = FilmCollection.aggregate(Arrays.asList(
+                match(and(gte("PublicationDate", startdate), lt("PublicationDate", endDate))), 
+                group("$Genre", avg("avg_rating", "$Rating"))));
+
+        // Print for demo
+        for (Document dbObject : result)
+        {
+            System.out.println(dbObject);
+        }
+    return null;
     }
 
     @Override

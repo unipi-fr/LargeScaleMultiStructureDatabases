@@ -10,6 +10,7 @@ C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\j
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\CommentService.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\FilmServiceInterface.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\UserBrowserController.java
+C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\dbmanager\Interfaces\AnalyticsManagerDatabaseInterface.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\CommentController.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\LoginController.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\UserServiceInterface.java
@@ -17,6 +18,7 @@ C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\j
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\AddFilmController.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\AnalyticsController.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\dbmanager\FilmManager.java
+C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\AnalyticsClasses\ResultDetailed.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\dbmanager\EngageManager.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\EngageServiceInterface.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\exceptions\UserAlredyLoggedException.java
@@ -26,6 +28,7 @@ C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\j
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\MainPageController.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\RegistrationController.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\Entities\exceptions\NonConvertibleDocumentException.java
+C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\AnalyticsServiceInterface.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\Entities\Film.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\EngageService.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\App.java
@@ -33,11 +36,13 @@ C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\j
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\AuthenticationServiceInterface.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\Entities\Entity.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\BrowserController.java
+C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\AnalyticsService.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\Entities\Comment.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\Entities\Engage.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\dbmanager\Interfaces\EngageManagerDatabaseInterface.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\dbmanager\Interfaces\UserManagerDatabaseInterface.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\PisaFlixServices.java
+C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\dbmanager\AnalyticsManager.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\dbmanager\UserManager.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\DateConverter.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\CommentServiceInterface.java
@@ -45,6 +50,7 @@ C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\j
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\UserService.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\dbmanager\DBManager.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\exceptions\InvalidFieldException.java
+C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\AnalyticsClasses\BaseResult.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\dbmanager\CommentManager.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\dbmanager\Interfaces\CommentManagerDatabaseInterface.java
 C:\Repositories\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\Entities\User.java
