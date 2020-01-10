@@ -31,12 +31,14 @@ public class DBManager {
     public static FilmManagerDatabaseInterface filmManager;
     public static CommentManagerDatabaseInterface commentManager;
     public static EngageManagerDatabaseInterface engageManager;
+    public static AnalyticsManagerDatabaseInterface analyticsManager;
 
     static {
         filmManager = FilmManager.getIstance();
         commentManager = CommentManager.getIstance();
         userManager = UserManager.getIstance();
         engageManager = EngageManager.getIstance();
+        analyticsManager = AnalyticsManager.getIstance();
     }
 
 }

@@ -10,6 +10,7 @@ public class PisaFlixServices {
     public final static FilmServiceInterface filmService;
     public final static CommentServiceInterface commentService;
     public final static EngageServiceInterface engageService;
+    public final static AnalyticsServiceInterface analyticService;
     
     static {
         authenticationService = new AuthenticationService(DBManager.userManager);
@@ -17,5 +18,6 @@ public class PisaFlixServices {
         filmService = new FilmService(DBManager.filmManager, authenticationService);
         commentService = new CommentService(DBManager.commentManager, authenticationService);
         engageService = new EngageService(DBManager.engageManager, authenticationService);
+        analyticService = new AnalyticsService(DBManager.analyticsManager);
     }
 }

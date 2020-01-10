@@ -18,7 +18,7 @@ import org.bson.types.ObjectId;
 
 public class EngageManager implements EngageManagerDatabaseInterface {
     private static EngageManager EngageManager;
-    protected static MongoCollection<Document> EngageCollection;
+    protected MongoCollection<Document> EngageCollection;
 
     static EngageManagerDatabaseInterface getIstance() {
         if (EngageManager == null) {
@@ -29,7 +29,7 @@ public class EngageManager implements EngageManagerDatabaseInterface {
     //It's equal to sorting by publication date, index not needed
     protected final Document sort = new Document("_id",-1);
 
-    public EngageManager(){
+    protected EngageManager(){
         EngageCollection = DBManager.getMongoDatabase().getCollection("EngageCollection");
     }
     
