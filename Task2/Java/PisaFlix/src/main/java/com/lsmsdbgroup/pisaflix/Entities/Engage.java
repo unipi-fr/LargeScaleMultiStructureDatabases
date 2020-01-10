@@ -7,6 +7,11 @@ import java.util.Date;
 import org.bson.Document;
 
 public class Engage extends Entity implements Serializable{
+    public static enum EngageType {
+     COMMENT,
+     FAVOURITE,
+     VIEW
+    }  
     
     private static final long serialVersionUID = 1L;
 
@@ -14,7 +19,7 @@ public class Engage extends Entity implements Serializable{
     protected Date timestamp;
     protected Film film;
     protected User user;
-    protected EntityType type;
+    protected EngageType type;
 
     public Engage() {
     }
@@ -28,7 +33,7 @@ public class Engage extends Entity implements Serializable{
         this.timestamp = timestamp;
     }
 
-    public Engage(String idEngage, User user, Film film, Date timestamp, EntityType type) {
+    public Engage(String idEngage, User user, Film film, Date timestamp, EngageType type) {
 
         this.idEngage = idEngage;
         this.timestamp = timestamp;
@@ -50,17 +55,17 @@ public class Engage extends Entity implements Serializable{
             this.idEngage = engageDocument.get("_id").toString();          
             this.user = PisaFlixServices.userService.getById(engageDocument.get("User").toString());           
             this.film = PisaFlixServices.filmService.getById(engageDocument.get("Film").toString());            
-            if(engageDocument.get("Type") == EntityType.COMMENT){
+            if(engageDocument.get("Type") == EngageType.COMMENT){
                 this.timestamp = engageDocument.getDate("Timestamp");
-                this.type = EntityType.COMMENT;
+                this.type = EngageType.COMMENT;
             }
-            if(engageDocument.get("Type") == EntityType.FAVOURITE){
+            if(engageDocument.get("Type") == EngageType.FAVOURITE){
                 this.timestamp = engageDocument.getDate("Timestamp");
-                this.type = EntityType.FAVOURITE;
+                this.type = EngageType.FAVOURITE;
             }
-            if(engageDocument.get("Type") == EntityType.VIEW){
+            if(engageDocument.get("Type") == EngageType.VIEW){
                 this.timestamp = engageDocument.getDate("Timestamp");
-                this.type = EntityType.VIEW;
+                this.type = EngageType.VIEW;
             }
         }else{
             try {
@@ -76,11 +81,11 @@ public class Engage extends Entity implements Serializable{
         return idEngage;
     }
     
-    public EntityType getType() {
+    public EngageType getType() {
         return type;
     }
    
-    public EntityType setType(EntityType type) {
+    public EngageType setType(EngageType type) {
         return type;
     }
 

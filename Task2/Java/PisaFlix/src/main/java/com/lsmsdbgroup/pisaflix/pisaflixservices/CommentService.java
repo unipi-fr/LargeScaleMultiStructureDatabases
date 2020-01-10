@@ -1,7 +1,6 @@
 package com.lsmsdbgroup.pisaflix.pisaflixservices;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
-import com.lsmsdbgroup.pisaflix.dbmanager.DBManager;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CommentManagerDatabaseInterface;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
@@ -20,11 +19,7 @@ public class CommentService implements CommentServiceInterface {
     @Override
     public void update(Comment comment) throws InvalidPrivilegeLevelException, UserNotLoggedException {
         if (canUpdateOrDeleteComment(comment, "update other user comment")) {
-            if(comment.isRecent()){
-              DBManager.filmManager.updateComment(comment);
-            }else{
-              commentManager.update(comment, comment.getText());  
-            }
+            commentManager.update(comment, comment.getText());
         }
     }
 

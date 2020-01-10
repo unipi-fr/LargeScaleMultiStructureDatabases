@@ -13,7 +13,6 @@ com\lsmsdbgroup\pisaflixg\UserBrowserController.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\exceptions\UserNotLoggedException.class
 com\lsmsdbgroup\pisaflixg\MainPageController.class
 com\lsmsdbgroup\pisaflix\dbmanager\UserManager.class
-com\lsmsdbgroup\pisaflix\Entities\Entity$EntityType.class
 com\lsmsdbgroup\pisaflixg\LoginController.class
 com\lsmsdbgroup\pisaflix\Entities\Entity.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\AuthenticationService.class
@@ -25,6 +24,7 @@ com\lsmsdbgroup\pisaflixg\FilmDetailPageController.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\CommentService.class
 com\lsmsdbgroup\pisaflixg\RegistrationController.class
 com\lsmsdbgroup\pisaflix\dbmanager\EngageManager.class
+com\lsmsdbgroup\pisaflix\Entities\Engage$EngageType.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\EngageService.class
 com\lsmsdbgroup\pisaflixg\UserCardController.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\UserService.class

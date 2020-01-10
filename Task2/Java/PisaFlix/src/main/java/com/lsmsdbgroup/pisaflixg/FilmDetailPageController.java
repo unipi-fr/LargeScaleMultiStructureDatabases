@@ -1,6 +1,7 @@
 package com.lsmsdbgroup.pisaflixg;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
+import com.lsmsdbgroup.pisaflix.Entities.Engage.EngageType;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.*;
 import java.io.IOException;
 import java.net.URL;
@@ -124,14 +125,14 @@ public class FilmDetailPageController implements Initializable {
             addComment(comment);
         });
 
-        setFavoriteCount(PisaFlixServices.engageService.count(film, Entity.EntityType.FAVOURITE));
+        setFavoriteCount(PisaFlixServices.engageService.count(film, EngageType.FAVOURITE));
 
         if (newVisit) {
             newVisit = false;
             if (PisaFlixServices.authenticationService.isUserLogged()) {
-                PisaFlixServices.engageService.create(PisaFlixServices.authenticationService.getLoggedUser(), film, Entity.EntityType.VIEW);
+                PisaFlixServices.engageService.create(PisaFlixServices.authenticationService.getLoggedUser(), film, EngageType.VIEW);
             } else {
-                PisaFlixServices.engageService.create(new User("anonymous"), film, Entity.EntityType.VIEW);
+                PisaFlixServices.engageService.create(new User("anonymous"), film, EngageType.VIEW);
             }
         }
         refreshPageCount();
@@ -141,7 +142,7 @@ public class FilmDetailPageController implements Initializable {
         if (PisaFlixServices.authenticationService.isUserLogged()) {
             User userLogged = PisaFlixServices.authenticationService.getLoggedUser();
 
-            if (PisaFlixServices.engageService.isAlreadyPresent(userLogged, film, Entity.EntityType.FAVOURITE)) {
+            if (PisaFlixServices.engageService.isAlreadyPresent(userLogged, film, EngageType.FAVOURITE)) {
                 favoriteButton.setText("- Favorite");
             }
         }
@@ -189,23 +190,23 @@ public class FilmDetailPageController implements Initializable {
                 return;
             }
             if (favoriteButton.getText().equals("+ Favorite")) {
-                PisaFlixServices.engageService.create(PisaFlixServices.authenticationService.getLoggedUser(), film, Entity.EntityType.FAVOURITE);               
+                PisaFlixServices.engageService.create(PisaFlixServices.authenticationService.getLoggedUser(), film, EngageType.FAVOURITE);               
                 favoriteButton.setText("- Favorite");
             } else {
-                PisaFlixServices.engageService.deleteFiltred(PisaFlixServices.authenticationService.getLoggedUser(), film, Entity.EntityType.FAVOURITE);
+                PisaFlixServices.engageService.deleteFiltred(PisaFlixServices.authenticationService.getLoggedUser(), film, EngageType.FAVOURITE);
                 favoriteButton.setText("+ Favorite");
             }
 
             refreshFilm();
 
-            setFavoriteCount(PisaFlixServices.engageService.count(film, Entity.EntityType.FAVOURITE));
+            setFavoriteCount(PisaFlixServices.engageService.count(film, EngageType.FAVOURITE));
         } catch (Exception ex) {
             App.printErrorDialog("Favourites", "An error occurred updating favourites", ex.toString() + "\n" + ex.getMessage());
         }
     }
 
     private void refreshPageCount() {
-        long savedComments = PisaFlixServices.engageService.count(film, Entity.EntityType.COMMENT);
+        long savedComments = PisaFlixServices.engageService.count(film, EngageType.COMMENT);
         if (savedComments == 0) {
             pagination.pageCountProperty().setValue(1);
         } else {

@@ -1,6 +1,7 @@
 package com.lsmsdbgroup.pisaflixg;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
+import com.lsmsdbgroup.pisaflix.Entities.Engage.EngageType;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import java.io.*;
@@ -141,7 +142,7 @@ public class UserViewController implements Initializable {
 
     private void showFavoriteFilms() {
         try {
-            favoriteCounterLabel.setText("Favourites: " + PisaFlixServices.engageService.count(user, Entity.EntityType.FAVOURITE));
+            favoriteCounterLabel.setText("Favourites: " + PisaFlixServices.engageService.count(user, EngageType.FAVOURITE));
             PisaFlixServices.userService.getFavourites(user);
             Set<Film> films = user.getFilmSet();
 

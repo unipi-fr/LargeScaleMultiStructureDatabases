@@ -1,14 +1,12 @@
 package com.lsmsdbgroup.pisaflix.dbmanager.Interfaces;
 
-import com.lsmsdbgroup.pisaflix.Entities.Engage;
-import com.lsmsdbgroup.pisaflix.Entities.Entity;
-import com.lsmsdbgroup.pisaflix.Entities.Film;
-import com.lsmsdbgroup.pisaflix.Entities.User;
+import com.lsmsdbgroup.pisaflix.Entities.*;
+import com.lsmsdbgroup.pisaflix.Entities.Engage.EngageType;
 import java.util.Set;
 
 public interface EngageManagerDatabaseInterface {
     
-    void create(User user, Film film, Entity.EntityType type);
+    void create(User user, Film film, EngageType type);
 
     void delete(String idEngage);
     
@@ -16,11 +14,11 @@ public interface EngageManagerDatabaseInterface {
 
     Engage getById(String engageId);
     
-    Set<Engage> getEngageSet(Entity entity, int limit, int skip , Entity.EntityType type );
+    Set<Engage> getEngageSet(Entity entity, int limit, int skip , EngageType type );
 
-    void deleteFiltred(User user, Film film, Entity.EntityType type);
+    void deleteFiltred(User user, Film film, EngageType type);
     
-    long count(Entity entity, Entity.EntityType type);
+    long count(Entity entity, EngageType type);
     
-    long count(User user, Film film, Entity.EntityType type);
+    long count(User user, Film film, EngageType type);
 }

@@ -1,7 +1,7 @@
 package com.lsmsdbgroup.pisaflix.dbmanager;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
-import com.lsmsdbgroup.pisaflix.Entities.Entity.EntityType;
+import com.lsmsdbgroup.pisaflix.Entities.Engage.EngageType;
 import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CommentManagerDatabaseInterface;
 import com.mongodb.client.MongoCursor;
@@ -27,7 +27,7 @@ public class CommentManager extends EngageManager implements CommentManagerDatab
                 .append("Text", comment.getText())
                 .append("User", comment.getUser().getId())
                 .append("Film", comment.getFilm().getId())
-                .append("Type", EntityType.COMMENT.toString());
+                .append("Type", EngageType.COMMENT.toString());
                 
         if(comment.getTimestamp()== null){           
             commentDocument.put("Timestamp", new Date());
@@ -51,6 +51,11 @@ public class CommentManager extends EngageManager implements CommentManagerDatab
 
     @Override
     public void update(Comment comment, String text) {
+        if(comment.isRecent()){
+            DBManager.filmManager.updateComment(comment);
+            return;
+        }
+        
         try {
             EngageCollection.updateOne(eq("_id", new ObjectId(comment.getId())), new Document("$set", new Document("Text",text).append("LastModified", new Date())));
         } catch (Exception ex) {
@@ -88,7 +93,7 @@ public class CommentManager extends EngageManager implements CommentManagerDatab
     @Override
     public Set<Comment> getAll(Film film, int skip, int limit){
         Set<Comment> commentSet = new LinkedHashSet<>();
-        try (MongoCursor<Document> cursor = EngageCollection.find(and(eq("Film", film.getId()), eq("Type",EntityType.COMMENT.toString()))).sort(sort).limit(limit).skip(skip).iterator()) {
+        try (MongoCursor<Document> cursor = EngageCollection.find(and(eq("Film", film.getId()), eq("Type",EngageType.COMMENT.toString()))).sort(sort).limit(limit).skip(skip).iterator()) {
             while(cursor.hasNext()){
                 commentSet.add(new Comment(cursor.next()));
             }
@@ -101,6 +106,6 @@ public class CommentManager extends EngageManager implements CommentManagerDatab
     
     @Override
     public long count(Entity entity){
-        return DBManager.engageManager.count(entity, EntityType.COMMENT) + DBManager.filmManager.count(entity);
+        return DBManager.engageManager.count(entity, EngageType.COMMENT) + DBManager.filmManager.count(entity);
     }
 }

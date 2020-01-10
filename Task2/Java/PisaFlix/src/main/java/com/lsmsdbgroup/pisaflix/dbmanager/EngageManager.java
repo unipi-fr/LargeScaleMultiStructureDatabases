@@ -1,10 +1,7 @@
 package com.lsmsdbgroup.pisaflix.dbmanager;
 
-import com.lsmsdbgroup.pisaflix.Entities.Engage;
-import com.lsmsdbgroup.pisaflix.Entities.Entity;
-import com.lsmsdbgroup.pisaflix.Entities.Entity.EntityType;
-import com.lsmsdbgroup.pisaflix.Entities.Film;
-import com.lsmsdbgroup.pisaflix.Entities.User;
+import com.lsmsdbgroup.pisaflix.Entities.*;
+import com.lsmsdbgroup.pisaflix.Entities.Engage.EngageType;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.EngageManagerDatabaseInterface;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
@@ -37,7 +34,7 @@ public class EngageManager implements EngageManagerDatabaseInterface {
     }
     
     @Override
-    public void create(User user, Film film, EntityType type) {
+    public void create(User user, Film film, EngageType type) {
         Document engageDocument = new Document()
                 .append("User", user.getId())
                 .append("Timestamp", new Date())
@@ -97,7 +94,7 @@ public class EngageManager implements EngageManagerDatabaseInterface {
     }
     
     @Override
-    public Set<Engage> getEngageSet(Entity entity, int limit, int skip, Entity.EntityType type ) {
+    public Set<Engage> getEngageSet(Entity entity, int limit, int skip, EngageType type ) {
         Set<Engage> engageSet = new LinkedHashSet<>();
         List filters = new ArrayList();
         filters.add(new Document("Type", type.toString()));
@@ -122,7 +119,7 @@ public class EngageManager implements EngageManagerDatabaseInterface {
     }
     
     @Override
-    public void deleteFiltred(User user, Film film, Entity.EntityType type){
+    public void deleteFiltred(User user, Film film, EngageType type){
         try {
             EngageCollection.deleteOne(and(eq("User",user.getId()), eq("Film", film.getId()), eq("Type", type.toString())));
         } catch (Exception ex) {
@@ -132,7 +129,7 @@ public class EngageManager implements EngageManagerDatabaseInterface {
     }
     
     @Override
-    public long count(Entity entity, Entity.EntityType type){
+    public long count(Entity entity, EngageType type){
         long count = 0;
         try {
             if(entity.getClass() == Film.class){
@@ -149,7 +146,7 @@ public class EngageManager implements EngageManagerDatabaseInterface {
     }
     
         @Override
-    public long count(User user, Film film, Entity.EntityType type){
+    public long count(User user, Film film, EngageType type){
         long count = 0;
         try {
             count = EngageCollection.countDocuments(and(eq("Film", film.getId()),eq("User", user.getId()), eq("Type", type.toString())));
