@@ -23,7 +23,7 @@ public class AnalyticsService implements AnalyticsServiceInterface {
 
     @Override
     public Set<BaseResult> ratingAnalytics(Date startdate, Date endDate, RatingType typeOfRating) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.analyticsManager.ratingAnalytics(startdate, endDate, typeOfRating);
     }
 
     @Override

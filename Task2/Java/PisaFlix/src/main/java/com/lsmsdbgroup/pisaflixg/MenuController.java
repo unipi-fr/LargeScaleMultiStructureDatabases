@@ -47,6 +47,7 @@ public class MenuController implements Initializable {
     @FXML
     private void clickAnalyticsButton() {
         App.setMainPageReturnsController("Analytics");
+        //App.setMainPageReturnsController("AverageRatingAnalytic");
     }
     
     @FXML
