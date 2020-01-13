@@ -28,26 +28,7 @@ var ops = []; db.FilmCollection.find({ "RecentComments": { "$type": 2} }).forEac
 
 COMANDO PER AGGIUSTARE I GENERI
 
-var ops = [];
-db.FilmCollection.find({ "Genres": { "$type": 2} }).forEach(doc => {
-  var generi = JSON.parse(doc.Genres);
-  ops.push({
-    "updateOne": {
-      "filter": { "_id": doc._id },
-      "update": { "$set": { "Genres": generi } }
-    }
-  });
-
-  if ( ops.length >= 1000 ) {
-    db.FilmCollection.bulkWrite(ops);
-    ops = [];
-  }             
-});
-
-if ( ops.length > 0 ) {
-  db.FilmCollection.bulkWrite(ops);
-  ops = [];
-}
+var ops = []; db.FilmCollection.find({ "Genres": { "$type": 2} }).forEach(doc => {var generi = JSON.parse(doc.Genres); ops.push({"updateOne": {"filter": { "_id": doc._id },"update": { "$set": { "Genres": generi } }}}); if ( ops.length >= 1000 ) {db.FilmCollection.bulkWrite(ops); ops = [];}}); if ( ops.length > 0 ) { db.FilmCollection.bulkWrite(ops); ops = [];}
 
 
 COMANDO PER AGGIUSTARE LE CASE DI PRODUZIONE
