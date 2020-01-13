@@ -14,7 +14,7 @@ public class PisaFlix {
     public static void main(String[] args) {
         
             LogManager.getLogManager().getLogger("").setLevel(Level.OFF);
-            //App.main(args);
+            App.main(args);
             
         try {
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
