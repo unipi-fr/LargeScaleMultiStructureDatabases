@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Set;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -82,7 +84,7 @@ public class FilmDetailPageController implements Initializable {
         publishDateLabel.setText(publishDate);
     }
 
-    public void setDescription(String description) {   
+    public void setDescription(String description) {
         if (description.length() > 1000) {
             scrollableDescriptionLabel.setText(description);
             descriptionLabel.setVisible(false);
@@ -157,9 +159,13 @@ public class FilmDetailPageController implements Initializable {
         }
 
         WikiScraper scraper = new WikiScraper(film.getWikiPage());
-        scraper.setImageView(moviePosterImageView);
-        scraper.run(); 
-
+        moviePosterImageView.setImage(new Image("https:" + scraper.scrapePosterLink()));
+        /*scraper.setOnSucceeded((succeededEvent) -> {
+            moviePosterImageView.setImage(new Image("https:" + scraper.getValue()));
+        });
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
+        executorService.execute(scraper);
+        executorService.shutdown();*/
         refreshPageCount();
     }
 
