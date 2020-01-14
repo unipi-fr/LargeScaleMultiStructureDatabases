@@ -9,14 +9,23 @@ import javafx.fxml.Initializable;
 
 public class AnalyticsController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
     }    
     
+    @FXML
+    private void showAverageAnalytics(){
+        App.setMainPageReturnsController("AverageRatingAnalytic");
+    }
     
+    @FXML
+    private void showEngageAnalytics(){
+        App.setMainPageReturnsController("EngageAnalytic");
+    }
     
+    @FXML
+    private void showRankingAnalytics(){
+        App.setMainPageReturnsController("RankingAnalytic");
+    }
 }

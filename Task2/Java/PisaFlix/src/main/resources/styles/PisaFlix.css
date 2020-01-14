@@ -955,3 +955,7 @@
     -fx-font-size: 20;
     -fx-text-fill: -swatch-400;
 }
+
+.tooltip .text{
+    -fx-fill: rgb(255.0, 255.0, 255.0);;
+}

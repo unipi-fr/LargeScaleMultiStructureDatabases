@@ -40,7 +40,6 @@ com/lsmsdbgroup/pisaflix/AnalyticsClasses/ResultDetailed.class
 com/lsmsdbgroup/pisaflix/pisaflixservices/Interfaces/EngageServiceInterface.class
 com/lsmsdbgroup/pisaflix/dbmanager/AnalyticsManager.class
 com/lsmsdbgroup/pisaflix/Entities/Comment.class
-.netbeans_automatic_build
 com/lsmsdbgroup/pisaflix/pisaflixservices/FilmService.class
 com/lsmsdbgroup/pisaflix/pisaflixservices/Interfaces/CommentServiceInterface.class
 com/lsmsdbgroup/pisaflix/pisaflixservices/UserService.class

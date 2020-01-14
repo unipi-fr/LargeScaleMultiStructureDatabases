@@ -41,12 +41,22 @@ public class FilmCardController implements Initializable {
     
     @FXML
     private MenuItem modifyFilmMenuItem;
+    
+    @FXML
+    private Tooltip titleTool;
+    
+    @FXML
+    private Tooltip publishTool;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         titleLabel.setText(titleProperty.get());
         publishLabel.setText(pusblishDateProperty.get());
         film = PisaFlixServices.filmService.getById(filmId);
+        
+        titleTool.setText(titleProperty.get());
+        
+        publishTool.setText(pusblishDateProperty.get());
         
         if (!PisaFlixServices.authenticationService.isUserLogged() || (PisaFlixServices.authenticationService.getLoggedUser().getPrivilegeLevel() < UserPrivileges.MODERATOR.getValue())) {
             deleteFilmMenuItem.setVisible(false);

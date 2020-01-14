@@ -31,7 +31,7 @@
             <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-subtitle" text="Chosen a temporal interval, shows the mean value of movie rating grouped by genre/Director/Actor" />
          </children>
       </VBox>
-      <VBox alignment="CENTER" onMouseClicked="#showEngageAnalytics" styleClass="card" GridPane.rowIndex="1">
+      <VBox alignment="CENTER" styleClass="card" GridPane.rowIndex="1">
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -42,7 +42,7 @@
             <Label styleClass="card-subtitle" text="Chosen a film and two years shows the engagement of the chosen film by year, in the interval of time specified before" />
          </children>
       </VBox>
-      <VBox alignment="CENTER" onMouseClicked="#showRankingAnalytics" styleClass="card" GridPane.rowIndex="2">
+      <VBox alignment="CENTER" styleClass="card" GridPane.rowIndex="2">
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>

@@ -10,7 +10,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <VBox alignment="CENTER" onMousePressed="#clickMouse" styleClass="card-film" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="116.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="42.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -30,11 +29,17 @@
               </items>
             </ContextMenu>
          </contextMenu>
+         <tooltip>
+            <Tooltip fx:id="titleTool" />
+         </tooltip>
       </Label>
       <Label fx:id="publishLabel" alignment="CENTER" styleClass="card-film-subtitle" text="Label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="142.0">
          <font>
             <Font size="16.0" />
          </font>
+         <tooltip>
+            <Tooltip fx:id="publishTool" />
+         </tooltip>
       </Label>
    </children>
 </VBox>
