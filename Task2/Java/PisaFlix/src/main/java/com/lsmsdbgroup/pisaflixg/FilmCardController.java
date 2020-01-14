@@ -1,5 +1,6 @@
 package com.lsmsdbgroup.pisaflixg;
 
+import com.lsmsdbgroup.Scraping.WikiScraper;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;
@@ -9,9 +10,13 @@ import java.io.IOException;
 import javafx.beans.property.StringProperty;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.*;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
@@ -47,6 +52,9 @@ public class FilmCardController implements Initializable {
     
     @FXML
     private Tooltip publishTool;
+    
+    @FXML
+    private ImageView poster;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -56,7 +64,7 @@ public class FilmCardController implements Initializable {
         
         titleTool.setText(titleProperty.get());
         
-        publishTool.setText(pusblishDateProperty.get());
+        publishTool.setText(pusblishDateProperty.get());      
         
         if (!PisaFlixServices.authenticationService.isUserLogged() || (PisaFlixServices.authenticationService.getLoggedUser().getPrivilegeLevel() < UserPrivileges.MODERATOR.getValue())) {
             deleteFilmMenuItem.setVisible(false);
@@ -65,6 +73,8 @@ public class FilmCardController implements Initializable {
             deleteFilmMenuItem.setVisible(true);
             modifyFilmMenuItem.setVisible(true);
         }
+        
+        setPoster();
     }
 
     @FXML
@@ -112,5 +122,16 @@ public class FilmCardController implements Initializable {
     private void modifyFilm() {
         AddFilmController addFilmController = (AddFilmController) App.setMainPageReturnsController("AddFilm");
         addFilmController.setFilm(this.film);
+    }
+
+    private void setPoster() {
+        WikiScraper scraper = new WikiScraper(film.getWikiPage());
+        poster.setImage(new Image("https:" + scraper.scrapePosterLink()));
+            /*scraper.setOnSucceeded((succeededEvent) -> {
+                  poster.setImage(new Image("https:" + scraper.getValue()));
+               });
+            ExecutorService executorService = Executors.newFixedThreadPool(1);
+               executorService.execute(scraper);
+               executorService.shutdown();*/
     }
 }

@@ -5,20 +5,25 @@ import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.InvalidPrivilegeLevelException;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.UserNotLoggedException;
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
 
-public class FilmBrowserController extends BrowserController implements Initializable{
-    
-    public FilmBrowserController(){}
-   
+public class FilmBrowserController extends BrowserController implements Initializable {
+
+    public FilmBrowserController() {
+    }
+
     @FXML
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -30,7 +35,7 @@ public class FilmBrowserController extends BrowserController implements Initiali
             App.printErrorDialog("Films", "There was an inizialization error", ex.toString() + "\n" + ex.getMessage());
         }
     }
-    
+
     @Override
     public Pane createCardPane(String title, String publishDate, String idFilm) {
         Pane pane = new Pane();
@@ -48,7 +53,7 @@ public class FilmBrowserController extends BrowserController implements Initiali
         }
         return pane;
     }
-    
+
     @FXML
     @Override
     public void filter() {
@@ -60,7 +65,7 @@ public class FilmBrowserController extends BrowserController implements Initiali
             App.printErrorDialog("Films", "An error occurred searching the films", ex.toString() + "\n" + ex.getMessage());
         }
     }
-    
+
     @FXML
     @Override
     public void add() {
@@ -76,7 +81,7 @@ public class FilmBrowserController extends BrowserController implements Initiali
             App.printErrorDialog("Films", "An error occurred", ex.toString() + "\n" + ex.getMessage());
         }
     }
-    
+
     @FXML
     public void searchFilms(String titleFilter, Date dateFilter) {
         try {
@@ -86,21 +91,43 @@ public class FilmBrowserController extends BrowserController implements Initiali
             App.printErrorDialog("Films", "An error occurred searching the films", ex.toString() + "\n" + ex.getMessage());
         }
     }
-    
-    public void populateScrollPane(Set<Film> filmSet) {
-        tilePane.getChildren().clear();
-        String title;
-        String publishDate;
-        String id;
 
-        Pane pane;
-        for (Film film : filmSet) {
+    class TilesManager extends Task<Pane> {
+
+        Film film;
+
+        public TilesManager(Film film) {
+            this.film = film;
+        }
+
+        @Override
+        protected Pane call() throws Exception {
+            String title;
+            String publishDate;
+            String id;
+            Pane pane;
+            
             title = film.getTitle();
             publishDate = film.getPublicationDate().toString();
             id = film.getId();
-
             pane = createCardPane(title, publishDate, id);
-            tilePane.getChildren().add(pane);
+            return pane;
         }
+
+    }
+
+    public void populateScrollPane(Set<Film> filmSet) {
+        tilePane.getChildren().clear();
+
+        for (Film film : filmSet) {
+            TilesManager tilesManager = new TilesManager(film);
+            tilesManager.setOnSucceeded((succeededEvent) -> {
+                  tilePane.getChildren().add(tilesManager.getValue());
+               });
+            ExecutorService executorService = Executors.newFixedThreadPool(1);
+               executorService.execute(tilesManager);
+               executorService.shutdown();
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 package com.lsmsdbgroup.pisaflixg;
 
+import com.lsmsdbgroup.Scraping.WikiScraper;
 import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.Entities.Engage.EngageType;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.*;
@@ -9,6 +10,8 @@ import java.util.Set;
 import java.util.ResourceBundle;
 import javafx.fxml.*;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
@@ -42,12 +45,15 @@ public class FilmDetailPageController implements Initializable {
 
     @FXML
     private Pagination pagination;
-    
+
     @FXML
     private ScrollPane scrollableDescription;
-    
+
     @FXML
     private Text scrollableDescriptionLabel;
+
+    @FXML
+    private ImageView moviePosterImageView;
 
     private boolean newVisit = true;
 
@@ -76,12 +82,12 @@ public class FilmDetailPageController implements Initializable {
         publishDateLabel.setText(publishDate);
     }
 
-    public void setDescription(String description) {
-        if(description.length() > 1000){
+    public void setDescription(String description) {   
+        if (description.length() > 1000) {
             scrollableDescriptionLabel.setText(description);
             descriptionLabel.setVisible(false);
             descriptionLabel.setManaged(false);
-        }else{
+        } else {
             descriptionLabel.setText(description);
             scrollableDescription.setVisible(false);
             scrollableDescription.setManaged(false);
@@ -109,9 +115,9 @@ public class FilmDetailPageController implements Initializable {
     public void addComment(Comment comment) {
         String username = comment.getUser().getUsername();
         String timestamp;
-        if(comment.getLastModified() != null){
-             timestamp = comment.getTimestamp().toString() + ", Last Modified at: " + comment.getLastModified().toString();
-        }else{
+        if (comment.getLastModified() != null) {
+            timestamp = comment.getTimestamp().toString() + ", Last Modified at: " + comment.getLastModified().toString();
+        } else {
             timestamp = comment.getTimestamp().toString();
         }
         String commentStr = comment.getText();
@@ -149,6 +155,11 @@ public class FilmDetailPageController implements Initializable {
                 PisaFlixServices.engageService.create(new User("anonymous"), film, EngageType.VIEW);
             }
         }
+
+        WikiScraper scraper = new WikiScraper(film.getWikiPage());
+        scraper.setImageView(moviePosterImageView);
+        scraper.run(); 
+
         refreshPageCount();
     }
 
@@ -166,8 +177,8 @@ public class FilmDetailPageController implements Initializable {
         film = PisaFlixServices.filmService.getById(film.getId());
         PisaFlixServices.filmService.getRecentComments(film);
     }
-    
-    public int getCurrentPage(){
+
+    public int getCurrentPage() {
         return pagination.getCurrentPageIndex();
     }
 
@@ -189,7 +200,7 @@ public class FilmDetailPageController implements Initializable {
             User user = PisaFlixServices.authenticationService.getLoggedUser();
 
             PisaFlixServices.filmService.addComment(film, user, comment);
-            
+
             refreshFilm();
             refreshComments(getCurrentPage());
         } catch (Exception ex) {
@@ -204,7 +215,7 @@ public class FilmDetailPageController implements Initializable {
                 return;
             }
             if (favoriteButton.getText().equals("+ Favorite")) {
-                PisaFlixServices.engageService.create(PisaFlixServices.authenticationService.getLoggedUser(), film, EngageType.FAVOURITE);               
+                PisaFlixServices.engageService.create(PisaFlixServices.authenticationService.getLoggedUser(), film, EngageType.FAVOURITE);
                 favoriteButton.setText("- Favorite");
             } else {
                 PisaFlixServices.engageService.deleteFiltred(PisaFlixServices.authenticationService.getLoggedUser(), film, EngageType.FAVOURITE);
@@ -225,7 +236,7 @@ public class FilmDetailPageController implements Initializable {
             pagination.pageCountProperty().setValue(1);
         } else {
             long pageLenght = PisaFlixServices.filmService.getCommentPageSize();
-            long pageNumber = (long) Math.floor((savedComments - 1)/ pageLenght) + 2;
+            long pageNumber = (long) Math.floor((savedComments - 1) / pageLenght) + 2;
             pagination.pageCountProperty().setValue(pageNumber);
         }
     }

@@ -1,5 +1,6 @@
 package com.lsmsdbgroup.pisaflix.Entities;
 
+import com.lsmsdbgroup.Scraping.WikiScraper;
 import com.lsmsdbgroup.pisaflix.Entities.exceptions.NonConvertibleDocumentException;
 import java.io.Serializable;
 import java.util.*;
@@ -13,6 +14,7 @@ public class Film extends Entity implements Serializable {
     private String title;
     private Date publicationDate;
     private String description;
+    private String wikiPage;
 
     private Set<User> userSet = new LinkedHashSet<>();
     private Set<Comment> commentSet = new LinkedHashSet<>();
@@ -36,6 +38,7 @@ public class Film extends Entity implements Serializable {
             this.title = filmDocument.getString("Title");
             this.publicationDate = filmDocument.getDate("PublicationDate");
             this.description = filmDocument.getString("Description");
+            this.wikiPage = filmDocument.getString("WikiPage");
         }else{
             try {
                 throw new NonConvertibleDocumentException("Document not-convertible in film");
@@ -113,6 +116,10 @@ public class Film extends Entity implements Serializable {
     @Override
     public String toString() {
         return title;
+    }
+
+    public String getWikiPage() {
+        return wikiPage;
     }
 
 }
