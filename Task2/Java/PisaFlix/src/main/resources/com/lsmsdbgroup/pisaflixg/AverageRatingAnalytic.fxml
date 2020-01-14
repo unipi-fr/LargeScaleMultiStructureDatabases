@@ -18,25 +18,27 @@
    <children>
       <GridPane alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="408.0" minWidth="10.0" prefWidth="408.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="487.0" minWidth="10.0" prefWidth="479.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="416.0" minWidth="10.0" prefWidth="174.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="408.0" minWidth="10.0" prefWidth="274.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="408.0" minWidth="10.0" prefWidth="338.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="487.0" minWidth="10.0" prefWidth="368.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="416.0" minWidth="10.0" prefWidth="183.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <DatePicker fx:id="startDate" promptText="Start Date" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <DatePicker fx:id="endDate" promptText="End Date" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <Button fx:id="showResult" mnemonicParsing="false" onAction="#clickShowResult" text="Show Results" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <DatePicker fx:id="startDate" promptText="Start Date" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <DatePicker fx:id="endDate" promptText="End Date" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Button fx:id="showResult" mnemonicParsing="false" onAction="#clickShowResult" text="Show Results" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <ComboBox fx:id="ratingType" prefWidth="150.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
       <BarChart fx:id="barChart" prefHeight="535.0" prefWidth="1057.0" GridPane.rowIndex="1">
         <xAxis>
-          <CategoryAxis fx:id="xAxis" side="BOTTOM" />
+          <CategoryAxis side="BOTTOM" fx:id="xAxis" />
         </xAxis>
         <yAxis>
-          <NumberAxis side="LEFT" fx:id="yAxis" />
+          <NumberAxis fx:id="yAxis" side="LEFT" />
         </yAxis>
       </BarChart>
    </children>

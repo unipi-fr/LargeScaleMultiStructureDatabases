@@ -17,17 +17,17 @@ public class AnalyticsService implements AnalyticsServiceInterface {
     
 
     @Override
-    public Set<ResultDetailed> engagementAnalytics(Date startdate, Date endDate, Entity entity) {
+    public Object engagementAnalytics(Date startdate, Date endDate, Entity entity) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Set<BaseResult> ratingAnalytics(Date startdate, Date endDate, RatingType typeOfRating) {
+    public Set<AverageRatingResult> ratingAnalytics(Date startdate, Date endDate, RatingType typeOfRating) {
         return this.analyticsManager.ratingAnalytics(startdate, endDate, typeOfRating);
     }
 
     @Override
-    public Set<BaseResult> rankingAnalytics(Date startdate, Date endDate, RankingType typeOfRanking) {
+    public Object rankingAnalytics(Date startdate, Date endDate, RankingType typeOfRanking) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

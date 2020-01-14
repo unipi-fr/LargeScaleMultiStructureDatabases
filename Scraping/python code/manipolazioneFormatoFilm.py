@@ -30,9 +30,16 @@ with open('../Data/wiki_movies.tsv', encoding="utf8") as tsvfile:
 for i in range(len(lista)):
     if i == 0:
         continue
+    if lista[i][2] == "Unknown": 
+        lista[i][2] = ''
     
-    descrizione = lista[i][5].translate({ord(i): None for i in '\n'})
-    lista[i][5] = descrizione
+    if lista[i][3] == "Unknown": 
+        lista[i][3] = ''
+    if lista[i][4] == "unknown": 
+        lista[i][4] = ''
+    
+    #descrizione = lista[i][5].translate({ord(i): None for i in '\n'})
+    #lista[i][5] = descrizione
 
 with open('../Data/wiki_movies_stripped.tsv', mode='w' , newline = '', encoding="utf8") as movies_dateISO:
     writer = csv.writer(movies_dateISO, dialect='excel-tab')
