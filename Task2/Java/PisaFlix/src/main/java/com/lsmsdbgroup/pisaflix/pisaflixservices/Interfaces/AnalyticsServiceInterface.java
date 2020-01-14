@@ -17,11 +17,11 @@ import java.util.Set;
  */
 public interface AnalyticsServiceInterface {
     //tyopeOfRating perchè nelle specifiche abbiamo scritto che si può calcolare il rating medio raggruppando per [Genere - Regista - Attore]
-    Set<BaseResult> ratingAnalytics(Date startdate, Date endDate, RatingType typeOfRating);
+    Set<AverageRatingResult> ratingAnalytics(Date startdate, Date endDate, RatingType typeOfRating);
     
     //tyopeOfRanking perchè nelle specifiche abbiamo scritto che si può calcolare il rating medio raggruppando per [Film - utenti]
-    Set<BaseResult> rankingAnalytics(Date startdate, Date endDate, RankingType typeOfRanking);
+    Object rankingAnalytics(Date startdate, Date endDate, RankingType typeOfRanking);
     
     //Entity può essere un film o un utente
-    Set<ResultDetailed> engagementAnalytics(Date startdate, Date endDate, Entity entity);
+    Object engagementAnalytics(Date startdate, Date endDate, Entity entity);
 }

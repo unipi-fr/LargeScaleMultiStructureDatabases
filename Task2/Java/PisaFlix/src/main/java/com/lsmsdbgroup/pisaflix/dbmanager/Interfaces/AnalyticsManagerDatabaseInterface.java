@@ -16,7 +16,7 @@ public interface AnalyticsManagerDatabaseInterface {
      USERS
     }  
     
-    Set<BaseResult>  ratingAnalytics(Date startdate, Date endDate, RatingType typeOfRating);
+    Set<AverageRatingResult>  ratingAnalytics(Date startdate, Date endDate, RatingType typeOfRating);
     //TODO: da decidere il tipo di ritorno
     Object rankingAnalytics(Date startdate, Date endDate, RankingType typeOfRanking);
     //TODO: da decidere il tipo di ritorno
