@@ -2,6 +2,11 @@
 import csv
 import datetime
 from random import randint
+import string
+
+def remove_non_printable(s):
+    return ''.join(c for c in s if c in string.printable)
+
 
 def parse_date(text):
     for frm in ("%d/%m/%Y", "%Y-%m-%d"):
@@ -25,10 +30,11 @@ with open('../Data/wiki_movies.tsv', encoding="utf8") as tsvfile:
 for i in range(len(lista)):
     if i == 0:
         continue
-    data = parse_date(lista[i][0])
-    lista[i][0] = data.isoformat()
+    
+    descrizione = lista[i][5].translate({ord(i): None for i in '\n'})
+    lista[i][5] = descrizione
 
-with open('../Data/wiki_movies_dateISO.tsv', mode='w' , newline = '', encoding="utf8") as movies_dateISO:
+with open('../Data/wiki_movies_stripped.tsv', mode='w' , newline = '', encoding="utf8") as movies_dateISO:
     writer = csv.writer(movies_dateISO, dialect='excel-tab')
 
     writer.writerows(lista)
