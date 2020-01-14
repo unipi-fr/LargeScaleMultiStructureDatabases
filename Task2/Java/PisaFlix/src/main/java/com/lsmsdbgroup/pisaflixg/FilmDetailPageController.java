@@ -42,6 +42,12 @@ public class FilmDetailPageController implements Initializable {
 
     @FXML
     private Pagination pagination;
+    
+    @FXML
+    private ScrollPane scrollableDescription;
+    
+    @FXML
+    private Text scrollableDescriptionLabel;
 
     private boolean newVisit = true;
 
@@ -70,8 +76,16 @@ public class FilmDetailPageController implements Initializable {
         publishDateLabel.setText(publishDate);
     }
 
-    public void setDescription(String Description) {
-        descriptionLabel.setText(Description);
+    public void setDescription(String description) {
+        if(description.length() > 1000){
+            scrollableDescriptionLabel.setText(description);
+            descriptionLabel.setVisible(false);
+            descriptionLabel.setManaged(false);
+        }else{
+            descriptionLabel.setText(description);
+            scrollableDescription.setVisible(false);
+            scrollableDescription.setManaged(false);
+        }
     }
 
     private Pane createComment(String username, String timestamp, String commentStr, Comment comment) {
