@@ -10,9 +10,14 @@ import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;
 import java.io.IOException;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 
 public class UserBrowserController extends BrowserController implements Initializable {
+
+    private ExecutorService executorService;
 
     @Override
     @FXML
@@ -45,20 +50,56 @@ public class UserBrowserController extends BrowserController implements Initiali
         return pane;
     }
 
-    public void populateScrollPane(Set<User> users) {
-        try {
-            tilePane.getChildren().clear();
+    class TileWorker extends Task<Pane> {
+
+        User user;
+
+        public TileWorker(User user) {
+            this.user = user;
+        }
+
+        @Override
+        protected Pane call() throws Exception {
             String username;
             String privilege;
             int level;
             Pane pane;
 
-            for (User user : users) {
-                username = user.getUsername();
-                level = user.getPrivilegeLevel();
-                privilege = UserPrivileges.valueOf(level);
-                pane = createCardPane(username, privilege, user.getId());
-                tilePane.getChildren().add(pane);
+            username = user.getUsername();
+            level = user.getPrivilegeLevel();
+            privilege = UserPrivileges.valueOf(level);
+            pane = createCardPane(username, privilege, user.getId());
+            return pane;
+        }
+
+    }
+
+    public void populateScrollPane(Set<User> users) {
+        try {
+            tilePane.getChildren().clear();
+            if (users.size() > 0) {
+                executorService = Executors.newFixedThreadPool(users.size());
+                progressIndicator.setProgress(0);
+                for (User user : users) {
+                    TileWorker tileWarker = new TileWorker(user);
+                    tileWarker.setOnSucceeded((succeededEvent) -> {
+                        progressIndicator.setProgress(progressIndicator.getProgress() + 1 / Double.valueOf(users.size()));
+                        if (!tileWarker.isCancelled()) {
+                            if (!tileWarker.isCancelled()) {
+                                tilePane.getChildren().add(tileWarker.getValue());
+                            }
+                            if (executorService.isTerminated()) {
+                                filterTextField.setDisable(false);
+                                filterTextField.requestFocus();
+                                filterTextField.selectEnd();
+                                progressIndicator.setProgress(1);
+                            }
+                        }
+                    });
+                    executorService.execute(tileWarker);
+                }
+                executorService.shutdown();
+                filterTextField.setDisable(true);
             }
         } catch (Exception ex) {
             App.printErrorDialog("Users", "An error occurred loading the users", ex.toString() + "\n" + ex.getMessage());
@@ -86,11 +127,10 @@ public class UserBrowserController extends BrowserController implements Initiali
             App.printErrorDialog("Users", "An error occurred loading the users", ex.toString() + "\n" + ex.getMessage());
         }
     }
-    
+
     @FXML
     @Override
-    public void add(){
+    public void add() {
         App.setMainPageReturnsController("registration");
     }
 }
-
