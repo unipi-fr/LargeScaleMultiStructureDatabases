@@ -123,8 +123,8 @@ public class FilmBrowserController extends BrowserController implements Initiali
 
     public void populateScrollPane(Set<Film> filmSet) throws InterruptedException {
         tilePane.getChildren().clear();
-        progressIndicator.setProgress(0);
         if (filmSet.size() > 0) {
+            progressIndicator.setProgress(0);
             executorService = Executors.newFixedThreadPool(filmSet.size(), (Runnable r) -> {
                 Thread t = Executors.defaultThreadFactory().newThread(r);
                 t.setDaemon(true);
