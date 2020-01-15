@@ -12,7 +12,9 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -123,7 +125,11 @@ public class FilmBrowserController extends BrowserController implements Initiali
         tilePane.getChildren().clear();
         progressIndicator.setProgress(0);
         if (filmSet.size() > 0) {
-            executorService = Executors.newFixedThreadPool(filmSet.size());
+            executorService = Executors.newFixedThreadPool(filmSet.size(), (Runnable r) -> {
+                Thread t = Executors.defaultThreadFactory().newThread(r);
+                t.setDaemon(true);
+                return t;
+            });
             for (Film film : filmSet) {
                 TileWorker tileWarker = new TileWorker(film);
                 tileWarker.setOnSucceeded((succeededEvent) -> {

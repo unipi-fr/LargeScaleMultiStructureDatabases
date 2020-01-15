@@ -18,7 +18,9 @@ public class WikiScraper extends Task<String> {
         String link = null;
         try {
             doc = Jsoup.connect(url).get();
-            link = doc.body().getElementsByClass("summary").first().parent().parent().getElementsByTag("img").attr("src");
+            if(!doc.body().getElementsByClass("summary").isEmpty()){
+                link = doc.body().getElementsByClass("summary").first().parent().parent().getElementsByTag("img").attr("src");
+            }        
         } catch (Exception ex) {
             System.out.println("Scraper Error: " + ex.getMessage());
         }

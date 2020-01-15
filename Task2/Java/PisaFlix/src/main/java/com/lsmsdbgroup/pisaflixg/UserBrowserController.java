@@ -78,7 +78,11 @@ public class UserBrowserController extends BrowserController implements Initiali
         try {
             tilePane.getChildren().clear();
             if (users.size() > 0) {
-                executorService = Executors.newFixedThreadPool(users.size());
+                executorService = Executors.newFixedThreadPool(users.size(), (Runnable r) -> {
+                    Thread t = Executors.defaultThreadFactory().newThread(r);
+                    t.setDaemon(true);
+                    return t;
+                });
                 progressIndicator.setProgress(0);
                 for (User user : users) {
                     TileWorker tileWarker = new TileWorker(user);

@@ -21,7 +21,6 @@ C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\dbmanager\EngageManager.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\AuthenticationServiceInterface.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\Entities\exceptions\NonConvertibleDocumentException.java
-C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\AnalyticsClasses\BaseResult.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\dbmanager\UserManager.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\RankingAnalyticController.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\FilmBrowserController.java
@@ -36,8 +35,8 @@ C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\MenuController.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\UserBrowserController.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\AddFilmController.java
-C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\AnalyticsClasses\ResultDetailed.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\dbmanager\Interfaces\UserManagerDatabaseInterface.java
+C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\AnalyticsClasses\AverageRatingResult.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\UserServiceInterface.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\PisaFlix.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\CommentController.java
