@@ -125,13 +125,13 @@ public class FilmCardController implements Initializable {
     }
 
     private void setPoster() {
-        WikiScraper scraper = new WikiScraper(film.getWikiPage());
-        poster.setImage(new Image("https:" + scraper.scrapePosterLink()));
-            /*scraper.setOnSucceeded((succeededEvent) -> {
-                  poster.setImage(new Image("https:" + scraper.getValue()));
-               });
-            ExecutorService executorService = Executors.newFixedThreadPool(1);
-               executorService.execute(scraper);
-               executorService.shutdown();*/
+        try{
+            WikiScraper scraper = new WikiScraper(film.getWikiPage());
+        if(!scraper.scrapePosterLink().isBlank()){
+           poster.setImage(new Image("https:" + scraper.scrapePosterLink())); 
+        } 
+        }catch(Exception ex){
+            App.printErrorDialog("Film Poster", "An error occurred loading the film's poster", ex.toString() + "\n" + ex.getMessage());
+        }      
     }
 }

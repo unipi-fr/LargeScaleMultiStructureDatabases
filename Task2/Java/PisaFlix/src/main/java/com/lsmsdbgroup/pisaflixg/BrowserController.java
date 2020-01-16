@@ -10,6 +10,9 @@ public abstract class BrowserController {
 
     @FXML
     protected ScrollPane scrollPane;
+    
+    @FXML
+    ProgressIndicator progressIndicator;
 
     @FXML
     protected TilePane tilePane;

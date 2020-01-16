@@ -20,7 +20,15 @@
    <children>
       <AnchorPane>
          <children>
-             <TextField fx:id="filterTextField" layoutX="5.0" layoutY="5.0" onKeyTyped="#filter" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+            <HBox alignment="BOTTOM_LEFT" layoutX="5.0" layoutY="-4.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="0.0">
+               <children>
+                   <TextField fx:id="filterTextField" layoutX="5.0" layoutY="5.0" onKeyTyped="#filter" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                  <ProgressIndicator fx:id="progressIndicator" layoutX="108.0" layoutY="-4.0" minHeight="30.0" progress="0.0">
+                     <HBox.margin>
+                        <Insets left="5.0" top="15.0" />
+                     </HBox.margin></ProgressIndicator>
+               </children>
+            </HBox>
              <Button fx:id="addButton" layoutX="166.0" layoutY="5.0" mnemonicParsing="false" onAction="#add" text="Add" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
          </children>
       </AnchorPane>

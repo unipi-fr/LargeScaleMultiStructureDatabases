@@ -5,7 +5,6 @@ import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.InvalidPrivilegeLevelException;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.UserNotLoggedException;
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
@@ -13,13 +12,19 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.Pane;
 
 public class FilmBrowserController extends BrowserController implements Initializable {
+
+    ExecutorService executorService;
 
     public FilmBrowserController() {
     }
@@ -92,11 +97,11 @@ public class FilmBrowserController extends BrowserController implements Initiali
         }
     }
 
-    class TilesManager extends Task<Pane> {
+    class TileWorker extends Task<Pane> {
 
         Film film;
 
-        public TilesManager(Film film) {
+        public TileWorker(Film film) {
             this.film = film;
         }
 
@@ -106,7 +111,7 @@ public class FilmBrowserController extends BrowserController implements Initiali
             String publishDate;
             String id;
             Pane pane;
-            
+
             title = film.getTitle();
             publishDate = film.getPublicationDate().toString();
             id = film.getId();
@@ -116,18 +121,35 @@ public class FilmBrowserController extends BrowserController implements Initiali
 
     }
 
-    public void populateScrollPane(Set<Film> filmSet) {
+    public void populateScrollPane(Set<Film> filmSet) throws InterruptedException {
         tilePane.getChildren().clear();
-
-        for (Film film : filmSet) {
-            TilesManager tilesManager = new TilesManager(film);
-            tilesManager.setOnSucceeded((succeededEvent) -> {
-                  tilePane.getChildren().add(tilesManager.getValue());
-               });
-            ExecutorService executorService = Executors.newFixedThreadPool(1);
-               executorService.execute(tilesManager);
-               executorService.shutdown();
+        if (filmSet.size() > 0) {
+            progressIndicator.setProgress(0);
+            executorService = Executors.newFixedThreadPool(filmSet.size(), (Runnable r) -> {
+                Thread t = Executors.defaultThreadFactory().newThread(r);
+                t.setDaemon(true);
+                return t;
+            });
+            for (Film film : filmSet) {
+                TileWorker tileWarker = new TileWorker(film);
+                tileWarker.setOnSucceeded((succeededEvent) -> {
+                    progressIndicator.setProgress(progressIndicator.getProgress() + 1 / Double.valueOf(filmSet.size()));
+                    if (!tileWarker.isCancelled()) {
+                        if (!tileWarker.isCancelled()) {
+                            tilePane.getChildren().add(tileWarker.getValue());
+                        }
+                        if (executorService.isTerminated()) {
+                            filterTextField.setDisable(false);
+                            filterTextField.requestFocus();
+                            filterTextField.selectEnd();
+                            progressIndicator.setProgress(1);
+                        }
+                    }
+                });
+                executorService.execute(tileWarker);
+            }
+            executorService.shutdown();
+            filterTextField.setDisable(true);
         }
-
     }
 }
