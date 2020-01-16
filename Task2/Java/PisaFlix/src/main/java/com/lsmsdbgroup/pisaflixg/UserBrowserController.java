@@ -97,6 +97,7 @@ public class UserBrowserController extends BrowserController implements Initiali
                                 filterTextField.requestFocus();
                                 filterTextField.selectEnd();
                                 progressIndicator.setProgress(1);
+                                searchButton.setDisable(false);
                             }
                         }
                     });
@@ -104,6 +105,7 @@ public class UserBrowserController extends BrowserController implements Initiali
                 }
                 executorService.shutdown();
                 filterTextField.setDisable(true);
+                searchButton.setDisable(true);
             }
         } catch (Exception ex) {
             App.printErrorDialog("Users", "An error occurred loading the users", ex.toString() + "\n" + ex.getMessage());

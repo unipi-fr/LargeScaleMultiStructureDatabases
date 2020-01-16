@@ -12,14 +12,10 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
-import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.Pane;
 
 public class FilmBrowserController extends BrowserController implements Initializable {
@@ -142,6 +138,7 @@ public class FilmBrowserController extends BrowserController implements Initiali
                             filterTextField.setDisable(false);
                             filterTextField.requestFocus();
                             filterTextField.selectEnd();
+                            searchButton.setDisable(false);
                             progressIndicator.setProgress(1);
                         }
                     }
@@ -150,6 +147,7 @@ public class FilmBrowserController extends BrowserController implements Initiali
             }
             executorService.shutdown();
             filterTextField.setDisable(true);
+            searchButton.setDisable(true);
         }
     }
 }
