@@ -127,12 +127,12 @@ public class FilmBrowserController extends BrowserController implements Initiali
                 return t;
             });
             for (Film film : filmSet) {
-                TileWorker tileWarker = new TileWorker(film);
-                tileWarker.setOnSucceeded((succeededEvent) -> {
+                TileWorker tileWorker = new TileWorker(film);
+                tileWorker.setOnSucceeded((succeededEvent) -> {
                     progressIndicator.setProgress(progressIndicator.getProgress() + 1 / Double.valueOf(filmSet.size()));
-                    if (!tileWarker.isCancelled()) {
-                        if (!tileWarker.isCancelled()) {
-                            tilePane.getChildren().add(tileWarker.getValue());
+                    if (!tileWorker.isCancelled()) {
+                        if (!tileWorker.isCancelled()) {
+                            tilePane.getChildren().add(tileWorker.getValue());
                         }
                         if (executorService.isTerminated()) {
                             filterTextField.setDisable(false);
@@ -143,7 +143,7 @@ public class FilmBrowserController extends BrowserController implements Initiali
                         }
                     }
                 });
-                executorService.execute(tileWarker);
+                executorService.execute(tileWorker);
             }
             executorService.shutdown();
             filterTextField.setDisable(true);

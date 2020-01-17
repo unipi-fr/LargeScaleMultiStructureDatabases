@@ -85,12 +85,12 @@ public class UserBrowserController extends BrowserController implements Initiali
                 });
                 progressIndicator.setProgress(0);
                 for (User user : users) {
-                    TileWorker tileWarker = new TileWorker(user);
-                    tileWarker.setOnSucceeded((succeededEvent) -> {
+                    TileWorker tileWorker = new TileWorker(user);
+                    tileWorker.setOnSucceeded((succeededEvent) -> {
                         progressIndicator.setProgress(progressIndicator.getProgress() + 1 / Double.valueOf(users.size()));
-                        if (!tileWarker.isCancelled()) {
-                            if (!tileWarker.isCancelled()) {
-                                tilePane.getChildren().add(tileWarker.getValue());
+                        if (!tileWorker.isCancelled()) {
+                            if (!tileWorker.isCancelled()) {
+                                tilePane.getChildren().add(tileWorker.getValue());
                             }
                             if (executorService.isTerminated()) {
                                 filterTextField.setDisable(false);
@@ -101,7 +101,7 @@ public class UserBrowserController extends BrowserController implements Initiali
                             }
                         }
                     });
-                    executorService.execute(tileWarker);
+                    executorService.execute(tileWorker);
                 }
                 executorService.shutdown();
                 filterTextField.setDisable(true);

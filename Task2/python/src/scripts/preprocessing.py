@@ -13,7 +13,7 @@ def prepareStopWords():
     #nltk.download('stopwords') # la prima volta va scaricato
     #nltk.download('names')
     stopwords = nltk.corpus.stopwords.words('english')
-    stopwords += ['abov', 'afterward', 'alon', 'alreadi', 'alway', 'ani', 'anoth', 'anyon', 'anyth', 'anywher', 'becam',
+    stopwords += ['although', 'along', 'also', 'abov', 'afterward', 'alon', 'alreadi', 'alway', 'ani', 'anoth', 'anyon', 'anyth', 'anywher', 'becam',
                   'becaus', 'becom', 'befor', 'besid', 'cri', 'describ', 'dure', 'els', 'elsewher', 'empti', 'everi',
                   'everyon', 'everyth', 'everywher', 'fifti', 'forti', 'henc', 'hereaft', 'herebi', 'howev', 'hundr',
                   'inde', 'mani', 'meanwhil', 'moreov', 'nobodi', 'noon', 'noth', 'nowher', 'onc', 'onli', 'otherwis',
@@ -45,16 +45,29 @@ def tokenize_and_stem(text):
 
 if __name__ == '__main__':
     dataset = pandas.read_csv("../resources/datasets/labelledData.csv", ";")
+
+    #Sampling dei dati con rimpiazzo in base alla classe
+    class_ADULTS = dataset[dataset["MPAA"] == "ADULTS"]
+    class_CHILDREN = dataset[dataset["MPAA"] == "CHILDREN"]
+    #class_TEENAGERS = dataset[dataset["MPAA"] == "TEENAGERS"]
+
+    class_ADULTS = class_ADULTS.sample(1500)
+    class_CHILDREN = class_CHILDREN.sample(1500)
+    #class_TEENAGERS = class_TEENAGERS.sample(700)
+
+    sampled_dataset = class_ADULTS.append(class_CHILDREN, ignore_index=True)
+    #sampled_dataset = sampled_dataset.append(class_TEENAGERS, ignore_index=True)
+
     stopwords = prepareStopWords()
 
     # Vettorizzazzione dei plot utilizzando la "term frequency–inverse document frequency"
-    tfidf_vectorizer = TfidfVectorizer(max_df=0.4, max_features=100,  # (1)
-                                       min_df=0.01, stop_words=stopwords,
+    tfidf_vectorizer = TfidfVectorizer(min_df=0.1, max_df=0.9,
+                                       stop_words=stopwords,
                                        use_idf=True, tokenizer=tokenize_and_stem, ngram_range=(1, 3))
-    tfidf_matrix = tfidf_vectorizer.fit_transform(dataset.__getattr__("Plot")) #esegue la vettorizzazzione
+    tfidf_matrix = tfidf_vectorizer.fit_transform(sampled_dataset.__getattr__("Plot")) #esegue la vettorizzazzione
     tfidf_vector = tfidf_matrix.toarray()
     terms = tfidf_vectorizer.get_feature_names() #lista dei termini presi in considerazione
-    resultDataset = dataset
+    result_dataset = sampled_dataset
     print(terms)
 
     for j in range(0, len(terms)):
@@ -63,14 +76,15 @@ if __name__ == '__main__':
         for i in range(0, len(tfidf_vector)):
             values.insert(len(values), tfidf_vector[i][j])
 
-        resultDataset[terms[j]] = values
+        result_dataset[terms[j]] = values
 
-    print(resultDataset)
-    resultDataset.to_csv("../resources/elaborations/vectorizedData.csv", index=False)
+    print(result_dataset)
+    result_dataset.to_csv("../resources/elaborations/vectorizedData.csv", index=False)
 
     # NOTES:
 #    (1) For uncorrelated features, the optimal feature size is N−1 (where N is sample size)
-#        As feature correlation increases, and the optimal feature size becomes proportional to √N for highly correlated features.
+#        As feature correlation increases, and the optimal feature size becomes proportional to √N for highly
+#        correlated features.
 
 
 
