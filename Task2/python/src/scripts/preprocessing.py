@@ -43,16 +43,14 @@ def tokenize_and_stem(text):
     return stems
 
 
-if __name__ == '__main__':
-    dataset = pandas.read_csv("../resources/datasets/labelledData.csv", ";")
-
+def classifier_preprocessiong(dataset, min_df=0.1, max_df=0.9, max_features=None):
     #Sampling dei dati con rimpiazzo in base alla classe
     class_ADULTS = dataset[dataset["MPAA"] == "ADULTS"]
     class_CHILDREN = dataset[dataset["MPAA"] == "CHILDREN"]
     #class_TEENAGERS = dataset[dataset["MPAA"] == "TEENAGERS"]
 
-    class_ADULTS = class_ADULTS.sample(1500)
-    class_CHILDREN = class_CHILDREN.sample(1500)
+    #class_ADULTS = class_ADULTS.sample(700)
+    #class_CHILDREN = class_CHILDREN.sample(700)
     #class_TEENAGERS = class_TEENAGERS.sample(700)
 
     sampled_dataset = class_ADULTS.append(class_CHILDREN, ignore_index=True)
@@ -61,14 +59,14 @@ if __name__ == '__main__':
     stopwords = prepareStopWords()
 
     # Vettorizzazzione dei plot utilizzando la "term frequency–inverse document frequency"
-    tfidf_vectorizer = TfidfVectorizer(min_df=0.1, max_df=0.9,
+    tfidf_vectorizer = TfidfVectorizer(min_df=min_df, max_df=max_df, max_features=max_features,
                                        stop_words=stopwords,
                                        use_idf=True, tokenizer=tokenize_and_stem, ngram_range=(1, 3))
     tfidf_matrix = tfidf_vectorizer.fit_transform(sampled_dataset.__getattr__("Plot")) #esegue la vettorizzazzione
     tfidf_vector = tfidf_matrix.toarray()
     terms = tfidf_vectorizer.get_feature_names() #lista dei termini presi in considerazione
     result_dataset = sampled_dataset
-    print(terms)
+    # print(terms)
 
     for j in range(0, len(terms)):
         values = []
@@ -78,13 +76,16 @@ if __name__ == '__main__':
 
         result_dataset[terms[j]] = values
 
-    print(result_dataset)
+    # print(result_dataset)
+    return result_dataset
+
+
+if __name__ == '__main__':
+    dataset = pandas.read_csv("../resources/datasets/labelledData.csv", ";")
+    result_dataset = classifier_preprocessiong(dataset=dataset, min_df=0.1, max_df=0.9, max_features=None)
     result_dataset.to_csv("../resources/elaborations/vectorizedData.csv", index=False)
 
-    # NOTES:
-#    (1) For uncorrelated features, the optimal feature size is N−1 (where N is sample size)
-#        As feature correlation increases, and the optimal feature size becomes proportional to √N for highly
-#        correlated features.
+
 
 
 

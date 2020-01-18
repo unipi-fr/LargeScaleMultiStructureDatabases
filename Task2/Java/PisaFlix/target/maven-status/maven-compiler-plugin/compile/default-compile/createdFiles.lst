@@ -30,11 +30,11 @@ com\lsmsdbgroup\pisaflixg\UpdateProfileController.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\AnalyticsService.class
 com\lsmsdbgroup\pisaflixg\BrowserController.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\exceptions\InvalidPrivilegeLevelValueException.class
-com\lsmsdbgroup\pisaflixg\FilmBrowserController$1.class
 com\lsmsdbgroup\pisaflixg\FilmBrowserController.class
 com\lsmsdbgroup\pisaflixg\CommentController.class
 com\lsmsdbgroup\pisaflixg\UserBrowserController.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\exceptions\UserNotLoggedException.class
+com\dataMining\test.class
 com\lsmsdbgroup\pisaflixg\MainPageController.class
 com\lsmsdbgroup\pisaflix\dbmanager\Interfaces\AnalyticsManagerDatabaseInterface$RankingType.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\AnalyticsServiceInterface.class

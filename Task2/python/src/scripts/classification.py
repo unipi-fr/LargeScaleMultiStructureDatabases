@@ -8,25 +8,123 @@ import pandas
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis, QuadraticDiscriminantAnalysis
 from sklearn.naive_bayes import GaussianNB
+from scipy.optimize import differential_evolution
+from python.src.scripts.preprocessing import classifier_preprocessiong
+
+# GLOBAL VARIABLES
+dataset = pandas.read_csv("../resources/datasets/labelledData.csv", ";")
+pop = [0, 1, 0]
+pop_size = 15
 
 
 def classification_report_with_accuracy_score(y_true, y_pred):
-    print(confusion_matrix(y_true, y_pred))
-    print(classification_report(y_true, y_pred))
+    # print(confusion_matrix(y_true, y_pred))
+    # print(classification_report(y_true, y_pred))
     return accuracy_score(y_true, y_pred)
 
 
-if __name__ == '__main__':
+def classification(x):
+    global pop
+    global dataset
+    global pop_size
 
-    data = pandas.read_csv("../resources/elaborations/vectorizedData.csv")
+    min_df = x[0]
+    max_df = x[1]
+    max_features = int(round(x[2]))
+
+    pop[0] += 1
+
+    if pop[0] == pop_size + 1:
+        pop[0] = 1
+        print("\n--- End of generation: " + str(pop[1]))
+        print("         BEST ACC: " + str(pop[2]) + "\n")
+
+        log = open("../resources/elaborations/log.txt", "a+")
+        log.write("\n" + "\n--- End of generation: " + str(pop[1]) + "\n" + "         BEST ACC: " + str(pop[2]) + "\n\n")
+        log.close()
+
+        pop[2] = 0
+        pop[1] += 1
+
+    print("- Pop: " + str(pop[0]) + " Generation: " + str(pop[1]))
+
+    log = open("../resources/elaborations/log.txt", "a+")
+    log.write("\n" + "- Pop: " + str(pop[0]) + " Generation: " + str(pop[1]))
+    log.close()
+
+    if min_df > max_df:
+        print("         Inconsistent parameters")
+
+        log = open("../resources/elaborations/log.txt", "a+")
+        log.write("\n" + "          Inconsistent parameters")
+        log.close()
+
+        return 2.0
+
+    try:
+        data = classifier_preprocessiong(dataset=dataset, min_df=min_df, max_df=max_df, max_features=max_features)
+    except:
+
+        log = open("../resources/elaborations/log.txt", "a+")
+        log.write("\n" + "          No terms for those parameters")
+        log.close()
+
+        print("         No terms for those parameters")
+        return 2.0
+
     data.drop('Title', axis=1, inplace=True)
     data.drop('Year', axis=1, inplace=True)
     data.drop('Plot', axis=1, inplace=True)
-    data.to_csv("../resources/elaborations/data.csv", index=False)
-    print(data)
 
     X = data.iloc[:, 1:-1].values
     y = data['MPAA']
+
+    LR_model = LogisticRegression()
+
+    CV_LR = []
+    mean_acc = 0
+    try:
+        for i in range(1, 10):
+            CV_LR.append(cross_val_score(LR_model, X, y, cv=10,
+                                         scoring=make_scorer(classification_report_with_accuracy_score)))
+        mean_acc = mean(CV_LR)
+    except:
+        print("         Error in the regression")
+
+        log = open("../resources/elaborations/log.txt", "a+")
+        log.write("\n" + "          Error in the regression")
+        log.close()
+
+        return 2.0
+
+    print("         Arguments: min_df=" + str(min_df) + ", max_df=" + str(max_df) +
+          ", max_features=" + str(max_features) + "\n           RESULT: " + str(mean_acc))
+
+    log = open("../resources/elaborations/log.txt", "a+")
+    log.write("\n" + "          Arguments: min_df=" + str(min_df) + ", max_df=" + str(max_df) +
+          ", max_features=" + str(max_features) + "\n           RESULT: " + str(mean_acc))
+    log.close()
+
+    log = open("../resources/elaborations/log.csv", "a+")
+    log.write("\n" + str(min_df) + "," + str(max_df) + "," + str(max_features) + "," + str(mean_acc))
+    log.close()
+
+    if pop[2] < mean_acc:
+        pop[2] = mean_acc
+
+    return 1.0 - mean_acc
+
+
+if __name__ == '__main__':
+    # data = pandas.read_csv("../resources/elaborations/vectorizedData.csv")
+    # data.drop('Title', axis=1, inplace=True)
+    # data.drop('Year', axis=1, inplace=True)
+    # data.drop('Plot', axis=1, inplace=True)
+    # # data.to_csv("../resources/elaborations/data.csv", index=False)
+    # print(data)
+
+    # X = data.iloc[:, 1:-1].values
+    # y = data['MPAA']
 
     # # (1) K-Nearest Neighbors
     # KNN_model = KNeighborsClassifier(n_neighbors=5)
@@ -34,19 +132,19 @@ if __name__ == '__main__':
     # print(mean(CV_KNN))
     #
     # # (2) Decision Tree Classifier
-    # DT_model = DecisionTreeClassifier(random_state=0)
+    # DT_model = DecisionTreeClassifier(1, )
     # CV_DT = cross_val_score(DT_model, X, y, cv=10)
     # print(mean(CV_DT))
     #
-    # # (3) Support Vector Machines
+    # (3) Support Vector Machines
     # SVC_model = svm.SVC()
     # CV_SVC = cross_val_score(SVC_model, X, y, cv=10)
     # print(mean(CV_SVC))
 
-    #(4) Logistic Regression
-    LR_model = LogisticRegression()
-    CV_LR = cross_val_score(LR_model, X, y, cv=10, scoring=make_scorer(classification_report_with_accuracy_score))
-    print(mean(CV_LR))
+    # (4) Logistic Regression
+    # LR_model = LogisticRegression()
+    # CV_LR = cross_val_score(LR_model, X, y, cv=10, scoring=make_scorer(classification_report_with_accuracy_score))
+    # print(mean(CV_LR))
 
     #
     # # (5) Discriminant Analysis
@@ -60,9 +158,20 @@ if __name__ == '__main__':
     # print(mean(CV_QD))  # Problema di collinearità!
 
     # (6) Gaussian Naive Bayesian
-    #GNB_model = GaussianNB()
-    #CV_GNB = cross_val_score(GNB_model, X, y, cv=10)
-    #print(mean(CV_GNB))
+    # GNB_model = GaussianNB()
+    # CV_GNB = cross_val_score(GNB_model, X, y, cv=10)
+    # print(mean(CV_GNB))
+
+    log = open("../resources/elaborations/log.csv", "w+")
+    log.write("min_df,max_df,max_features,accuracy")
+    log.close()
+
+    log = open("../resources/elaborations/log.txt", "w+")
+    log.write("DIFFERENTIAL EVOLUTION TEXT LOG\n")
+    log.close()
+
+    bounds = [(0, 1), (0, 1), (38, 1400)]
+    differential_evolution(classification, bounds, popsize=pop_size)
 
 # NOTES:
 #   (1): K-Nearest Neighbors operates by checking the distance from some test example to the known values of some
@@ -86,7 +195,3 @@ if __name__ == '__main__':
 #   to 0.
 #   Each of the features also has a label of only 0 or 1. Logistic regression is a linear classifier and therefore used
 #   when there is some sort of linear relationship between the data.
-
-
-
-
