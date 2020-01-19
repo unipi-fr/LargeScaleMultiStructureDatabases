@@ -1,0 +1,830 @@
+DIFFERENTIAL EVOLUTION TEXT LOG
+
+- Pop: 1 Generation: 1
+          Arguments: min_df=0.20357586235165898, max_df=0.319930552222924, max_features=916
+           RESULT: 0.7185714285714286
+- Pop: 2 Generation: 1
+          Inconsistent parameters
+- Pop: 3 Generation: 1
+          Inconsistent parameters
+- Pop: 4 Generation: 1
+          Arguments: min_df=0.7290941402113262, max_df=0.8338722434860186, max_features=442
+           RESULT: 0.5457142857142857
+- Pop: 5 Generation: 1
+          Arguments: min_df=0.27536132320135903, max_df=0.4617224374597072, max_features=1243
+           RESULT: 0.7285714285714285
+- Pop: 6 Generation: 1
+          Arguments: min_df=0.11119218894858623, max_df=0.16313432142164408, max_features=1387
+           RESULT: 0.7378571428571428
+- Pop: 7 Generation: 1
+          Arguments: min_df=0.678997486202581, max_df=0.9241969328270463, max_features=482
+           RESULT: 0.5635714285714285
+- Pop: 8 Generation: 1
+          Arguments: min_df=0.06097622909857214, max_df=0.30187890377268944, max_features=1363
+           RESULT: 0.8221428571428572
+- Pop: 9 Generation: 1
+          Arguments: min_df=0.48091971427619135, max_df=0.7579415921728788, max_features=123
+           RESULT: 0.702857142857143
+- Pop: 10 Generation: 1
+          Arguments: min_df=0.10982822315459345, max_df=0.5729836146812007, max_features=1088
+           RESULT: 0.8057142857142858
+- Pop: 11 Generation: 1
+          Arguments: min_df=0.4353717188517795, max_df=0.6378520466470845, max_features=1015
+           RESULT: 0.7071428571428573
+- Pop: 12 Generation: 1
+          Inconsistent parameters
+- Pop: 13 Generation: 1
+          Inconsistent parameters
+- Pop: 14 Generation: 1
+          Inconsistent parameters
+- Pop: 15 Generation: 1
+          Arguments: min_df=0.4955372484824681, max_df=0.7171014247015784, max_features=510
+           RESULT: 0.692857142857143
+
+--- End of generation: 1
+         BEST ACC: 0.8221428571428572
+
+
+- Pop: 1 Generation: 2
+          Inconsistent parameters
+- Pop: 2 Generation: 2
+          Inconsistent parameters
+- Pop: 3 Generation: 2
+          Inconsistent parameters
+- Pop: 4 Generation: 2
+          Inconsistent parameters
+- Pop: 5 Generation: 2
+          Inconsistent parameters
+- Pop: 6 Generation: 2
+          Arguments: min_df=0.7508917508566709, max_df=0.9626574672425814, max_features=1112
+           RESULT: 0.5142857142857142
+- Pop: 7 Generation: 2
+          Arguments: min_df=0.3670309686871258, max_df=0.9468529372918612, max_features=1041
+           RESULT: 0.7457142857142857
+- Pop: 8 Generation: 2
+          Arguments: min_df=0.17909823510164746, max_df=0.9102741866384808, max_features=788
+           RESULT: 0.794285714285714
+- Pop: 9 Generation: 2
+          Arguments: min_df=0.31482944743826125, max_df=0.41037364020863015, max_features=420
+           RESULT: 0.692857142857143
+- Pop: 10 Generation: 2
+          Arguments: min_df=0.25004380172976387, max_df=0.7985030697560347, max_features=253
+           RESULT: 0.7764285714285715
+- Pop: 11 Generation: 2
+          Inconsistent parameters
+- Pop: 12 Generation: 2
+          Inconsistent parameters
+- Pop: 13 Generation: 2
+          No terms for those parameters
+- Pop: 14 Generation: 2
+          Inconsistent parameters
+- Pop: 15 Generation: 2
+          Arguments: min_df=0.6508617691751017, max_df=0.9922103202115307, max_features=384
+           RESULT: 0.5692857142857142
+
+--- End of generation: 2
+         BEST ACC: 0.794285714285714
+
+
+- Pop: 1 Generation: 3
+          Arguments: min_df=0.24004332163971154, max_df=0.39833606904944346, max_features=306
+           RESULT: 0.7271428571428572
+- Pop: 2 Generation: 3
+          Arguments: min_df=0.0037768957509177192, max_df=0.530642530073322, max_features=191
+           RESULT: 0.7728571428571428
+- Pop: 3 Generation: 3
+          Inconsistent parameters
+- Pop: 4 Generation: 3
+          Arguments: min_df=0.1694616417830075, max_df=0.2244584193431426, max_features=900
+           RESULT: 0.6957142857142858
+- Pop: 5 Generation: 3
+          Inconsistent parameters
+- Pop: 6 Generation: 3
+          Arguments: min_df=0.3352312293973349, max_df=0.5538530139420174, max_features=360
+           RESULT: 0.6892857142857143
+- Pop: 7 Generation: 3
+          Arguments: min_df=0.030676204467544765, max_df=0.6090335391362852, max_features=563
+           RESULT: 0.8264285714285715
+- Pop: 8 Generation: 3
+          Arguments: min_df=0.08382625531865057, max_df=0.8020829713519143, max_features=866
+           RESULT: 0.8221428571428571
+- Pop: 9 Generation: 3
+          Arguments: min_df=0.3092776881867156, max_df=0.7338588465017591, max_features=1318
+           RESULT: 0.7592857142857145
+- Pop: 10 Generation: 3
+          Inconsistent parameters
+- Pop: 11 Generation: 3
+          Inconsistent parameters
+- Pop: 12 Generation: 3
+          Inconsistent parameters
+- Pop: 13 Generation: 3
+          Inconsistent parameters
+- Pop: 14 Generation: 3
+          Inconsistent parameters
+- Pop: 15 Generation: 3
+          Inconsistent parameters
+
+--- End of generation: 3
+         BEST ACC: 0.8264285714285715
+
+
+- Pop: 1 Generation: 4
+          Arguments: min_df=0.21157205434223453, max_df=0.9896159929414876, max_features=619
+           RESULT: 0.7771428571428572
+- Pop: 2 Generation: 4
+          Inconsistent parameters
+- Pop: 3 Generation: 4
+          Inconsistent parameters
+- Pop: 4 Generation: 4
+          Arguments: min_df=0.7290941402113262, max_df=0.8338722434860186, max_features=339
+           RESULT: 0.5457142857142857
+- Pop: 5 Generation: 4
+          Arguments: min_df=0.2305366985188202, max_df=0.8866058800881366, max_features=578
+           RESULT: 0.7750000000000001
+- Pop: 6 Generation: 4
+          Inconsistent parameters
+- Pop: 7 Generation: 4
+          Arguments: min_df=0.4634616806303188, max_df=0.9255756907807955, max_features=797
+           RESULT: 0.7092857142857143
+- Pop: 8 Generation: 4
+          Inconsistent parameters
+- Pop: 9 Generation: 4
+          Arguments: min_df=0.1356432070351759, max_df=0.8176095738276785, max_features=221
+           RESULT: 0.8164285714285716
+- Pop: 10 Generation: 4
+          Arguments: min_df=0.12959445260712915, max_df=0.3533768608482487, max_features=208
+           RESULT: 0.7985714285714287
+- Pop: 11 Generation: 4
+          Arguments: min_df=0.3203657170567885, max_df=0.6378520466470845, max_features=216
+           RESULT: 0.7364285714285712
+- Pop: 12 Generation: 4
+          Arguments: min_df=0.7037645255401128, max_df=0.9974518401716089, max_features=886
+           RESULT: 0.5535714285714285
+- Pop: 13 Generation: 4
+          Inconsistent parameters
+- Pop: 14 Generation: 4
+          Arguments: min_df=0.600114348902854, max_df=0.716563745837436, max_features=161
+           RESULT: 0.5464285714285713
+- Pop: 15 Generation: 4
+          Inconsistent parameters
+
+--- End of generation: 4
+         BEST ACC: 0.8164285714285716
+
+
+- Pop: 1 Generation: 5
+          Inconsistent parameters
+- Pop: 2 Generation: 5
+          Arguments: min_df=0.5132745109423639, max_df=0.5271953162159453, max_features=44
+           RESULT: 0.5035714285714286
+- Pop: 3 Generation: 5
+          Arguments: min_df=0.2362788439151542, max_df=0.333294440169205, max_features=515
+           RESULT: 0.7078571428571429
+- Pop: 4 Generation: 5
+          Inconsistent parameters
+- Pop: 5 Generation: 5
+          Inconsistent parameters
+- Pop: 6 Generation: 5
+          Arguments: min_df=0.2266185643328391, max_df=0.9626574672425814, max_features=595
+           RESULT: 0.777142857142857
+- Pop: 7 Generation: 5
+          Arguments: min_df=0.0788664827692, max_df=0.5828073659828232, max_features=932
+           RESULT: 0.8085714285714286
+- Pop: 8 Generation: 5
+          Arguments: min_df=0.17909823510164746, max_df=0.2406085875951265, max_features=586
+           RESULT: 0.7007142857142857
+- Pop: 9 Generation: 5
+          Arguments: min_df=0.32674815860581535, max_df=0.5820447375966185, max_features=420
+           RESULT: 0.6842857142857143
+- Pop: 10 Generation: 5
+          Arguments: min_df=0.28537327268656065, max_df=0.4308260400425953, max_features=381
+           RESULT: 0.7185714285714286
+- Pop: 11 Generation: 5
+          Arguments: min_df=0.013604326568155578, max_df=0.2502089112230529, max_features=227
+           RESULT: 0.7828571428571428
+- Pop: 12 Generation: 5
+          Arguments: min_df=0.1990931654601944, max_df=0.2689592367651173, max_features=668
+           RESULT: 0.7050000000000001
+- Pop: 13 Generation: 5
+          Inconsistent parameters
+- Pop: 14 Generation: 5
+          Arguments: min_df=0.1388835683082827, max_df=0.2164407732712661, max_features=517
+           RESULT: 0.7535714285714287
+- Pop: 15 Generation: 5
+          Inconsistent parameters
+
+--- End of generation: 5
+         BEST ACC: 0.8085714285714286
+
+
+- Pop: 1 Generation: 6
+          Arguments: min_df=0.3328099194388544, max_df=0.6310656928331234, max_features=306
+           RESULT: 0.7342857142857143
+- Pop: 2 Generation: 6
+          Inconsistent parameters
+- Pop: 3 Generation: 6
+          Arguments: min_df=0.22605552924034067, max_df=0.7466109572888504, max_features=785
+           RESULT: 0.7778571428571428
+- Pop: 4 Generation: 6
+          Arguments: min_df=0.5111488640726536, max_df=0.5859302344145907, max_features=891
+           RESULT: 0.5807142857142856
+- Pop: 5 Generation: 6
+          Inconsistent parameters
+- Pop: 6 Generation: 6
+          Arguments: min_df=0.05002759858704664, max_df=0.2067115330456798, max_features=360
+           RESULT: 0.7864285714285716
+- Pop: 7 Generation: 6
+          Arguments: min_df=0.01421149182707615, max_df=0.7541016008114232, max_features=916
+           RESULT: 0.8221428571428572
+- Pop: 8 Generation: 6
+          Arguments: min_df=0.09367597661071292, max_df=0.811113104439597, max_features=866
+           RESULT: 0.8264285714285713
+- Pop: 9 Generation: 6
+          Arguments: min_df=0.4526244133131746, max_df=0.7338588465017591, max_features=145
+           RESULT: 0.7050000000000001
+- Pop: 10 Generation: 6
+          Inconsistent parameters
+- Pop: 11 Generation: 6
+          Inconsistent parameters
+- Pop: 12 Generation: 6
+          Arguments: min_df=0.14217021142407255, max_df=0.22739220834428514, max_features=732
+           RESULT: 0.7628571428571429
+- Pop: 13 Generation: 6
+          Arguments: min_df=0.10795247488414189, max_df=0.9683174564436101, max_features=315
+           RESULT: 0.8214285714285713
+- Pop: 14 Generation: 6
+          Arguments: min_df=0.09791765933565078, max_df=0.39906622766042155, max_features=715
+           RESULT: 0.8035714285714286
+- Pop: 15 Generation: 6
+          Inconsistent parameters
+
+--- End of generation: 6
+         BEST ACC: 0.8264285714285713
+
+
+- Pop: 1 Generation: 7
+          Arguments: min_df=0.030676204467544765, max_df=0.4046848537069758, max_features=563
+           RESULT: 0.8064285714285714
+- Pop: 2 Generation: 7
+          Arguments: min_df=0.045312521993599475, max_df=0.8346695613281403, max_features=499
+           RESULT: 0.8192857142857142
+- Pop: 3 Generation: 7
+          Inconsistent parameters
+- Pop: 4 Generation: 7
+          Arguments: min_df=0.1666545721676469, max_df=0.9839729973503042, max_features=339
+           RESULT: 0.7928571428571429
+- Pop: 5 Generation: 7
+          Inconsistent parameters
+- Pop: 6 Generation: 7
+          Arguments: min_df=0.13562580021246556, max_df=0.28131926670920426, max_features=277
+           RESULT: 0.7764285714285715
+- Pop: 7 Generation: 7
+          Inconsistent parameters
+- Pop: 8 Generation: 7
+          Inconsistent parameters
+- Pop: 9 Generation: 7
+          Arguments: min_df=0.1356432070351759, max_df=0.660099323397289, max_features=357
+           RESULT: 0.8157142857142857
+- Pop: 10 Generation: 7
+          Arguments: min_df=0.4093158281639453, max_df=0.5729836146812007, max_features=345
+           RESULT: 0.6135714285714285
+- Pop: 11 Generation: 7
+          No terms for those parameters
+- Pop: 12 Generation: 7
+          Arguments: min_df=0.39194569974376603, max_df=0.5750333638045634, max_features=644
+           RESULT: 0.66
+- Pop: 13 Generation: 7
+          Arguments: min_df=0.3458214996706097, max_df=0.3557138888213962, max_features=974
+           RESULT: nan
+- Pop: 14 Generation: 7
+          Arguments: min_df=0.600114348902854, max_df=0.9880025751952421, max_features=161
+           RESULT: 0.567857142857143
+- Pop: 15 Generation: 7
+          Inconsistent parameters
+
+--- End of generation: 7
+         BEST ACC: 0.8192857142857142
+
+
+- Pop: 1 Generation: 8
+          Arguments: min_df=0.3148117219912982, max_df=0.4078105330891233, max_features=931
+           RESULT: 0.6935714285714286
+- Pop: 2 Generation: 8
+          Arguments: min_df=0.13618225139711165, max_df=0.49483941492756606, max_features=90
+           RESULT: 0.7464285714285714
+- Pop: 3 Generation: 8
+          Inconsistent parameters
+- Pop: 4 Generation: 8
+          Arguments: min_df=0.10622593766505983, max_df=0.9827566204729337, max_features=1137
+           RESULT: 0.8242857142857143
+- Pop: 5 Generation: 8
+          Arguments: min_df=0.027116042668056284, max_df=0.3572290255771511, max_features=613
+           RESULT: 0.805
+- Pop: 6 Generation: 8
+          Arguments: min_df=0.11726476150292142, max_df=0.4718059145022987, max_features=595
+           RESULT: 0.8071428571428573
+- Pop: 7 Generation: 8
+          Arguments: min_df=0.0788664827692, max_df=0.5828073659828232, max_features=964
+           RESULT: 0.8085714285714286
+- Pop: 8 Generation: 8
+          Arguments: min_df=0.17909823510164746, max_df=0.5734051681222898, max_features=1081
+           RESULT: 0.7764285714285715
+- Pop: 9 Generation: 8
+          Arguments: min_df=0.046948385323965336, max_df=0.41037364020863015, max_features=215
+           RESULT: 0.8014285714285715
+- Pop: 10 Generation: 8
+          Arguments: min_df=0.1014191593806531, max_df=0.5469494329209618, max_features=987
+           RESULT: 0.8099999999999999
+- Pop: 11 Generation: 8
+          Arguments: min_df=0.1773626470610904, max_df=0.9067515986311561, max_features=786
+           RESULT: 0.7928571428571429
+- Pop: 12 Generation: 8
+          Arguments: min_df=0.23807479810239685, max_df=0.2689592367651173, max_features=664
+           RESULT: 0.6271428571428571
+- Pop: 13 Generation: 8
+          Arguments: min_df=0.1617444494904866, max_df=0.17344066735368968, max_features=437
+           RESULT: 0.6257142857142858
+- Pop: 14 Generation: 8
+          Arguments: min_df=0.2081582160273454, max_df=0.7237680309624426, max_features=423
+           RESULT: 0.78
+- Pop: 15 Generation: 8
+          Inconsistent parameters
+
+--- End of generation: 8
+         BEST ACC: 0.8242857142857143
+
+
+- Pop: 1 Generation: 9
+          Arguments: min_df=0.004880179533215123, max_df=0.6310656928331234, max_features=351
+           RESULT: 0.8164285714285714
+- Pop: 2 Generation: 9
+          Arguments: min_df=0.07671365673304831, max_df=0.7660017799730423, max_features=1230
+           RESULT: 0.8235714285714285
+- Pop: 3 Generation: 9
+          Arguments: min_df=0.22605552924034067, max_df=0.813763352180703, max_features=494
+           RESULT: 0.777142857142857
+- Pop: 4 Generation: 9
+          Inconsistent parameters
+- Pop: 5 Generation: 9
+          Arguments: min_df=0.3400943979241966, max_df=0.6013504430394893, max_features=664
+           RESULT: 0.7328571428571429
+- Pop: 6 Generation: 9
+          Inconsistent parameters
+- Pop: 7 Generation: 9
+          Arguments: min_df=0.01421149182707615, max_df=0.09887307635174258, max_features=916
+           RESULT: 0.7657142857142858
+- Pop: 8 Generation: 9
+          Inconsistent parameters
+- Pop: 9 Generation: 9
+          Inconsistent parameters
+- Pop: 10 Generation: 9
+          Inconsistent parameters
+- Pop: 11 Generation: 9
+          Inconsistent parameters
+- Pop: 12 Generation: 9
+          Inconsistent parameters
+- Pop: 13 Generation: 9
+          Inconsistent parameters
+- Pop: 14 Generation: 9
+          Arguments: min_df=0.01440402361112414, max_df=0.752405232746423, max_features=715
+           RESULT: 0.8185714285714285
+- Pop: 15 Generation: 9
+          Arguments: min_df=0.2020878940636247, max_df=0.23088522039866743, max_features=884
+           RESULT: 0.657857142857143
+
+--- End of generation: 9
+         BEST ACC: 0.8235714285714285
+
+
+- Pop: 1 Generation: 10
+          Arguments: min_df=0.3390217972274322, max_df=0.7112372441975982, max_features=249
+           RESULT: 0.7371428571428571
+- Pop: 2 Generation: 10
+          Arguments: min_df=0.03170217881302961, max_df=0.6111158794386924, max_features=565
+           RESULT: 0.8242857142857144
+- Pop: 3 Generation: 10
+          Inconsistent parameters
+- Pop: 4 Generation: 10
+          Arguments: min_df=0.48757026595698894, max_df=0.9839729973503042, max_features=522
+           RESULT: 0.6957142857142858
+- Pop: 5 Generation: 10
+          Inconsistent parameters
+- Pop: 6 Generation: 10
+          Arguments: min_df=0.12415343117011896, max_df=0.28131926670920426, max_features=601
+           RESULT: 0.7907142857142857
+- Pop: 7 Generation: 10
+          Arguments: min_df=0.02940358433432777, max_df=0.7173269616524793, max_features=797
+           RESULT: 0.8371428571428571
+- Pop: 8 Generation: 10
+          Arguments: min_df=0.20053106350426297, max_df=0.9498126553228784, max_features=1363
+           RESULT: 0.7785714285714286
+- Pop: 9 Generation: 10
+          Arguments: min_df=0.1934893840157378, max_df=0.8176095738276785, max_features=221
+           RESULT: 0.7814285714285715
+- Pop: 10 Generation: 10
+          Arguments: min_df=0.01758379466751181, max_df=0.054330952116608544, max_features=868
+           RESULT: 0.7335714285714285
+- Pop: 11 Generation: 10
+          Inconsistent parameters
+- Pop: 12 Generation: 10
+          Arguments: min_df=0.03913652347665986, max_df=0.6315715253681077, max_features=588
+           RESULT: 0.8257142857142857
+- Pop: 13 Generation: 10
+          Arguments: min_df=0.3981242130479543, max_df=0.5539420887261842, max_features=661
+           RESULT: 0.6192857142857143
+- Pop: 14 Generation: 10
+          Arguments: min_df=0.05693424652270923, max_df=0.45100313094426075, max_features=1180
+           RESULT: 0.8249999999999998
+- Pop: 15 Generation: 10
+          Arguments: min_df=0.014799190136834062, max_df=0.7171014247015784, max_features=941
+           RESULT: 0.8221428571428571
+
+--- End of generation: 10
+         BEST ACC: 0.8371428571428571
+
+
+- Pop: 1 Generation: 11
+          Inconsistent parameters
+- Pop: 2 Generation: 11
+          Inconsistent parameters
+- Pop: 3 Generation: 11
+          Arguments: min_df=0.03939560567726802, max_df=0.6546747378004151, max_features=575
+           RESULT: 0.8292857142857143
+- Pop: 4 Generation: 11
+          Arguments: min_df=0.19440131068527206, max_df=0.8943563656992976, max_features=383
+           RESULT: 0.7807142857142858
+- Pop: 5 Generation: 11
+          Arguments: min_df=0.36753249273725, max_df=0.9593411483079449, max_features=454
+           RESULT: 0.7492857142857142
+- Pop: 6 Generation: 11
+          Arguments: min_df=0.07331457119633566, max_df=0.7117385079554808, max_features=595
+           RESULT: 0.8199999999999998
+- Pop: 7 Generation: 11
+          Arguments: min_df=0.01721191843795966, max_df=0.9232459991897559, max_features=1055
+           RESULT: 0.8307142857142857
+- Pop: 8 Generation: 11
+          Arguments: min_df=0.41735528264364685, max_df=0.48573839726767953, max_features=508
+           RESULT: 0.58
+- Pop: 9 Generation: 11
+          Arguments: min_df=0.022297805404172144, max_df=0.5551523210785742, max_features=811
+           RESULT: 0.815
+- Pop: 10 Generation: 11
+          Arguments: min_df=0.09144250016472366, max_df=0.5469494329209618, max_features=1232
+           RESULT: 0.8121428571428572
+- Pop: 11 Generation: 11
+          Inconsistent parameters
+- Pop: 12 Generation: 11
+          Arguments: min_df=0.1307317750870987, max_df=0.4937886191731736, max_features=986
+           RESULT: 0.805
+- Pop: 13 Generation: 11
+          Inconsistent parameters
+- Pop: 14 Generation: 11
+          Arguments: min_df=0.5793970802157268, max_df=0.8106066306496633, max_features=758
+           RESULT: 0.6678571428571429
+- Pop: 15 Generation: 11
+          Arguments: min_df=0.026754588944834734, max_df=0.6345704572667369, max_features=919
+           RESULT: 0.832857142857143
+
+--- End of generation: 11
+         BEST ACC: 0.832857142857143
+
+
+- Pop: 1 Generation: 12
+          Arguments: min_df=0.17216204742203, max_df=0.6310656928331234, max_features=995
+           RESULT: 0.7835714285714286
+- Pop: 2 Generation: 12
+          Arguments: min_df=0.0643417388704432, max_df=0.6922844714705119, max_features=607
+           RESULT: 0.8299999999999997
+- Pop: 3 Generation: 12
+          Arguments: min_df=0.4969310904490656, max_df=0.7005074777679112, max_features=1299
+           RESULT: 0.697857142857143
+- Pop: 4 Generation: 12
+          Arguments: min_df=0.030010078117988115, max_df=0.7185579148965183, max_features=798
+           RESULT: 0.84
+- Pop: 5 Generation: 12
+          Arguments: min_df=0.3400943979241966, max_df=0.7933318769203844, max_features=993
+           RESULT: 0.7457142857142857
+- Pop: 6 Generation: 12
+          Arguments: min_df=0.05002759858704664, max_df=0.2067115330456798, max_features=286
+           RESULT: 0.7807142857142858
+- Pop: 7 Generation: 12
+          Arguments: min_df=0.36414314156513217, max_df=0.7541016008114232, max_features=1166
+           RESULT: 0.7385714285714284
+- Pop: 8 Generation: 12
+          Arguments: min_df=0.40250111838977887, max_df=0.5713175319912157, max_features=482
+           RESULT: 0.6442857142857144
+- Pop: 9 Generation: 12
+          Arguments: min_df=0.12377734740562563, max_df=0.9930897448999882, max_features=1318
+           RESULT: 0.8228571428571427
+- Pop: 10 Generation: 12
+          Arguments: min_df=0.07566436437644969, max_df=0.4406330455797569, max_features=985
+           RESULT: 0.8078571428571428
+- Pop: 11 Generation: 12
+          Arguments: min_df=0.03157600346860029, max_df=0.602613036870656, max_features=725
+           RESULT: 0.8285714285714287
+- Pop: 12 Generation: 12
+          Arguments: min_df=0.05953022548645304, max_df=0.68301816856345, max_features=734
+           RESULT: 0.8385714285714286
+- Pop: 13 Generation: 12
+          Arguments: min_df=0.10795247488414189, max_df=0.803082397936851, max_features=1005
+           RESULT: 0.8207142857142858
+- Pop: 14 Generation: 12
+          Arguments: min_df=0.7634624783187162, max_df=0.8219987725340308, max_features=397
+           RESULT: nan
+- Pop: 15 Generation: 12
+          Arguments: min_df=0.08990915656138004, max_df=0.5864156096623989, max_features=884
+           RESULT: 0.8128571428571428
+
+--- End of generation: 12
+         BEST ACC: 0.84
+
+
+- Pop: 1 Generation: 13
+          Arguments: min_df=0.030010078117988115, max_df=0.6172151949972783, max_features=933
+           RESULT: 0.8357142857142856
+- Pop: 2 Generation: 13
+          Inconsistent parameters
+- Pop: 3 Generation: 13
+          Arguments: min_df=0.07126837406590836, max_df=0.6085251550000031, max_features=1075
+           RESULT: 0.8214285714285713
+- Pop: 4 Generation: 13
+          Arguments: min_df=0.1666545721676469, max_df=0.6146938785771086, max_features=833
+           RESULT: 0.7842857142857144
+- Pop: 5 Generation: 13
+          Arguments: min_df=0.020026924824920522, max_df=0.8866058800881366, max_features=900
+           RESULT: 0.8278571428571428
+- Pop: 6 Generation: 13
+          Arguments: min_df=0.10088581223011972, max_df=0.28131926670920426, max_features=605
+           RESULT: 0.7871428571428571
+- Pop: 7 Generation: 13
+          Arguments: min_df=0.338284718779886, max_df=0.6748602262253299, max_features=563
+           RESULT: 0.7364285714285714
+- Pop: 8 Generation: 13
+          Arguments: min_df=0.06097622909857214, max_df=0.6695138798483257, max_features=372
+           RESULT: 0.8235714285714285
+- Pop: 9 Generation: 13
+          Arguments: min_df=0.052190011345989495, max_df=0.9007738230211623, max_features=1265
+           RESULT: 0.8414285714285713
+- Pop: 10 Generation: 13
+          Arguments: min_df=0.2075365652642983, max_df=0.5729836146812007, max_features=718
+           RESULT: 0.7600000000000002
+- Pop: 11 Generation: 13
+          Arguments: min_df=0.0009820491021001465, max_df=0.9977723594350145, max_features=216
+           RESULT: 0.8042857142857143
+- Pop: 12 Generation: 13
+          Arguments: min_df=0.0584427451208247, max_df=0.753233937940758, max_features=1086
+           RESULT: 0.8407142857142859
+- Pop: 13 Generation: 13
+          Arguments: min_df=0.4584157770724038, max_df=0.8268213624857382, max_features=399
+           RESULT: 0.7085714285714286
+- Pop: 14 Generation: 13
+          Arguments: min_df=0.09974499216399602, max_df=0.997199008526337, max_features=593
+           RESULT: 0.827142857142857
+- Pop: 15 Generation: 13
+          Arguments: min_df=0.014799190136834062, max_df=0.7273299335271252, max_features=1316
+           RESULT: 0.8257142857142857
+
+--- End of generation: 13
+         BEST ACC: 0.8414285714285713
+
+
+- Pop: 1 Generation: 14
+          Arguments: min_df=0.49678004127459785, max_df=0.8282088363869983, max_features=1147
+           RESULT: 0.6992857142857143
+- Pop: 2 Generation: 14
+          Arguments: min_df=0.047743575132094596, max_df=0.6596406766793155, max_features=90
+           RESULT: 0.7599999999999999
+- Pop: 3 Generation: 14
+          Arguments: min_df=0.03939560567726802, max_df=0.6546747378004151, max_features=1093
+           RESULT: 0.8435714285714285
+- Pop: 4 Generation: 14
+          Arguments: min_df=0.01997171196834413, max_df=0.7693057102429892, max_features=1151
+           RESULT: 0.8335714285714286
+- Pop: 5 Generation: 14
+          Arguments: min_df=0.03034313552981366, max_df=0.7169136871071577, max_features=353
+           RESULT: 0.8135714285714285
+- Pop: 6 Generation: 14
+          Arguments: min_df=0.07331457119633566, max_df=0.5241757881469691, max_features=224
+           RESULT: 0.8014285714285715
+- Pop: 7 Generation: 14
+          Arguments: min_df=0.07703775705640242, max_df=0.4462116804305465, max_features=445
+           RESULT: 0.7949999999999999
+- Pop: 8 Generation: 14
+          Arguments: min_df=0.07199221822778523, max_df=0.5011329547921481, max_features=788
+           RESULT: 0.8164285714285716
+- Pop: 9 Generation: 14
+          Arguments: min_df=0.022297805404172144, max_df=0.6557899443349215, max_features=1094
+           RESULT: 0.827857142857143
+- Pop: 10 Generation: 14
+          Arguments: min_df=0.09144250016472366, max_df=0.7175098695858353, max_features=867
+           RESULT: 0.8257142857142858
+- Pop: 11 Generation: 14
+          Arguments: min_df=0.1773626470610904, max_df=0.7407814733907895, max_features=1134
+           RESULT: 0.7949999999999999
+- Pop: 12 Generation: 14
+          Arguments: min_df=0.09417113712506248, max_df=0.5226719358360018, max_features=986
+           RESULT: 0.817142857142857
+- Pop: 13 Generation: 14
+          Arguments: min_df=0.029573542704748823, max_df=0.6855688821816704, max_features=136
+           RESULT: 0.7807142857142856
+- Pop: 14 Generation: 14
+          Arguments: min_df=0.042480516983221084, max_df=0.6628173656743668, max_features=1219
+           RESULT: 0.84
+- Pop: 15 Generation: 14
+          Arguments: min_df=0.03998614104835929, max_df=0.6345704572667369, max_features=919
+           RESULT: 0.8407142857142856
+
+--- End of generation: 14
+         BEST ACC: 0.8435714285714285
+
+
+- Pop: 1 Generation: 15
+          Arguments: min_df=0.2357117549937806, max_df=0.48729925007933794, max_features=412
+           RESULT: 0.7371428571428571
+- Pop: 2 Generation: 15
+          Arguments: min_df=0.0643417388704432, max_df=0.6922844714705119, max_features=896
+           RESULT: 0.8357142857142856
+- Pop: 3 Generation: 15
+          Arguments: min_df=0.062358692537197724, max_df=0.6497922234346794, max_features=569
+           RESULT: 0.8292857142857142
+- Pop: 4 Generation: 15
+          Arguments: min_df=0.02940358433432777, max_df=0.6336647903789338, max_features=1052
+           RESULT: 0.8378571428571429
+- Pop: 5 Generation: 15
+          Arguments: min_df=0.3400943979241966, max_df=0.6912312149771914, max_features=1205
+           RESULT: 0.7371428571428571
+- Pop: 6 Generation: 15
+          Arguments: min_df=0.077672101565472, max_df=0.2067115330456798, max_features=941
+           RESULT: 0.7835714285714287
+- Pop: 7 Generation: 15
+          Arguments: min_df=0.20578744140460603, max_df=0.7541016008114232, max_features=916
+           RESULT: 0.7764285714285714
+- Pop: 8 Generation: 15
+          Inconsistent parameters
+- Pop: 9 Generation: 15
+          Arguments: min_df=0.08899667621431373, max_df=0.4670901727107388, max_features=1318
+           RESULT: 0.8099999999999999
+- Pop: 10 Generation: 15
+          Arguments: min_df=0.04450833899454254, max_df=0.5470084867636941, max_features=985
+           RESULT: 0.825
+- Pop: 11 Generation: 15
+          Arguments: min_df=0.05243935352751161, max_df=0.6855837326934424, max_features=725
+           RESULT: 0.8385714285714286
+- Pop: 12 Generation: 15
+          Arguments: min_df=0.03537968919319556, max_df=0.6929882945871898, max_features=1212
+           RESULT: 0.847857142857143
+- Pop: 13 Generation: 15
+          Arguments: min_df=0.20177152492053363, max_df=0.7784987071027597, max_features=1181
+           RESULT: 0.7764285714285715
+- Pop: 14 Generation: 15
+          Arguments: min_df=0.009957172674988746, max_df=0.752405232746423, max_features=934
+           RESULT: 0.8207142857142857
+- Pop: 15 Generation: 15
+          Arguments: min_df=0.08990915656138004, max_df=0.6996572669068349, max_features=884
+           RESULT: 0.8285714285714284
+
+--- End of generation: 15
+         BEST ACC: 0.847857142857143
+
+
+- Pop: 1 Generation: 16
+          Arguments: min_df=0.03537968919319556, max_df=0.692731246555337, max_features=152
+           RESULT: 0.7828571428571428
+- Pop: 2 Generation: 16
+          Arguments: min_df=0.08328689146274049, max_df=0.5148361514975167, max_features=565
+           RESULT: 0.8107142857142856
+- Pop: 3 Generation: 16
+          Arguments: min_df=0.07126837406590836, max_df=0.9200503005216711, max_features=304
+           RESULT: 0.8207142857142857
+- Pop: 4 Generation: 16
+          Arguments: min_df=0.033228630010044835, max_df=0.6921305808205976, max_features=1221
+           RESULT: 0.845
+- Pop: 5 Generation: 16
+          Arguments: min_df=0.02574911782604472, max_df=0.643155015755288, max_features=1216
+           RESULT: 0.8350000000000001
+- Pop: 6 Generation: 16
+          Arguments: min_df=0.08220813474421829, max_df=0.5158894235869476, max_features=1229
+           RESULT: 0.8085714285714286
+- Pop: 7 Generation: 16
+          Arguments: min_df=0.030676204467544765, max_df=0.6668471065911695, max_features=563
+           RESULT: 0.8250000000000002
+- Pop: 8 Generation: 16
+          Arguments: min_df=0.06097622909857214, max_df=0.9483388861349638, max_features=1331
+           RESULT: 0.8407142857142856
+- Pop: 9 Generation: 16
+          Arguments: min_df=0.05319114115289675, max_df=0.7185579148965183, max_features=1270
+           RESULT: 0.8407142857142856
+- Pop: 10 Generation: 16
+          Arguments: min_df=0.05891814156325814, max_df=0.8338741712289288, max_features=1088
+           RESULT: 0.84
+- Pop: 11 Generation: 16
+          Arguments: min_df=0.056226726097221735, max_df=0.6070271824744327, max_features=1228
+           RESULT: 0.8371428571428571
+- Pop: 12 Generation: 16
+          Arguments: min_df=0.016308220693623643, max_df=0.7946763907191177, max_features=1086
+           RESULT: 0.8278571428571428
+- Pop: 13 Generation: 16
+          Arguments: min_df=0.4584157770724038, max_df=0.7222479844160574, max_features=1038
+           RESULT: 0.6921428571428573
+- Pop: 14 Generation: 16
+          Arguments: min_df=0.0369792323972406, max_df=0.951786899177653, max_features=204
+           RESULT: 0.7992857142857143
+- Pop: 15 Generation: 16
+          Inconsistent parameters
+
+--- End of generation: 16
+         BEST ACC: 0.845
+
+
+- Pop: 1 Generation: 17
+          Arguments: min_df=0.002345356037145585, max_df=0.8282088363869983, max_features=1095
+           RESULT: 0.8185714285714285
+- Pop: 2 Generation: 17
+          Arguments: min_df=0.07710987440154693, max_df=0.7303802471342924, max_features=979
+           RESULT: 0.8221428571428571
+- Pop: 3 Generation: 17
+          Arguments: min_df=0.052190011345989495, max_df=0.7139691196117585, max_features=228
+           RESULT: 0.8228571428571427
+- Pop: 4 Generation: 17
+          Arguments: min_df=0.01997171196834413, max_df=0.6721229332109602, max_features=1363
+           RESULT: 0.8428571428571427
+- Pop: 5 Generation: 17
+          Arguments: min_df=0.05021159982711515, max_df=0.7530701579904041, max_features=1197
+           RESULT: 0.8364285714285714
+- Pop: 6 Generation: 17
+          Arguments: min_df=0.06674766485252248, max_df=0.7117385079554808, max_features=1119
+           RESULT: 0.837142857142857
+- Pop: 7 Generation: 17
+          Arguments: min_df=0.7445073176009478, max_df=0.7645312281112755, max_features=1169
+           RESULT: nan
+- Pop: 8 Generation: 17
+          Inconsistent parameters
+- Pop: 9 Generation: 17
+          Arguments: min_df=0.03833325532003112, max_df=0.754600389396891, max_features=1164
+           RESULT: 0.8485714285714286
+- Pop: 10 Generation: 17
+          Arguments: min_df=0.016686481650457274, max_df=0.7175098695858353, max_features=1095
+           RESULT: 0.8264285714285712
+- Pop: 11 Generation: 17
+          Arguments: min_df=0.033890787863732896, max_df=0.7407814733907895, max_features=1134
+           RESULT: 0.8457142857142859
+- Pop: 12 Generation: 17
+          Arguments: min_df=0.009138445270664486, max_df=0.5226719358360018, max_features=260
+           RESULT: 0.8042857142857145
+- Pop: 13 Generation: 17
+          Arguments: min_df=0.03152547361087188, max_df=0.9134717795056373, max_features=136
+           RESULT: 0.7649999999999999
+- Pop: 14 Generation: 17
+          Arguments: min_df=0.054150106899876205, max_df=0.7414314228440868, max_features=1242
+           RESULT: 0.8392857142857142
+- Pop: 15 Generation: 17
+          Arguments: min_df=0.05330268009180661, max_df=0.9924519731475425, max_features=1331
+           RESULT: 0.84
+
+--- End of generation: 17
+         BEST ACC: 0.8485714285714286
+
+
+- Pop: 1 Generation: 18
+          Arguments: min_df=0.3105241615681916, max_df=0.7722347983960899, max_features=1215
+           RESULT: 0.7578571428571427
+- Pop: 2 Generation: 18
+          Arguments: min_df=0.01357772147828995, max_df=0.7134082498324795, max_features=1086
+           RESULT: 0.8242857142857143
+- Pop: 3 Generation: 18
+          Arguments: min_df=0.05481468049284449, max_df=0.6769669419449735, max_features=569
+           RESULT: 0.8278571428571428
+- Pop: 4 Generation: 18
+          Arguments: min_df=0.043368619625405835, max_df=0.7661114681600659, max_features=914
+           RESULT: 0.8328571428571429
+- Pop: 5 Generation: 18
+          Arguments: min_df=0.09173008679433586, max_df=0.8254417915195954, max_features=993
+           RESULT: 0.8249999999999998
+- Pop: 6 Generation: 18
+          Arguments: min_df=0.02871785312209091, max_df=0.2067115330456798, max_features=1009
+           RESULT: 0.8107142857142856
+- Pop: 7 Generation: 18
+          Arguments: min_df=0.05093317985606727, max_df=0.7541016008114232, max_features=1019
+           RESULT: 0.8392857142857142
+- Pop: 8 Generation: 18
+          Arguments: min_df=0.017613042870019247, max_df=0.8536438130436207, max_features=1307
+           RESULT: 0.8378571428571429
+- Pop: 9 Generation: 18
+          Arguments: min_df=0.03933591870123232, max_df=0.9930897448999882, max_features=1329
+           RESULT: 0.85
+- Pop: 10 Generation: 18
+          Arguments: min_df=0.016320575788628833, max_df=0.3671151788901771, max_features=426
+           RESULT: 0.7949999999999999
+- Pop: 11 Generation: 18
+          Arguments: min_df=0.031545372266315375, max_df=0.982539848290545, max_features=454
+           RESULT: 0.8171428571428572
+- Pop: 12 Generation: 18
+          Arguments: min_df=0.0758901154369438, max_df=0.6546747378004151, max_features=1115
+           RESULT: 0.8214285714285714
+- Pop: 13 Generation: 18
+          Arguments: min_df=0.033366443050613925, max_df=0.9493820366659722, max_features=315
+           RESULT: 0.815
+- Pop: 14 Generation: 18
+          Arguments: min_df=0.018254272806063454, max_df=0.5543513615396706, max_features=934
+           RESULT: 0.8114285714285714
+- Pop: 15 Generation: 18

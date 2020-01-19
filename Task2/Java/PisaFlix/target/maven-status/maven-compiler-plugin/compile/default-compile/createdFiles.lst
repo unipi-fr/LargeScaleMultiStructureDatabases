@@ -19,6 +19,7 @@ com\lsmsdbgroup\pisaflix\pisaflixservices\EngageService.class
 com\lsmsdbgroup\pisaflixg\UserCardController.class
 com\lsmsdbgroup\pisaflixg\FilmCardController.class
 com\lsmsdbgroup\pisaflixg\UserViewController.class
+com\dataMining\scripts\classifier.class
 com\lsmsdbgroup\pisaflix\dbmanager\Interfaces\FilmManagerDatabaseInterface.class
 com\lsmsdbgroup\pisaflixg\AverageRatingAnalyticController.class
 com\lsmsdbgroup\pisaflixg\App.class
@@ -34,7 +35,6 @@ com\lsmsdbgroup\pisaflixg\FilmBrowserController.class
 com\lsmsdbgroup\pisaflixg\CommentController.class
 com\lsmsdbgroup\pisaflixg\UserBrowserController.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\exceptions\UserNotLoggedException.class
-com\dataMining\test.class
 com\lsmsdbgroup\pisaflixg\MainPageController.class
 com\lsmsdbgroup\pisaflix\dbmanager\Interfaces\AnalyticsManagerDatabaseInterface$RankingType.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\AnalyticsServiceInterface.class
