@@ -1,0 +1,24 @@
+DIFFERENTIAL EVOLUTION TEXT LOG
+
+- Pop: 1 Generation: 1
+          Arguments: min_df=0.6212996677946686, max_df=0.7136047772986127, max_features=1159
+           RESULT: 0.5492857142857143
+- Pop: 2 Generation: 1
+          Inconsistent parameters
+- Pop: 3 Generation: 1
+          Inconsistent parameters
+- Pop: 4 Generation: 1
+          Inconsistent parameters
+- Pop: 5 Generation: 1
+          Arguments: min_df=0.7261280685098794, max_df=0.7558557748341683, max_features=1266
+           RESULT: 0.5585714285714285
+- Pop: 6 Generation: 1
+          Inconsistent parameters
+- Pop: 7 Generation: 1
+          Arguments: min_df=0.015422025796901995, max_df=0.6944959303377022, max_features=876
+           RESULT: 0.8221428571428571
+- Pop: 8 Generation: 1
+          No terms for those parameters
+- Pop: 9 Generation: 1
+          Inconsistent parameters
+- Pop: 10 Generation: 1

@@ -1,4 +1,4 @@
-package com.dataMining.scripts;
+package com.datamining;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +12,7 @@ public class classifier {
         Process pythonScript = null;
         
         try {
-            pythonScript = Runtime.getRuntime().exec("python src/main/java/com/dataMining/scripts/classifier.py -get t");
+            pythonScript = Runtime.getRuntime().exec("python src/main/resources/datamining/scripts/classifier.py -get t");
         } catch (IOException ex) {
             Logger.getLogger(classifier.class.getName()).log(Level.SEVERE, null, ex);
         }

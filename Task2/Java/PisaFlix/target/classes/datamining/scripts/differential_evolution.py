@@ -9,14 +9,13 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis, QuadraticDiscriminantAnalysis
 from sklearn.naive_bayes import GaussianNB
 from scipy.optimize import differential_evolution
-from python.src.scripts.preprocessing import classifier_preprocessiong
+from Java.PisaFlix.src.main.resources.datamining.scripts.preprocessing import classifier_preprocessiong
 from joblib import dump, load
 
-
 # GLOBAL VARIABLES
-# dataset = pandas.read_csv("../resources/datasets/labelledData.csv", ";")
-# pop = [0, 1, 0]
-# pop_size = 15
+dataset = pandas.read_csv("../resources/datasets/labelledData.csv", ";")
+pop = [0, 1, 0]
+pop_size = 15
 
 
 def classification_report_with_accuracy_score(y_true, y_pred):
@@ -119,72 +118,72 @@ def classification(x):
 
 
 if __name__ == '__main__':
-    data = pandas.read_csv("../resources/elaborations/vectorizedData.csv")
-    data.drop('Title', axis=1, inplace=True)
-    data.drop('Year', axis=1, inplace=True)
-    data.drop('Plot', axis=1, inplace=True)
-    # # print(data)
+    # data = pandas.read_csv("../resources/elaborations/vectorizedData.csv")
+    # data.drop('Title', axis=1, inplace=True)
+    # data.drop('Year', axis=1, inplace=True)
+    # data.drop('Plot', axis=1, inplace=True)
+    # # # print(data)
+    # #
+    # X = data.iloc[:, 1:-1].values
+    # y = data['MPAA']
+    # #
+    # # LR_model = LogisticRegression()
+    # # trained_model = LR_model.fit(X, y)
+    # # # print(trained_model.score(X, y))
+    # # dump(trained_model, '../resources/elaborations/trained_model.joblib')
     #
-    X = data.iloc[:, 1:-1].values
-    y = data['MPAA']
+    # model = load('../resources/elaborations/trained_model.joblib')
+    # to_be_classified = [X[len(X) - 1]]
+    # print(to_be_classified)
+    # print(y[len(X) - 1])
+    # print(model.predict_proba(to_be_classified))
+
+    # # (1) K-Nearest Neighbors
+    # KNN_model = KNeighborsClassifier(n_neighbors=5)
+    # CV_KNN = cross_val_score(KNN_model, X, y, cv=10)
+    # print(mean(CV_KNN))
     #
+    # # (2) Decision Tree Classifier
+    # DT_model = DecisionTreeClassifier(1, )
+    # CV_DT = cross_val_score(DT_model, X, y, cv=10)
+    # print(mean(CV_DT))
+    #
+    # (3) Support Vector Machines
+    # SVC_model = svm.SVC()
+    # CV_SVC = cross_val_score(SVC_model, X, y, cv=10)
+    # print(mean(CV_SVC))
+
+    # (4) Logistic Regression
     # LR_model = LogisticRegression()
-    # trained_model = LR_model.fit(X, y)
-    # # print(trained_model.score(X, y))
-    # dump(trained_model, '../resources/elaborations/trained_model.joblib')
+    # CV_LR = cross_val_score(LR_model, X, y, cv=10, scoring=make_scorer(classification_report_with_accuracy_score))
+    # print(mean(CV_LR))
 
-    model = load('../resources/elaborations/trained_model.joblib')
-    to_be_classified = [X[len(X) - 1]]
-    print(to_be_classified)
-    print(y[len(X) - 1])
-    print(model.predict_proba(to_be_classified))
+    #
+    # # (5) Discriminant Analysis
+    # # Linear
+    # LD_model = LinearDiscriminantAnalysis()
+    # CV_LD = cross_val_score(LD_model, X, y, cv=10)
+    # print(mean(CV_LD))
+    # # Quadratic
+    # QD_model = QuadraticDiscriminantAnalysis()
+    # CV_QD = cross_val_score(QD_model, X, y, cv=10)
+    # print(mean(CV_QD))  # Problema di collinearità!
 
-# # (1) K-Nearest Neighbors
-# KNN_model = KNeighborsClassifier(n_neighbors=5)
-# CV_KNN = cross_val_score(KNN_model, X, y, cv=10)
-# print(mean(CV_KNN))
-#
-# # (2) Decision Tree Classifier
-# DT_model = DecisionTreeClassifier(1, )
-# CV_DT = cross_val_score(DT_model, X, y, cv=10)
-# print(mean(CV_DT))
-#
-# (3) Support Vector Machines
-# SVC_model = svm.SVC()
-# CV_SVC = cross_val_score(SVC_model, X, y, cv=10)
-# print(mean(CV_SVC))
+    # (6) Gaussian Naive Bayesian
+    # GNB_model = GaussianNB()
+    # CV_GNB = cross_val_score(GNB_model, X, y, cv=10)
+    # print(mean(CV_GNB))
 
-# (4) Logistic Regression
-# LR_model = LogisticRegression()
-# CV_LR = cross_val_score(LR_model, X, y, cv=10, scoring=make_scorer(classification_report_with_accuracy_score))
-# print(mean(CV_LR))
+    log = open("../resources/elaborations/log.csv", "w+")
+    log.write("min_df,max_df,max_features,accuracy")
+    log.close()
 
-#
-# # (5) Discriminant Analysis
-# # Linear
-# LD_model = LinearDiscriminantAnalysis()
-# CV_LD = cross_val_score(LD_model, X, y, cv=10)
-# print(mean(CV_LD))
-# # Quadratic
-# QD_model = QuadraticDiscriminantAnalysis()
-# CV_QD = cross_val_score(QD_model, X, y, cv=10)
-# print(mean(CV_QD))  # Problema di collinearità!
+    log = open("../resources/elaborations/log.txt", "w+")
+    log.write("DIFFERENTIAL EVOLUTION TEXT LOG\n")
+    log.close()
 
-# (6) Gaussian Naive Bayesian
-# GNB_model = GaussianNB()
-# CV_GNB = cross_val_score(GNB_model, X, y, cv=10)
-# print(mean(CV_GNB))
-
-# log = open("../resources/elaborations/log.csv", "w+")
-# log.write("min_df,max_df,max_features,accuracy")
-# log.close()
-#
-# log = open("../resources/elaborations/log.txt", "w+")
-# log.write("DIFFERENTIAL EVOLUTION TEXT LOG\n")
-# log.close()
-#
-# bounds = [(0, 1), (0, 1), (38, 1400)]
-# differential_evolution(classification, bounds, popsize=pop_size)
+    bounds = [(0, 1), (0, 1), (38, 1400)]
+    differential_evolution(classification, bounds, popsize=pop_size)
 
 # NOTES:
 #   (1): K-Nearest Neighbors operates by checking the distance from some test example to the known values of some
