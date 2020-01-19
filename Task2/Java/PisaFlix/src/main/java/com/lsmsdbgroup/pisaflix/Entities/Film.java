@@ -25,6 +25,12 @@ public class Film extends Entity implements Serializable {
     public Film(String idFilm) {
         this.idFilm = idFilm;
     }
+    
+    public Film(String idFilm, String title, String description) {
+        this.idFilm = idFilm;
+        this.title = title;
+        this.description = description;
+    }
 
     public Film(String idFilm, String title, Date publicationDate) {
         this.idFilm = idFilm;
