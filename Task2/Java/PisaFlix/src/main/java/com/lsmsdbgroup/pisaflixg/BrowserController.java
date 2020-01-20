@@ -12,6 +12,12 @@ public abstract class BrowserController {
     protected ScrollPane scrollPane;
     
     @FXML
+    protected Label safeSearchLabel;
+    
+    @FXML
+    protected Slider safeSearch;
+    
+    @FXML
     protected Button searchButton;
     
     @FXML
@@ -42,4 +48,5 @@ public abstract class BrowserController {
 
     @FXML
     public abstract void add();
+    
 }

@@ -24,7 +24,7 @@ public interface FilmManagerDatabaseInterface {
     
     long getCommentPageSize();
 
-    Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit, int skip);
+    Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit, int skip, double adultnessMargin);
 
     void getComments(Film film, int skip, int limit);
 

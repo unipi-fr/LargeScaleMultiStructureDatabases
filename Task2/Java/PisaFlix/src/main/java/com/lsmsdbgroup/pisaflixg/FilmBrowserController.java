@@ -21,6 +21,8 @@ import javafx.scene.layout.Pane;
 public class FilmBrowserController extends BrowserController implements Initializable {
 
     ExecutorService executorService;
+    
+    private double adultnessMargin;
 
     public FilmBrowserController() {
     }
@@ -60,7 +62,6 @@ public class FilmBrowserController extends BrowserController implements Initiali
     public void filter() {
         try {
             String titleFilter = filterTextField.getText();
-
             searchFilms(titleFilter, null);
         } catch (Exception ex) {
             App.printErrorDialog("Films", "An error occurred searching the films", ex.toString() + "\n" + ex.getMessage());
@@ -86,7 +87,8 @@ public class FilmBrowserController extends BrowserController implements Initiali
     @FXML
     public void searchFilms(String titleFilter, Date dateFilter) {
         try {
-            Set<Film> films = PisaFlixServices.filmService.getFilmsFiltered(titleFilter, dateFilter, dateFilter);
+            adultnessMargin = (safeSearch.getValue()/100);
+            Set<Film> films = PisaFlixServices.filmService.getFilmsFiltered(titleFilter, dateFilter, dateFilter, adultnessMargin);
             populateScrollPane(films);
         } catch (Exception ex) {
             App.printErrorDialog("Films", "An error occurred searching the films", ex.toString() + "\n" + ex.getMessage());
@@ -150,4 +152,5 @@ public class FilmBrowserController extends BrowserController implements Initiali
             searchButton.setDisable(true);
         }
     }
+    
 }

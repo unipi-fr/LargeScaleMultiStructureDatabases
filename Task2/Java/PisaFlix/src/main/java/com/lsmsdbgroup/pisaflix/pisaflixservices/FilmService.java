@@ -17,9 +17,9 @@ public class FilmService implements FilmServiceInterface {
     }
 
     @Override
-    public Set<Film> getFilmsFiltered(String titleFilter, Date startDateFilter, Date endDateFilter) {
+    public Set<Film> getFilmsFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, double adultnessMargin) {
         Set<Film> films = null;
-        films = filmManager.getFiltered(titleFilter, startDateFilter, endDateFilter, 0, 0);
+        films = filmManager.getFiltered(titleFilter, startDateFilter, endDateFilter, 0, 0, adultnessMargin);
         return films;
     }
 

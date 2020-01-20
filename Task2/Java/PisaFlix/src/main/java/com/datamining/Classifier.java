@@ -1,6 +1,7 @@
 package com.datamining;
 
 import com.lsmsdbgroup.pisaflix.Entities.Film;
+import com.lsmsdbgroup.pisaflix.dbmanager.DBManager;
 import com.lsmsdbgroup.pisaflix.dbmanager.FilmManager;
 import java.io.BufferedReader;
 import java.io.FileWriter;
@@ -75,6 +76,8 @@ public class Classifier {
             });
             filmSet = FilmManager.getIstance().getFilmToBeClassified(n, 0);
         }
+        DBManager.stop();
+        System.out.println("All films have been successfully classified!");
     }
 
     public static void main(String[] args) {

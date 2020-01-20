@@ -6,7 +6,7 @@ import java.util.*;
 
 public interface FilmServiceInterface {
 
-    Set<Film> getFilmsFiltered(String titleFilter, Date startDateFilter, Date endDateFilter);
+    Set<Film> getFilmsFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, double adultnessMargin);
 
     Set<Film> getAll();
 

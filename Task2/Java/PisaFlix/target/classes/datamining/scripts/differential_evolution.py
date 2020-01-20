@@ -40,7 +40,7 @@ def classification(x):
         print("\n--- End of generation: " + str(pop[1]))
         print("         BEST ACC: " + str(pop[2]) + "\n")
 
-        log = open("../resources/elaborations/Convergenza2.txt", "a+")
+        log = open("../resources/elaborations/log.txt", "a+")
         log.write(
             "\n" + "\n--- End of generation: " + str(pop[1]) + "\n" + "         BEST ACC: " + str(pop[2]) + "\n\n")
         log.close()
@@ -50,14 +50,14 @@ def classification(x):
 
     print("- Pop: " + str(pop[0]) + " Generation: " + str(pop[1]))
 
-    log = open("../resources/elaborations/Convergenza2.txt", "a+")
+    log = open("../resources/elaborations/log.txt", "a+")
     log.write("\n" + "- Pop: " + str(pop[0]) + " Generation: " + str(pop[1]))
     log.close()
 
     if min_df > max_df:
         print("         Inconsistent parameters")
 
-        log = open("../resources/elaborations/Convergenza2.txt", "a+")
+        log = open("../resources/elaborations/log.txt", "a+")
         log.write("\n" + "          Inconsistent parameters")
         log.close()
 
@@ -67,7 +67,7 @@ def classification(x):
         data = classifier_preprocessiong(dataset=dataset, min_df=min_df, max_df=max_df, max_features=max_features)
     except:
 
-        log = open("../resources/elaborations/Convergenza2.txt", "a+")
+        log = open("../resources/elaborations/log.txt", "a+")
         log.write("\n" + "          No terms for those parameters")
         log.close()
 
@@ -93,7 +93,7 @@ def classification(x):
     except:
         print("         Error in the regression")
 
-        log = open("../resources/elaborations/Convergenza2.txt", "a+")
+        log = open("../resources/elaborations/log.txt", "a+")
         log.write("\n" + "          Error in the regression")
         log.close()
 
@@ -102,12 +102,12 @@ def classification(x):
     print("         Arguments: min_df=" + str(min_df) + ", max_df=" + str(max_df) +
           ", max_features=" + str(max_features) + "\n           RESULT: " + str(mean_acc))
 
-    log = open("../resources/elaborations/Convergenza2.txt", "a+")
+    log = open("../resources/elaborations/log.txt", "a+")
     log.write("\n" + "          Arguments: min_df=" + str(min_df) + ", max_df=" + str(max_df) +
               ", max_features=" + str(max_features) + "\n           RESULT: " + str(mean_acc))
     log.close()
 
-    log = open("../resources/elaborations/Convergenza2.csv", "a+")
+    log = open("../resources/elaborations/log.csv", "a+")
     log.write("\n" + str(min_df) + "," + str(max_df) + "," + str(max_features) + "," + str(mean_acc))
     log.close()
 
@@ -174,11 +174,11 @@ if __name__ == '__main__':
     # CV_GNB = cross_val_score(GNB_model, X, y, cv=10)
     # print(mean(CV_GNB))
 
-    log = open("../resources/elaborations/Convergenza2.csv", "w+")
+    log = open("../resources/elaborations/log.csv", "w+")
     log.write("min_df,max_df,max_features,accuracy")
     log.close()
 
-    log = open("../resources/elaborations/Convergenza2.txt", "w+")
+    log = open("../resources/elaborations/log.txt", "w+")
     log.write("DIFFERENTIAL EVOLUTION TEXT LOG\n")
     log.close()
 

@@ -110,7 +110,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     }
 
     @Override
-    public Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit, int skip) {
+    public Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit, int skip, double adultnessMargin) {
         Set<Film> filmSet = new LinkedHashSet<>();
         List filters = new ArrayList();
 
@@ -126,7 +126,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
             filters.add(and(gte("PublicationDate", startDateFilter), lt("PublicationDate", endDateFilter)));
         }
 
-        try (MongoCursor<Document> cursor = FilmCollection.find(or(filters)).projection(Projections.exclude("RecentComments")).sort(sort).limit(filmLimit).skip(skip).iterator()) {
+        try (MongoCursor<Document> cursor = FilmCollection.find(and(or(filters),lt("Adultness", 1.0 - adultnessMargin))).projection(Projections.exclude("RecentComments")).sort(sort).limit(filmLimit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 filmSet.add(new Film(cursor.next()));
             }

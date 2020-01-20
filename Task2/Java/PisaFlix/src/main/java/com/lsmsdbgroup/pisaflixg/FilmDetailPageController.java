@@ -1,13 +1,11 @@
 package com.lsmsdbgroup.pisaflixg;
 
-import com.datamining.Classifier;
 import com.lsmsdbgroup.Scraping.WikiScraper;
 import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.Entities.Engage.EngageType;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.*;
 import java.io.IOException;
 import java.net.URL;
-import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.ResourceBundle;
 import javafx.fxml.*;
@@ -81,11 +79,15 @@ public class FilmDetailPageController implements Initializable {
     }
 
     public void setPublishDate(String publishDate) {
-        publishDateLabel.setText(publishDate);
+        if (film.getAdultness() != -1.0) {
+            publishDateLabel.setText(publishDate + " | Adultness: " + Math.round(film.getAdultness() * 100) + "%");
+        } else {
+            publishDateLabel.setText(publishDate);
+        }
     }
 
     public void setDescription(String description) {
-        if (description.length() > 1000) {
+        if (description.length() > 2000) {
             scrollableDescriptionLabel.setText(description);
             descriptionLabel.setVisible(false);
             descriptionLabel.setManaged(false);
@@ -246,4 +248,5 @@ public class FilmDetailPageController implements Initializable {
             pagination.pageCountProperty().setValue(pageNumber);
         }
     }
+
 }

@@ -14,6 +14,7 @@ public class Film extends Entity implements Serializable {
     private Date publicationDate;
     private String description;
     private String wikiPage;
+    private Double adultness = -1.0;
 
     private Set<User> userSet = new LinkedHashSet<>();
     private Set<Comment> commentSet = new LinkedHashSet<>();
@@ -51,6 +52,9 @@ public class Film extends Entity implements Serializable {
             if (filmDocument.containsKey("WikiPage")) {
                 this.wikiPage = filmDocument.getString("WikiPage");
             }
+            if (filmDocument.containsKey("Adultness")) {
+                this.adultness = filmDocument.getDouble("Adultness");
+            }
             this.idFilm = filmDocument.get("_id").toString();
         } else {
             try {
@@ -64,6 +68,10 @@ public class Film extends Entity implements Serializable {
     @Override
     public String getId() {
         return idFilm;
+    }
+    
+    public double getAdultness() {
+        return adultness;
     }
 
     public void setIdFilm(String idFilm) {

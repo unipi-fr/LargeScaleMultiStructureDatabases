@@ -26,6 +26,10 @@ public class UserBrowserController extends BrowserController implements Initiali
             super.initialize();
             filterTextField.setPromptText("Name filter");
             searchUsers(null);
+            safeSearch.setVisible(false);
+            safeSearch.setManaged(false);
+            safeSearchLabel.setVisible(false);
+            safeSearchLabel.setManaged(false);
         } catch (Exception ex) {
             App.printErrorDialog("Users", "An error occurred loading the page", ex.toString() + "\n" + ex.getMessage());
         }
@@ -139,4 +143,5 @@ public class UserBrowserController extends BrowserController implements Initiali
     public void add() {
         App.setMainPageReturnsController("registration");
     }
+
 }
