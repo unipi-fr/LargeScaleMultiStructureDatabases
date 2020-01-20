@@ -259,4 +259,21 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         }
         return count;
     }
+    
+    /****************** DATA MINING *******************************************/
+    
+    @Override
+    public Set<Film> getFilmToBeClassified(int limit, int skip) {
+        Set<Film> filmSet = new LinkedHashSet<>();
+        try (MongoCursor<Document> cursor = FilmCollection.find(new Document("Adultness", new Document("$exists", false))).projection(Projections.include("Description")).sort(sort).limit(limit).skip(skip).iterator()) {
+            while (cursor.hasNext()) {
+                filmSet.add(new Film(cursor.next()));
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace(System.out);
+            System.out.println("A problem occurred in retrieve all films!");
+        }
+        return filmSet;
+    }
 }

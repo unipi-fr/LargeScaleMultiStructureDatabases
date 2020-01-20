@@ -18,12 +18,12 @@ com\lsmsdbgroup\pisaflixg\RegistrationController.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\EngageService.class
 com\lsmsdbgroup\pisaflixg\UserCardController.class
 com\lsmsdbgroup\pisaflixg\FilmCardController.class
+com\datamining\Classifier.class
 com\lsmsdbgroup\pisaflixg\UserViewController.class
 com\lsmsdbgroup\pisaflix\dbmanager\Interfaces\FilmManagerDatabaseInterface.class
 com\lsmsdbgroup\pisaflixg\AverageRatingAnalyticController.class
 com\lsmsdbgroup\pisaflixg\App.class
 com\lsmsdbgroup\pisaflix\dbmanager\DBManager.class
-com\datamining\classifier.class
 com\lsmsdbgroup\pisaflix\DateConverter.class
 com\lsmsdbgroup\pisaflixg\WelcomeBackController.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\UserServiceInterface.class

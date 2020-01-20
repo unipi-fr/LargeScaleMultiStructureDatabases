@@ -48,10 +48,7 @@ def preprocessing(dataset, min_df=0.1, max_df=0.9, max_features=None):
     class_CHILDREN = dataset[dataset["MPAA"] == "CHILDREN"]
     dataset = class_ADULTS.append(class_CHILDREN, ignore_index=True)
 
-    tbc_file = open(relative_path("../resources/datasets/to_be_classified.txt"), "r")
-    tmp = {"MPAA": ["to_be_classified"], "Plot": [tbc_file.read()]}
-    tbc_file.close()
-    to_be_classified = pandas.DataFrame(tmp)
+    to_be_classified = pandas.read_csv(relative_path("../resources/datasets/to_be_classified.csv"))
     dataset = dataset.append(to_be_classified, ignore_index=True)
 
     plots = dataset.__getattr__("Plot")
@@ -82,12 +79,19 @@ def preprocessing(dataset, min_df=0.1, max_df=0.9, max_features=None):
 
 if __name__ == '__main__':
     dataset = pandas.read_csv(relative_path("../resources/datasets/labelledData.csv"), ";")
-    data = preprocessing(dataset=dataset, min_df=0.1, max_df=0.9, max_features=None)
+    data = preprocessing(dataset=dataset, min_df=0.04, max_df=0.74, max_features=1300)
 
-    X = data.iloc[:, 1:-1].values
-    y = data['MPAA']
+    class_ADULTS = data[data["MPAA"] == "ADULTS"]
+    class_CHILDREN = data[data["MPAA"] == "CHILDREN"]
+    model_tuples = class_ADULTS.append(class_CHILDREN, ignore_index=True)
+    to_be_classified_tuples = data[data["MPAA"] == "to_be_classified"]
 
-    model = LogisticRegression().fit(X[1:(len(X) - 2)], y[1:(len(y) - 2)])
+    X = model_tuples.iloc[:, 1:-1].values
+    y = model_tuples['MPAA']
+    C = to_be_classified_tuples.iloc[:, 1:-1].values
 
-    to_be_classified = [X[len(X) - 1]]
-    print(str(model.predict_proba(to_be_classified)[0][0]))
+    model = LogisticRegression().fit(X, y)
+
+    for row in model.predict_proba(C):
+        print(str(row[0]))
+

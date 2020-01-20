@@ -85,46 +85,6 @@ def classifier_preprocessiong(dataset, min_df=0.1, max_df=0.9, max_features=None
     return result_dataset
 
 
-def preprocessing(dataset, min_df=0.1, max_df=0.9, max_features=None):
-
-    dataset.drop('Title', axis=1, inplace=True)
-    dataset.drop('Year', axis=1, inplace=True)
-    class_ADULTS = dataset[dataset["MPAA"] == "ADULTS"]
-    class_CHILDREN = dataset[dataset["MPAA"] == "CHILDREN"]
-    dataset = class_ADULTS.append(class_CHILDREN, ignore_index=True)
-
-    tbc_file = open(relativePath("../resources/datasets/to_be_classified.txt"), "r")
-    tmp = {"MPAA": ["to_be_classified"], "Plot": [tbc_file.read()]}
-    tbc_file.close()
-    to_be_classified = pandas.DataFrame(tmp)
-    dataset = dataset.append(to_be_classified, ignore_index=True)
-
-    plots = dataset.__getattr__("Plot")
-
-    stopwords = prepareStopWords()
-
-    tfidf_vectorizer = TfidfVectorizer(min_df=min_df, max_df=max_df, max_features=max_features,
-                                       stop_words=stopwords,
-                                       use_idf=True, tokenizer=tokenize_and_stem, ngram_range=(1, 3))
-    tfidf_matrix = tfidf_vectorizer.fit_transform(plots)  # esegue la vettorizzazzione
-    tfidf_vector = tfidf_matrix.toarray()
-    terms = tfidf_vectorizer.get_feature_names()  # lista dei termini presi in considerazione
-
-    result_dataset = dataset
-    result_dataset.drop('Plot', axis=1, inplace=True)
-
-    for j in range(0, len(terms)):
-        values = []
-
-        for i in range(0, len(tfidf_vector)):
-            values.insert(len(values), tfidf_vector[i][j])
-
-        result_dataset[terms[j]] = values
-
-    # print(result_dataset)
-    return result_dataset
-
-
 if __name__ == '__main__':
     dataset = pandas.read_csv("../resources/datasets/labelledData.csv", ";")
     result_dataset = preprocessing(dataset=dataset, min_df=0.1, max_df=0.9, max_features=None)

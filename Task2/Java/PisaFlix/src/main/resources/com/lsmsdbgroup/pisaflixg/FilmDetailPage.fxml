@@ -90,6 +90,7 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                         </Separator>
+                        <Button mnemonicParsing="false" onAction="#classify" text="Classify" />
                         <Text fx:id="descriptionLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="800.0" />
                         <ScrollPane fx:id="scrollableDescription" hbarPolicy="NEVER" prefHeight="500.0" prefViewportHeight="31.921875" prefViewportWidth="800.0" vbarPolicy="ALWAYS">
                            <content>

@@ -25,7 +25,7 @@ public class Film extends Entity implements Serializable {
     public Film(String idFilm) {
         this.idFilm = idFilm;
     }
-    
+
     public Film(String idFilm, String title, String description) {
         this.idFilm = idFilm;
         this.title = title;
@@ -37,21 +37,29 @@ public class Film extends Entity implements Serializable {
         this.title = title;
         this.publicationDate = publicationDate;
     }
-    
+
     public Film(Document filmDocument) {
-        if(filmDocument.containsKey("_id") && filmDocument.containsKey("Title") &&filmDocument.containsKey("PublicationDate") ){
+        if (filmDocument.containsKey("_id")) {
+            if (filmDocument.containsKey("Description")) {
+                this.description = filmDocument.getString("Description");
+            }
+            if (filmDocument.containsKey("Title")) {
+                this.title = filmDocument.getString("Title");
+            }
+            if (filmDocument.containsKey("PublicationDate")) {
+                this.publicationDate = filmDocument.getDate("PublicationDate");
+            }
+            if (filmDocument.containsKey("WikiPage")) {
+                this.wikiPage = filmDocument.getString("WikiPage");
+            }
             this.idFilm = filmDocument.get("_id").toString();
-            this.title = filmDocument.getString("Title");
-            this.publicationDate = filmDocument.getDate("PublicationDate");
-            this.description = filmDocument.getString("Description");
-            this.wikiPage = filmDocument.getString("WikiPage");
-        }else{
+        } else {
             try {
                 throw new NonConvertibleDocumentException("Document not-convertible in film");
             } catch (NonConvertibleDocumentException ex) {
                 System.out.println(ex.getMessage());
             }
-        }      
+        }
     }
 
     @Override
