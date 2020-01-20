@@ -25,8 +25,6 @@ public interface FilmManagerDatabaseInterface {
     long getCommentPageSize();
 
     Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit, int skip);
-    
-    Set<Film> getFilmToBeClassified(int limit, int skip);
 
     void getComments(Film film, int skip, int limit);
 
@@ -37,4 +35,10 @@ public interface FilmManagerDatabaseInterface {
     void deleteReleted(User user);
 
     long count(Entity entity);
+    
+    /******************* DATA MINING ******************************************/
+    
+    void updateClass(String idFilm, double adultness);
+    
+    Set<Film> getFilmToBeClassified(int limit, int skip);
 }

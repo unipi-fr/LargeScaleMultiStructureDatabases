@@ -1,6 +1,5 @@
 package com.lsmsdbgroup.pisaflix.Entities;
 
-import com.lsmsdbgroup.Scraping.WikiScraper;
 import com.lsmsdbgroup.pisaflix.Entities.exceptions.NonConvertibleDocumentException;
 import java.io.Serializable;
 import java.util.*;

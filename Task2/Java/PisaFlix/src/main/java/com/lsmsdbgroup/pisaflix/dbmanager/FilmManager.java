@@ -1,23 +1,11 @@
 package com.lsmsdbgroup.pisaflix.dbmanager;
 
-import com.lsmsdbgroup.pisaflix.Entities.Comment;
-import com.lsmsdbgroup.pisaflix.Entities.Entity;
-import com.lsmsdbgroup.pisaflix.Entities.Film;
-import com.lsmsdbgroup.pisaflix.Entities.User;
+import com.lsmsdbgroup.pisaflix.Entities.*;
 import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.FilmManagerDatabaseInterface;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
-import com.mongodb.client.model.Aggregates;
-import static com.mongodb.client.model.Filters.and;
-import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Filters.gte;
-import static com.mongodb.client.model.Filters.lt;
-import static com.mongodb.client.model.Filters.or;
-import static com.mongodb.client.model.Filters.regex;
-import com.mongodb.client.model.Projections;
-import com.mongodb.client.model.UpdateOptions;
-import com.mongodb.client.model.Updates;
+import com.mongodb.client.*;
+import static com.mongodb.client.model.Filters.*;
+import com.mongodb.client.model.*;
 import com.mongodb.client.result.UpdateResult;
 import static java.util.Objects.hash;
 import org.bson.Document;
@@ -84,7 +72,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         UpdateOptions options = new UpdateOptions().upsert(true);
         try {
             UpdateResult result = FilmCollection.updateOne(and(filmDocument), new Document("$set", filmDocument), options);
-            if(result.getUpsertedId() != null){
+            if (result.getUpsertedId() != null) {
                 success = true;
             }
         } catch (Exception ex) {
@@ -182,7 +170,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
             DocumentSet.forEach((commentDocument) -> {
                 Comment comment = new Comment(commentDocument);
                 comment.setFilm(film);
-                CommentSet.add(0, comment);   
+                CommentSet.add(0, comment);
             });
             film.setCommentSet(new LinkedHashSet<>(CommentSet));
         } catch (Exception ex) {
@@ -191,15 +179,15 @@ public class FilmManager implements FilmManagerDatabaseInterface {
             System.out.println("A problem occurred in retriving recent comments!");
         }
     }
-    
+
     @Override
-    public long getCommentPageSize(){
+    public long getCommentPageSize() {
         return commentPageSize;
     }
-    
+
     @Override
-    public void getComments(Film film, int skip, int limit){
-       try {
+    public void getComments(Film film, int skip, int limit) {
+        try {
             film.setCommentSet(new LinkedHashSet<>(DBManager.commentManager.getAll(film, skip, limit)));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -210,7 +198,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     @Override
     public void deleteComment(Comment comment) {
         try {
-        FilmCollection.updateOne(eq("_id", new ObjectId(comment.getFilm().getId())), Updates.pull("RecentComments", new Document("_id", comment.getId())));
+            FilmCollection.updateOne(eq("_id", new ObjectId(comment.getFilm().getId())), Updates.pull("RecentComments", new Document("_id", comment.getId())));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in deleting the comments!");
@@ -219,49 +207,50 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
     @Override
     public void updateComment(Comment comment) {
-       try {
-        Document update = new Document("RecentComments.$.Text", comment.getText()).append("RecentComments.$.LastModified", new Date());
-        FilmCollection.updateOne(and(new Document("_id", new ObjectId(comment.getFilm().getId())), new Document("RecentComments._id", comment.getId())), new Document("$set",update));
+        try {
+            Document update = new Document("RecentComments.$.Text", comment.getText()).append("RecentComments.$.LastModified", new Date());
+            FilmCollection.updateOne(and(new Document("_id", new ObjectId(comment.getFilm().getId())), new Document("RecentComments._id", comment.getId())), new Document("$set", update));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in updating the comments!");
         }
     }
-    
+
     @Override
-    public void deleteReleted(User user){
+    public void deleteReleted(User user) {
         try {
-        FilmCollection.updateMany(new Document(), Updates.pull("RecentComments", new Document("User", user.getId())));
-         } catch (Exception ex) {
+            FilmCollection.updateMany(new Document(), Updates.pull("RecentComments", new Document("User", user.getId())));
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in updating the comments!");
         }
     }
-    
+
     @Override
-    public long count(Entity entity){
+    public long count(Entity entity) {
         long count = 0;
         try {
-        if(entity.getClass() == User.class){                        
-            Document auxDocument = FilmCollection.aggregate(Arrays.asList(
-                    Aggregates.match(new Document("RecentComments.User",entity.getId())), //Trovo i film che contengono commenti con l'utente giusto
-                    Aggregates.unwind("$RecentComments"),//Divido i commenti per ogni film in documenti singoli
-                    Aggregates.match(new Document("RecentComments.User",entity.getId())), //Trovo i commenti che contengono l'utente giusto
-                    Aggregates.count())).first();
-        
-            if(auxDocument != null){
-                count = (int) auxDocument.get("count"); //Li conto
+            if (entity.getClass() == User.class) {
+                Document auxDocument = FilmCollection.aggregate(Arrays.asList(
+                        Aggregates.match(new Document("RecentComments.User", entity.getId())), //Trovo i film che contengono commenti con l'utente giusto
+                        Aggregates.unwind("$RecentComments"),//Divido i commenti per ogni film in documenti singoli
+                        Aggregates.match(new Document("RecentComments.User", entity.getId())), //Trovo i commenti che contengono l'utente giusto
+                        Aggregates.count())).first();
+
+                if (auxDocument != null) {
+                    count = (int) auxDocument.get("count"); //Li conto
+                }
             }
-        }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in updating the comments!");
         }
         return count;
     }
-    
-    /****************** DATA MINING *******************************************/
-    
+
+    /**
+     * **************** DATA MINING ******************************************
+     */
     @Override
     public Set<Film> getFilmToBeClassified(int limit, int skip) {
         Set<Film> filmSet = new LinkedHashSet<>();
@@ -275,5 +264,17 @@ public class FilmManager implements FilmManagerDatabaseInterface {
             System.out.println("A problem occurred in retrieve all films!");
         }
         return filmSet;
+    }
+    
+        @Override
+    public void updateClass(String idFilm, double adultness) {
+        Document filmDocument = new Document()
+                .append("Adultness", adultness);
+        try {
+            FilmCollection.updateOne(eq("_id", new ObjectId(idFilm)), new Document("$set", filmDocument));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("A problem occurred in updating the adultness of the film!");
+        }
     }
 }
