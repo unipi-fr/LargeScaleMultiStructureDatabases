@@ -15,6 +15,11 @@ public class Film extends Entity implements Serializable {
     private String description;
     private String wikiPage;
     private Double adultness = -1.0;
+    private int cluster;
+    private Set<String> tags = new LinkedHashSet<>();
+    private Set<String> generaSet = new LinkedHashSet<>();
+    private Set<String> castSet = new LinkedHashSet<>();
+    private Set<String> directorSet = new LinkedHashSet<>();
 
     private Set<User> userSet = new LinkedHashSet<>();
     private Set<Comment> commentSet = new LinkedHashSet<>();
@@ -40,11 +45,12 @@ public class Film extends Entity implements Serializable {
 
     public Film(Document filmDocument) {
         if (filmDocument.containsKey("_id")) {
+            this.idFilm = filmDocument.get("_id").toString();
             if (filmDocument.containsKey("Description")) {
                 this.description = filmDocument.getString("Description");
             }
             if (filmDocument.containsKey("Title")) {
-                this.title = filmDocument.getString("Title");
+                this.title = String.valueOf(filmDocument.get("Title"));
             }
             if (filmDocument.containsKey("PublicationDate")) {
                 this.publicationDate = filmDocument.getDate("PublicationDate");
@@ -55,7 +61,30 @@ public class Film extends Entity implements Serializable {
             if (filmDocument.containsKey("Adultness")) {
                 this.adultness = filmDocument.getDouble("Adultness");
             }
-            this.idFilm = filmDocument.get("_id").toString();
+            if (filmDocument.containsKey("Cast")) {
+                ArrayList<String> documentSet = (ArrayList<String>) filmDocument.get("Cast");
+                if (documentSet != null) {
+                    documentSet.forEach((castMember) -> {
+                        castSet.add(castMember);
+                    });
+                }
+            }
+            if (filmDocument.containsKey("Genres")) {
+                ArrayList<String> documentSet = (ArrayList<String>) filmDocument.get("Genres");
+                if (documentSet != null) {
+                    documentSet.forEach((genra) -> {
+                        generaSet.add(genra);
+                    });
+                }
+            }
+            if (filmDocument.containsKey("Directors")) {
+                ArrayList<String> documentSet = (ArrayList<String>) filmDocument.get("Directors");
+                if (documentSet != null) {
+                    documentSet.forEach((director) -> {
+                        directorSet.add(director);
+                    });
+                }
+            }
         } else {
             try {
                 throw new NonConvertibleDocumentException("Document not-convertible in film");
@@ -69,7 +98,7 @@ public class Film extends Entity implements Serializable {
     public String getId() {
         return idFilm;
     }
-    
+
     public double getAdultness() {
         return adultness;
     }
@@ -112,6 +141,34 @@ public class Film extends Entity implements Serializable {
 
     public Set<Comment> getCommentSet() {
         return commentSet;
+    }
+
+    public Set<String> getGeneraSet() {
+        return generaSet;
+    }
+
+    public Set<String> getDirectorSet() {
+        return directorSet;
+    }
+
+    public Set<String> getCastSet() {
+        return castSet;
+    }
+    
+    public Set<String> getTags() {
+        return tags;
+    }
+    
+    public void setTags(Set<String> tags) {
+        this.tags = tags;
+    }
+    
+    public void setCluster(int cluster) {
+        this.cluster = cluster;
+    }
+    
+    public int getcluster() {
+        return cluster;
     }
 
     public void setCommentSet(Set<Comment> commentSet) {

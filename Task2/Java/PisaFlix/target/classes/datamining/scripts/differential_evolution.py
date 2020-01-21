@@ -9,7 +9,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis, QuadraticDiscriminantAnalysis
 from sklearn.naive_bayes import GaussianNB
 from scipy.optimize import differential_evolution
-from Java.PisaFlix.src.main.resources.datamining.scripts.preprocessing import classifier_preprocessiong
+from Java.PisaFlix.src.main.resources.datamining.scripts.preprocessing import differential_evolution_preprocessiong
 from joblib import dump, load
 
 # GLOBAL VARIABLES
@@ -64,7 +64,7 @@ def classification(x):
         return 2.0
 
     try:
-        data = classifier_preprocessiong(dataset=dataset, min_df=min_df, max_df=max_df, max_features=max_features)
+        data = differential_evolution_preprocessiong(dataset=dataset, min_df=min_df, max_df=max_df, max_features=max_features)
     except:
 
         log = open("../resources/elaborations/log.txt", "a+")

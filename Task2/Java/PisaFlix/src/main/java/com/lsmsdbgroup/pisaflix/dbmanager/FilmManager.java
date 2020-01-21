@@ -126,7 +126,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
             filters.add(and(gte("PublicationDate", startDateFilter), lt("PublicationDate", endDateFilter)));
         }
 
-        try (MongoCursor<Document> cursor = FilmCollection.find(and(or(filters),lt("Adultness", 1.0 - adultnessMargin))).projection(Projections.exclude("RecentComments")).sort(sort).limit(filmLimit).skip(skip).iterator()) {
+        try (MongoCursor<Document> cursor = FilmCollection.find(and(or(filters), lt("Adultness", 1.0 - adultnessMargin))).projection(Projections.exclude("RecentComments")).sort(sort).limit(filmLimit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 filmSet.add(new Film(cursor.next()));
             }
@@ -265,8 +265,8 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         }
         return filmSet;
     }
-    
-        @Override
+
+    @Override
     public void updateClass(String idFilm, double adultness) {
         Document filmDocument = new Document()
                 .append("Adultness", adultness);
@@ -276,5 +276,26 @@ public class FilmManager implements FilmManagerDatabaseInterface {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in updating the adultness of the film!");
         }
+    }
+
+    @Override
+    public Set<Film> getFilmToBeClusterized(int sample) {
+        Set<Film> filmSet = new LinkedHashSet<>();
+        try {
+            
+            AggregateIterable<Document> cursor = FilmCollection.aggregate(Arrays.asList(
+                    Aggregates.match(new Document("Cluster", new Document("$exists", false))),
+                    Aggregates.sample(sample)));
+            
+            for (Document filmDocument : cursor) {
+                filmSet.add(new Film(filmDocument));
+            }
+            
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace(System.out);
+            System.out.println("A problem occurred in retrieve all films!");
+        }
+        return filmSet;
     }
 }

@@ -16,7 +16,7 @@ public class Classifier {
         try (FileWriter writer = new FileWriter("src/main/resources/datamining/resources/datasets/to_be_classified.csv")) {
             writer.write("MPAA,Plot");
             for (Film film : filmSet) {
-                writer.append("\nto_be_classified," + film.getDescription().replaceAll(",", " ").replaceAll("\n", " "));
+                writer.append("\nto_be_classified," + film.getDescription().replaceAll(",", " ; ").replaceAll("\n", " "));
             }
         } catch (IOException e) {
             System.out.println("Error in writing the plot: " + e.getMessage());
