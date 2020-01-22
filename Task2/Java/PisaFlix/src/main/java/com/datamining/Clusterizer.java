@@ -23,18 +23,18 @@ public class Clusterizer {
                 String directorSet = "";
 
                 if (film.getCastSet() != null) {
-                    castSet = film.getCastSet().stream().map((s) -> " . " + s).reduce(castSet, String::concat);
+                    castSet = film.getCastSet().stream().map((s) -> " . " + s.trim().replace(" ", "_")).reduce(castSet, String::concat);
                 }
 
                 if (film.getDirectorSet() != null) {
-                    directorSet = film.getDirectorSet().stream().map((s) -> " . " + s).reduce(directorSet, String::concat);
+                    directorSet = film.getDirectorSet().stream().map((s) -> " . " + s.trim().replace(" ", "_")).reduce(directorSet, String::concat);
                 }
                 
                 if (film.getGeneraSet() != null) {
-                    generaSet = film.getGeneraSet().stream().map((s) -> " . " + s).reduce(generaSet, String::concat);
+                    generaSet = film.getGeneraSet().stream().map((s) -> " . " + s.trim().replace(" ", "_")).reduce(generaSet, String::concat);
                 }
 
-                writer.append("\n" +(film.getDescription() + generaSet + directorSet + castSet).replaceAll(",", " ; ").replaceAll("\n", " "));
+                writer.append("\n" +(film.getDescription()+ generaSet + directorSet + castSet + generaSet + directorSet + castSet + generaSet + directorSet + castSet).replaceAll(",", " ; ").replaceAll("\n", " "));
             }
         } catch (IOException e) {
             System.out.println("Error in writing the plot: " + e.getMessage());
@@ -62,14 +62,6 @@ public class Clusterizer {
         BufferedReader stdError = new BufferedReader(new InputStreamReader(pythonScript.getErrorStream()));
 
         String line;
-        try {
-            while ((line = stdError.readLine()) != null) {
-                System.out.println(line);
-            }
-        } catch (IOException ex) {
-            System.out.println("Error: " + ex.getMessage());
-            return null;
-        }
 
         try {
             for (Film film : filmSet) {
@@ -77,6 +69,7 @@ public class Clusterizer {
             }
             int i = 0;
             while ((line = stdInput.readLine()) != null) {
+                System.out.println(i + " " + line);
                 if(line.charAt(0) == '$'){
                     i ++;
                 }else{
@@ -91,6 +84,16 @@ public class Clusterizer {
             System.out.println("Error: " + ex.getMessage());
             return null;
         }
+        
+        try {
+            while ((line = stdError.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException ex) {
+            System.out.println("Error: " + ex.getMessage());
+            return null;
+        }
+        
         return filmSet;
     }
 
@@ -105,12 +108,13 @@ public class Clusterizer {
 
     public static void main(String[] args) {
         
-        Set<Film> filmSet = FilmManager.getIstance().getFilmToBeClusterized(100);
-        clusterize(filmSet, 2);
+        Set<Film> filmSet = FilmManager.getIstance().getFilmToBeClusterized(10);
+        clusterize(filmSet, 3);
         for(Film film : filmSet){
             System.out.println(film.getTitle());
             System.out.println(film.getcluster());
             System.out.println(film.getTags());
         }
+        //TODO: controllare i termini mancanti
     }
 }

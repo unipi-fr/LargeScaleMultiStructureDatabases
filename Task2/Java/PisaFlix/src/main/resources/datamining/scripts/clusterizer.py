@@ -15,7 +15,8 @@ def prepareStopWords():
     # nltk.download('stopwords') # la prima volta va scaricato
     # nltk.download('names')
     stopwords = nltk.corpus.stopwords.words('english')
-    stopwords += ['although', 'along', 'also', 'abov', 'afterward', 'alon', 'alreadi', 'alway', 'ani', 'anoth', 'anyon',
+    stopwords += nltk.corpus.names.words('male.txt') + nltk.corpus.names.words('female.txt')
+    stopwords += ['although', 'seem', 'along', 'also', 'abov', 'afterward', 'alon', 'alreadi', 'alway', 'ani', 'anoth', 'anyon',
                   'anyth', 'anywher', 'becam',
                   'becaus', 'becom', 'befor', 'besid', 'cri', 'describ', 'dure', 'els', 'elsewher', 'empti', 'everi',
                   'everyon', 'everyth', 'everywher', 'fifti', 'forti', 'henc', 'hereaft', 'herebi', 'howev', 'hundr',
@@ -25,7 +26,7 @@ def prepareStopWords():
                   'veri', 'whatev', 'whenc', 'whenev', 'wherea', 'whereaft', 'wherebi', 'wherev', 'whi', 'yourselv']
     stopwords += ['a.', "'d", "'s", 'anywh', 'could', 'doe', 'el', 'elsewh', 'everywh', 'ind', 'might', 'must', "n't",
                   'need', 'otherwi', 'plea', 'sha', 'somewh', 'wo', 'would']
-    return stopwords
+    return map(lambda x: x.lower(), stopwords)
 
 
 def tokenize_and_stem(text):
@@ -68,12 +69,14 @@ def preprocessing(dataset, min_df=0.1, max_df=0.9, max_features=None):
 
 
 if __name__ == '__main__':
+    pandas.options.mode.chained_assignment = None
     samples_in_cluster = int(sys.argv[1])  # Numero di campioni per cluster circa
     dataset = pandas.read_csv(relative_path("../resources/datasets/to_be_clusterized.csv"), encoding='latin1')
     data = preprocessing(dataset=dataset, min_df=0.04, max_df=0.74, max_features=1300)
 
     X = data.iloc[:, 1:-1].values
-    clustering_model = AgglomerativeClustering(n_clusters=round(len(data.index)/samples_in_cluster), affinity='euclidean',
+    clustering_model = AgglomerativeClustering(n_clusters=round(len(data.index) / samples_in_cluster),
+                                               affinity='euclidean',
                                                linkage='ward')
     clustering_model.fit_predict(X)
 
@@ -82,7 +85,7 @@ if __name__ == '__main__':
     for cluster_id in clustering_model.labels_:
         print(str(cluster_id))
 
-    for c in range(0, clustering_model.n_clusters - 1):
+    for c in range(0, clustering_model.n_clusters):
         cluster = data[data["Cluster"] == c]
         cluster.drop("Cluster", axis=1, inplace=True)
         terms_weight = cluster.mean()
@@ -90,3 +93,5 @@ if __name__ == '__main__':
             if item[1] > max(terms_weight) * 0.5:
                 print(item[0])
         print("$")
+
+    # todo OPTICS

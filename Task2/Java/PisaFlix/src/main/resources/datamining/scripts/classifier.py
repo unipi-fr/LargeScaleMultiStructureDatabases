@@ -14,6 +14,7 @@ def prepareStopWords():
     # nltk.download('stopwords') # la prima volta va scaricato
     # nltk.download('names')
     stopwords = nltk.corpus.stopwords.words('english')
+    stopwords += nltk.corpus.names.words('male.txt') + nltk.corpus.names.words('female.txt')
     stopwords += ['although', 'along', 'also', 'abov', 'afterward', 'alon', 'alreadi', 'alway', 'ani', 'anoth', 'anyon',
                   'anyth', 'anywher', 'becam',
                   'becaus', 'becom', 'befor', 'besid', 'cri', 'describ', 'dure', 'els', 'elsewher', 'empti', 'everi',
@@ -24,7 +25,7 @@ def prepareStopWords():
                   'veri', 'whatev', 'whenc', 'whenev', 'wherea', 'whereaft', 'wherebi', 'wherev', 'whi', 'yourselv']
     stopwords += ['a.', "'d", "'s", 'anywh', 'could', 'doe', 'el', 'elsewh', 'everywh', 'ind', 'might', 'must', "n't",
                   'need', 'otherwi', 'plea', 'sha', 'somewh', 'wo', 'would']
-    return stopwords
+    return map(lambda x: x.lower(), stopwords)
 
 
 def tokenize_and_stem(text):
