@@ -61,6 +61,9 @@ public class Film extends Entity implements Serializable {
             if (filmDocument.containsKey("Adultness")) {
                 this.adultness = filmDocument.getDouble("Adultness");
             }
+            if (filmDocument.containsKey("Cluster")) {
+                this.cluster = filmDocument.getInteger("Cluster");
+            }
             if (filmDocument.containsKey("Cast")) {
                 ArrayList<String> documentSet = (ArrayList<String>) filmDocument.get("Cast");
                 if (documentSet != null) {
@@ -82,6 +85,14 @@ public class Film extends Entity implements Serializable {
                 if (documentSet != null) {
                     documentSet.forEach((director) -> {
                         directorSet.add(director);
+                    });
+                }
+            }
+            if (filmDocument.containsKey("Tags")) {
+                ArrayList<String> documentSet = (ArrayList<String>) filmDocument.get("Tags");
+                if (documentSet != null) {
+                    documentSet.forEach((tag) -> {
+                        tags.add(tag);
                     });
                 }
             }

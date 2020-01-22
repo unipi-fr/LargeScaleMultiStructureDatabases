@@ -40,6 +40,8 @@ public interface FilmManagerDatabaseInterface {
     
     void updateClass(String idFilm, double adultness);
     
+    void updateCluster (Film film);
+    
     Set<Film> getFilmToBeClassified(int limit, int skip);
     
     Set<Film> getFilmToBeClusterized(int sample);

@@ -261,7 +261,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace(System.out);
-            System.out.println("A problem occurred in retrieve all films!");
+            System.out.println("A problem occurred in retrieving all films!");
         }
         return filmSet;
     }
@@ -294,8 +294,21 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace(System.out);
-            System.out.println("A problem occurred in retrieve all films!");
+            System.out.println("A problem occurred in retrieving a sample of the films!");
         }
         return filmSet;
+    }
+    
+    @Override
+    public void updateCluster (Film film) {
+        Document filmDocument = new Document()
+                .append("Tags", new ArrayList<>(film.getTags()))
+                .append("Cluster", film.getcluster());
+        try {
+            FilmCollection.updateOne(eq("_id", new ObjectId(film.getId())), new Document("$set", filmDocument));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("A problem occurred in updating the cluster of the film!");
+        }
     }
 }

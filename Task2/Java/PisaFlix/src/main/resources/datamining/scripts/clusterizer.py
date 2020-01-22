@@ -16,16 +16,16 @@ def prepareStopWords():
     # nltk.download('names')
     stopwords = nltk.corpus.stopwords.words('english')
     stopwords += nltk.corpus.names.words('male.txt') + nltk.corpus.names.words('female.txt')
-    stopwords += ['although', 'seem', 'along', 'also', 'abov', 'afterward', 'alon', 'alreadi', 'alway', 'ani', 'anoth', 'anyon',
-                  'anyth', 'anywher', 'becam',
+    stopwords += ['although', 'seem', 'along', 'also', 'abov', 'afterward', 'alon', 'alreadi', 'alway', 'ani', 'anoth',
+                  'anyon', 'anyth', 'anywher', 'becam',
                   'becaus', 'becom', 'befor', 'besid', 'cri', 'describ', 'dure', 'els', 'elsewher', 'empti', 'everi',
                   'everyon', 'everyth', 'everywher', 'fifti', 'forti', 'henc', 'hereaft', 'herebi', 'howev', 'hundr',
                   'inde', 'mani', 'meanwhil', 'moreov', 'nobodi', 'noon', 'noth', 'nowher', 'onc', 'onli', 'otherwis',
                   'ourselv', 'perhap', 'pleas', 'sever', 'sinc', 'sincer', 'sixti', 'someon', 'someth', 'sometim',
                   'somewher', 'themselv', 'thenc', 'thereaft', 'therebi', 'therefor', 'togeth', 'twelv', 'twenti',
                   'veri', 'whatev', 'whenc', 'whenev', 'wherea', 'whereaft', 'wherebi', 'wherev', 'whi', 'yourselv']
-    stopwords += ['a.', "'d", "'s", 'anywh', 'could', 'doe', 'el', 'elsewh', 'everywh', 'ind', 'might', 'must', "n't",
-                  'need', 'otherwi', 'plea', 'sha', 'somewh', 'wo', 'would']
+    stopwords += ['a.', "'d", "'s", 'dr.', 'mr.', 'anywh', 'could', 'doe', 'el', 'elsewh', 'everywh', 'ind', 'might',
+                  'must', "n't", 'need', 'otherwi', 'plea', 'sha', 'somewh', 'wo', 'would']
     return map(lambda x: x.lower(), stopwords)
 
 
@@ -69,6 +69,11 @@ def preprocessing(dataset, min_df=0.1, max_df=0.9, max_features=None):
 
 
 if __name__ == '__main__':
+
+    resultFile = open(relative_path("../resources/elaborations/clustering_results.txt"), "w+")
+    resultFile.write("")
+    resultFile.close()
+
     pandas.options.mode.chained_assignment = None
     samples_in_cluster = int(sys.argv[1])  # Numero di campioni per cluster circa
     dataset = pandas.read_csv(relative_path("../resources/datasets/to_be_clusterized.csv"), encoding='latin1')
@@ -82,8 +87,10 @@ if __name__ == '__main__':
 
     data.insert(0, "Cluster", clustering_model.labels_)
 
+    resultFile = open(relative_path("../resources/elaborations/clustering_results.txt"), "a+")
+
     for cluster_id in clustering_model.labels_:
-        print(str(cluster_id))
+        resultFile.write("\n" + str(cluster_id))
 
     for c in range(0, clustering_model.n_clusters):
         cluster = data[data["Cluster"] == c]
@@ -91,7 +98,9 @@ if __name__ == '__main__':
         terms_weight = cluster.mean()
         for item in terms_weight.items():
             if item[1] > max(terms_weight) * 0.5:
-                print(item[0])
-        print("$")
+                resultFile.write("\n" + item[0])
+        resultFile.write("\n$")
+
+    resultFile.close()
 
     # todo OPTICS
