@@ -62,7 +62,9 @@ public class Film extends Entity implements Serializable {
                 this.adultness = filmDocument.getDouble("Adultness");
             }
             if (filmDocument.containsKey("Cluster")) {
-                this.cluster = filmDocument.getInteger("Cluster");
+                if(filmDocument.get("Cluster") != null){
+                                    this.cluster = filmDocument.getInteger("Cluster");
+                }
             }
             if (filmDocument.containsKey("Cast")) {
                 ArrayList<String> documentSet = (ArrayList<String>) filmDocument.get("Cast");

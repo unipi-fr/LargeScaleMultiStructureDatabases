@@ -131,8 +131,9 @@ public class Clusterizer {
         return filmSet;
     }
 
-    public static void clusterizeAllDatabase(int n, int sizeCluster) {
-        Set<Film> filmSet = FilmManager.getIstance().getFilmToBeClusterized(n);
+    public static void clusterizeAllDatabase(int n, int sizeCluster, Date date) {
+        FilmManager.getIstance().resetClusters();
+        Set<Film> filmSet = FilmManager.getIstance().getFilmToBeClusterized(n, date);
         while (!filmSet.isEmpty()) {
             clusterize(filmSet, sizeCluster);
             filmSet.forEach((film) -> {
@@ -140,14 +141,13 @@ public class Clusterizer {
                 System.out.println("Updated " + film.getTitle() + " with Cluster " + film.getcluster());
                 System.out.println("Tags: " + film.getTags());
             });
+            filmSet = FilmManager.getIstance().getFilmToBeClusterized(n, date);
         }
         DBManager.stop();
         System.out.println("All films have been successfully clusterized!");
     }
 
     public static void main(String[] args) {
-
-        clusterizeAllDatabase(8000, 3);
-
+        clusterizeAllDatabase(8000, 3, new Date());
     }
 }

@@ -29,7 +29,7 @@ def prepareStopWords():
                   'veri', 'whatev', 'whenc', 'whenev', 'wherea', 'whereaft', 'wherebi', 'wherev', 'whi', 'yourselv']
     stopwords += ['a.', "'d", "'s", 'anywh', 'could', 'doe', 'el', 'elsewh', 'everywh', 'ind', 'might', 'must', "n't",
                   'need', 'otherwi', 'plea', 'sha', 'somewh', 'wo', 'would']
-    return stopwords
+    return map(lambda x: x.lower(), stopwords)
 
 
 # Uno "stemmer" permette di ricavare le "radici" delle parole, cat <- cats, catlike, catty

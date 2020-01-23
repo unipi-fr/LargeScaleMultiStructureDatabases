@@ -2,6 +2,7 @@ import sys
 import nltk
 import pandas
 import os
+import warnings
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import AgglomerativeClustering
 
@@ -70,6 +71,8 @@ def preprocessing(dataset, min_df=0.1, max_df=0.9, max_features=None):
 
 if __name__ == '__main__':
 
+    warnings.filterwarnings("ignore")
+
     resultFile = open(relative_path("../resources/elaborations/clustering_results.txt"), "w+")
     resultFile.write("")
     resultFile.close()
@@ -104,3 +107,4 @@ if __name__ == '__main__':
     resultFile.close()
 
     # todo OPTICS
+    # todo Silhouette

@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -66,15 +67,15 @@ public class Classifier {
         return adultness;
     }
 
-    public static void classifyAllDatabase(int n) {
-        Set<Film> filmSet = FilmManager.getIstance().getFilmToBeClassified(n, 0);
+    public static void classifyAllDatabase(int n, Date date) {
+        Set<Film> filmSet = FilmManager.getIstance().getFilmToBeClassified(date, n, 0);
         while (!filmSet.isEmpty()) {
             HashMap<String, Double> adultness = classify(filmSet);
             adultness.keySet().forEach((idFilm) -> {
                 FilmManager.getIstance().updateClass(idFilm, adultness.get(idFilm));
                 System.out.println("Updated " + idFilm + " with adultness " + adultness.get(idFilm));
             });
-            filmSet = FilmManager.getIstance().getFilmToBeClassified(n, 0);
+            filmSet = FilmManager.getIstance().getFilmToBeClassified(date, n, 0);
         }
         DBManager.stop();
         System.out.println("All films have been successfully classified!");
@@ -82,7 +83,7 @@ public class Classifier {
 
     public static void main(String[] args) {
 
-        classifyAllDatabase(100);
+        classifyAllDatabase(100, new Date());
 
     }
 }

@@ -42,7 +42,9 @@ public interface FilmManagerDatabaseInterface {
     
     void updateCluster (Film film);
     
-    Set<Film> getFilmToBeClassified(int limit, int skip);
+    Set<Film> getFilmToBeClassified(Date date, int limit, int skip);
     
-    Set<Film> getFilmToBeClusterized(int sample);
+    Set<Film> getFilmToBeClusterized(int sample, Date date);
+    
+    void resetClusters();
 }

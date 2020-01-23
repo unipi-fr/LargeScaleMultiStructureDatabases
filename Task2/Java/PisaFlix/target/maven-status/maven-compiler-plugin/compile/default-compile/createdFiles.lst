@@ -12,6 +12,7 @@ com\lsmsdbgroup\pisaflix\dbmanager\UserManager.class
 com\lsmsdbgroup\pisaflixg\LoginController.class
 com\lsmsdbgroup\pisaflixg\UserBrowserController$TileWorker.class
 com\lsmsdbgroup\pisaflixg\AddFilmController.class
+com\datamining\Clusterizer.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\UserPrivileges.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\exceptions\InvalidCredentialsException.class
 com\lsmsdbgroup\pisaflixg\RegistrationController.class
@@ -29,6 +30,7 @@ com\lsmsdbgroup\pisaflixg\WelcomeBackController.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\UserServiceInterface.class
 com\lsmsdbgroup\pisaflixg\UpdateProfileController.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\AnalyticsService.class
+com\datamining\Clusterizer$StreamGobbler.class
 com\lsmsdbgroup\pisaflixg\BrowserController.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\exceptions\InvalidPrivilegeLevelValueException.class
 com\lsmsdbgroup\pisaflixg\FilmBrowserController.class

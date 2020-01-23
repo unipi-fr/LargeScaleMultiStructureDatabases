@@ -956,6 +956,15 @@
     -fx-text-fill: -swatch-400;
 }
 
+#tags{
+   -fx-font-size: 10; 
+}
+
+#tableTitlel{
+  -fx-font-size: 15;  
+  -fx-width: 90;
+}
+
 .tooltip .text{
     -fx-fill: rgb(255.0, 255.0, 255.0);;
 }

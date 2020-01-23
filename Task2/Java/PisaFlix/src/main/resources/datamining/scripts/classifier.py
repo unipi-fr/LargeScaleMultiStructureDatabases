@@ -1,6 +1,7 @@
 import nltk
 import pandas
 import os
+import warnings
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 
@@ -77,6 +78,9 @@ def preprocessing(dataset, min_df=0.1, max_df=0.9, max_features=None):
 
 
 if __name__ == '__main__':
+
+    warnings.filterwarnings("ignore")
+
     dataset = pandas.read_csv(relative_path("../resources/datasets/labelledData.csv"), ";")
     data = preprocessing(dataset=dataset, min_df=0.04, max_df=0.74, max_features=1300)
 
