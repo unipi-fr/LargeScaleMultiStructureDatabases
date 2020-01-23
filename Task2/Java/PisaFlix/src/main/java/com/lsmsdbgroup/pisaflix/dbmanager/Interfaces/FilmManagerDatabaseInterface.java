@@ -47,4 +47,6 @@ public interface FilmManagerDatabaseInterface {
     Set<Film> getFilmToBeClusterized(int sample, Date date);
     
     void resetClusters();
+    
+    Set<Film> getSuggestedFilms(User user, double adultnessMargin);
 }

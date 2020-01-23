@@ -89,4 +89,9 @@ public class FilmService implements FilmServiceInterface {
         }
     }
     
+    @Override
+    public Set<Film> getSuggestedFilms(User user, double adultnessMargin){
+        return filmManager.getSuggestedFilms(user, adultnessMargin);
+    }
+    
 }

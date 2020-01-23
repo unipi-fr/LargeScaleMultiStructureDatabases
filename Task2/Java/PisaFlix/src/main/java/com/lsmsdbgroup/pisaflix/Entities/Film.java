@@ -8,6 +8,12 @@ import org.bson.Document;
 public class Film extends Entity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    public static enum FilmType {
+     Suggested,
+     Favourite,
+     Recent
+    }
 
     private String idFilm;
     private String title;
@@ -20,6 +26,7 @@ public class Film extends Entity implements Serializable {
     private Set<String> generaSet = new LinkedHashSet<>();
     private Set<String> castSet = new LinkedHashSet<>();
     private Set<String> directorSet = new LinkedHashSet<>();
+    private FilmType filmType = null;
 
     private Set<User> userSet = new LinkedHashSet<>();
     private Set<Comment> commentSet = new LinkedHashSet<>();
@@ -146,6 +153,14 @@ public class Film extends Entity implements Serializable {
 
     public Set<User> getUserSet() {
         return userSet;
+    }
+    
+    public void setFilmType(FilmType filmType) {
+        this.filmType = filmType;
+    }
+    
+    public FilmType getFilmType() {
+        return filmType;
     }
 
     public void setUserSet(Set<User> userSet) {

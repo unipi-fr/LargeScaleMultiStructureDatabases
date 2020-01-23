@@ -16,7 +16,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     private static FilmManager FilmManager;
     private static MongoCollection<Document> FilmCollection;
     private final Document sort = new Document("PublicationDate", -1);
-    private final int commentPageSize = 10;
+    private final int commentPageSize = 20;
     private final int filmLimit = 27;
 
     public static FilmManager getIstance() {
@@ -248,9 +248,9 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         return count;
     }
 
-    
-    /****************** DATA MINING *******************************************/
-    
+    /**
+     * **************** DATA MINING ******************************************
+     */
     @Override
     public Set<Film> getFilmToBeClassified(Date date, int limit, int skip) {
         Set<Film> filmSet = new LinkedHashSet<>();
@@ -322,5 +322,47 @@ public class FilmManager implements FilmManagerDatabaseInterface {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in resetting the clusters!");
         }
+    }
+
+    @Override
+    public Set<Film> getSuggestedFilms(User user, double adultnessMargin) {
+        List filters = new ArrayList();
+        DBManager.userManager.getFavourites(user);
+        user.getFilmSet().forEach((film) -> {
+            filters.add(eq("Cluster", film.getcluster()));
+        });
+        Set<Film> filmSet = new LinkedHashSet<>();
+        try {
+            if (!filters.isEmpty()) {
+                AggregateIterable<Document> resultDocuments = FilmCollection.aggregate(Arrays.asList(
+                        Aggregates.match(and(or(filters), lt("Adultness", 1.0 - adultnessMargin))),
+                        Aggregates.project(Projections.exclude("RecentComments")),
+                        Aggregates.sample(filmLimit)
+                ));
+                for (Document filmDocument : resultDocuments) {
+                    Film film = new Film(filmDocument);
+                    if (user.getFilmSet().contains(film)) {
+                        film.setFilmType(Film.FilmType.Favourite);
+                    } else {
+                        film.setFilmType(Film.FilmType.Suggested);
+                    }
+                    filmSet.add(film);
+                }
+            }
+            if (filmSet.size() < filmLimit) {
+                try (MongoCursor<Document> cursor = FilmCollection.find(lt("Adultness", 1.0 - adultnessMargin)).projection(Projections.exclude("RecentComments")).sort(sort).limit(filmLimit - filmSet.size()).iterator()) {
+                    while (cursor.hasNext()) {
+                        Film film = new Film(cursor.next());
+                        film.setFilmType(Film.FilmType.Recent);
+                        filmSet.add(film);
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace(System.out);
+            System.out.println("A problem occurred in retrieving a sample of the films!");
+        }
+        return filmSet;
     }
 }

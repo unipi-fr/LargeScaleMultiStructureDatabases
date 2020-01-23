@@ -1,5 +1,6 @@
 package com.lsmsdbgroup.pisaflixg;
 
+import com.lsmsdbgroup.pisaflix.Entities.Entity;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -7,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
-import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;
 import java.io.IOException;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -34,12 +34,12 @@ public class UserBrowserController extends BrowserController implements Initiali
     }
 
     @Override
-    public Pane createCardPane(String name, String privilege, String id) {
+    public Pane createCardPane(Entity user) {
         Pane pane = new Pane();
         try {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("UserCard.fxml"));
-                UserCardController fcc = new UserCardController(name, privilege, id);
+                UserCardController fcc = new UserCardController((User) user);
                 loader.setController(fcc);
                 pane = loader.load();
             } catch (IOException ex) {
@@ -62,15 +62,8 @@ public class UserBrowserController extends BrowserController implements Initiali
 
         @Override
         protected Pane call() throws Exception {
-            String username;
-            String privilege;
-            int level;
             Pane pane;
-
-            username = user.getUsername();
-            level = user.getPrivilegeLevel();
-            privilege = UserPrivileges.valueOf(level);
-            pane = createCardPane(username, privilege, user.getId());
+            pane = createCardPane((User) user);
             return pane;
         }
 

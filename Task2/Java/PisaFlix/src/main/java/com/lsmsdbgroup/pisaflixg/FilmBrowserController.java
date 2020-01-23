@@ -1,5 +1,6 @@
 package com.lsmsdbgroup.pisaflixg;
 
+import com.lsmsdbgroup.pisaflix.Entities.Entity;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;
@@ -21,10 +22,10 @@ import javafx.scene.layout.Pane;
 public class FilmBrowserController extends BrowserController implements Initializable {
 
     ExecutorService executorService;
-    
+
     private double adultnessMargin;
 
-    public FilmBrowserController() {   
+    public FilmBrowserController() {
     }
 
     @FXML
@@ -33,23 +34,35 @@ public class FilmBrowserController extends BrowserController implements Initiali
         try {
             super.initialize();
             filterTextField.setPromptText("Title filter");
-            if(PisaFlixServices.authenticationService.isUserLogged()){
+            if (PisaFlixServices.authenticationService.isUserLogged()) {
                 adultnessMargin = PisaFlixServices.authenticationService.getLoggedUser().getAdultnessMargin();
-                safeSearch.setValue(Math.round(adultnessMargin*100));
+                safeSearch.setValue(Math.round(adultnessMargin * 100));
+                try {
+                    adultnessMargin = (safeSearch.getValue() / 100);
+                    if (PisaFlixServices.authenticationService.isUserLogged()) {
+                        PisaFlixServices.authenticationService.getLoggedUser().setAdultnessMargin(adultnessMargin);
+                        PisaFlixServices.userService.updateSafeSearchSettings(PisaFlixServices.authenticationService.getLoggedUser(), adultnessMargin);
+                    }
+                    Set<Film> films = PisaFlixServices.filmService.getSuggestedFilms(PisaFlixServices.authenticationService.getLoggedUser(), adultnessMargin);
+                    populateScrollPane(films);
+                } catch (Exception ex) {
+                    App.printErrorDialog("Films", "An error occurred searching the films", ex.toString() + "\n" + ex.getMessage());
+                }
+            } else {
+                filter();
             }
-            filter();
         } catch (Exception ex) {
             App.printErrorDialog("Films", "There was an inizialization error", ex.toString() + "\n" + ex.getMessage());
         }
     }
 
     @Override
-    public Pane createCardPane(String title, String publishDate, String idFilm) {
+    public Pane createCardPane(Entity film) {
         Pane pane = new Pane();
         try {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmCard.fxml"));
-                FilmCardController fcc = new FilmCardController(title, publishDate, idFilm);
+                FilmCardController fcc = new FilmCardController((Film) film);
                 loader.setController(fcc);
                 pane = loader.load();
             } catch (IOException ex) {
@@ -91,8 +104,8 @@ public class FilmBrowserController extends BrowserController implements Initiali
     @FXML
     public void searchFilms(String titleFilter, Date dateFilter) {
         try {
-            adultnessMargin = (safeSearch.getValue()/100);
-            if(PisaFlixServices.authenticationService.isUserLogged()){
+            adultnessMargin = (safeSearch.getValue() / 100);
+            if (PisaFlixServices.authenticationService.isUserLogged()) {
                 PisaFlixServices.authenticationService.getLoggedUser().setAdultnessMargin(adultnessMargin);
                 PisaFlixServices.userService.updateSafeSearchSettings(PisaFlixServices.authenticationService.getLoggedUser(), adultnessMargin);
             }
@@ -113,15 +126,8 @@ public class FilmBrowserController extends BrowserController implements Initiali
 
         @Override
         protected Pane call() throws Exception {
-            String title;
-            String publishDate;
-            String id;
             Pane pane;
-
-            title = film.getTitle();
-            publishDate = film.getPublicationDate().toString();
-            id = film.getId();
-            pane = createCardPane(title, publishDate, id);
+            pane = createCardPane(film);
             return pane;
         }
 
@@ -160,5 +166,5 @@ public class FilmBrowserController extends BrowserController implements Initiali
             searchButton.setDisable(true);
         }
     }
-    
+
 }

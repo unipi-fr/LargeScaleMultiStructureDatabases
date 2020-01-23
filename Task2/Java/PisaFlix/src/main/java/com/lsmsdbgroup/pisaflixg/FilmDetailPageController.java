@@ -170,7 +170,10 @@ public class FilmDetailPageController implements Initializable {
         }
 
         WikiScraper scraper = new WikiScraper(film.getWikiPage());
-        moviePosterImageView.setImage(new Image("https:" + scraper.scrapePosterLink()));
+        String url = scraper.scrapePosterLink();
+        if(url != null){
+            moviePosterImageView.setImage(new Image("https:" + url));
+        }
         /*scraper.setOnSucceeded((succeededEvent) -> {
             moviePosterImageView.setImage(new Image("https:" + scraper.getValue()));
         });

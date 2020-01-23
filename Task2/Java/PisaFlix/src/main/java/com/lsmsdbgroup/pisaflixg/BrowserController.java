@@ -1,5 +1,6 @@
 package com.lsmsdbgroup.pisaflixg;
 
+import com.lsmsdbgroup.pisaflix.Entities.Entity;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -41,7 +42,7 @@ public abstract class BrowserController {
         }
     }
 
-    public abstract Pane createCardPane(String title, String publishDate, String id);
+    public abstract Pane createCardPane(Entity entity);
 
     @FXML
     public abstract void filter();

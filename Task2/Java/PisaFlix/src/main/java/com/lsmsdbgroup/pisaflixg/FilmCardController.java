@@ -17,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class FilmCardController implements Initializable {
@@ -28,10 +29,11 @@ public class FilmCardController implements Initializable {
 
     private Film film;
 
-    public FilmCardController(String title, String publishDate, String id) {
-        titleProperty.set(title);
-        pusblishDateProperty.set(publishDate.split(" ")[5]);
-        filmId = id;
+    public FilmCardController(Film film) {
+        this.film = film;
+        titleProperty.set(film.getTitle());
+        pusblishDateProperty.set(film.getPublicationDate().toString().split(" ")[5]);
+        filmId = film.getId();
     }
 
     @FXML
@@ -56,16 +58,19 @@ public class FilmCardController implements Initializable {
     private Text tags;
 
     @FXML
+    private Label suggestedLabel;
+
+    @FXML
     private ImageView poster;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        int maxTagLength = 32;
         titleLabel.setText(titleProperty.get());
         publishLabel.setText(pusblishDateProperty.get());
-        film = PisaFlixServices.filmService.getById(filmId);
 
         titleTool.setText(titleProperty.get());
-   
+
         if (!PisaFlixServices.authenticationService.isUserLogged() || (PisaFlixServices.authenticationService.getLoggedUser().getPrivilegeLevel() < UserPrivileges.MODERATOR.getValue())) {
             deleteFilmMenuItem.setVisible(false);
             modifyFilmMenuItem.setVisible(false);
@@ -74,13 +79,32 @@ public class FilmCardController implements Initializable {
             modifyFilmMenuItem.setVisible(true);
         }
 
+        if (film.getFilmType() == null) {
+            suggestedLabel.setVisible(false);
+            suggestedLabel.setManaged(false);
+        } else {
+            maxTagLength = 17;
+            if (film.getFilmType() == Film.FilmType.Recent) {
+                suggestedLabel.setText("Recent");
+            }
+
+            if (film.getFilmType() == Film.FilmType.Suggested) {
+                suggestedLabel.setText("*** Suggested ***");
+            }
+
+            if (film.getFilmType() == Film.FilmType.Favourite) {
+                suggestedLabel.setTextFill(Color.VIOLET);
+                suggestedLabel.setText("Favourite");
+            }
+        }
+
         if (film.getTags().isEmpty()) {
             tags.setManaged(false);
             tags.setVisible(false);
         } else {
             tags.setText("");
-            for(String tag : film.getTags()){
-                if(tags.getText().length() > 20){
+            for (String tag : film.getTags()) {
+                if ((tags.getText() + " #" + tag).length() > maxTagLength) {
                     break;
                 }
                 tags.setText(tags.getText() + " #" + tag);

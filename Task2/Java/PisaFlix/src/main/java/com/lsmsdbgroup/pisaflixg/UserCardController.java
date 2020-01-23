@@ -23,10 +23,11 @@ public class UserCardController implements Initializable {
 
     private final String userId;
 
-    public UserCardController(String username, String privilege, String id) {
-        userProperty.set(username);
-        privilegeProperty.set(privilege);
-        userId = id;
+    public UserCardController(User user) {
+        this.user = user;
+        userProperty.set(user.getUsername());
+        privilegeProperty.set(UserPrivileges.valueOf(user.getPrivilegeLevel()));
+        userId = user.getId();
     }
 
     @FXML
