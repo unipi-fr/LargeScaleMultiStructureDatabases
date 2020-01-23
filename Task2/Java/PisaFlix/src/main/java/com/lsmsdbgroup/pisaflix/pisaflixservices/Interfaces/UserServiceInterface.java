@@ -24,4 +24,6 @@ public interface UserServiceInterface {
     void changeUserPrivileges(User u, UserPrivileges newPrivilegeLevel) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
     void getFavourites(User user);
+    
+    void updateSafeSearchSettings(User user, double adultnessMargin);
 }

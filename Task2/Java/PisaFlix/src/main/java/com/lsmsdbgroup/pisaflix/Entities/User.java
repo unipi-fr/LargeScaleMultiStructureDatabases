@@ -16,6 +16,7 @@ public class User extends Entity implements Serializable {
     private String firstName;
     private String lastName;
     private int privilegeLevel;
+    private Double adultnessMargin = 0.0;
 
     private Set<Film> filmSet = new LinkedHashSet<>();
     private Set<Comment> commentSet = new LinkedHashSet<>();
@@ -46,6 +47,9 @@ public class User extends Entity implements Serializable {
             }
             if(userDocument.containsKey("LastName")){
                 this.lastName = userDocument.getString("LastName");
+            }
+            if(userDocument.containsKey("AdultnessMargin")){
+                this.adultnessMargin = userDocument.getDouble("AdultnessMargin");
             }
         }else{
             try {
@@ -100,7 +104,15 @@ public class User extends Entity implements Serializable {
     public String getLastName() {
         return lastName;
     }
-
+    
+    public double getAdultnessMargin() {
+        return adultnessMargin;
+    }
+    
+    public void setAdultnessMargin(double adultnessMargin) {
+        this.adultnessMargin = adultnessMargin;
+    }
+    
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }

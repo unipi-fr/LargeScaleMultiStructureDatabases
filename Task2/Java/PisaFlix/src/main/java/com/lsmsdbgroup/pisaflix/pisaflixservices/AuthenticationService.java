@@ -27,12 +27,11 @@ public class AuthenticationService implements AuthenticationServiceInterface {
         }
 
         String hashedPassword = SHA256(password);
-        Set<User> tmpSet = userManager.getByUsername(username, 0, 0);
+        Set<User> userSet = userManager.getByUsername(username, 0, 0);
 
-        for (User u : tmpSet) {
-            if( u.getPassword().equals(hashedPassword) ){
-            //if (u.getPassword().equals(password)) {
-                loggedUser = u;
+        for (User user : userSet) {
+            if (user.getPassword().equals(hashedPassword)) {
+                loggedUser = user;
                 return;
             }
         }
@@ -83,7 +82,7 @@ public class AuthenticationService implements AuthenticationServiceInterface {
     public User getLoggedUser() {
         return loggedUser;
     }
-    
+
     @Override
     public void checkUserPrivilegesForOperation(UserPrivileges privilegesToAchieve) throws UserNotLoggedException, InvalidPrivilegeLevelException {
         checkUserPrivilegesForOperation(privilegesToAchieve, "do this operation");

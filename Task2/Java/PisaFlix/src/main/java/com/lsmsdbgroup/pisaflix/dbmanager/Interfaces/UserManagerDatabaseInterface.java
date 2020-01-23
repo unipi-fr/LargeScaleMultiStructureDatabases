@@ -26,5 +26,7 @@ public interface UserManagerDatabaseInterface {
     Set<User> getFiltered(String nameFilter, int limit, int skip);
 
     void getFavourites(User user);
+    
+    void updateSafeSearchSettings(User user, double adultnessMargin);
 
 }

@@ -143,4 +143,9 @@ public class UserService implements UserServiceInterface {
 
         return null;
     }
+    
+    @Override
+    public void updateSafeSearchSettings(User user, double adultnessMargin){
+        userManager.updateSafeSearchSettings(user, adultnessMargin);
+    }
 }

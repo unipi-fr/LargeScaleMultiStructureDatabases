@@ -248,9 +248,9 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         return count;
     }
 
-    /**
-     * **************** DATA MINING ******************************************
-     */
+    
+    /****************** DATA MINING *******************************************/
+    
     @Override
     public Set<Film> getFilmToBeClassified(Date date, int limit, int skip) {
         Set<Film> filmSet = new LinkedHashSet<>();

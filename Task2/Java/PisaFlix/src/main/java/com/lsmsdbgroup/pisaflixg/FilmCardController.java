@@ -10,8 +10,6 @@ import java.io.IOException;
 import javafx.beans.property.StringProperty;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.*;
 import javafx.scene.control.*;
@@ -67,8 +65,7 @@ public class FilmCardController implements Initializable {
         film = PisaFlixServices.filmService.getById(filmId);
 
         titleTool.setText(titleProperty.get());
-
-        //publishTool.setText(pusblishDateProperty.get());      
+   
         if (!PisaFlixServices.authenticationService.isUserLogged() || (PisaFlixServices.authenticationService.getLoggedUser().getPrivilegeLevel() < UserPrivileges.MODERATOR.getValue())) {
             deleteFilmMenuItem.setVisible(false);
             modifyFilmMenuItem.setVisible(false);

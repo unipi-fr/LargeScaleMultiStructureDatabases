@@ -24,7 +24,7 @@ public class FilmBrowserController extends BrowserController implements Initiali
     
     private double adultnessMargin;
 
-    public FilmBrowserController() {
+    public FilmBrowserController() {   
     }
 
     @FXML
@@ -33,7 +33,11 @@ public class FilmBrowserController extends BrowserController implements Initiali
         try {
             super.initialize();
             filterTextField.setPromptText("Title filter");
-            searchFilms(null, null);
+            if(PisaFlixServices.authenticationService.isUserLogged()){
+                adultnessMargin = PisaFlixServices.authenticationService.getLoggedUser().getAdultnessMargin();
+                safeSearch.setValue(Math.round(adultnessMargin*100));
+            }
+            filter();
         } catch (Exception ex) {
             App.printErrorDialog("Films", "There was an inizialization error", ex.toString() + "\n" + ex.getMessage());
         }
@@ -88,6 +92,10 @@ public class FilmBrowserController extends BrowserController implements Initiali
     public void searchFilms(String titleFilter, Date dateFilter) {
         try {
             adultnessMargin = (safeSearch.getValue()/100);
+            if(PisaFlixServices.authenticationService.isUserLogged()){
+                PisaFlixServices.authenticationService.getLoggedUser().setAdultnessMargin(adultnessMargin);
+                PisaFlixServices.userService.updateSafeSearchSettings(PisaFlixServices.authenticationService.getLoggedUser(), adultnessMargin);
+            }
             Set<Film> films = PisaFlixServices.filmService.getFilmsFiltered(titleFilter, dateFilter, dateFilter, adultnessMargin);
             populateScrollPane(films);
         } catch (Exception ex) {

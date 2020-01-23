@@ -213,4 +213,18 @@ public class UserManager implements UserManagerDatabaseInterface {
         
         return userSet;
     }
+    
+    /****************** DATA MINING *******************************************/
+    
+    @Override
+    public void updateSafeSearchSettings(User user, double adultnessMargin) {
+        Document userDocument = new Document()
+                .append("AdultnessMargin", adultnessMargin);
+        try {
+            UserCollection.updateOne(eq("_id", new ObjectId(user.getId())), new Document("$set", userDocument));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("A problem occurred in updating the adultness of the User!");
+        }
+    }
 }
