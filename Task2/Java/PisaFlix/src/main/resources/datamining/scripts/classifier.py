@@ -1,6 +1,7 @@
 import nltk
 import pandas
 import os
+import warnings
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 
@@ -14,6 +15,7 @@ def prepareStopWords():
     # nltk.download('stopwords') # la prima volta va scaricato
     # nltk.download('names')
     stopwords = nltk.corpus.stopwords.words('english')
+    stopwords += nltk.corpus.names.words('male.txt') + nltk.corpus.names.words('female.txt')
     stopwords += ['although', 'along', 'also', 'abov', 'afterward', 'alon', 'alreadi', 'alway', 'ani', 'anoth', 'anyon',
                   'anyth', 'anywher', 'becam',
                   'becaus', 'becom', 'befor', 'besid', 'cri', 'describ', 'dure', 'els', 'elsewher', 'empti', 'everi',
@@ -24,7 +26,7 @@ def prepareStopWords():
                   'veri', 'whatev', 'whenc', 'whenev', 'wherea', 'whereaft', 'wherebi', 'wherev', 'whi', 'yourselv']
     stopwords += ['a.', "'d", "'s", 'anywh', 'could', 'doe', 'el', 'elsewh', 'everywh', 'ind', 'might', 'must', "n't",
                   'need', 'otherwi', 'plea', 'sha', 'somewh', 'wo', 'would']
-    return stopwords
+    return map(lambda x: x.lower(), stopwords)
 
 
 def tokenize_and_stem(text):
@@ -76,6 +78,9 @@ def preprocessing(dataset, min_df=0.1, max_df=0.9, max_features=None):
 
 
 if __name__ == '__main__':
+
+    warnings.filterwarnings("ignore")
+
     dataset = pandas.read_csv(relative_path("../resources/datasets/labelledData.csv"), ";")
     data = preprocessing(dataset=dataset, min_df=0.04, max_df=0.74, max_features=1300)
 

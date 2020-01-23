@@ -15,7 +15,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
     private static FilmManager FilmManager;
     private static MongoCollection<Document> FilmCollection;
-    private final Document sort = new Document("_id", -1);
+    private final Document sort = new Document("PublicationDate", -1);
     private final int commentPageSize = 10;
     private final int filmLimit = 27;
 
@@ -252,16 +252,16 @@ public class FilmManager implements FilmManagerDatabaseInterface {
      * **************** DATA MINING ******************************************
      */
     @Override
-    public Set<Film> getFilmToBeClassified(int limit, int skip) {
+    public Set<Film> getFilmToBeClassified(Date date, int limit, int skip) {
         Set<Film> filmSet = new LinkedHashSet<>();
-        try (MongoCursor<Document> cursor = FilmCollection.find(new Document("Adultness", new Document("$exists", false))).projection(Projections.include("Description")).sort(sort).limit(limit).skip(skip).iterator()) {
+        try (MongoCursor<Document> cursor = FilmCollection.find(or(lt("LastClassUpdate", date), new Document("LastClassUpdate", new Document("$exists", false)))).projection(Projections.include("Description")).sort(sort).limit(limit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 filmSet.add(new Film(cursor.next()));
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace(System.out);
-            System.out.println("A problem occurred in retrieve all films!");
+            System.out.println("A problem occurred in retrieving all films!");
         }
         return filmSet;
     }
@@ -269,6 +269,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     @Override
     public void updateClass(String idFilm, double adultness) {
         Document filmDocument = new Document()
+                .append("LastClassUpdate", new Date())
                 .append("Adultness", adultness);
         try {
             FilmCollection.updateOne(eq("_id", new ObjectId(idFilm)), new Document("$set", filmDocument));
@@ -279,23 +280,47 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     }
 
     @Override
-    public Set<Film> getFilmToBeClusterized(int sample) {
+    public Set<Film> getFilmToBeClusterized(int sample, Date date) {
         Set<Film> filmSet = new LinkedHashSet<>();
         try {
-            
-            AggregateIterable<Document> cursor = FilmCollection.aggregate(Arrays.asList(
-                    Aggregates.match(new Document("Cluster", new Document("$exists", false))),
-                    Aggregates.sample(sample)));
-            
-            for (Document filmDocument : cursor) {
+            AggregateIterable<Document> resultDocuments = FilmCollection.aggregate(Arrays.asList(
+                    Aggregates.match(or(lt("LastClusterUpdate", date), eq("LastClusterUpdate", null))),
+                    Aggregates.sample(sample)
+            ));
+            for (Document filmDocument : resultDocuments) {
                 filmSet.add(new Film(filmDocument));
             }
-            
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace(System.out);
-            System.out.println("A problem occurred in retrieve all films!");
+            System.out.println("A problem occurred in retrieving a sample of the films!");
         }
         return filmSet;
+    }
+
+    @Override
+    public void updateCluster(Film film) {
+        Document filmDocument = new Document()
+                .append("LastClusterUpdate", new Date())
+                .append("Tags", new ArrayList<>(film.getTags()))
+                .append("Cluster", film.getcluster());
+        try {
+            FilmCollection.updateOne(eq("_id", new ObjectId(film.getId())), new Document("$set", filmDocument));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("A problem occurred in updating the cluster of the film!");
+        }
+    }
+
+    @Override
+    public void resetClusters() {
+        Document filmDocument = new Document()
+                .append("LastClusterUpdate", null);
+        try {
+            FilmCollection.updateMany(new Document(), new Document("$set", filmDocument));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("A problem occurred in resetting the clusters!");
+        }
     }
 }

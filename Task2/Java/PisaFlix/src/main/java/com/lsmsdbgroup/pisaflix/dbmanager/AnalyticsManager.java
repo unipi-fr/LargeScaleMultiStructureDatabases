@@ -30,9 +30,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import org.bson.BsonNull;
+import org.bson.conversions.Bson;
 
 public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
     private static AnalyticsManager AnalyticsManager;
@@ -55,6 +57,11 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
 
     @Override
     public Object engagementAnalytics(Date startdate, Date endDate, Entity entity) {
+        List<Bson> asList = Arrays.asList(project(fields(include("Film"), 
+                computed("View", eq("$cond", and(eq("if", Arrays.asList("$Type", "VIEW")), eq("then", 1L), eq("else", 0L)))), 
+                computed("Favourite", eq("$cond", and(eq("if", Arrays.asList("$Type", "FAVOURITE")), eq("then", 1L), eq("else", 0L)))), 
+                computed("Comment", eq("$cond", and(eq("if", Arrays.asList("$Type", "COMMENT")), eq("then", 1L), eq("else", 0L)))))), 
+                group("$Film", sum("ViewCount", "$View"), sum("FavouriteCount", "$Favourite"), sum("CommentCount", "$Comment")));
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

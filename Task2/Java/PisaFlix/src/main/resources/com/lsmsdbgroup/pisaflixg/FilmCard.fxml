@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.shape.*?>
@@ -10,12 +11,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" onMousePressed="#clickMouse" styleClass="card-film" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" maxHeight="203.0" minHeight="203.0" onMousePressed="#clickMouse" prefHeight="203.0" styleClass="card-film" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fx:id="poster" fitHeight="116.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="42.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
             <Image url="@../../../img/Film.png" />
          </image>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
       </ImageView>
       <Label fx:id="titleLabel" alignment="CENTER" styleClass="card-film-title" text="Label" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="116.0">
          <font>
@@ -37,9 +41,11 @@
          <font>
             <Font size="16.0" />
          </font>
-         <tooltip>
-            <Tooltip fx:id="publishTool" />
-         </tooltip>
       </Label>
+      <Text fx:id="tags" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="90.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <VBox.margin>
+            <Insets bottom="5.0" left="-5.0" />
+         </VBox.margin>
+      </Text>
    </children>
 </VBox>

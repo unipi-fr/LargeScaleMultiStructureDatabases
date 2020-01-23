@@ -79,15 +79,24 @@ public class FilmDetailPageController implements Initializable {
     }
 
     public void setPublishDate(String publishDate) {
-        if (film.getAdultness() != -1.0) {
-            publishDateLabel.setText(publishDate + " | Adultness: " + Math.round(film.getAdultness() * 100) + "%");
+        if (film.getAdultness() != -1.0 || !film.getTags().isEmpty()) {
+            if (film.getAdultness() != -1.0) {
+                publishDateLabel.setText(publishDate.split(" ")[5] + " | Adultness: " + Math.round(film.getAdultness() * 100) + "%");
+            }
+            if (!film.getTags().isEmpty()) {
+                publishDateLabel.setText(publishDateLabel.getText() + " | Cluster Tags:");
+                film.getTags().forEach((tag) -> {
+                    publishDateLabel.setText(publishDateLabel.getText() + " #" + tag);
+                });
+            }
         } else {
             publishDateLabel.setText(publishDate);
         }
+
     }
 
     public void setDescription(String description) {
-        if (description.length() > 2000) {
+        if (description.length() > 3000) {
             scrollableDescriptionLabel.setText(description);
             descriptionLabel.setVisible(false);
             descriptionLabel.setManaged(false);

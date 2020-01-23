@@ -19,6 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 
 public class FilmCardController implements Initializable {
 
@@ -26,12 +27,12 @@ public class FilmCardController implements Initializable {
     private final StringProperty pusblishDateProperty = new SimpleStringProperty();
 
     private final String filmId;
-    
+
     private Film film;
 
     public FilmCardController(String title, String publishDate, String id) {
         titleProperty.set(title);
-        pusblishDateProperty.set(publishDate);
+        pusblishDateProperty.set(publishDate.split(" ")[5]);
         filmId = id;
     }
 
@@ -40,19 +41,22 @@ public class FilmCardController implements Initializable {
 
     @FXML
     private Label publishLabel;
-    
+
     @FXML
     private MenuItem deleteFilmMenuItem;
-    
+
     @FXML
     private MenuItem modifyFilmMenuItem;
-    
+
     @FXML
     private Tooltip titleTool;
-    
+
     @FXML
     private Tooltip publishTool;
-    
+
+    @FXML
+    private Text tags;
+
     @FXML
     private ImageView poster;
 
@@ -61,11 +65,10 @@ public class FilmCardController implements Initializable {
         titleLabel.setText(titleProperty.get());
         publishLabel.setText(pusblishDateProperty.get());
         film = PisaFlixServices.filmService.getById(filmId);
-        
+
         titleTool.setText(titleProperty.get());
-        
-        publishTool.setText(pusblishDateProperty.get());      
-        
+
+        //publishTool.setText(pusblishDateProperty.get());      
         if (!PisaFlixServices.authenticationService.isUserLogged() || (PisaFlixServices.authenticationService.getLoggedUser().getPrivilegeLevel() < UserPrivileges.MODERATOR.getValue())) {
             deleteFilmMenuItem.setVisible(false);
             modifyFilmMenuItem.setVisible(false);
@@ -73,7 +76,19 @@ public class FilmCardController implements Initializable {
             deleteFilmMenuItem.setVisible(true);
             modifyFilmMenuItem.setVisible(true);
         }
-        
+
+        if (film.getTags().isEmpty()) {
+            tags.setManaged(false);
+            tags.setVisible(false);
+        } else {
+            tags.setText("");
+            for(String tag : film.getTags()){
+                if(tags.getText().length() > 20){
+                    break;
+                }
+                tags.setText(tags.getText() + " #" + tag);
+            }
+        }
         setPoster();
     }
 
@@ -82,7 +97,7 @@ public class FilmCardController implements Initializable {
         if (event.isSecondaryButtonDown()) {
             return;
         }
-        
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
             App.setLoader(loader);
@@ -125,13 +140,13 @@ public class FilmCardController implements Initializable {
     }
 
     private void setPoster() {
-        try{
+        try {
             WikiScraper scraper = new WikiScraper(film.getWikiPage());
-        if(!scraper.scrapePosterLink().isBlank()){
-           poster.setImage(new Image("https:" + scraper.scrapePosterLink())); 
-        } 
-        }catch(Exception ex){
+            if (!scraper.scrapePosterLink().isBlank()) {
+                poster.setImage(new Image("https:" + scraper.scrapePosterLink()));
+            }
+        } catch (Exception ex) {
             App.printErrorDialog("Film Poster", "An error occurred loading the film's poster", ex.toString() + "\n" + ex.getMessage());
-        }      
+        }
     }
 }

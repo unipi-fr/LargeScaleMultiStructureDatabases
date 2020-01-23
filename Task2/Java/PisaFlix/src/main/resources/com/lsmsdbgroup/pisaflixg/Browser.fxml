@@ -22,15 +22,15 @@
    <children>
       <AnchorPane>
          <children>
-            <HBox alignment="BOTTOM_LEFT" layoutX="5.0" layoutY="-4.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="0.0">
+            <HBox alignment="CENTER" layoutX="5.0" layoutY="-4.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="10.0">
                <children>
                    <TextField fx:id="filterTextField" layoutX="5.0" layoutY="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
                      <HBox.margin>
-                        <Insets bottom="20.0" />
+                        <Insets />
                      </HBox.margin></TextField>
                   <Button fx:id="searchButton" defaultButton="true" mnemonicParsing="false" onAction="#filter">
                      <HBox.margin>
-                        <Insets bottom="20.0" left="10.0" right="10.0" />
+                        <Insets />
                      </HBox.margin>
                      <graphic>
                         <ImageView fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
@@ -42,10 +42,10 @@
                   </Button>
                   <Label fx:id="safeSearchLabel" text="Safe search:">
                      <HBox.margin>
-                        <Insets bottom="30.0" />
+                        <Insets />
                      </HBox.margin>
                      <padding>
-                        <Insets left="20.0" right="5.0" />
+                        <Insets right="5.0" />
                      </padding>
                   </Label>
                   <Slider fx:id="safeSearch" blockIncrement="5.0" minorTickCount="5" showTickLabels="true" showTickMarks="true" snapToTicks="true">
@@ -53,19 +53,17 @@
                         <Cursor fx:constant="DEFAULT" />
                      </cursor>
                      <HBox.margin>
-                        <Insets left="5.0" right="5.0" top="30.0" />
+                        <Insets />
                      </HBox.margin>
                   </Slider>
-                  <ProgressIndicator fx:id="progressIndicator" layoutX="108.0" layoutY="-4.0" minHeight="30.0" progress="0.0">
-                     <HBox.margin>
-                        <Insets bottom="20.0" left="5.0" top="15.0" />
-                     </HBox.margin>
-                     <padding>
-                        <Insets left="20.0" />
-                     </padding></ProgressIndicator>
                </children>
             </HBox>
-             <Button fx:id="addButton" layoutX="166.0" layoutY="5.0" mnemonicParsing="false" onAction="#add" text="Add" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+            <HBox spacing="15.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="20.0">
+               <children>
+                  <ProgressIndicator fx:id="progressIndicator" progress="0.0" />
+                   <Button fx:id="addButton" layoutX="166.0" layoutY="5.0" mnemonicParsing="false" onAction="#add" text="Add" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="20.0" />
+               </children>
+            </HBox>
          </children>
       </AnchorPane>
        <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" GridPane.rowIndex="1">
