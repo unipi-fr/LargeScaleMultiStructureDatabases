@@ -17,18 +17,23 @@ import static com.mongodb.client.model.Accumulators.avg;
 import static com.mongodb.client.model.Accumulators.sum;
 import static com.mongodb.client.model.Aggregates.group;
 import static com.mongodb.client.model.Aggregates.match;
+import static com.mongodb.client.model.Aggregates.project;
 import static com.mongodb.client.model.Aggregates.sort;
 import static com.mongodb.client.model.Aggregates.unwind;
 import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.gte;
 import static com.mongodb.client.model.Filters.lt;
 import static com.mongodb.client.model.Filters.ne;
 import static com.mongodb.client.model.Indexes.descending;
+import static com.mongodb.client.model.Projections.*;
 import com.mongodb.client.model.UnwindOptions;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import org.bson.BsonNull;
+import org.bson.conversions.Bson;
 
 /**
  *
@@ -55,6 +60,11 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
 
     @Override
     public Object engagementAnalytics(Date startdate, Date endDate, Entity entity) {
+        List<Bson> asList = Arrays.asList(project(fields(include("Film"), 
+                computed("View", eq("$cond", and(eq("if", Arrays.asList("$Type", "VIEW")), eq("then", 1L), eq("else", 0L)))), 
+                computed("Favourite", eq("$cond", and(eq("if", Arrays.asList("$Type", "FAVOURITE")), eq("then", 1L), eq("else", 0L)))), 
+                computed("Comment", eq("$cond", and(eq("if", Arrays.asList("$Type", "COMMENT")), eq("then", 1L), eq("else", 0L)))))), 
+                group("$Film", sum("ViewCount", "$View"), sum("FavouriteCount", "$Favourite"), sum("CommentCount", "$Comment")));
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
