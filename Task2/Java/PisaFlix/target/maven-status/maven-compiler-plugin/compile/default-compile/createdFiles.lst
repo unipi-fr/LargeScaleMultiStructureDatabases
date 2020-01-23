@@ -12,6 +12,7 @@ com\lsmsdbgroup\pisaflix\dbmanager\UserManager.class
 com\lsmsdbgroup\pisaflixg\LoginController.class
 com\lsmsdbgroup\pisaflixg\UserBrowserController$TileWorker.class
 com\lsmsdbgroup\pisaflixg\AddFilmController.class
+com\datamining\Clusterizer.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\UserPrivileges.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\exceptions\InvalidCredentialsException.class
 com\lsmsdbgroup\pisaflixg\RegistrationController.class

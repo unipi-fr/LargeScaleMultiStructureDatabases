@@ -20,7 +20,7 @@ public interface AnalyticsServiceInterface {
     Set<AverageRatingResult> ratingAnalytics(Date startdate, Date endDate, RatingType typeOfRating);
     
     //tyopeOfRanking perchè nelle specifiche abbiamo scritto che si può calcolare il rating medio raggruppando per [Film - utenti]
-    Object rankingAnalytics(Date startdate, Date endDate, RankingType typeOfRanking);
+    Set<RankingResult> rankingAnalytics(Date startDate, Date endDate, RankingType typeOfRanking);
     
     //Entity può essere un film o un utente
     Object engagementAnalytics(Date startdate, Date endDate, Entity entity);

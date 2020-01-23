@@ -30,10 +30,8 @@ def prepareStopWords():
 def tokenize_and_stem(text):
     # nltk.download('punkt')  # la prima volta va scaricato
     stemmer = nltk.SnowballStemmer("english")
-    # first tokenize by sentence, then by word to ensure that punctuation is caught as it's own token
     tokens = [word for sent in nltk.sent_tokenize(text) for word in nltk.word_tokenize(sent)]
     filtered_tokens = []
-    # filter out any tokens not containing letters (e.g., numeric tokens, raw punctuation) o stopwords
     for token in tokens:
         if nltk.re.search('[a-zA-Z]', token):
             filtered_tokens.append(token)

@@ -27,8 +27,8 @@ public class AnalyticsService implements AnalyticsServiceInterface {
     }
 
     @Override
-    public Object rankingAnalytics(Date startdate, Date endDate, RankingType typeOfRanking) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Set<RankingResult> rankingAnalytics(Date startDate, Date endDate, RankingType typeOfRanking) {
+        return analyticsManager.rankingAnalytics(startDate, endDate, typeOfRanking);
     }
     
 }

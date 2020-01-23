@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.lsmsdbgroup.pisaflix.dbmanager;
 
 import com.lsmsdbgroup.pisaflix.AnalyticsClasses.AverageRatingResult;
+import com.lsmsdbgroup.pisaflix.AnalyticsClasses.RankingResult;
 import com.lsmsdbgroup.pisaflix.Entities.Entity;
 import com.lsmsdbgroup.pisaflix.Entities.exceptions.NonConvertibleDocumentException;
 import com.mongodb.client.MongoCollection;
@@ -14,26 +10,30 @@ import org.bson.Document;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.AnalyticsManagerDatabaseInterface;
 import com.mongodb.client.AggregateIterable;
 import static com.mongodb.client.model.Accumulators.avg;
+import static com.mongodb.client.model.Accumulators.first;
 import static com.mongodb.client.model.Accumulators.sum;
+import static com.mongodb.client.model.Aggregates.addFields;
 import static com.mongodb.client.model.Aggregates.group;
+import static com.mongodb.client.model.Aggregates.lookup;
 import static com.mongodb.client.model.Aggregates.match;
+import static com.mongodb.client.model.Aggregates.project;
 import static com.mongodb.client.model.Aggregates.sort;
 import static com.mongodb.client.model.Aggregates.unwind;
-import static com.mongodb.client.model.Filters.and;
-import static com.mongodb.client.model.Filters.gte;
-import static com.mongodb.client.model.Filters.lt;
-import static com.mongodb.client.model.Filters.ne;
+import com.mongodb.client.model.Field;
+import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Indexes.descending;
+import static com.mongodb.client.model.Projections.computed;
+import static com.mongodb.client.model.Projections.fields;
+import static com.mongodb.client.model.Projections.include;
 import com.mongodb.client.model.UnwindOptions;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.TreeSet;
 import org.bson.BsonNull;
 
-/**
- *
- * @author FraRonk
- */
 public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
     private static AnalyticsManager AnalyticsManager;
     private MongoCollection<Document> EngageCollection;
@@ -61,6 +61,8 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
     @Override
     public Set<AverageRatingResult> ratingAnalytics(Date startDate, Date endDate, RatingType typeOfRating) {
         
+        Set<AverageRatingResult> res = new LinkedHashSet<>();
+        
         AggregateIterable<Document> result;
         switch(typeOfRating){
             case GENRE:
@@ -73,14 +75,14 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
                 result = aggregateByActor(startDate,endDate);
                 break;
             default:
-                return new LinkedHashSet<>();
+                return res;
         }
          
        
-        Set<AverageRatingResult> res = new LinkedHashSet<>();
+        
         for (Document dbObject : result)
         {
-            res.add(createBRfromDocument(dbObject));
+            res.add(createAverageRatingResultfromDocument(dbObject));
         }
         return res;
     }
@@ -128,11 +130,135 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
     }
 
     @Override
-    public Object rankingAnalytics(Date startdate, Date endDate, RankingType typeOfRanking) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Set<RankingResult> rankingAnalytics(Date startDate, Date endDate, RankingType typeOfRanking) {
+
+        Set<RankingResult> res = new LinkedHashSet<>();
+        
+        AggregateIterable<Document> fromEngage;
+        AggregateIterable<Document> fromFilm;
+                
+        
+        switch(typeOfRanking){
+            case FILM:
+                fromEngage = aggregateEngageCollectionRankingByFilms(startDate,endDate);
+                fromFilm = aggregateFilmCollectionRankingByFilms(startDate,endDate);
+                break;
+            case USERS:
+                fromEngage = aggregateEngageCollectionRankingByUsers(startDate,endDate);
+                fromFilm = aggregateFilmCollectionRankingByUsers(startDate,endDate);
+                break;
+            default:
+                return res;
+            
+        }
+        for (Document dbObject : fromEngage)
+        {
+            res.add(createRankingResultfromDocument(dbObject));
+        }
+        for(Document dbObject : fromFilm){
+            RankingResult.addOrMerge(res, createRankingResultfromDocument(dbObject));
+        }
+        
+        TreeSet<RankingResult> orderedSet = new TreeSet<>((RankingResult rr1, RankingResult rr2) -> rr1.compareTo(rr2)); 
+        orderedSet.addAll(res);
+        
+        return orderedSet;
     }
     
-    private AverageRatingResult createBRfromDocument(Document dbObject){
+    private AggregateIterable<Document> aggregateEngageCollectionRankingByFilms(Date startDate, Date endDate){
+        
+    return EngageCollection.aggregate(Arrays.asList(
+            match(
+                    and(gte("Timestamp", startDate), lt("Timestamp", endDate))), 
+            group(eq("$toObjectId", "$Film"), 
+                    sum("commentCount", 
+                            eq("$cond", and(eq("if", Arrays.asList("$Type", "COMMENT")), eq("then", 1L), eq("else", 0L)))), 
+                    sum("viewCount", 
+                            eq("$cond", and(eq("if", Arrays.asList("$Type", "VIEW")), eq("then", 1L), eq("else", 0L)))), 
+                    sum("favouriteCount", 
+                            eq("$cond", and(eq("if", Arrays.asList("$Type", "FAVOURITE")), eq("then", 1L), eq("else", 0L))))), 
+            lookup("FilmCollection", "_id", "_id", "FilmD"), 
+            unwind("$FilmD", new UnwindOptions().includeArrayIndex("ArrayPosition").preserveNullAndEmptyArrays(false)), 
+            project(
+                    fields(computed("title_username", "$FilmD.Title"), include("commentCount", "favouriteCount", "viewCount")))));
+    }
+    private AggregateIterable<Document> aggregateEngageCollectionRankingByUsers(Date startDate, Date endDate){
+        
+    return EngageCollection.aggregate(Arrays.asList(
+            match(
+                and(
+                    and(gte("Timestamp", startDate), lt("Timestamp", endDate)), 
+                        ne("User", "anonymous"))), 
+            group(eq("$toObjectId", "$User"), 
+                   sum("commentCount", 
+                           eq("$cond", and(eq("if", Arrays.asList("$Type", "COMMENT")), eq("then", 1L), eq("else", 0L)))), 
+                   sum("viewCount", 
+                           eq("$cond", and(eq("if", Arrays.asList("$Type", "VIEW")), eq("then", 1L), eq("else", 0L)))), 
+                   sum("favouriteCount", eq("$cond", and(eq("if", Arrays.asList("$Type", "FAVOURITE")), 
+                           eq("then", 1L), eq("else", 0L))))), lookup("UserCollection", "_id", "_id", "UserD"), 
+            unwind("$UserD", 
+                    new UnwindOptions().includeArrayIndex("positionInArray").preserveNullAndEmptyArrays(false)), 
+            project(fields(computed("title_username", "$UserD.Username"), include("commentCount", "viewCount", "favouriteCount")))));
+    }
+    
+    private AggregateIterable<Document> aggregateFilmCollectionRankingByUsers(Date startDate, Date endDate){
+        
+    return FilmCollection.aggregate(Arrays.asList(
+            unwind("$RecentComments", new UnwindOptions().includeArrayIndex("CommentNumber").preserveNullAndEmptyArrays(false)), 
+            match(
+                    and(
+                            gte("RecentComments.Timestamp", startDate), 
+                            lt("RecentComments.Timestamp", endDate))), 
+            group(eq("$toObjectId", "$RecentComments.User"), sum("commentCount", 1L)), 
+            lookup("UserCollection", "_id", "_id", "UserD"), 
+            unwind("$UserD", new UnwindOptions().includeArrayIndex("ArrayPosition").preserveNullAndEmptyArrays(false)), 
+            project(fields(computed("title_username", "$UserD.Username"), include("commentCount")))));
+    }
+    private AggregateIterable<Document> aggregateFilmCollectionRankingByFilms(Date startDate, Date endDate){
+        
+    return FilmCollection.aggregate(Arrays.asList(
+            unwind("$RecentComments", new UnwindOptions().includeArrayIndex("CommentNumber").preserveNullAndEmptyArrays(false)), 
+            match(
+                and(
+                        gte("RecentComments.Timestamp", startDate), 
+                        lt("RecentComments.Timestamp", endDate))), 
+            group("$_id", 
+                    first("title_username", "$Title"), 
+                    sum("commentCount", 1L))));
+    }
+    
+    private RankingResult createRankingResultfromDocument(Document dbObject){
+        String id = "";
+        String title_username = "";
+        Long commentCount = 0L;
+        Long favouriteCount = 0L;
+        Long viewCount = 0L;
+        
+        if(dbObject.containsKey("_id")) {
+            id = dbObject.get("_id").toString();
+        }
+        
+        if(dbObject.containsKey("title_username")) {
+            title_username = dbObject.getString("title_username");
+        }
+        
+        if(dbObject.containsKey("commentCount")) {
+            commentCount = dbObject.getLong("commentCount");
+        }
+        
+        if(dbObject.containsKey("favouriteCount")) {
+            favouriteCount = dbObject.getLong("favouriteCount");
+        }
+        
+        if(dbObject.containsKey("viewCount")) {
+            viewCount = dbObject.getLong("viewCount");
+        }
+            
+        
+        return new RankingResult(id,title_username,commentCount,favouriteCount,viewCount);
+    }
+    
+    private AverageRatingResult createAverageRatingResultfromDocument(Document dbObject){
         if(dbObject.containsKey("_id") && dbObject.containsKey("avg_rating") && dbObject.containsKey("count")){
             Double aDouble = dbObject.getDouble("avg_rating");
             String aString = dbObject.get("_id").toString();
