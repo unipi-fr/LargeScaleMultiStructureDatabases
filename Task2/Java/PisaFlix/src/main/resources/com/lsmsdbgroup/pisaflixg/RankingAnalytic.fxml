@@ -27,9 +27,9 @@
       </HBox>
       <TableView fx:id="rankingTable" GridPane.rowIndex="1">
         <columns>
-          <TableColumn prefWidth="75.0" text="Rank" />
-          <TableColumn prefWidth="750.0" text="Title/Username" />
-            <TableColumn prefWidth="75.0" text="Score" />
+          <TableColumn fx:id="positionColumn" prefWidth="75.0" text="Rank" />
+          <TableColumn fx:id="titleUsernameColumn" prefWidth="750.0" text="Title/Username" />
+          <TableColumn fx:id="scoreColumn" prefWidth="75.0" text="Score" />
         </columns>
          <GridPane.margin>
             <Insets left="100.0" right="100.0" />

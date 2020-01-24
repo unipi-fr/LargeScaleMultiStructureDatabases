@@ -1,8 +1,9 @@
 package com.lsmsdbgroup.pisaflix.AnalyticsClasses;
 
+import java.util.List;
 import java.util.Set;
 
-public class RankingResult {
+public class RankingResult implements Comparable<RankingResult>{
     public static final Long COMMENT_WEIGHT = 3L;
     public static final Long FAVOURITE_WEIGHT = 2L;
     public static final Long VIEW_WEIGHT = 1L;
@@ -74,17 +75,18 @@ public class RankingResult {
         this.favouriteCount = favouriteCount;
     }    
     
+    @Override
     public int compareTo(RankingResult other){
         Long thisScore = this.getScore();
         Long otherScore = other.getScore();
         if(thisScore > otherScore){
-            return 1;
+            return -1;
         }
         if(thisScore == otherScore){
             return 0;
         }
         // this.getScore() < other.getScore()
-        return -1;
+        return 1;
 }
     
     public boolean merge(RankingResult other){
@@ -100,13 +102,13 @@ public class RankingResult {
         return true;
     }
     
-    public static void addOrMerge(Set<RankingResult> destination, Set<RankingResult> surce){
+    public static void addOrMerge(List<RankingResult> destination, List<RankingResult> surce){
         for(RankingResult rs : surce){  
             addOrMerge(destination,rs);
         }
     }
     
-    public static void addOrMerge(Set<RankingResult> setDestination, RankingResult itemToAdd){
+    public static void addOrMerge(List<RankingResult> setDestination, RankingResult itemToAdd){
         for(RankingResult rd : setDestination){
             if(rd.merge(itemToAdd)){
                 return;

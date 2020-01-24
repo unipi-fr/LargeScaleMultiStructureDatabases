@@ -26,8 +26,10 @@ import static com.mongodb.client.model.Projections.computed;
 import static com.mongodb.client.model.Projections.fields;
 import static com.mongodb.client.model.Projections.include;
 import com.mongodb.client.model.UnwindOptions;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -139,7 +141,7 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
     @Override
     public Set<RankingResult> rankingAnalytics(Date startDate, Date endDate, RankingType typeOfRanking) {
 
-        Set<RankingResult> res = new LinkedHashSet<>();
+        List<RankingResult> res = new ArrayList<>();
         
         AggregateIterable<Document> fromEngage;
         AggregateIterable<Document> fromFilm;
@@ -150,62 +152,75 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
                 fromEngage = aggregateEngageCollectionRankingByFilms(startDate,endDate);
                 fromFilm = aggregateFilmCollectionRankingByFilms(startDate,endDate);
                 break;
-            case USERS:
+            case USER:
                 fromEngage = aggregateEngageCollectionRankingByUsers(startDate,endDate);
                 fromFilm = aggregateFilmCollectionRankingByUsers(startDate,endDate);
                 break;
             default:
-                return res;
+                return new LinkedHashSet<>();
             
         }
         for (Document dbObject : fromEngage)
         {
-            res.add(createRankingResultfromDocument(dbObject));
+            RankingResult rr = createRankingResultfromDocument(dbObject);
+            res.add(rr);
         }
         for(Document dbObject : fromFilm){
-            RankingResult.addOrMerge(res, createRankingResultfromDocument(dbObject));
+            RankingResult rr = createRankingResultfromDocument(dbObject);
+            RankingResult.addOrMerge(res, rr);
         }
         
-        TreeSet<RankingResult> orderedSet = new TreeSet<>((RankingResult rr1, RankingResult rr2) -> rr1.compareTo(rr2)); 
-        orderedSet.addAll(res);
+        Collections.sort(res);
         
-        return orderedSet;
+        return new LinkedHashSet<>(res);
     }
     
     private AggregateIterable<Document> aggregateEngageCollectionRankingByFilms(Date startDate, Date endDate){
-        
-    return EngageCollection.aggregate(Arrays.asList(
-            match(
-                    and(gte("Timestamp", startDate), lt("Timestamp", endDate))), 
-            group(eq("$toObjectId", "$Film"), 
-                    sum("commentCount", 
-                            eq("$cond", and(eq("if", Arrays.asList("$Type", "COMMENT")), eq("then", 1L), eq("else", 0L)))), 
-                    sum("viewCount", 
-                            eq("$cond", and(eq("if", Arrays.asList("$Type", "VIEW")), eq("then", 1L), eq("else", 0L)))), 
-                    sum("favouriteCount", 
-                            eq("$cond", and(eq("if", Arrays.asList("$Type", "FAVOURITE")), eq("then", 1L), eq("else", 0L))))), 
-            lookup("FilmCollection", "_id", "_id", "FilmD"), 
-            unwind("$FilmD", new UnwindOptions().includeArrayIndex("ArrayPosition").preserveNullAndEmptyArrays(false)), 
-            project(
-                    fields(computed("title_username", "$FilmD.Title"), include("commentCount", "favouriteCount", "viewCount")))));
+
+        return EngageCollection.aggregate(Arrays.asList(
+                match(
+                    and(
+                        gte("Timestamp", new java.util.Date(1342224000000L)), 
+                        lt("Timestamp", new java.util.Date(1594684800000L)))), 
+                project(fields(
+                        include("Film"), 
+                        computed("isComment", eq("$cond", and(eq("if", Arrays.asList("$Type", "COMMENT")), eq("then", 1L), eq("else", 0L)))), 
+                        computed("isView", eq("$cond", and(eq("if", Arrays.asList("$Type", "VIEW")), eq("then", 1L), eq("else", 0L)))), 
+                        computed("isFavourite", eq("$cond", and(eq("if", Arrays.asList("$Type", "FAVOURITE")), eq("then", 1L), eq("else", 0L)))))), 
+                group(eq("$toObjectId", "$Film"), 
+                        sum("commentCount", "$isComment"), 
+                        sum("viewCount", "$isView"), 
+                        sum("favouriteCount", "$isFavourite")), 
+                lookup("FilmCollection", "_id", "_id", "FilmD"), 
+                unwind("$FilmD", new UnwindOptions().includeArrayIndex("ArrayPosition").preserveNullAndEmptyArrays(false)), 
+                project(fields(
+                        computed("title_username", "$FilmD.Title"), 
+                        include("commentCount", "favouriteCount", "viewCount")))));
+   
     }
     private AggregateIterable<Document> aggregateEngageCollectionRankingByUsers(Date startDate, Date endDate){
         
     return EngageCollection.aggregate(Arrays.asList(
             match(
                 and(
-                    and(gte("Timestamp", startDate), lt("Timestamp", endDate)), 
-                        ne("User", "anonymous"))), 
+                    and(
+                        gte("Timestamp", new java.util.Date(1342224000000L)), 
+                        lt("Timestamp", new java.util.Date(1594684800000L))), 
+                    ne("User", "anonymous"))), 
+            project(fields(
+                include("User"), 
+                computed("isComment", eq("$cond", and(eq("if", Arrays.asList("$Type", "COMMENT")), eq("then", 1L), eq("else", 0L)))), 
+                computed("isView", eq("$cond", and(eq("if", Arrays.asList("$Type", "VIEW")), eq("then", 1L), eq("else", 0L)))), 
+                computed("isFavourite", eq("$cond", and(eq("if", Arrays.asList("$Type", "FAVOURITE")), eq("then", 1L), eq("else", 0L)))))), 
             group(eq("$toObjectId", "$User"), 
-                   sum("commentCount", 
-                           eq("$cond", and(eq("if", Arrays.asList("$Type", "COMMENT")), eq("then", 1L), eq("else", 0L)))), 
-                   sum("viewCount", 
-                           eq("$cond", and(eq("if", Arrays.asList("$Type", "VIEW")), eq("then", 1L), eq("else", 0L)))), 
-                   sum("favouriteCount", eq("$cond", and(eq("if", Arrays.asList("$Type", "FAVOURITE")), 
-                           eq("then", 1L), eq("else", 0L))))), lookup("UserCollection", "_id", "_id", "UserD"), 
-            unwind("$UserD", 
-                    new UnwindOptions().includeArrayIndex("positionInArray").preserveNullAndEmptyArrays(false)), 
-            project(fields(computed("title_username", "$UserD.Username"), include("commentCount", "viewCount", "favouriteCount")))));
+                    sum("commentCount", "$isComment"), 
+                    sum("viewCount", "$isView"), 
+                    sum("favouriteCount", "$isFavourite")), 
+            lookup("UserCollection", "_id", "_id", "UserD"), 
+            unwind("$UserD", new UnwindOptions().includeArrayIndex("positionInArray").preserveNullAndEmptyArrays(false)), 
+            project(fields(
+                    computed("title_username", "$UserD.Username"), 
+                    include("commentCount", "viewCount", "favouriteCount")))));
     }
     
     private AggregateIterable<Document> aggregateFilmCollectionRankingByUsers(Date startDate, Date endDate){

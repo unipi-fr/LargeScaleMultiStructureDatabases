@@ -13,7 +13,7 @@ public interface AnalyticsManagerDatabaseInterface {
     }  
     public static enum RankingType {
      FILM,
-     USERS
+     USER
     }  
     
     Set<AverageRatingResult>  ratingAnalytics(Date startdate, Date endDate, RatingType typeOfRating);
