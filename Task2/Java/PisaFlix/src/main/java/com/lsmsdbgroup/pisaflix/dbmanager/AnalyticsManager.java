@@ -180,8 +180,8 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
         return EngageCollection.aggregate(Arrays.asList(
                 match(
                     and(
-                        gte("Timestamp", new java.util.Date(1342224000000L)), 
-                        lt("Timestamp", new java.util.Date(1594684800000L)))), 
+                        gte("Timestamp", startDate), 
+                        lt("Timestamp", endDate))), 
                 project(fields(
                         include("Film"), 
                         computed("isComment", eq("$cond", and(eq("if", Arrays.asList("$Type", "COMMENT")), eq("then", 1L), eq("else", 0L)))), 
@@ -204,8 +204,8 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
             match(
                 and(
                     and(
-                        gte("Timestamp", new java.util.Date(1342224000000L)), 
-                        lt("Timestamp", new java.util.Date(1594684800000L))), 
+                        gte("Timestamp", endDate), 
+                        lt("Timestamp", endDate)), 
                     ne("User", "anonymous"))), 
             project(fields(
                 include("User"), 
