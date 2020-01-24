@@ -204,7 +204,7 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
             match(
                 and(
                     and(
-                        gte("Timestamp", endDate), 
+                        gte("Timestamp", startDate), 
                         lt("Timestamp", endDate)), 
                     ne("User", "anonymous"))), 
             project(fields(
