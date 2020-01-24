@@ -5,7 +5,6 @@ import warnings
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 
-
 def relative_path(path):
     dirname = os.path.dirname(__file__)
     return os.path.join(dirname, path)
@@ -98,3 +97,4 @@ if __name__ == '__main__':
     for row in model.predict_proba(C):
         print(str(row[0]))
 
+# todo adaboost

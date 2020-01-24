@@ -47,8 +47,7 @@ def tokenize_and_stem(text):
     return stems
 
 
-def differential_evolution_preprocessiong(dataset, min_df=0.1, max_df=0.9, max_features=None):
-
+def preprocessing(dataset, min_df=0.1, max_df=0.9, max_features=None):
     class_ADULTS = dataset[dataset["MPAA"] == "ADULTS"]
     class_CHILDREN = dataset[dataset["MPAA"] == "CHILDREN"]
     dataset = class_ADULTS.append(class_CHILDREN, ignore_index=True)
@@ -73,3 +72,9 @@ def differential_evolution_preprocessiong(dataset, min_df=0.1, max_df=0.9, max_f
         result_dataset[terms[j]] = values
 
     return result_dataset
+
+
+if __name__ == '__main__':
+    raw_dataset = pandas.read_csv("../resources/datasets/labelledData.csv", ";")
+    data = preprocessing(dataset=raw_dataset, min_df=0.1, max_df=0.9)
+    data.to_csv("../resources/datasets/preprocessedData.csv" ,index=False)

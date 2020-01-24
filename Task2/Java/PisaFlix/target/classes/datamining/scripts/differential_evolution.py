@@ -4,7 +4,7 @@ from sklearn.metrics import accuracy_score, make_scorer
 from sklearn.model_selection import cross_val_score
 import pandas
 from scipy.optimize import differential_evolution
-from Java.PisaFlix.src.main.resources.datamining.scripts.preprocessing import differential_evolution_preprocessiong
+from Java.PisaFlix.src.main.resources.datamining.scripts.preprocessing import preprocessing
 
 # GLOBAL PARAMETERS (Necessari per tenere traccia delle generazioni degli agenti)
 dataset = pandas.read_csv("../resources/datasets/labelledData.csv", ";")
@@ -57,8 +57,8 @@ def classification(x):
         return 2.0
 
     try:
-        data = differential_evolution_preprocessiong(dataset=dataset, min_df=min_df, max_df=max_df,
-                                                     max_features=max_features)
+        data = preprocessing(dataset=dataset, min_df=min_df, max_df=max_df,
+                             max_features=max_features)
     except:
 
         log = open("../resources/elaborations/log.txt", "a+")
