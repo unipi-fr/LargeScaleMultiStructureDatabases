@@ -118,9 +118,30 @@ public class FilmManager implements FilmManagerDatabaseInterface {
             return getAll(limit, skip);
         }
 
-        if (titleFilter != null) {
-            filters.add(regex("Title", ".*" + titleFilter + ".*", "i"));
+        if (titleFilter != null) {  
+            for (String words : titleFilter.split(" ")) {
+                filters.add(regex("Title", ".*" + words.trim() + ".*", "i"));
+                filters.add(regex("Tags", ".*" + words.trim() + ".*", "i"));
+            }
         }
+
+        Document countDocument = FilmCollection.aggregate(Arrays.asList(        //Conta i risultati che contengono ALMENO una parola inserita
+                Aggregates.match(and(or(filters), lt("Adultness", 1.0 - adultnessMargin))),
+                Aggregates.count())).first();
+
+        if (countDocument != null && (int) countDocument.get("count") >= filmLimit) {  //Se sono troppi rispetto a quelli mostrabili
+            countDocument = FilmCollection.aggregate(Arrays.asList(             //Conta i risultati con la stringa ESATTA inserita
+                    Aggregates.match(and(regex("Title", ".*" + titleFilter.trim() + ".*", "i"), lt("Adultness", 1.0 - adultnessMargin))),
+                    Aggregates.count())).first();
+            if (countDocument != null && (int) countDocument.get("count") > 0) {//Se ce ne sono mostra quelli
+                try (MongoCursor<Document> cursor = FilmCollection.find(and(regex("Title", ".*" + titleFilter.trim() + ".*", "i"), lt("Adultness", 1.0 - adultnessMargin))).projection(Projections.exclude("RecentComments")).sort(sort).limit(filmLimit).skip(skip).iterator()) {
+                    while (cursor.hasNext()) {
+                        filmSet.add(new Film(cursor.next()));
+                    }
+                    return filmSet;
+                }
+            }
+        } //Altrimenti mostra quelli generali in ordine di data d'uscita
 
         if (startDateFilter != null && endDateFilter != null) {
             filters.add(and(gte("PublicationDate", startDateFilter), lt("PublicationDate", endDateFilter)));

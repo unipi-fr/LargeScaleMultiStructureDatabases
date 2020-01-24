@@ -46,10 +46,12 @@ com\lsmsdbgroup\pisaflix\pisaflixservices\AuthenticationService.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\CommentServiceInterface.class
 com\lsmsdbgroup\pisaflixg\FilmBrowserController$TileWorker.class
 com\lsmsdbgroup\pisaflixg\EngageAnalyticController.class
+com\lsmsdbgroup\pisaflix\Entities\Film$FilmType.class
 com\lsmsdbgroup\pisaflixg\FilmDetailPageController.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\CommentService.class
 com\lsmsdbgroup\pisaflix\dbmanager\EngageManager.class
 com\lsmsdbgroup\pisaflix\Entities\Engage$EngageType.class
+com\lsmsdbgroup\pisaflix\AnalyticsClasses\RankingResult.class
 com\lsmsdbgroup\pisaflix\dbmanager\Interfaces\AnalyticsManagerDatabaseInterface.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\UserService.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\exceptions\InvalidFieldException.class
