@@ -150,7 +150,7 @@ public class FilmDetailPageController implements Initializable {
 
         setTitleLabel(film.getTitle());
         setPublishDate(film.getPublicationDate().toString());
-        setDescription(film.getDescription());
+        setDescription(film.getDescription().trim());
 
         Set<Comment> comments = film.getCommentSet();
 

@@ -1,12 +1,16 @@
 import warnings
 import pandas
 from numpy import mean
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, roc_auc_score
 from sklearn.model_selection import StratifiedKFold
 from sklearn.naive_bayes import GaussianNB
+from sklearn.svm import SVC
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+
 
 if __name__ == '__main__':
     warnings.filterwarnings("ignore")
@@ -26,6 +30,16 @@ if __name__ == '__main__':
     auc_QD = []
     acc_RF = []
     auc_RF = []
+    acc_SV = []
+    auc_SV = []
+    acc_DT = []
+    auc_DT = []
+    acc_KNN = []
+    auc_KNN = []
+    acc_ADA_LR = []
+    auc_ADA_LR = []
+    acc_ADA_DT = []
+    auc_ADA_DT = []
 
     SKF = StratifiedKFold(n_splits=10, random_state=12345, shuffle=True)
     for train_index, test_index in SKF.split(X, y):
@@ -55,6 +69,30 @@ if __name__ == '__main__':
         acc_NG.insert(-1, accuracy_score(y_test, y_predicted))
         auc_NG.insert(-1, roc_auc_score(y_test_num, y_score))
 
+        # Support Vectors
+        SV_model = SVC(probability=True, random_state=12345).fit(X_train, y_train)
+        y_predicted = SV_model.predict(X_test)
+        y_score = [row[0] for row in SV_model.predict_proba(X_test)]
+
+        acc_SV.insert(-1, accuracy_score(y_test, y_predicted))
+        auc_SV.insert(-1, roc_auc_score(y_test_num, y_score))
+
+        # Decision Tree
+        DT_model = DecisionTreeClassifier(criterion="gini", random_state=12345).fit(X_train, y_train)
+        y_predicted = DT_model.predict(X_test)
+        y_score = [row[0] for row in DT_model.predict_proba(X_test)]
+
+        acc_DT.insert(-1, accuracy_score(y_test, y_predicted))
+        auc_DT.insert(-1, roc_auc_score(y_test_num, y_score))
+
+        # KNeighbors
+        KNN_model = KNeighborsClassifier().fit(X_train, y_train)
+        y_predicted = KNN_model.predict(X_test)
+        y_score = [row[0] for row in KNN_model.predict_proba(X_test)]
+
+        acc_KNN.insert(-1, accuracy_score(y_test, y_predicted))
+        auc_KNN.insert(-1, roc_auc_score(y_test_num, y_score))
+
         # Discriminant
         QD_model = QuadraticDiscriminantAnalysis().fit(X_train, y_train)
         y_predicted = QD_model.predict(X_test)
@@ -64,12 +102,30 @@ if __name__ == '__main__':
         auc_QD.insert(-1, roc_auc_score(y_test_num, y_score))
 
         # Random Forest
-        RF_model = RandomForestClassifier(random_state=12345).fit(X_train, y_train)
+        RF_model = RandomForestClassifier(random_state=12345, criterion="gini").fit(X_train, y_train)
         y_predicted = RF_model.predict(X_test)
         y_score = [row[0] for row in RF_model.predict_proba(X_test)]  # (1)
 
         acc_RF.insert(-1, accuracy_score(y_test, y_predicted))
         auc_RF.insert(-1, roc_auc_score(y_test_num, y_score))
+
+        # ADAboost Regression
+        ADA_LR_model = AdaBoostClassifier(random_state=12345, base_estimator=LogisticRegression(), n_estimators=100)\
+            .fit(X_train, y_train)
+        y_predicted = ADA_LR_model.predict(X_test)
+        y_score = [row[0] for row in ADA_LR_model.predict_proba(X_test)]  # (2)
+
+        acc_ADA_LR.insert(-1, accuracy_score(y_test, y_predicted))
+        auc_ADA_LR.insert(-1, roc_auc_score(y_test_num, y_score))
+
+        # ADAboost Forest
+        ADA_DT_model = AdaBoostClassifier(random_state=12345, base_estimator=DecisionTreeClassifier(
+            criterion="gini", random_state=12345), n_estimators=100).fit(X_train, y_train)
+        y_predicted = ADA_DT_model.predict(X_test)
+        y_score = [row[0] for row in ADA_DT_model.predict_proba(X_test)]  # (1-2)
+
+        acc_ADA_DT.insert(-1, accuracy_score(y_test, y_predicted))
+        auc_ADA_DT.insert(-1, roc_auc_score(y_test_num, y_score))
 
     print()
     print("Linear Regression:")
@@ -90,15 +146,48 @@ if __name__ == '__main__':
     print("- Mean AUC: " + str(round(mean(auc_QD) * 100, 1)) + "% ± " + str(
         round(abs(mean(auc_QD) - max(auc_QD)) * 100, 1)) + "%")
     print()
+    print("Decision Tree:")
+    print("- Mean accuracy: " + str(round(mean(acc_DT) * 100, 1)) + "% ± " + str(
+        round(abs(mean(acc_DT) - max(acc_DT)) * 100, 1)) + "%")
+    print("- Mean AUC: " + str(round(mean(auc_DT) * 100, 1)) + "% ± " + str(
+        round(abs(mean(auc_DT) - max(auc_DT)) * 100, 1)) + "%")
+    print()
+    print("Support Vectors:")
+    print("- Mean accuracy: " + str(round(mean(acc_SV) * 100, 1)) + "% ± " + str(
+        round(abs(mean(acc_SV) - max(acc_SV)) * 100, 1)) + "%")
+    print("- Mean AUC: " + str(round(mean(auc_SV) * 100, 1)) + "% ± " + str(
+        round(abs(mean(auc_SV) - max(auc_SV)) * 100, 1)) + "%")
+    print()
+    print("K-nearest Neighbors:")
+    print("- Mean accuracy: " + str(round(mean(acc_KNN) * 100, 1)) + "% ± " + str(
+        round(abs(mean(acc_KNN) - max(acc_KNN)) * 100, 1)) + "%")
+    print("- Mean AUC: " + str(round(mean(auc_KNN) * 100, 1)) + "% ± " + str(
+        round(abs(mean(auc_KNN) - max(auc_KNN)) * 100, 1)) + "%")
+    print()
     print("Random Forest:")
     print("- Mean accuracy: " + str(round(mean(acc_RF) * 100, 1)) + "% ± " + str(
         round(abs(mean(acc_RF) - max(acc_RF)) * 100, 1)) + "%")
     print("- Mean AUC: " + str(round(mean(auc_RF) * 100, 1)) + "% ± " + str(
         round(abs(mean(auc_RF) - max(auc_RF)) * 100, 1)) + "%")
+    print()
+    print("ADAboost of Linear Regressions:")
+    print("- Mean accuracy: " + str(round(mean(acc_ADA_LR) * 100, 1)) + "% ± " + str(
+        round(abs(mean(acc_ADA_LR) - max(acc_ADA_LR)) * 100, 1)) + "%")
+    print("- Mean AUC: " + str(round(mean(auc_ADA_LR) * 100, 1)) + "% ± " + str(
+        round(abs(mean(auc_ADA_LR) - max(auc_ADA_LR)) * 100, 1)) + "%")
+    print()
+    print("ADAboost of Decision Trees:")
+    print("- Mean accuracy: " + str(round(mean(acc_ADA_DT) * 100, 1)) + "% ± " + str(
+        round(abs(mean(acc_ADA_DT) - max(acc_ADA_DT)) * 100, 1)) + "%")
+    print("- Mean AUC: " + str(round(mean(auc_ADA_DT) * 100, 1)) + "% ± " + str(
+        round(abs(mean(auc_ADA_DT) - max(auc_ADA_DT)) * 100, 1)) + "%")
 
     # NOTES:
     #   (1) The predicted class probabilities of an input sample in random forest are computed as the mean predicted
     #   class probabilities of the trees in the forest. The class probability of a single tree is the fraction of
     #   samples of the same class in a leaf.
+    #
+    #   (2) The predicted class probabilities of an input sample is computed as the weighted mean predicted class
+    #   probabilities of the classifiers in the ensemble
 
 # todo mettere la stratified kfold nell'evoluzione
