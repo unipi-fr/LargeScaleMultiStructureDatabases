@@ -28,8 +28,10 @@ if __name__ == '__main__':
     auc_NG = []
     acc_QD = []
     auc_QD = []
-    acc_RF = []
-    auc_RF = []
+    acc_RF_Gini = []
+    auc_RF_Gini = []
+    acc_RF_Entropy = []
+    auc_RF_Entropy = []
     acc_SV = []
     auc_SV = []
     acc_DT = []
@@ -49,65 +51,73 @@ if __name__ == '__main__':
         y_test_num = []
         for i in y_test:
             if i == 'ADULTS':
-                y_test_num.insert(-1, 1)
+                y_test_num.insert(len(y_test_num), 1)
             else:
-                y_test_num.insert(-1, 0)
+                y_test_num.insert(len(y_test_num), 0)
 
         # Regression
         LR_model = LogisticRegression().fit(X_train, y_train)
         y_predicted = LR_model.predict(X_test)
         y_score = [row[0] for row in LR_model.predict_proba(X_test)]
 
-        acc_LR.insert(-1, accuracy_score(y_test, y_predicted))
-        auc_LR.insert(-1, roc_auc_score(y_test_num, y_score))
+        acc_LR.insert(len(acc_LR), accuracy_score(y_test, y_predicted))
+        auc_LR.insert(len(auc_LR), roc_auc_score(y_test_num, y_score))
 
         # Bayesian
         NG_model = GaussianNB().fit(X_train, y_train)
         y_predicted = NG_model.predict(X_test)
         y_score = [row[0] for row in NG_model.predict_proba(X_test)]
 
-        acc_NG.insert(-1, accuracy_score(y_test, y_predicted))
-        auc_NG.insert(-1, roc_auc_score(y_test_num, y_score))
+        acc_NG.insert(len(acc_NG), accuracy_score(y_test, y_predicted))
+        auc_NG.insert(len(auc_NG), roc_auc_score(y_test_num, y_score))
 
         # Support Vectors
         SV_model = SVC(probability=True, random_state=12345).fit(X_train, y_train)
         y_predicted = SV_model.predict(X_test)
         y_score = [row[0] for row in SV_model.predict_proba(X_test)]
 
-        acc_SV.insert(-1, accuracy_score(y_test, y_predicted))
-        auc_SV.insert(-1, roc_auc_score(y_test_num, y_score))
+        acc_SV.insert(len(acc_SV), accuracy_score(y_test, y_predicted))
+        auc_SV.insert(len(auc_SV), roc_auc_score(y_test_num, y_score))
 
         # Decision Tree
         DT_model = DecisionTreeClassifier(criterion="gini", random_state=12345).fit(X_train, y_train)
         y_predicted = DT_model.predict(X_test)
         y_score = [row[0] for row in DT_model.predict_proba(X_test)]
 
-        acc_DT.insert(-1, accuracy_score(y_test, y_predicted))
-        auc_DT.insert(-1, roc_auc_score(y_test_num, y_score))
+        acc_DT.insert(len(acc_DT), accuracy_score(y_test, y_predicted))
+        auc_DT.insert(len(auc_DT), roc_auc_score(y_test_num, y_score))
 
         # KNeighbors
         KNN_model = KNeighborsClassifier().fit(X_train, y_train)
         y_predicted = KNN_model.predict(X_test)
         y_score = [row[0] for row in KNN_model.predict_proba(X_test)]
 
-        acc_KNN.insert(-1, accuracy_score(y_test, y_predicted))
-        auc_KNN.insert(-1, roc_auc_score(y_test_num, y_score))
+        acc_KNN.insert(len(acc_KNN), accuracy_score(y_test, y_predicted))
+        auc_KNN.insert(len(auc_KNN), roc_auc_score(y_test_num, y_score))
 
         # Discriminant
         QD_model = QuadraticDiscriminantAnalysis().fit(X_train, y_train)
         y_predicted = QD_model.predict(X_test)
         y_score = [row[0] for row in QD_model.predict_proba(X_test)]
 
-        acc_QD.insert(-1, accuracy_score(y_test, y_predicted))
-        auc_QD.insert(-1, roc_auc_score(y_test_num, y_score))
+        acc_QD.insert(len(acc_QD), accuracy_score(y_test, y_predicted))
+        auc_QD.insert(len(auc_QD), roc_auc_score(y_test_num, y_score))
 
-        # Random Forest
+        # Random Forest Gini
         RF_model = RandomForestClassifier(random_state=12345, criterion="gini").fit(X_train, y_train)
         y_predicted = RF_model.predict(X_test)
         y_score = [row[0] for row in RF_model.predict_proba(X_test)]  # (1)
 
-        acc_RF.insert(-1, accuracy_score(y_test, y_predicted))
-        auc_RF.insert(-1, roc_auc_score(y_test_num, y_score))
+        acc_RF_Gini.insert(len(acc_RF_Gini), accuracy_score(y_test, y_predicted))
+        auc_RF_Gini.insert(len(auc_RF_Gini), roc_auc_score(y_test_num, y_score))
+
+        # Random Forest Entropy
+        RF_model = RandomForestClassifier(random_state=12345, criterion="entropy").fit(X_train, y_train)
+        y_predicted = RF_model.predict(X_test)
+        y_score = [row[0] for row in RF_model.predict_proba(X_test)]  # (1)
+
+        acc_RF_Entropy.insert(len(acc_RF_Entropy), accuracy_score(y_test, y_predicted))
+        auc_RF_Entropy.insert(len(auc_RF_Entropy), roc_auc_score(y_test_num, y_score))
 
         # ADAboost Regression
         ADA_LR_model = AdaBoostClassifier(random_state=12345, base_estimator=LogisticRegression(), n_estimators=100)\
@@ -115,8 +125,8 @@ if __name__ == '__main__':
         y_predicted = ADA_LR_model.predict(X_test)
         y_score = [row[0] for row in ADA_LR_model.predict_proba(X_test)]  # (2)
 
-        acc_ADA_LR.insert(-1, accuracy_score(y_test, y_predicted))
-        auc_ADA_LR.insert(-1, roc_auc_score(y_test_num, y_score))
+        acc_ADA_LR.insert(len(acc_ADA_LR), accuracy_score(y_test, y_predicted))
+        auc_ADA_LR.insert(len(auc_ADA_LR), roc_auc_score(y_test_num, y_score))
 
         # ADAboost Forest
         ADA_DT_model = AdaBoostClassifier(random_state=12345, base_estimator=DecisionTreeClassifier(
@@ -124,8 +134,8 @@ if __name__ == '__main__':
         y_predicted = ADA_DT_model.predict(X_test)
         y_score = [row[0] for row in ADA_DT_model.predict_proba(X_test)]  # (1-2)
 
-        acc_ADA_DT.insert(-1, accuracy_score(y_test, y_predicted))
-        auc_ADA_DT.insert(-1, roc_auc_score(y_test_num, y_score))
+        acc_ADA_DT.insert(len(acc_ADA_DT), accuracy_score(y_test, y_predicted))
+        auc_ADA_DT.insert(len(auc_ADA_DT), roc_auc_score(y_test_num, y_score))
 
     print()
     print("Linear Regression:")
@@ -164,11 +174,17 @@ if __name__ == '__main__':
     print("- Mean AUC: " + str(round(mean(auc_KNN) * 100, 1)) + "% ± " + str(
         round(abs(mean(auc_KNN) - max(auc_KNN)) * 100, 1)) + "%")
     print()
-    print("Random Forest:")
-    print("- Mean accuracy: " + str(round(mean(acc_RF) * 100, 1)) + "% ± " + str(
-        round(abs(mean(acc_RF) - max(acc_RF)) * 100, 1)) + "%")
-    print("- Mean AUC: " + str(round(mean(auc_RF) * 100, 1)) + "% ± " + str(
-        round(abs(mean(auc_RF) - max(auc_RF)) * 100, 1)) + "%")
+    print("Random Forest with Gini Index:")
+    print("- Mean accuracy: " + str(round(mean(acc_RF_Gini) * 100, 1)) + "% ± " + str(
+        round(abs(mean(acc_RF_Gini) - max(acc_RF_Gini)) * 100, 1)) + "%")
+    print("- Mean AUC: " + str(round(mean(auc_RF_Gini) * 100, 1)) + "% ± " + str(
+        round(abs(mean(auc_RF_Gini) - max(auc_RF_Gini)) * 100, 1)) + "%")
+    print()
+    print("Random Forest with Entropy:")
+    print("- Mean accuracy: " + str(round(mean(acc_RF_Entropy) * 100, 1)) + "% ± " + str(
+        round(abs(mean(acc_RF_Entropy) - max(acc_RF_Entropy)) * 100, 1)) + "%")
+    print("- Mean AUC: " + str(round(mean(auc_RF_Entropy) * 100, 1)) + "% ± " + str(
+        round(abs(mean(auc_RF_Entropy) - max(auc_RF_Entropy)) * 100, 1)) + "%")
     print()
     print("ADAboost of Linear Regressions:")
     print("- Mean accuracy: " + str(round(mean(acc_ADA_LR) * 100, 1)) + "% ± " + str(
@@ -189,5 +205,3 @@ if __name__ == '__main__':
     #
     #   (2) The predicted class probabilities of an input sample is computed as the weighted mean predicted class
     #   probabilities of the classifiers in the ensemble
-
-# todo mettere la stratified kfold nell'evoluzione

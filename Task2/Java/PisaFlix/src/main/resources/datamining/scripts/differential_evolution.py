@@ -76,7 +76,7 @@ def classification(x):
     X = data.iloc[:, 1:-1].values
     y = data['MPAA']
 
-    random_forest = RandomForestClassifier(random_state=12345, criterion="gini")
+    random_forest = RandomForestClassifier(random_state=12345, criterion="entropy")
 
     CV_ACC = []
     mean_acc = 0
@@ -88,7 +88,7 @@ def classification(x):
                 y_train, y_test = y[train_index], y[test_index]
                 model = random_forest.fit(X_train, y_train)
                 y_predicted = model.predict(X_test)
-                CV_ACC.insert(-1, accuracy_score(y_test, y_predicted))
+                CV_ACC.insert(len(CV_ACC), accuracy_score(y_test, y_predicted))
         mean_acc = mean(CV_ACC)
     except:
         print("         Error in the regression")

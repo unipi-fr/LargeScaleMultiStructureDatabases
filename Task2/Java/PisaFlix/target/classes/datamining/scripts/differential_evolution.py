@@ -1,7 +1,8 @@
+import warnings
 from numpy import mean
-from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, make_scorer
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import cross_val_score, StratifiedKFold
 import pandas
 from scipy.optimize import differential_evolution
 from Java.PisaFlix.src.main.resources.datamining.scripts.preprocessing import preprocessing
@@ -75,15 +76,20 @@ def classification(x):
     X = data.iloc[:, 1:-1].values
     y = data['MPAA']
 
-    LR_model = LogisticRegression()
+    random_forest = RandomForestClassifier(random_state=12345, criterion="entropy")
 
-    CV_LR = []
+    CV_ACC = []
     mean_acc = 0
     try:
         for i in range(1, 10):
-            CV_LR.append(cross_val_score(LR_model, X, y, cv=10,
-                                         scoring=make_scorer(classification_score)))
-        mean_acc = mean(CV_LR)
+            SKF = StratifiedKFold(n_splits=10, random_state=12345, shuffle=True)
+            for train_index, test_index in SKF.split(X, y):
+                X_train, X_test = X[train_index], X[test_index]
+                y_train, y_test = y[train_index], y[test_index]
+                model = random_forest.fit(X_train, y_train)
+                y_predicted = model.predict(X_test)
+                CV_ACC.insert(len(CV_ACC), accuracy_score(y_test, y_predicted))
+        mean_acc = mean(CV_ACC)
     except:
         print("         Error in the regression")
 
@@ -112,6 +118,7 @@ def classification(x):
 
 
 if __name__ == '__main__':
+    warnings.filterwarnings("ignore")
     log = open("../resources/elaborations/log.csv", "w+")
     log.write("min_df,max_df,max_features,accuracy")
     log.close()
