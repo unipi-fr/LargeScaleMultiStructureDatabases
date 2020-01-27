@@ -70,3 +70,33 @@ var ops = []; db.FilmCollection.find({ "Genres": { "$exists": true} }).forEach(d
 
 
 
+
+
+
+var ops = [];
+db.CommentiDaInnestareCollection.find({}).forEach(doc => {
+	var Film_document = db.FilmProva.find({"_id": doc.idFilm});
+	var commenti = Film_document.RecentComments;
+	commenti.push(doc);
+	ops.push(
+		{"updateOne": {"filter": { "_id": Film_document._id },"update": { "$set": { "RecentComments": commenti } }}});
+		if ( ops.length >= 1000 ) { db.FilmProva.bulkWrite(ops); ops = []; }
+		});		
+if ( ops.length > 0 ) { db.FilmProva.bulkWrite(ops); ops = [];}
+
+
+var ops = []; db.CommentiDaInnestareCollection.find({}).noCursorTimeout().forEach(doc => {
+	var Film = db.FilmProva.findOne({'_id': ObjectId(doc.idFilm)});
+	var commenti = Film.RecentComments;
+	print(Film.Title);
+	commenti.push({"_id": doc._id.str,
+					"User": doc.idUser,
+					"Timestamp": doc.TimestampComment,
+					"Text": doc.Text});
+	ops.push(
+		{"updateOne": {"filter": { "_id": Film._id },"update": { "$set": { "RecentComments": commenti } }}});
+		db.FilmProva.bulkWrite(ops); ops = []; 
+});
+
+
+
