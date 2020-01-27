@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class Clusterizer {
@@ -112,6 +113,9 @@ public class Clusterizer {
                 film.setCluster(clusterId);
             }
             int i = 0;
+            filmSet.forEach((film) -> {
+                film.setTags(new LinkedHashSet<>());
+            });
             while ((line = bufferReader.readLine()) != null) {
                 if (line.charAt(0) == '$') {
                     i++;
@@ -131,7 +135,7 @@ public class Clusterizer {
         return filmSet;
     }
 
-    public static void clusterizeAllDatabase(int n, int sizeCluster, Date date) {
+    public static void clusterizeAllDatabaseSampling(int n, int sizeCluster, Date date) {
         FilmManager.getIstance().resetClusters();
         Set<Film> filmSet = FilmManager.getIstance().getFilmToBeClusterized(n, date);
         while (!filmSet.isEmpty()) {
@@ -146,8 +150,21 @@ public class Clusterizer {
         DBManager.stop();
         System.out.println("All films have been successfully clusterized!");
     }
+    
+    public static void clusterizeAllDatabase(int sizeCluster, Date date) {
+        FilmManager.getIstance().resetClusters();
+        Set<Film> filmSet = FilmManager.getIstance().getAll(0, 0);
+            clusterize(filmSet, sizeCluster);
+            filmSet.forEach((film) -> {
+                FilmManager.getIstance().updateCluster(film);
+                System.out.println("Updated " + film.getTitle() + " with Cluster " + film.getcluster());
+                System.out.println("Tags: " + film.getTags());
+            });
+        DBManager.stop();
+        System.out.println("All films have been successfully clusterized!");
+    }
 
     public static void main(String[] args) {
-        clusterizeAllDatabase(8000, 3, new Date());
+        clusterizeAllDatabaseSampling(8000, 3, new Date());
     }
 }

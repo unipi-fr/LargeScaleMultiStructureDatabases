@@ -84,8 +84,7 @@ if __name__ == '__main__':
 
     X = data.iloc[:, 1:-1].values
     clustering_model = AgglomerativeClustering(n_clusters=round(len(data.index) / samples_in_cluster),
-                                               affinity='euclidean',
-                                               linkage='ward')
+                                               affinity='euclidean', linkage='average')
     clustering_model.fit_predict(X)
 
     data.insert(0, "Cluster", clustering_model.labels_)
@@ -106,5 +105,3 @@ if __name__ == '__main__':
 
     resultFile.close()
 
-    # todo OPTICS
-    # todo Silhouette

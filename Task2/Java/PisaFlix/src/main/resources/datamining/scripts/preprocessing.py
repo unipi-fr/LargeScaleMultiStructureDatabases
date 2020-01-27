@@ -77,4 +77,4 @@ def preprocessing(dataset, min_df=0.1, max_df=0.9, max_features=None):
 if __name__ == '__main__':
     raw_dataset = pandas.read_csv("../resources/datasets/labelledData.csv", ";")
     data = preprocessing(dataset=raw_dataset, min_df=0.04, max_df=0.74, max_features=1300)
-    data.to_csv("../resources/datasets/preprocessedData.csv" ,index=False)
+    data.to_csv("../resources/datasets/preprocessedData.csv", index=False)
