@@ -88,9 +88,9 @@ if __name__ == '__main__':
     model_tuples = class_ADULTS.append(class_CHILDREN, ignore_index=True)
     to_be_classified_tuples = data[data["MPAA"] == "to_be_classified"]
 
-    X = model_tuples.iloc[:, 1:-1].values
+    X = model_tuples.iloc[:, 1:].values
     y = model_tuples['MPAA']
-    C = to_be_classified_tuples.iloc[:, 1:-1].values
+    C = to_be_classified_tuples.iloc[:, 1:].values
 
     model = LogisticRegression().fit(X, y)
 

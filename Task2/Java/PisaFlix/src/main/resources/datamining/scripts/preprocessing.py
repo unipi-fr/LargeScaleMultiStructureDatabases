@@ -102,10 +102,13 @@ def select_k_best_preprocessing(dataset, method, n_features, vocabulary=None):
 
 if __name__ == '__main__':
     warnings.filterwarnings("ignore")
-    start_time = time.time()
+    # start_time = time.time()
     raw_dataset = pandas.read_csv("../resources/datasets/labelledData.csv", ";")
+
     # data = tf_idf_preprocessing(dataset=raw_dataset, min_df=0.1, max_df=0.9, max_features=500)
-    data = select_k_best_preprocessing(raw_dataset, chi2, 500)
+    # data = select_k_best_preprocessing(raw_dataset, chi2, 500)
     # data = select_k_best_preprocessing(raw_dataset, mutual_info_classif, 500)
-    print("Execution time: " + str(time.time() - start_time))
-    data.to_csv("../resources/datasets/preprocessedData.csv", index=False)
+    # print("Execution time: " + str(time.time() - start_time))
+    # data.to_csv("../resources/datasets/preprocessedData.csv", index=False)
+    data = select_k_best_preprocessing(raw_dataset, chi2, 1385)
+    data.to_csv("../resources/datasets/trainedData.csv", index=False)
