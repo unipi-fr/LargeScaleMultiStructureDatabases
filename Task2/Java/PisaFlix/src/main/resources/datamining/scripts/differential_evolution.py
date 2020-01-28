@@ -5,17 +5,12 @@ from sklearn.metrics import accuracy_score, make_scorer
 from sklearn.model_selection import cross_val_score, StratifiedKFold
 import pandas
 from scipy.optimize import differential_evolution
-from Java.PisaFlix.src.main.resources.datamining.scripts.preprocessing import preprocessing
+from Java.PisaFlix.src.main.resources.datamining.scripts.preprocessing import tf_idf_preprocessing
 
 # GLOBAL PARAMETERS (Necessari per tenere traccia delle generazioni degli agenti)
 dataset = pandas.read_csv("../resources/datasets/labelledData.csv", ";")
 pop = [0, 1, 0]
 pop_size = 15
-
-
-# è possibile utilizzare una funzione qualsiasi come risultato della cross validation, non solo l'accuratezza
-def classification_score(y_true, y_pred):
-    return accuracy_score(y_true, y_pred)
 
 
 def classification(x):
@@ -58,8 +53,8 @@ def classification(x):
         return 2.0
 
     try:
-        data = preprocessing(dataset=dataset, min_df=min_df, max_df=max_df,
-                             max_features=max_features)
+        data = tf_idf_preprocessing(dataset=dataset, min_df=min_df, max_df=max_df,
+                                    max_features=max_features)
     except:
 
         log = open("../resources/elaborations/log.txt", "a+")
@@ -76,13 +71,13 @@ def classification(x):
     X = data.iloc[:, 1:-1].values
     y = data['MPAA']
 
-    random_forest = RandomForestClassifier(random_state=12345, criterion="entropy")
+    random_forest = RandomForestClassifier(criterion="entropy")
 
     CV_ACC = []
     mean_acc = 0
     try:
         for i in range(1, 10):
-            SKF = StratifiedKFold(n_splits=10, random_state=12345, shuffle=True)
+            SKF = StratifiedKFold(n_splits=10, shuffle=True)
             for train_index, test_index in SKF.split(X, y):
                 X_train, X_test = X[train_index], X[test_index]
                 y_train, y_test = y[train_index], y[test_index]
