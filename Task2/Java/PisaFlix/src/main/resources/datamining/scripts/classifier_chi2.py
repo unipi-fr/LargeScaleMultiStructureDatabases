@@ -2,9 +2,9 @@ import nltk
 import pandas
 import os
 import warnings
-from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import scale
+from sklearn.preprocessing import normalize
 
 
 def relative_path(path):
@@ -54,7 +54,7 @@ def preprocessing(trained_data):
     result_dataset = pandas.SparseDataFrame(word_count_matrix, columns=vectorizer.get_feature_names())
     result_dataset = pandas.concat([to_be_classified, result_dataset.fillna(0)], axis=1)
     result_dataset.append(trained_data, ignore_index=True)
-    tmp = pandas.DataFrame(scale(result_dataset.iloc[:, 2:]), columns=vectorizer.get_feature_names())
+    tmp = pandas.DataFrame(normalize(result_dataset.iloc[:, 2:]), columns=vectorizer.get_feature_names())
     result_dataset = pandas.concat([result_dataset.iloc[:, 0:1], tmp], axis=1)
     result_dataset = trained_data.append(result_dataset, ignore_index=True)
     print(result_dataset)

@@ -7,7 +7,7 @@ import re
 from nltk.stem.snowball import SnowballStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.feature_selection import mutual_info_classif, SelectKBest, chi2
-from sklearn.preprocessing import scale
+from sklearn.preprocessing import normalize
 
 
 # Parole non utili per il clustering
@@ -94,7 +94,7 @@ def select_k_best_preprocessing(dataset, method, n_features, vocabulary=None):
             selected_terms.append(feature)
 
     result_dataset = pandas.SparseDataFrame(selected_features, columns=selected_terms)
-    result_dataset = pandas.DataFrame(scale(result_dataset.fillna(0)), columns=selected_terms)
+    result_dataset = pandas.DataFrame(normalize(result_dataset.fillna(0)), columns=selected_terms)
     result_dataset = pandas.concat([dataset, result_dataset], axis=1)
 
     return result_dataset
