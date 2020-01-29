@@ -37,7 +37,7 @@ def classification(n_terms):
             for train_index, test_index in SKF.split(X, y):
                 X_train, X_test = X[train_index], X[test_index]
                 y_train, y_test = y[train_index], y[test_index]
-                model = AdaBoostClassifier(base_estimator=LogisticRegression(), n_estimators=100).fit(X_train, y_train)
+                model = random_forest.fit(X_train, y_train)
                 y_predicted = model.predict(X_test)
                 CV_ACC.insert(len(CV_ACC), accuracy_score(y_test, y_predicted))
         mean_acc = mean(CV_ACC)
@@ -62,4 +62,4 @@ if __name__ == '__main__':
     log.close()
 
     bounds = [(38, 1400)]
-    brute(classification, bounds, workers=2)
+    brute(classification, bounds, workers=-1)

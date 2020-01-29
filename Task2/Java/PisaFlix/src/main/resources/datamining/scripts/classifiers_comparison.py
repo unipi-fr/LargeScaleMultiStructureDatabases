@@ -96,7 +96,7 @@ if __name__ == '__main__':
         auc_SV.insert(len(auc_SV), roc_auc_score(y_test_num, y_score))
 
         # Decision Tree
-        DT_model = DecisionTreeClassifier(criterion="gini", random_state=12345).fit(X_train, y_train)
+        DT_model = DecisionTreeClassifier(criterion="entropy", random_state=12345).fit(X_train, y_train)
         y_predicted = DT_model.predict(X_test)
         y_predict_DT.extend(y_predicted)
         y_score = [row[0] for row in DT_model.predict_proba(X_test)]
@@ -152,7 +152,7 @@ if __name__ == '__main__':
 
         # ADAboost Forest
         ADA_DT_model = AdaBoostClassifier(random_state=12345, base_estimator=DecisionTreeClassifier(
-            criterion="gini", random_state=12345), n_estimators=100).fit(X_train, y_train)
+            criterion="entropy", random_state=12345), n_estimators=100).fit(X_train, y_train)
         y_predicted = ADA_DT_model.predict(X_test)
         y_predict_ADA_DT.extend(y_predicted)
         y_score = [row[0] for row in ADA_DT_model.predict_proba(X_test)]  # (1-2)
@@ -163,81 +163,81 @@ if __name__ == '__main__':
     print()
     print("Linear Regression:")
     print("- Mean accuracy: " + str(round(mean(acc_LR) * 100, 1)) + "% ± " + str(
-        round(abs(mean(acc_LR) - max(acc_LR)) * 100, 1)) + "%")
+        round(max([abs(mean(acc_LR) - max(acc_LR)), abs(mean(acc_LR) - min(acc_LR))]) * 100, 1)) + "%")
     print("- Mean AUC: " + str(round(mean(auc_LR) * 100, 1)) + "% ± " + str(
-        round(abs(mean(auc_LR) - max(auc_LR)) * 100, 1)) + "%")
+        round(max([abs(mean(auc_LR) - max(auc_LR)), abs(mean(auc_LR) - min(auc_LR))]) * 100, 1)) + "%")
     print("Confusion Matrix")
     print(confusion_matrix(y_true, y_predict_LR))
     print()
     print("Gaussian Naive Bayesian:")
     print("- Mean accuracy: " + str(round(mean(acc_NG) * 100, 1)) + "% ± " + str(
-        round(abs(mean(acc_NG) - max(acc_NG)) * 100, 1)) + "%")
+        round(max([abs(mean(acc_NG) - max(acc_NG)), abs(mean(acc_NG) - min(acc_NG))]) * 100, 1)) + "%")
     print("- Mean AUC: " + str(round(mean(auc_NG) * 100, 1)) + "% ± " + str(
-        round(abs(mean(auc_NG) - max(auc_NG)) * 100, 1)) + "%")
+        round(max([abs(mean(auc_NG) - max(auc_NG)), abs(mean(auc_NG) - min(auc_NG))]) * 100, 1)) + "%")
     print("Confusion Matrix")
     print(confusion_matrix(y_true, y_predict_NG))
     print()
     print("Quadratic Discriminant:")
     print("- Mean accuracy: " + str(round(mean(acc_QD) * 100, 1)) + "% ± " + str(
-        round(abs(mean(acc_QD) - max(acc_QD)) * 100, 1)) + "%")
+        round(max([abs(mean(acc_QD) - max(acc_QD)), abs(mean(acc_QD) - min(acc_QD))]) * 100, 1)) + "%")
     print("- Mean AUC: " + str(round(mean(auc_QD) * 100, 1)) + "% ± " + str(
-        round(abs(mean(auc_QD) - max(auc_QD)) * 100, 1)) + "%")
+        round(max([abs(mean(auc_QD) - max(auc_QD)), abs(mean(auc_QD) - min(auc_QD))]) * 100, 1)) + "%")
     print("Confusion Matrix")
     print(confusion_matrix(y_true, y_predict_QD))
     print()
     print("Decision Tree:")
     print("- Mean accuracy: " + str(round(mean(acc_DT) * 100, 1)) + "% ± " + str(
-        round(abs(mean(acc_DT) - max(acc_DT)) * 100, 1)) + "%")
+        round(max([abs(mean(acc_DT) - max(acc_DT)), abs(mean(acc_DT) - min(acc_DT))]) * 100, 1)) + "%")
     print("- Mean AUC: " + str(round(mean(auc_DT) * 100, 1)) + "% ± " + str(
-        round(abs(mean(auc_DT) - max(auc_DT)) * 100, 1)) + "%")
+        round(max([abs(mean(auc_DT) - max(auc_DT)), abs(mean(auc_DT) - min(auc_DT))]) * 100, 1)) + "%")
     print("Confusion Matrix")
     print(confusion_matrix(y_true, y_predict_DT))
     print()
     print("Support Vectors:")
     print("- Mean accuracy: " + str(round(mean(acc_SV) * 100, 1)) + "% ± " + str(
-        round(abs(mean(acc_SV) - max(acc_SV)) * 100, 1)) + "%")
+        round(max([abs(mean(acc_SV) - max(acc_SV)), abs(mean(acc_SV) - min(acc_SV))]) * 100, 1)) + "%")
     print("- Mean AUC: " + str(round(mean(auc_SV) * 100, 1)) + "% ± " + str(
-        round(abs(mean(auc_SV) - max(auc_SV)) * 100, 1)) + "%")
+        round(max([abs(mean(auc_SV) - max(auc_SV)), abs(mean(auc_SV) - min(auc_SV))]) * 100, 1)) + "%")
     print("Confusion Matrix")
     print(confusion_matrix(y_true, y_predict_SV))
     print()
     print("K-nearest Neighbors:")
     print("- Mean accuracy: " + str(round(mean(acc_KNN) * 100, 1)) + "% ± " + str(
-        round(abs(mean(acc_KNN) - max(acc_KNN)) * 100, 1)) + "%")
+        round(max([abs(mean(acc_KNN) - max(acc_KNN)), abs(mean(acc_KNN) - min(acc_KNN))]) * 100, 1)) + "%")
     print("- Mean AUC: " + str(round(mean(auc_KNN) * 100, 1)) + "% ± " + str(
-        round(abs(mean(auc_KNN) - max(auc_KNN)) * 100, 1)) + "%")
+        round(max([abs(mean(auc_KNN) - max(auc_KNN)), abs(mean(auc_KNN) - min(auc_KNN))]) * 100, 1)) + "%")
     print("Confusion Matrix")
     print(confusion_matrix(y_true, y_predict_KNN))
     print()
     print("Random Forest with Gini Index:")
     print("- Mean accuracy: " + str(round(mean(acc_RF_Gini) * 100, 1)) + "% ± " + str(
-        round(abs(mean(acc_RF_Gini) - max(acc_RF_Gini)) * 100, 1)) + "%")
+        round(max([abs(mean(acc_RF_Gini) - max(acc_RF_Gini)), abs(mean(acc_RF_Gini) - min(acc_RF_Gini))]) * 100, 1)) + "%")
     print("- Mean AUC: " + str(round(mean(auc_RF_Gini) * 100, 1)) + "% ± " + str(
-        round(abs(mean(auc_RF_Gini) - max(auc_RF_Gini)) * 100, 1)) + "%")
+        round(max([abs(mean(auc_RF_Gini) - max(auc_RF_Gini)), abs(mean(auc_RF_Gini) - min(auc_RF_Gini))]) * 100, 1)) + "%")
     print("Confusion Matrix")
     print(confusion_matrix(y_true, y_predict_RF_Gini))
     print()
     print("Random Forest with Entropy:")
     print("- Mean accuracy: " + str(round(mean(acc_RF_Entropy) * 100, 1)) + "% ± " + str(
-        round(abs(mean(acc_RF_Entropy) - max(acc_RF_Entropy)) * 100, 1)) + "%")
+        round(max([abs(mean(acc_RF_Entropy) - max(acc_RF_Entropy)), abs(mean(acc_RF_Entropy) - min(acc_RF_Entropy))]) * 100, 1)) + "%")
     print("- Mean AUC: " + str(round(mean(auc_RF_Entropy) * 100, 1)) + "% ± " + str(
-        round(abs(mean(auc_RF_Entropy) - max(auc_RF_Entropy)) * 100, 1)) + "%")
+        round(max([abs(mean(auc_RF_Entropy) - max(auc_RF_Entropy)), abs(mean(auc_RF_Entropy) - min(auc_RF_Entropy))]) * 100, 1)) + "%")
     print("Confusion Matrix")
     print(confusion_matrix(y_true, y_predict_RF_Entropy))
     print()
     print("ADAboost of Linear Regressions:")
     print("- Mean accuracy: " + str(round(mean(acc_ADA_LR) * 100, 1)) + "% ± " + str(
-        round(abs(mean(acc_ADA_LR) - max(acc_ADA_LR)) * 100, 1)) + "%")
+        round(max([abs(mean(acc_ADA_LR) - max(acc_ADA_LR)), abs(mean(acc_ADA_LR) - min(acc_ADA_LR))]) * 100, 1)) + "%")
     print("- Mean AUC: " + str(round(mean(auc_ADA_LR) * 100, 1)) + "% ± " + str(
-        round(abs(mean(auc_ADA_LR) - max(auc_ADA_LR)) * 100, 1)) + "%")
+        round(max([abs(mean(auc_ADA_LR) - max(auc_ADA_LR)), abs(mean(auc_ADA_LR) - min(auc_ADA_LR))]) * 100, 1)) + "%")
     print("Confusion Matrix")
     print(confusion_matrix(y_true, y_predict_ADA_LR))
     print()
     print("ADAboost of Decision Trees:")
     print("- Mean accuracy: " + str(round(mean(acc_ADA_DT) * 100, 1)) + "% ± " + str(
-        round(abs(mean(acc_ADA_DT) - max(acc_ADA_DT)) * 100, 1)) + "%")
+        round(max([abs(mean(acc_ADA_DT) - max(acc_ADA_DT)), abs(mean(acc_ADA_DT) - min(acc_ADA_DT))]) * 100, 1)) + "%")
     print("- Mean AUC: " + str(round(mean(auc_ADA_DT) * 100, 1)) + "% ± " + str(
-        round(abs(mean(auc_ADA_DT) - max(auc_ADA_DT)) * 100, 1)) + "%")
+        round(max([abs(mean(auc_ADA_DT) - max(auc_ADA_DT)), abs(mean(auc_ADA_DT) - min(auc_ADA_DT))]) * 100, 1)) + "%")
     print("Confusion Matrix")
     print(confusion_matrix(y_true, y_predict_ADA_DT))
 

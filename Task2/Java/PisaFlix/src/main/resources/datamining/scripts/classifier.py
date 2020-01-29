@@ -2,8 +2,8 @@ import nltk
 import pandas
 import os
 import warnings
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
 
 def relative_path(path):
     dirname = os.path.dirname(__file__)
@@ -92,7 +92,7 @@ if __name__ == '__main__':
     y = model_tuples['MPAA']
     C = to_be_classified_tuples.iloc[:, 1:].values
 
-    model = LogisticRegression().fit(X, y)
+    model = RandomForestClassifier(criterion="entropy").fit(X, y)
 
     for row in model.predict_proba(C):
         print(str(row[0]))

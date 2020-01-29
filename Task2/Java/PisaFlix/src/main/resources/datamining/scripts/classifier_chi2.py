@@ -2,9 +2,9 @@ import nltk
 import pandas
 import os
 import warnings
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import normalize
+from sklearn.preprocessing import normalize, scale
 
 
 def relative_path(path):
@@ -54,10 +54,9 @@ def preprocessing(trained_data):
     result_dataset = pandas.SparseDataFrame(word_count_matrix, columns=vectorizer.get_feature_names())
     result_dataset = pandas.concat([to_be_classified, result_dataset.fillna(0)], axis=1)
     result_dataset.append(trained_data, ignore_index=True)
-    tmp = pandas.DataFrame(normalize(result_dataset.iloc[:, 2:]), columns=vectorizer.get_feature_names())
+    tmp = pandas.DataFrame(scale(result_dataset.iloc[:, 2:]), columns=vectorizer.get_feature_names())
     result_dataset = pandas.concat([result_dataset.iloc[:, 0:1], tmp], axis=1)
     result_dataset = trained_data.append(result_dataset, ignore_index=True)
-    print(result_dataset)
     return result_dataset
 
 
@@ -81,7 +80,7 @@ if __name__ == '__main__':
     y = model_tuples['MPAA']
     C = to_be_classified_tuples.iloc[:, 1:].values
 
-    model = LogisticRegression().fit(X, y)
+    model = RandomForestClassifier(criterion="entropy").fit(X, y)
 
     for row in model.predict_proba(C):
         print(str(row[0]))

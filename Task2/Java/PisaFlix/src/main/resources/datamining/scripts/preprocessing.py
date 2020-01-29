@@ -7,7 +7,7 @@ import re
 from nltk.stem.snowball import SnowballStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.feature_selection import mutual_info_classif, SelectKBest, chi2
-from sklearn.preprocessing import normalize
+from sklearn.preprocessing import normalize, scale
 
 
 # Parole non utili per il clustering
@@ -94,7 +94,7 @@ def select_k_best_preprocessing(dataset, method, n_features, vocabulary=None):
             selected_terms.append(feature)
 
     result_dataset = pandas.SparseDataFrame(selected_features, columns=selected_terms)
-    result_dataset = pandas.DataFrame(normalize(result_dataset.fillna(0)), columns=selected_terms)
+    result_dataset = pandas.DataFrame(scale(result_dataset.fillna(0)), columns=selected_terms)
     result_dataset = pandas.concat([dataset, result_dataset], axis=1)
 
     return result_dataset
@@ -102,13 +102,17 @@ def select_k_best_preprocessing(dataset, method, n_features, vocabulary=None):
 
 if __name__ == '__main__':
     warnings.filterwarnings("ignore")
-    # start_time = time.time()
+    start_time = time.time()
     raw_dataset = pandas.read_csv("../resources/datasets/labelledData.csv", ";")
 
+    # Per il confronto tra i classificatori
     # data = tf_idf_preprocessing(dataset=raw_dataset, min_df=0.1, max_df=0.9, max_features=500)
-    # data = select_k_best_preprocessing(raw_dataset, chi2, 500)
-    # data = select_k_best_preprocessing(raw_dataset, mutual_info_classif, 500)
-    # print("Execution time: " + str(time.time() - start_time))
-    # data.to_csv("../resources/datasets/preprocessedData.csv", index=False)
     data = select_k_best_preprocessing(raw_dataset, chi2, 1385)
-    data.to_csv("../resources/datasets/trainedData.csv", index=False)
+    # data = select_k_best_preprocessing(raw_dataset, mutual_info_classif, 500)
+    print("Execution time: " + str(time.time() - start_time))
+    data.to_csv("../resources/datasets/preprocessedData.csv", index=False)
+
+    # Per la classificazione
+    # data = select_k_best_preprocessing(raw_dataset, chi2, 1385)
+    # print(data)
+    # data.to_csv("../resources/datasets/trainedData.csv", index=False)

@@ -123,7 +123,7 @@ if __name__ == '__main__':
     log.close()
 
     bounds = [(0, 1), (0, 1), (38, 1400)]  # (1)
-    differential_evolution(classification, bounds, popsize=pop_size)
+    differential_evolution(classification, bounds, popsize=pop_size, workers=-1)
 
 # NOTES:
 #   (1): Il numero di fattori consigliato va dalla radice del numero di campioni, se i fattori sono fortemente
