@@ -80,11 +80,11 @@ if __name__ == '__main__':
     pandas.options.mode.chained_assignment = None
     samples_in_cluster = int(sys.argv[1])  # Numero di campioni per cluster circa
     dataset = pandas.read_csv(relative_path("../resources/datasets/to_be_clusterized.csv"), encoding='latin1')
-    data = preprocessing(dataset=dataset, min_df=0.04, max_df=0.74, max_features=1300)
+    data = preprocessing(dataset=dataset, min_df=0.052, max_df=0.96, max_features=772)
 
     X = data.iloc[:, 1:-1].values
     clustering_model = AgglomerativeClustering(n_clusters=round(len(data.index) / samples_in_cluster),
-                                               affinity='euclidean', linkage='average')
+                                               affinity='euclidean', linkage='complete')
     clustering_model.fit_predict(X)
 
     data.insert(0, "Cluster", clustering_model.labels_)

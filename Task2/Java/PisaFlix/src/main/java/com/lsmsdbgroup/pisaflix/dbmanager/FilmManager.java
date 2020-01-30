@@ -46,7 +46,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     @Override
     public Set<Film> getAll(int limit, int skip) {
         Set<Film> filmSet = new LinkedHashSet<>();
-        try (MongoCursor<Document> cursor = FilmCollection.find().projection(Projections.exclude("RecentComments")).sort(sort).limit(filmLimit).skip(skip).iterator()) {
+        try (MongoCursor<Document> cursor = FilmCollection.find().projection(Projections.exclude("RecentComments")).sort(sort).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 filmSet.add(new Film(cursor.next()));
             }

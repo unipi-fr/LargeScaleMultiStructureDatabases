@@ -74,13 +74,13 @@ if __name__ == '__main__':
     # show_silhouette_elbow_AgglomerativeClustering(2, 20, X, "complete")
     # show_silhouette_elbow_AgglomerativeClustering(2, 20, X, "ward")
 
-    # clustering_model = AgglomerativeClustering(affinity='euclidean',
-    #                                            linkage="ward")  # linkage{“ward”, “complete”, “average”, “single”}
+    clustering_model = AgglomerativeClustering(affinity='euclidean',
+                                                linkage="complete")  # linkage{“ward”, “complete”, “average”, “single”}
 
-    # model = clustering_model.fit(X)
-    # plt.title('Hierarchical Clustering Dendrogram')
-    # plot_dendrogram(clustering_model, labels=clustering_model.labels_, p=5, truncate_mode='level')
-    # plt.show()
+    model = clustering_model.fit(X)
+    plt.title('Hierarchical Clustering Dendrogram')
+    plot_dendrogram(clustering_model, labels=clustering_model.labels_, p=2, truncate_mode='level')
+    plt.show()
 
     s_agg_ward = []
     s_agg_com = []

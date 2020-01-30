@@ -165,6 +165,6 @@ public class Clusterizer {
     }
 
     public static void main(String[] args) {
-        clusterizeAllDatabaseSampling(8000, 3, new Date());
+        clusterizeAllDatabaseSampling(8000, 4, new Date());
     }
 }
