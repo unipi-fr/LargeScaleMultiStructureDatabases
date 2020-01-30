@@ -3,7 +3,7 @@ import pandas
 import os
 import warnings
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer, TfidfTransformer
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 def relative_path(path):
@@ -41,23 +41,37 @@ def tokenize_and_stem(text):
     return stems
 
 
-def preprocessing(trained_data):
+def preprocessing(dataset, min_df=0.1, max_df=0.9, max_features=None):
+    dataset.drop('Title', axis=1, inplace=True)
+    dataset.drop('Year', axis=1, inplace=True)
+    class_ADULTS = dataset[dataset["MPAA"] == "ADULTS"]
+    class_CHILDREN = dataset[dataset["MPAA"] == "CHILDREN"]
+    dataset = class_ADULTS.append(class_CHILDREN, ignore_index=True)
+
     to_be_classified = pandas.read_csv(relative_path("../resources/datasets/to_be_classified.csv"))
-    terms = list(trained_data)[2:]
+    dataset = dataset.append(to_be_classified, ignore_index=True)
+
+    plots = dataset.__getattr__("Plot")
 
     stopwords = prepareStopWords()
 
-    vectorizer = CountVectorizer(stop_words=stopwords, tokenizer=tokenize_and_stem, ngram_range=(1, 3),
-                                 vocabulary=terms)
-    word_count_matrix = vectorizer.fit_transform(to_be_classified.__getattr__("Plot"))
-    result_dataset = pandas.SparseDataFrame(word_count_matrix, columns=vectorizer.get_feature_names())
-    result_dataset = result_dataset.fillna(0)
-    result_dataset = TfidfTransformer().fit_transform(result_dataset)
-    result_dataset = pandas.SparseDataFrame(result_dataset, columns=vectorizer.get_feature_names())
-    result_dataset = result_dataset.fillna(0)
-    result_dataset = pandas.concat([to_be_classified, result_dataset], axis=1)
-    result_dataset.append(trained_data, ignore_index=True)
-    result_dataset = trained_data.append(result_dataset, ignore_index=True)
+    tfidf_vectorizer = TfidfVectorizer(min_df=min_df, max_df=max_df, max_features=max_features,
+                                       stop_words=stopwords,
+                                       use_idf=True, tokenizer=tokenize_and_stem, ngram_range=(1, 3))
+    tfidf_matrix = tfidf_vectorizer.fit_transform(plots)  # esegue la vettorizzazzione
+    tfidf_vector = tfidf_matrix.toarray()
+    terms = tfidf_vectorizer.get_feature_names()  # lista dei termini presi in considerazione
+
+    result_dataset = dataset
+    result_dataset.drop('Plot', axis=1, inplace=True)
+
+    for j in range(0, len(terms)):
+        values = []
+
+        for i in range(0, len(tfidf_vector)):
+            values.insert(len(values), tfidf_vector[i][j])
+
+        result_dataset[terms[j]] = values
     return result_dataset
 
 
@@ -65,11 +79,8 @@ if __name__ == '__main__':
 
     warnings.filterwarnings("ignore")
 
-    dataset = pandas.read_csv(relative_path("../resources/datasets/trainedData_tf-idf.csv"))
-    dataset.drop('Title', axis=1, inplace=True)
-    dataset.drop('Year', axis=1, inplace=True)
-    data = preprocessing(trained_data=dataset)
-    data.drop('Plot', axis=1, inplace=True)
+    dataset = pandas.read_csv(relative_path("../resources/datasets/labelledData.csv"), ";")
+    data = preprocessing(dataset=dataset, min_df=0.052, max_df=0.96, max_features=772)
 
     class_ADULTS = data[data["MPAA"] == "ADULTS"]
     class_CHILDREN = data[data["MPAA"] == "CHILDREN"]

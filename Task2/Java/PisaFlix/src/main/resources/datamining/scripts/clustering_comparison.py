@@ -1,4 +1,6 @@
 import warnings
+from collections import Counter
+
 import pandas
 import matplotlib.pyplot as plt
 import numpy as np
@@ -86,13 +88,24 @@ if __name__ == '__main__':
     s_agg_sl = []
     s_kmeans = []
     K = []
+    log = open("../resources/elaborations/clusterVariance.csv", "w+")
+    log.write("Method,Min,Max,k")
+    log.close()
     for i in range(2, 20 + 1):
         K.insert(len(K), round(len(X) / i))
         clustering_model = AgglomerativeClustering(n_clusters=round(len(X) / i),
                                                    affinity='euclidean',
                                                    linkage='ward')
         clusters = clustering_model.fit_predict(X)
+
         s_agg_ward.append(silhouette_score(X, clusters))
+
+        count = Counter(clustering_model.labels_).values()
+        n_max = max(count)
+        n_min = min(count)
+        log = open("../resources/elaborations/clusterVariance.csv", "a+")
+        log.write('\n' + "agg_ward," + str(n_min) + "," + str(n_max) + "," + str(round(len(X) / i)))
+        log.close()
 
         clustering_model = AgglomerativeClustering(n_clusters=round(len(X) / i),
                                                    affinity='euclidean',
@@ -101,12 +114,26 @@ if __name__ == '__main__':
         clusters = clustering_model.fit_predict(X)
         s_agg_com.append(silhouette_score(X, clusters))
 
+        count = Counter(clustering_model.labels_).values()
+        n_max = max(count)
+        n_min = min(count)
+        log = open("../resources/elaborations/clusterVariance.csv", "a+")
+        log.write('\n' + "agg_complete," + str(n_min) + "," + str(n_max) + "," + str(round(len(X) / i)))
+        log.close()
+
         clustering_model = AgglomerativeClustering(n_clusters=round(len(X) / i),
                                                    affinity='euclidean',
                                                    linkage='average')
 
         clusters = clustering_model.fit_predict(X)
         s_agg_avg.append(silhouette_score(X, clusters))
+
+        count = Counter(clustering_model.labels_).values()
+        n_max = max(count)
+        n_min = min(count)
+        log = open("../resources/elaborations/clusterVariance.csv", "a+")
+        log.write('\n' + "agg_avg," + str(n_min) + "," + str(n_max) + "," + str(round(len(X) / i)))
+        log.close()
 
         clustering_model = AgglomerativeClustering(n_clusters=round(len(X) / i),
                                                    affinity='euclidean',
@@ -115,10 +142,24 @@ if __name__ == '__main__':
         clusters = clustering_model.fit_predict(X)
         s_agg_sl.append(silhouette_score(X, clusters))
 
+        count = Counter(clustering_model.labels_).values()
+        n_max = max(count)
+        n_min = min(count)
+        log = open("../resources/elaborations/clusterVariance.csv", "a+")
+        log.write('\n' + "agg_single," + str(n_min) + "," + str(n_max) + "," + str(round(len(X) / i)))
+        log.close()
+
         clustering_model = KMeans(n_clusters=round(len(X) / i), algorithm="full")
 
         clusters = clustering_model.fit_predict(X)
         s_kmeans.append(silhouette_score(X, clusters))
+
+        count = Counter(clustering_model.labels_).values()
+        n_max = max(count)
+        n_min = min(count)
+        log = open("../resources/elaborations/clusterVariance.csv", "a+")
+        log.write('\n' + "K-means," + str(n_min) + "," + str(n_max) + "," + str(round(len(X) / i)))
+        log.close()
 
     # Plot the elbow
     plt.plot(K, s_agg_ward, 'bx-', color="green", label='Agg. Ward')

@@ -2,8 +2,8 @@ import nltk
 import pandas
 import os
 import warnings
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
 
 
 def relative_path(path):
@@ -72,8 +72,6 @@ def preprocessing(dataset, min_df=0.1, max_df=0.9, max_features=None):
             values.insert(len(values), tfidf_vector[i][j])
 
         result_dataset[terms[j]] = values
-
-    # print(result_dataset)
     return result_dataset
 
 
@@ -82,19 +80,18 @@ if __name__ == '__main__':
     warnings.filterwarnings("ignore")
 
     dataset = pandas.read_csv(relative_path("../resources/datasets/labelledData.csv"), ";")
-    data = preprocessing(dataset=dataset, min_df=0.04, max_df=0.74, max_features=1300)
+    data = preprocessing(dataset=dataset, min_df=0.052, max_df=0.96, max_features=772)
 
     class_ADULTS = data[data["MPAA"] == "ADULTS"]
     class_CHILDREN = data[data["MPAA"] == "CHILDREN"]
     model_tuples = class_ADULTS.append(class_CHILDREN, ignore_index=True)
     to_be_classified_tuples = data[data["MPAA"] == "to_be_classified"]
 
-    X = model_tuples.iloc[:, 1:-1].values
+    X = model_tuples.iloc[:, 1:].values
     y = model_tuples['MPAA']
-    C = to_be_classified_tuples.iloc[:, 1:-1].values
+    C = to_be_classified_tuples.iloc[:, 1:].values
 
-    model = LogisticRegression().fit(X, y)
+    model = RandomForestClassifier(criterion="entropy").fit(X, y)
 
     for row in model.predict_proba(C):
         print(str(row[0]))
-

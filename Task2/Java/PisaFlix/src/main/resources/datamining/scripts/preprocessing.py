@@ -5,7 +5,7 @@ import pandas
 import nltk
 import re
 from nltk.stem.snowball import SnowballStemmer
-from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer, TfidfTransformer
 from sklearn.feature_selection import mutual_info_classif, SelectKBest, chi2
 from sklearn.preprocessing import normalize, scale
 
@@ -60,6 +60,15 @@ def tf_idf_preprocessing(dataset, min_df=0.1, max_df=0.9, max_features=None):
     terms = tfidf_vectorizer.get_feature_names()  # lista dei termini presi in considerazione
     result_dataset = dataset
 
+    # log = open("../resources/elaborations/terms.csv", "w+")
+    # log.write("Term")
+    # log.close()
+    #
+    # for term in tfidf_vectorizer.get_feature_names():
+    #     log = open("../resources/elaborations/terms.csv", "a+")
+    #     log.write('\n' + str(term))
+    #     log.close()
+
     for j in range(0, len(terms)):
         values = []
 
@@ -100,22 +109,64 @@ def select_k_best_preprocessing(dataset, method, n_features, vocabulary=None):
     return result_dataset
 
 
+def select_k_best_tfidf(dataset, method, n_features, vocabulary=None):
+    class_ADULTS = dataset[dataset["MPAA"] == "ADULTS"]
+    class_CHILDREN = dataset[dataset["MPAA"] == "CHILDREN"]
+    dataset = class_ADULTS.append(class_CHILDREN, ignore_index=True)
+    y = dataset['MPAA']
+
+    stopwords = prepareStopWords()
+
+    vectorizer = CountVectorizer(stop_words=stopwords, tokenizer=tokenize_and_stem, ngram_range=(1, 3),
+                                 vocabulary=vocabulary)
+    word_count_matrix = vectorizer.fit_transform(dataset.__getattr__("Plot"))
+    terms = vectorizer.get_feature_names()
+
+    select_k = SelectKBest(method, k=n_features)
+    selected_features = select_k.fit_transform(word_count_matrix, y)
+    mask = select_k.get_support()
+
+    selected_terms = []
+    for bool, feature in zip(mask, terms):
+        if bool:
+            selected_terms.append(feature)
+
+    result_dataset = pandas.SparseDataFrame(selected_features, columns=selected_terms)
+    result_dataset = pandas.DataFrame(result_dataset.fillna(0), columns=selected_terms)
+    result_dataset = TfidfTransformer().fit_transform(result_dataset)
+    result_dataset = pandas.SparseDataFrame(result_dataset, columns=selected_terms)
+    result_dataset = result_dataset.fillna(0)
+    result_dataset = pandas.concat([dataset, result_dataset], axis=1)
+
+    # log = open("../resources/elaborations/terms.csv", "w+")
+    # log.write("Term")
+    # log.close()
+    #
+    # for term in selected_terms:
+    #     log = open("../resources/elaborations/terms.csv", "a+")
+    #     log.write('\n' + str(term))
+    #     log.close()
+
+    return result_dataset
+
+
 if __name__ == '__main__':
     warnings.filterwarnings("ignore")
     start_time = time.time()
     raw_dataset = pandas.read_csv("../resources/datasets/labelledData.csv", ";")
 
     # Per il confronto tra i classificatori
-    # data = tf_idf_preprocessing(dataset=raw_dataset, min_df=0.1, max_df=0.9, max_features=500)
+    data = tf_idf_preprocessing(dataset=raw_dataset, min_df=0.052, max_df=0.96, max_features=772)
     # data = select_k_best_preprocessing(raw_dataset, chi2, 1385)
     # data = select_k_best_preprocessing(raw_dataset, mutual_info_classif, 500)
-    # print("Execution time: " + str(time.time() - start_time))
-    # data.to_csv("../resources/datasets/preprocessedData.csv", index=False)
+    # data = select_k_best_tfidf(raw_dataset, chi2, 1385)
+    print("Execution time: " + str(time.time() - start_time))
+    data.to_csv("../resources/datasets/preprocessedData.csv", index=False)
 
     # Per la classificazione
     # data = select_k_best_preprocessing(raw_dataset, chi2, 1385)
     # data.to_csv("../resources/datasets/trainedData.csv", index=False)
 
     # Per la classificazione tf-idf
-    data = tf_idf_preprocessing(dataset=raw_dataset, min_df=0.052, max_df=0.96, max_features=772)
-    data.to_csv("../resources/datasets/trainedData_tf-idf.csv", index=False)
+    # data = tf_idf_preprocessing(dataset=raw_dataset, min_df=0.052, max_df=0.96, max_features=772)
+    # data.to_csv("../resources/datasets/trainedData_tf-idf.csv", index=False)
