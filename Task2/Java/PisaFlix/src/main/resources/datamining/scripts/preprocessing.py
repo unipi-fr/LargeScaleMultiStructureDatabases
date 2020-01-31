@@ -163,10 +163,11 @@ if __name__ == '__main__':
     print("Execution time: " + str(time.time() - start_time))
     data.to_csv("../resources/datasets/preprocessedData.csv", index=False)
 
-    # Per la classificazione
+    # Per la classificazione con chi2
     # data = select_k_best_preprocessing(raw_dataset, chi2, 1385)
-    # data.to_csv("../resources/datasets/trainedData.csv", index=False)
+    # data.to_csv("../resources/datasets/preprocessedData_chi2.csv", index=False)
 
     # Per la classificazione tf-idf
     # data = tf_idf_preprocessing(dataset=raw_dataset, min_df=0.052, max_df=0.96, max_features=772)
-    # data.to_csv("../resources/datasets/trainedData_tf-idf.csv", index=False)
+    # data.to_csv("../resources/datasets/preprocessedData_tf-idf.csv", index=False)
+

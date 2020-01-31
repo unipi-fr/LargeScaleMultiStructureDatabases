@@ -64,7 +64,7 @@ if __name__ == '__main__':
 
     warnings.filterwarnings("ignore")
 
-    dataset = pandas.read_csv(relative_path("../resources/datasets/trainedData.csv"))
+    dataset = pandas.read_csv(relative_path("../resources/datasets/preprocessedData_chi2.csv"))
     dataset.drop('Title', axis=1, inplace=True)
     dataset.drop('Year', axis=1, inplace=True)
 

@@ -65,7 +65,7 @@ if __name__ == '__main__':
 
     warnings.filterwarnings("ignore")
 
-    dataset = pandas.read_csv(relative_path("../resources/datasets/trainedData_tf-idf.csv"))
+    dataset = pandas.read_csv(relative_path("../resources/datasets/preprocessedData_tf-idf.csv"))
     dataset.drop('Title', axis=1, inplace=True)
     dataset.drop('Year', axis=1, inplace=True)
     data = preprocessing(trained_data=dataset)
