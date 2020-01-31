@@ -94,4 +94,14 @@ public class FilmService implements FilmServiceInterface {
         return filmManager.getSuggestedFilms(user, adultnessMargin);
     }
     
+    @Override
+    public double getMinAdultness(){
+        return filmManager.getMinAdultness();
+    }
+    
+    @Override
+    public double getMaxAdultness(){
+        return filmManager.getMaxAdultness();
+    }
+    
 }

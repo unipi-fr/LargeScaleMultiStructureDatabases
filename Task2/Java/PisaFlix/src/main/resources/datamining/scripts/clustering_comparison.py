@@ -65,7 +65,7 @@ if __name__ == '__main__':
     data.drop('Year', axis=1, inplace=True)
     data.drop('Plot', axis=1, inplace=True)
 
-    X = data.iloc[:, 1:-1].values
+    X = data.iloc[:, 1:].values
 
     # show_optics_graph(X, 6)
 
@@ -74,13 +74,13 @@ if __name__ == '__main__':
     # show_silhouette_elbow_AgglomerativeClustering(2, 20, X, "complete")
     # show_silhouette_elbow_AgglomerativeClustering(2, 20, X, "ward")
 
-    clustering_model = AgglomerativeClustering(affinity='euclidean',
-                                                linkage="complete")  # linkage{“ward”, “complete”, “average”, “single”}
-
-    model = clustering_model.fit(X)
-    plt.title('Hierarchical Clustering Dendrogram')
-    plot_dendrogram(clustering_model, labels=clustering_model.labels_, p=2, truncate_mode='level')
-    plt.show()
+    # clustering_model = AgglomerativeClustering(affinity='euclidean',
+    #                                             linkage="complete")  # linkage{“ward”, “complete”, “average”, “single”}
+    #
+    # model = clustering_model.fit(X)
+    # plt.title('Hierarchical Clustering Dendrogram')
+    # plot_dendrogram(clustering_model, labels=clustering_model.labels_, p=2, truncate_mode='level')
+    # plt.show()
 
     s_agg_ward = []
     s_agg_com = []

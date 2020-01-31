@@ -1,6 +1,7 @@
 package com.lsmsdbgroup.pisaflix.Entities;
 
 import com.lsmsdbgroup.pisaflix.Entities.exceptions.NonConvertibleDocumentException;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import java.io.Serializable;
 import java.util.*;
 import org.bson.Document;
@@ -66,7 +67,10 @@ public class Film extends Entity implements Serializable {
                 this.wikiPage = filmDocument.getString("WikiPage");
             }
             if (filmDocument.containsKey("Adultness")) {
+                Double maxAdultness = PisaFlixServices.filmService.getMaxAdultness();
+                Double minAdultness = PisaFlixServices.filmService.getMinAdultness();
                 this.adultness = filmDocument.getDouble("Adultness");
+                this.adultness = (this.adultness - minAdultness) / (maxAdultness - minAdultness);
             }
             if (filmDocument.containsKey("Cluster")) {
                 if(filmDocument.get("Cluster") != null){

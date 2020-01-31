@@ -156,7 +156,7 @@ if __name__ == '__main__':
     raw_dataset = pandas.read_csv("../resources/datasets/labelledData.csv", ";")
 
     # Per il confronto tra i classificatori
-    data = tf_idf_preprocessing(dataset=raw_dataset, min_df=0.052, max_df=0.96, max_features=772)
+    data = tf_idf_preprocessing(dataset=raw_dataset, min_df=0.03, max_df=0.82, max_features=1196)
     # data = select_k_best_preprocessing(raw_dataset, chi2, 1385)
     # data = select_k_best_preprocessing(raw_dataset, mutual_info_classif, 500)
     # data = select_k_best_tfidf(raw_dataset, chi2, 1385)

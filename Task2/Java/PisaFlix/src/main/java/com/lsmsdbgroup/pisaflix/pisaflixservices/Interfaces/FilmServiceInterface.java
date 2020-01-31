@@ -27,4 +27,8 @@ public interface FilmServiceInterface {
     void getCommentPage(Film film, int page);
     
     Set<Film> getSuggestedFilms(User user, double adultnessMargin);
+    
+    double getMinAdultness();
+    
+    double getMaxAdultness();
 }

@@ -18,6 +18,8 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     private final Document sort = new Document("PublicationDate", -1);
     private final int commentPageSize = 20;
     private final int filmLimit = 27;
+    private double maxAdultness = 1;
+    private double minAdultness = 0;
 
     public static FilmManager getIstance() {
         if (FilmManager == null) {
@@ -28,6 +30,8 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
     private FilmManager() {
         FilmCollection = DBManager.getMongoDatabase().getCollection("FilmCollection");
+        maxAdultness = CalcMaxAdultness();
+        minAdultness = CalcMinAdultness();
     }
 
     @Override
@@ -111,6 +115,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
     @Override
     public Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit, int skip, double adultnessMargin) {
+        double margin = ((1.0 - adultnessMargin)*(maxAdultness - minAdultness))+minAdultness;
         Set<Film> filmSet = new LinkedHashSet<>();
         List filters = new ArrayList();
 
@@ -126,15 +131,15 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         }
 
         Document countDocument = FilmCollection.aggregate(Arrays.asList(        //Conta i risultati che contengono ALMENO una parola inserita
-                Aggregates.match(and(or(filters), lt("Adultness", 1.0 - adultnessMargin))),
+                Aggregates.match(and(or(filters), lt("Adultness", margin))),
                 Aggregates.count())).first();
 
         if (countDocument != null && (int) countDocument.get("count") >= filmLimit) {  //Se sono troppi rispetto a quelli mostrabili
             countDocument = FilmCollection.aggregate(Arrays.asList(             //Conta i risultati con la stringa ESATTA inserita
-                    Aggregates.match(and(regex("Title", ".*" + titleFilter.trim() + ".*", "i"), lt("Adultness", 1.0 - adultnessMargin))),
+                    Aggregates.match(and(regex("Title", ".*" + titleFilter.trim() + ".*", "i"), lt("Adultness", margin))),
                     Aggregates.count())).first();
             if (countDocument != null && (int) countDocument.get("count") > 0) {//Se ce ne sono mostra quelli
-                try (MongoCursor<Document> cursor = FilmCollection.find(and(regex("Title", ".*" + titleFilter.trim() + ".*", "i"), lt("Adultness", 1.0 - adultnessMargin))).projection(Projections.exclude("RecentComments")).sort(sort).limit(filmLimit).skip(skip).iterator()) {
+                try (MongoCursor<Document> cursor = FilmCollection.find(and(regex("Title", ".*" + titleFilter.trim() + ".*", "i"), lt("Adultness", margin))).projection(Projections.exclude("RecentComments")).sort(sort).limit(filmLimit).skip(skip).iterator()) {
                     while (cursor.hasNext()) {
                         filmSet.add(new Film(cursor.next()));
                     }
@@ -147,7 +152,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
             filters.add(and(gte("PublicationDate", startDateFilter), lt("PublicationDate", endDateFilter)));
         }
 
-        try (MongoCursor<Document> cursor = FilmCollection.find(and(or(filters), lt("Adultness", 1.0 - adultnessMargin))).projection(Projections.exclude("RecentComments")).sort(sort).limit(filmLimit).skip(skip).iterator()) {
+        try (MongoCursor<Document> cursor = FilmCollection.find(and(or(filters), lt("Adultness", margin))).projection(Projections.exclude("RecentComments")).sort(sort).limit(filmLimit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 filmSet.add(new Film(cursor.next()));
             }
@@ -344,9 +349,44 @@ public class FilmManager implements FilmManagerDatabaseInterface {
             System.out.println("A problem occurred in resetting the clusters!");
         }
     }
+    
+    public static double CalcMinAdultness() {
+        Document countDocument = null;
+        try {
+            countDocument = FilmCollection.aggregate(Arrays.asList(
+                new Document( "$group", new Document(new Document("_id", null).append("Min",new Document("$min", "$Adultness")))))).first();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("A problem occurred!");
+        }
+        return countDocument.getDouble("Min");
+    }
+    
+    public static double CalcMaxAdultness() {
+        Document countDocument = null;
+        try {
+            countDocument = FilmCollection.aggregate(Arrays.asList(
+                new Document( "$group", new Document(new Document("_id", null).append("Max",new Document("$max", "$Adultness")))))).first();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("A problem occurred!");
+        }
+        return countDocument.getDouble("Max");
+    }
+    
+    @Override
+    public double getMaxAdultness() {
+        return maxAdultness;
+    }
+    
+    @Override
+    public double getMinAdultness() {
+        return minAdultness;
+    }
 
     @Override
     public Set<Film> getSuggestedFilms(User user, double adultnessMargin) {
+        double margin = ((1.0 - adultnessMargin)*(maxAdultness - minAdultness))+minAdultness;
         List filters = new ArrayList();
         DBManager.userManager.getFavourites(user);
         user.getFilmSet().forEach((film) -> {
@@ -356,7 +396,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         try {
             if (!filters.isEmpty()) {
                 AggregateIterable<Document> resultDocuments = FilmCollection.aggregate(Arrays.asList(
-                        Aggregates.match(and(or(filters), lt("Adultness", 1.0 - adultnessMargin))),
+                        Aggregates.match(and(or(filters), lt("Adultness", margin))),
                         Aggregates.project(Projections.exclude("RecentComments")),
                         Aggregates.sample(filmLimit)
                 ));
@@ -371,7 +411,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
                 }
             }
             if (filmSet.size() < filmLimit) {
-                try (MongoCursor<Document> cursor = FilmCollection.find(lt("Adultness", 1.0 - adultnessMargin)).projection(Projections.exclude("RecentComments")).sort(sort).limit(filmLimit - filmSet.size()).iterator()) {
+                try (MongoCursor<Document> cursor = FilmCollection.find(lt("Adultness", margin)).projection(Projections.exclude("RecentComments")).sort(sort).limit(filmLimit - filmSet.size()).iterator()) {
                     while (cursor.hasNext()) {
                         Film film = new Film(cursor.next());
                         film.setFilmType(Film.FilmType.Recent);

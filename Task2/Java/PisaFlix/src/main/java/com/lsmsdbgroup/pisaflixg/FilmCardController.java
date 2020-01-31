@@ -110,6 +110,7 @@ public class FilmCardController implements Initializable {
                 tags.setText(tags.getText() + " #" + tag);
             }
         }
+        // tags.setText("Adultness: " + Math.round(film.getAdultness() * 100) + "%");
         setPoster();
     }
 

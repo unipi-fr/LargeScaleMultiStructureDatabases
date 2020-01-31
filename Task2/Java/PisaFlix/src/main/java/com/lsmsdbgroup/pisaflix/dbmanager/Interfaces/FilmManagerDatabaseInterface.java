@@ -49,4 +49,8 @@ public interface FilmManagerDatabaseInterface {
     void resetClusters();
     
     Set<Film> getSuggestedFilms(User user, double adultnessMargin);
+    
+    double getMinAdultness();
+    
+    double getMaxAdultness();
 }

@@ -80,7 +80,7 @@ if __name__ == '__main__':
     warnings.filterwarnings("ignore")
 
     dataset = pandas.read_csv(relative_path("../resources/datasets/labelledData.csv"), ";")
-    data = preprocessing(dataset=dataset, min_df=0.052, max_df=0.96, max_features=772)
+    data = preprocessing(dataset=dataset, min_df=0.03, max_df=0.82, max_features=1196)
 
     class_ADULTS = data[data["MPAA"] == "ADULTS"]
     class_CHILDREN = data[data["MPAA"] == "CHILDREN"]
