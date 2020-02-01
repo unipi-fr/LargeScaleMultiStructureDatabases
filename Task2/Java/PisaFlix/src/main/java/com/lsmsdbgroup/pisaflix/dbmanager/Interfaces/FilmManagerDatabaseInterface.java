@@ -36,7 +36,7 @@ public interface FilmManagerDatabaseInterface {
 
     long count(Entity entity);
     
-    /******************* DATA MINING ******************************************/
+    //******************* DATA MINING ******************************************
     
     void updateClass(String idFilm, double adultness);
     

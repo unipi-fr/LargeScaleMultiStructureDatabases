@@ -274,10 +274,10 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         return count;
     }
 
-    /**
-     * **************** DATA MINING ******************************************
-     */
-    @Override
+
+    //******************* DATA MINING ******************************************
+
+    @Override //Preleva dal database un campione di film con ultima classifica di data precedente a quella passata
     public Set<Film> getFilmToBeClassified(Date date, int limit, int skip) {
         Set<Film> filmSet = new LinkedHashSet<>();
         try (MongoCursor<Document> cursor = FilmCollection.find(or(lt("LastClassUpdate", date), new Document("LastClassUpdate", new Document("$exists", false)))).projection(Projections.include("Description")).sort(sort).limit(limit).skip(skip).iterator()) {
@@ -292,7 +292,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         return filmSet;
     }
 
-    @Override
+    @Override //Aggiorna i valori di "adultness" dei film
     public void updateClass(String idFilm, double adultness) {
         Document filmDocument = new Document()
                 .append("LastClassUpdate", new Date())
@@ -305,7 +305,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         }
     }
 
-    @Override
+    @Override //Preleva un campione di film con data di clustering successiva a quella passata, per il quale eseguire il clustering
     public Set<Film> getFilmToBeClusterized(int sample, Date date) {
         Set<Film> filmSet = new LinkedHashSet<>();
         try {
@@ -324,7 +324,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         return filmSet;
     }
 
-    @Override
+    @Override //Aggiorna i cumpi relativi al clustering del film passato
     public void updateCluster(Film film) {
         Document filmDocument = new Document()
                 .append("LastClusterUpdate", new Date())
@@ -338,7 +338,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         }
     }
 
-    @Override
+    @Override //Resetta l'utima data di aggiornamento dei cluster 
     public void resetClusters() {
         Document filmDocument = new Document()
                 .append("LastClusterUpdate", null);
@@ -350,6 +350,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         }
     }
     
+    //Trova il valore di "adultess" minimo tra tutti i film del DB
     public static double CalcMinAdultness() {
         Document countDocument = null;
         try {
@@ -362,6 +363,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         return countDocument.getDouble("Min");
     }
     
+    //Trova il valore di "adultess" massimo tra tutti i film del DB
     public static double CalcMaxAdultness() {
         Document countDocument = null;
         try {
@@ -374,17 +376,18 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         return countDocument.getDouble("Max");
     }
     
-    @Override
+    @Override //Getter per il valore massimo di "adultness"
     public double getMaxAdultness() {
         return maxAdultness;
     }
     
-    @Override
+    @Override //Getter per il valore minimo di "adultness"
     public double getMinAdultness() {
         return minAdultness;
     }
 
-    @Override
+    //Preleva un campione di film suggeriti nel caso siano maggiori rispetto al limite massimo,
+    @Override //altrimenti aggiunge anche alcuni film recenti fino a raggiungimeto del limite
     public Set<Film> getSuggestedFilms(User user, double adultnessMargin) {
         double margin = ((1.0 - adultnessMargin)*(maxAdultness - minAdultness))+minAdultness;
         List filters = new ArrayList();

@@ -2,10 +2,11 @@ import nltk
 import pandas
 import os
 import warnings
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
 
 
+# Gestisce i path relativi in quanto lo script è chiamato dalla classe java
 def relative_path(path):
     dirname = os.path.dirname(__file__)
     return os.path.join(dirname, path)
@@ -40,6 +41,11 @@ def tokenize_and_stem(text):
     stems = [stemmer.stem(t) for t in filtered_tokens]
     return stems
 
+
+#  NOTA:
+#  Il preprocessing è identico a quello nello script "preprocessing.py" è stato copiato per semplicità, in quanto la
+#  gestione delle importazioni nel caso in cui lo script venga chiamato dalla classe java riultava molto complicato
+#  in altro modo
 
 def preprocessing(dataset, min_df=0.1, max_df=0.9, max_features=None):
     dataset.drop('Title', axis=1, inplace=True)
@@ -76,22 +82,26 @@ def preprocessing(dataset, min_df=0.1, max_df=0.9, max_features=None):
 
 
 if __name__ == '__main__':
-
     warnings.filterwarnings("ignore")
 
+    # Prelievo del dataset etichettato
     dataset = pandas.read_csv(relative_path("../resources/datasets/labelledData.csv"), ";")
     data = preprocessing(dataset=dataset, min_df=0.03, max_df=0.82, max_features=1196)
 
+    # Si dividono i film del modello da quelli da classificare
     class_ADULTS = data[data["MPAA"] == "ADULTS"]
     class_CHILDREN = data[data["MPAA"] == "CHILDREN"]
     model_tuples = class_ADULTS.append(class_CHILDREN, ignore_index=True)
     to_be_classified_tuples = data[data["MPAA"] == "to_be_classified"]
 
+    # Si trasformano i dati nel modello necessario alla classificazione
     X = model_tuples.iloc[:, 1:].values
     y = model_tuples['MPAA']
     C = to_be_classified_tuples.iloc[:, 1:].values
 
-    model = RandomForestClassifier(criterion="entropy").fit(X, y)
+    # Modello di regresione logistica
+    model = LogisticRegression().fit(X, y)
 
+    # Stampa dei risultati delle predizioni su standard output
     for row in model.predict_proba(C):
         print(str(row[0]))

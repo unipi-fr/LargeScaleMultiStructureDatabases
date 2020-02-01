@@ -7,10 +7,16 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import AgglomerativeClustering
 
 
+# Gestisce i path relativi in quanto lo script è chiamato dalla classe java
 def relative_path(path):
     dirname = os.path.dirname(__file__)
     return os.path.join(dirname, path)
 
+
+#  NOTA:
+#  Il preprocessing è identico a quello nello script "preprocessing.py" è stato copiato per semplicità, in quanto la
+#  gestione delle importazioni nel caso in cui lo script venga chiamato dalla classe java riultava molto complicato
+#  in altro modo
 
 def prepareStopWords():
     # nltk.download('stopwords') # la prima volta va scaricato
@@ -65,35 +71,49 @@ def preprocessing(dataset, min_df=0.1, max_df=0.9, max_features=None):
 
         result_dataset[terms[j]] = values
 
-    # print(result_dataset)
     return result_dataset
 
 
 if __name__ == '__main__':
-
+    # Causano problemi con la classe java
     warnings.filterwarnings("ignore")
 
+    # Viene ripulito il file contenete i risultati precedenti
     resultFile = open(relative_path("../resources/elaborations/clustering_results.txt"), "w+")
     resultFile.write("")
     resultFile.close()
 
+    # Disabilita un warning che è stato appurato apparire come falso positivo
     pandas.options.mode.chained_assignment = None
-    samples_in_cluster = int(sys.argv[1])  # Numero di campioni per cluster circa
+
+    # Numero di campioni per cluster circa passato dalla classe java alla chiamata
+    samples_in_cluster = int(sys.argv[1])
+    # Vengono prelevati i film da clusterizzare
     dataset = pandas.read_csv(relative_path("../resources/datasets/to_be_clusterized.csv"), encoding='latin1')
+    # Viene eseguito il preprocessing tf-idf
     data = preprocessing(dataset=dataset, min_df=0.03, max_df=0.82, max_features=1196)
 
-    X = data.iloc[:, 1:-1].values
+    # Si prelevano soltanto i valori delle features
+    X = data.iloc[:, 1:].values
+
+    # Si esegue il clustering gerarchico agglomerativo
     clustering_model = AgglomerativeClustering(n_clusters=round(len(data.index) / samples_in_cluster),
                                                affinity='euclidean', linkage='complete')
     clustering_model.fit_predict(X)
 
+    # Viene inserita la colonna relativa ai cluster di assegnazione dei vari film
     data.insert(0, "Cluster", clustering_model.labels_)
 
+    # Viene apreto il file per il salvataggio dei risultati
     resultFile = open(relative_path("../resources/elaborations/clustering_results.txt"), "a+")
 
+    # Per ogni film viene salvato il cluster di appartenenza
     for cluster_id in clustering_model.labels_:
         resultFile.write("\n" + str(cluster_id))
 
+    # Per ogni cluster viene calcolato il baricentro e salvato il termine più importante e quelli con peso non
+    # inferiore a metà
+    # I termini dei vari cluster sono separati dal simbolo "$"
     for c in range(0, clustering_model.n_clusters):
         cluster = data[data["Cluster"] == c]
         cluster.drop("Cluster", axis=1, inplace=True)
@@ -104,4 +124,3 @@ if __name__ == '__main__':
         resultFile.write("\n$")
 
     resultFile.close()
-

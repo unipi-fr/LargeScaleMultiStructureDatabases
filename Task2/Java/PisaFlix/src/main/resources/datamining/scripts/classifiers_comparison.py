@@ -14,14 +14,18 @@ from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 
 if __name__ == '__main__':
     warnings.filterwarnings("ignore")
+
+    # Viene prelevato il dataset elaborato e vengono scarate le features inutili
     data = pandas.read_csv("../resources/datasets/preprocessedData.csv")
     data.drop('Title', axis=1, inplace=True)
     data.drop('Year', axis=1, inplace=True)
     data.drop('Plot', axis=1, inplace=True)
 
-    X = data.iloc[:, 1:-1].values
+    # Vengono suddivise le features dalla classe
+    X = data.iloc[:, 1:].values
     y = data['MPAA']
 
+    # Preparazione delle variabili per salvare i dati delle classificazioni
     y_true = []
     acc_LR = []
     auc_LR = []
@@ -54,13 +58,17 @@ if __name__ == '__main__':
     auc_ADA_DT = []
     y_predict_ADA_DT = []
 
+    # Stratified 10-fold cross validation
     SKF = StratifiedKFold(n_splits=10, random_state=12345, shuffle=True)
     for train_index, test_index in SKF.split(X, y):
+        # Viene prelevata la partizione per costruire il modello e quella per testarlo
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
 
+        # Lista completa delle classi effettive nell'ordine della cross validation
         y_true.extend(y_test)
 
+        # Per la predizione non vanno bene valori nominali ma serve indicarli come 0 e 1
         y_test_num = []
         for i in y_test:
             if i == 'ADULTS':
@@ -160,6 +168,7 @@ if __name__ == '__main__':
         acc_ADA_DT.insert(len(acc_ADA_DT), accuracy_score(y_test, y_predicted))
         auc_ADA_DT.insert(len(auc_ADA_DT), roc_auc_score(y_test_num, y_score))
 
+    # Stampa dei vari risultati
     print()
     print("Linear Regression:")
     print("- Mean accuracy: " + str(round(mean(acc_LR) * 100, 1)) + "% ± " + str(
