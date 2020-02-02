@@ -101,8 +101,13 @@ if __name__ == '__main__':
     C = to_be_classified_tuples.iloc[:, 1:].values
 
     # Si effettua la classificazione con un classificatore random forest con gini index
-    model = RandomForestClassifier(criterion="entropy").fit(X, y)
+    model = RandomForestClassifier(criterion="entropy").fit(X, y)  # (1)
 
     # I risultati vengono stampati sullo standard output
     for row in model.predict_proba(C):
         print(str(row[0]))
+
+    # NOTA:
+    #   (1) Il modello potrebbe essere calcolato solo la prima volta e salvato per esempio con un "pickling", dato che
+    #       dopo i relativi test è stato deciso di utilizzare il metodo in "clasifier.py" non è stato ritenuto
+    #       necessario implementarlo.
