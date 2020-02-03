@@ -4,6 +4,7 @@ import pandas
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.cluster.hierarchy import dendrogram
+from scipy.spatial.distance import cdist
 from sklearn.cluster import OPTICS, AgglomerativeClustering, KMeans
 from sklearn.metrics import silhouette_score
 from scipy.cluster import hierarchy
@@ -68,8 +69,9 @@ if __name__ == '__main__':
     data.drop('MPAA', axis=1, inplace=True)
     data.drop('Year', axis=1, inplace=True)
     data.drop('Plot', axis=1, inplace=True)
+    data.drop('Title', axis=1, inplace=True)
 
-    X = data.iloc[:, 1:].values
+    X = data.iloc[:, 0:].values
 
     # Se si vuole visualizzare il grafico OPTICS
     # show_optics_graph(X, 6)
@@ -95,16 +97,18 @@ if __name__ == '__main__':
     s_agg_avg = []
     s_agg_sl = []
     s_kmeans = []
+    distortions = []
     K = []
 
     # File dove viene salvato il numero massimo e minimo di componenti per ogni cluster
     log = open("../resources/elaborations/clusterVariance.csv", "w+")
-    log.write("Method,Min,Max,k")
+    log.write("Method,Min,Max,Var,k")
     log.close()
 
     # Calcolo della silhouette e del numero massimo e minimo delle componenti di ogni cluster per ogni algoritmo
     # Si utilizza un valore di n/k da 2 a 20 (film per cluster circa)
     for i in range(2, 21):
+        print("i = " + str(i))
         # Si salva il valore di k utilizzato a questo passo
         K.insert(len(K), round(len(X) / i))
 
@@ -116,11 +120,21 @@ if __name__ == '__main__':
 
         s_agg_ward.append(silhouette_score(X, clusters))
 
+        # Calcolo della varianza dei cluster
+        tmp = data.copy()
+        tmp.insert(0, "Cluster", clustering_model.labels_)
+        centers = pandas.DataFrame()
+        for c in range(0, clustering_model.n_clusters):
+            cluster = tmp[tmp["Cluster"] == c]
+            cluster.drop("Cluster", axis=1, inplace=True)
+            centers = centers.append(cluster.mean(), ignore_index=True)
+        variance = sum(np.min(cdist(X, centers, 'euclidean'), axis=1))
+
         count = Counter(clustering_model.labels_).values()
         n_max = max(count)
         n_min = min(count)
         log = open("../resources/elaborations/clusterVariance.csv", "a+")
-        log.write('\n' + "agg_ward," + str(n_min) + "," + str(n_max) + "," + str(round(len(X) / i)))
+        log.write('\n' + "agg_ward," + str(n_min) + "," + str(n_max) + "," + str(variance) + "," + str(round(len(X) / i)))
         log.close()
 
         # Agglomerativo con complete-linkage
@@ -131,11 +145,22 @@ if __name__ == '__main__':
         clusters = clustering_model.fit_predict(X)
         s_agg_com.append(silhouette_score(X, clusters))
 
+        # Calcolo della varianza dei cluster
+        tmp = data.copy()
+        tmp.insert(0, "Cluster", clustering_model.labels_)
+        centers = pandas.DataFrame()
+        for c in range(0, clustering_model.n_clusters):
+            cluster = tmp[tmp["Cluster"] == c]
+            cluster.drop("Cluster", axis=1, inplace=True)
+            centers = centers.append(cluster.mean(), ignore_index=True)
+        variance = sum(np.min(cdist(X, centers, 'euclidean'), axis=1))
+
         count = Counter(clustering_model.labels_).values()
         n_max = max(count)
         n_min = min(count)
         log = open("../resources/elaborations/clusterVariance.csv", "a+")
-        log.write('\n' + "agg_complete," + str(n_min) + "," + str(n_max) + "," + str(round(len(X) / i)))
+        log.write(
+            '\n' + "agg_compl," + str(n_min) + "," + str(n_max) + "," + str(variance) + "," + str(round(len(X) / i)))
         log.close()
 
         # Agglomerativo con average-linkage
@@ -146,11 +171,22 @@ if __name__ == '__main__':
         clusters = clustering_model.fit_predict(X)
         s_agg_avg.append(silhouette_score(X, clusters))
 
+        # Calcolo della varianza dei cluster
+        tmp = data.copy()
+        tmp.insert(0, "Cluster", clustering_model.labels_)
+        centers = pandas.DataFrame()
+        for c in range(0, clustering_model.n_clusters):
+            cluster = tmp[tmp["Cluster"] == c]
+            cluster.drop("Cluster", axis=1, inplace=True)
+            centers = centers.append(cluster.mean(), ignore_index=True)
+        variance = sum(np.min(cdist(X, centers, 'euclidean'), axis=1))
+
         count = Counter(clustering_model.labels_).values()
         n_max = max(count)
         n_min = min(count)
         log = open("../resources/elaborations/clusterVariance.csv", "a+")
-        log.write('\n' + "agg_avg," + str(n_min) + "," + str(n_max) + "," + str(round(len(X) / i)))
+        log.write(
+            '\n' + "agg_avg," + str(n_min) + "," + str(n_max) + "," + str(variance) + "," + str(round(len(X) / i)))
         log.close()
 
         # Agglomerativo con single-linkage
@@ -161,11 +197,22 @@ if __name__ == '__main__':
         clusters = clustering_model.fit_predict(X)
         s_agg_sl.append(silhouette_score(X, clusters))
 
+        # Calcolo della varianza dei cluster
+        tmp = data.copy()
+        tmp.insert(0, "Cluster", clustering_model.labels_)
+        centers = pandas.DataFrame()
+        for c in range(0, clustering_model.n_clusters):
+            cluster = tmp[tmp["Cluster"] == c]
+            cluster.drop("Cluster", axis=1, inplace=True)
+            centers = centers.append(cluster.mean(), ignore_index=True)
+        variance = sum(np.min(cdist(X, centers, 'euclidean'), axis=1))
+
         count = Counter(clustering_model.labels_).values()
         n_max = max(count)
         n_min = min(count)
         log = open("../resources/elaborations/clusterVariance.csv", "a+")
-        log.write('\n' + "agg_single," + str(n_min) + "," + str(n_max) + "," + str(round(len(X) / i)))
+        log.write(
+            '\n' + "agg_singl," + str(n_min) + "," + str(n_max) + "," + str(variance) + "," + str(round(len(X) / i)))
         log.close()
 
         # KMeans
@@ -174,11 +221,15 @@ if __name__ == '__main__':
         clusters = clustering_model.fit_predict(X)
         s_kmeans.append(silhouette_score(X, clusters))
 
+        # Calcolo della varianza dei cluster
+        variance = sum(np.min(cdist(X, clustering_model.cluster_centers_, 'euclidean'), axis=1))
+
         count = Counter(clustering_model.labels_).values()
         n_max = max(count)
         n_min = min(count)
         log = open("../resources/elaborations/clusterVariance.csv", "a+")
-        log.write('\n' + "K-means," + str(n_min) + "," + str(n_max) + "," + str(round(len(X) / i)))
+        log.write(
+            '\n' + "k-means," + str(n_min) + "," + str(n_max) + "," + str(variance) + "," + str(round(len(X) / i)))
         log.close()
 
     # Grafico "a gomito" della silhouette
