@@ -1,1 +1,10 @@
 Method,Min,Max,k
+agg_ward,1,16,700
+agg_complete,1,16,700
+agg_avg,1,22,700
+agg_single,1,511,700
+K-means,1,18,700
+agg_ward,1,17,467
+agg_complete,1,17,467
+agg_avg,1,33,467
+agg_single,1,865,467
