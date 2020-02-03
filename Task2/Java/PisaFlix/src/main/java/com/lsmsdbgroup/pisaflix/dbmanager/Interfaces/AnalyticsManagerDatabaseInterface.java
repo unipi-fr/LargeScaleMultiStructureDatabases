@@ -20,5 +20,5 @@ public interface AnalyticsManagerDatabaseInterface {
     //TODO: da decidere il tipo di ritorno
     Set<RankingResult> rankingAnalytics(Date startdate, Date endDate, RankingType typeOfRanking);
     //TODO: da decidere il tipo di ritorno
-    Object engagementAnalytics(Date startdate, Date endDate, Entity entity);
+    Set<EngageResult> engagementAnalytics(Date startdate, Date endDate, Entity entity);
 }

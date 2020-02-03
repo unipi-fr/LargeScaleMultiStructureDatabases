@@ -17,8 +17,8 @@ public class AnalyticsService implements AnalyticsServiceInterface {
     
 
     @Override
-    public Object engagementAnalytics(Date startdate, Date endDate, Entity entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Set<EngageResult> engagementAnalytics(Date startdate, Date endDate, Entity entity) {
+        return this.analyticsManager.engagementAnalytics(startdate, endDate, entity);
     }
 
     @Override

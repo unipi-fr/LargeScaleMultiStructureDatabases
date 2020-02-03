@@ -1,8 +1,10 @@
 package com.lsmsdbgroup.pisaflix.dbmanager;
 
 import com.lsmsdbgroup.pisaflix.AnalyticsClasses.AverageRatingResult;
+import com.lsmsdbgroup.pisaflix.AnalyticsClasses.EngageResult;
 import com.lsmsdbgroup.pisaflix.AnalyticsClasses.RankingResult;
 import com.lsmsdbgroup.pisaflix.Entities.Entity;
+import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.exceptions.NonConvertibleDocumentException;
 import com.mongodb.client.MongoCollection;
 import java.util.Date;
@@ -12,14 +14,12 @@ import com.mongodb.client.AggregateIterable;
 import static com.mongodb.client.model.Accumulators.avg;
 import static com.mongodb.client.model.Accumulators.first;
 import static com.mongodb.client.model.Accumulators.sum;
-import static com.mongodb.client.model.Aggregates.addFields;
 import static com.mongodb.client.model.Aggregates.group;
 import static com.mongodb.client.model.Aggregates.lookup;
 import static com.mongodb.client.model.Aggregates.match;
 import static com.mongodb.client.model.Aggregates.project;
 import static com.mongodb.client.model.Aggregates.sort;
 import static com.mongodb.client.model.Aggregates.unwind;
-import com.mongodb.client.model.Field;
 import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Indexes.descending;
 import static com.mongodb.client.model.Projections.computed;
@@ -28,15 +28,13 @@ import static com.mongodb.client.model.Projections.include;
 import com.mongodb.client.model.UnwindOptions;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 import org.bson.BsonNull;
 import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 
 public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
     private static AnalyticsManager AnalyticsManager;
@@ -56,15 +54,40 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
         FilmCollection = DBManager.getMongoDatabase().getCollection("FilmCollection");
         UserCollection = DBManager.getMongoDatabase().getCollection("UserCollection");        
     }
+    
+    private AggregateIterable<Document> engageAggregate(Date startDate, Date endDate, String film){
+        return EngageCollection.aggregate(Arrays.asList(
+                match(eq("Film", film)), 
+                project(
+                        fields(include("Film"), 
+                        computed("View", eq("$cond", and(eq("if", Arrays.asList("$Type", "VIEW")), eq("then", 1L), eq("else", 0L)))), 
+                        computed("Favourite", eq("$cond", and(eq("if", Arrays.asList("$Type", "FAVOURITE")), eq("then", 1L), eq("else", 0L)))), 
+                        computed("Comment", eq("$cond", and(eq("if", Arrays.asList("$Type", "COMMENT")), eq("then", 1L), eq("else", 0L)))))), 
+                group("$Film", sum("ViewCount", "$View"), sum("FavouriteCount", "$Favourite"), sum("CommentCount", "$Comment"))));
+    }
 
     @Override
-    public Object engagementAnalytics(Date startdate, Date endDate, Entity entity) {
-        List<Bson> asList = Arrays.asList(project(fields(include("Film"), 
-                computed("View", eq("$cond", and(eq("if", Arrays.asList("$Type", "VIEW")), eq("then", 1L), eq("else", 0L)))), 
-                computed("Favourite", eq("$cond", and(eq("if", Arrays.asList("$Type", "FAVOURITE")), eq("then", 1L), eq("else", 0L)))), 
-                computed("Comment", eq("$cond", and(eq("if", Arrays.asList("$Type", "COMMENT")), eq("then", 1L), eq("else", 0L)))))), 
-                group("$Film", sum("ViewCount", "$View"), sum("FavouriteCount", "$Favourite"), sum("CommentCount", "$Comment")));
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Set<EngageResult> engagementAnalytics(Date startDate, Date endDate, Entity entity) {
+        AggregateIterable<Document> result;
+        String idFilm = entity.getId();
+        
+        Film film = DBManager.filmManager.getById(idFilm);
+        DBManager.filmManager.getRecentComments(film);
+        
+        result = engageAggregate(startDate, endDate, idFilm);
+        
+        Set<EngageResult> res = new LinkedHashSet<>();
+        
+        for (Document dbObject : result)
+        {
+            EngageResult engageResult = createEngageResultFromDocument(dbObject);
+            Long commentCount = engageResult.getCommentCount();
+            commentCount += film.getCommentSet().size();
+            engageResult.setCommentCount(commentCount);
+            res.add(engageResult);
+        }
+        
+        return res;
     }
 
     @Override
@@ -86,8 +109,6 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
             default:
                 return res;
         }
-         
-       
         
         for (Document dbObject : result)
         {
@@ -177,9 +198,7 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
     
     private AggregateIterable<Document> aggregateEngageCollectionRankingByFilms(Date startDate, Date endDate){
 
-        return EngageCollection.aggregate(Arrays.asList(
-                match(
-                    and(
+        return EngageCollection.aggregate(Arrays.asList(match(and(
                         gte("Timestamp", startDate), 
                         lt("Timestamp", endDate))), 
                 project(fields(
@@ -297,6 +316,27 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
         return new AverageRatingResult("can't be converted", 0.0, 0L);
         // non è bellissimo, se c'è tempo si aggiusta
         //return null;
+    }
+    
+    private EngageResult createEngageResultFromDocument(Document doc){
+        EngageResult engageResult = null;
+        
+        if(doc.containsKey("_id")){
+            String idFilm = doc.get("_id").toString();
+            Long viewCount = doc.getLong("ViewCount");
+            Long favouriteCount = doc.getLong("FavouriteCount");
+            Long commentCount = doc.getLong("CommentCount");
+            
+            engageResult = new EngageResult(idFilm, viewCount, favouriteCount, commentCount);
+        }else{
+            try {
+                throw new NonConvertibleDocumentException("Document not-convertible in EngageResult");
+            } catch (NonConvertibleDocumentException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        
+        return engageResult;
     }
     
 }

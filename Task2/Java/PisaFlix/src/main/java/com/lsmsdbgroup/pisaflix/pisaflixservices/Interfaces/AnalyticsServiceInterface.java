@@ -23,5 +23,5 @@ public interface AnalyticsServiceInterface {
     Set<RankingResult> rankingAnalytics(Date startDate, Date endDate, RankingType typeOfRanking);
     
     //Entity può essere un film o un utente
-    Object engagementAnalytics(Date startdate, Date endDate, Entity entity);
+    Set<EngageResult> engagementAnalytics(Date startdate, Date endDate, Entity entity);
 }
