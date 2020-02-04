@@ -41,11 +41,6 @@
                                     <Insets left="5.0" right="5.0" top="1.0" />
                                  </padding>
                               </VBox>
-                              <Separator halignment="RIGHT">
-                                 <padding>
-                                    <Insets left="20.0" right="20.0" />
-                                 </padding>
-                              </Separator>
                               <Pagination fx:id="pagination">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
@@ -61,14 +56,14 @@
                         </VBox>
                      </content>
                   </ScrollPane>
-                  <VBox spacing="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+                  <VBox AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
                      <children>
                         <Label fx:id="titleLabel" alignment="CENTER" text="Title" wrapText="true">
                            <font>
                               <Font name="System Bold" size="36.0" />
                            </font>
                            <padding>
-                              <Insets left="10.0" />
+                              <Insets bottom="5.0" left="10.0" />
                            </padding>
                         </Label>
                         <Label fx:id="publishDateLabel" text="Publish Date">
@@ -91,7 +86,7 @@
                            </padding>
                         </Separator>
                         <Text fx:id="descriptionLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="800.0" />
-                        <ScrollPane fx:id="scrollableDescription" hbarPolicy="NEVER" prefHeight="500.0" prefViewportHeight="31.921875" prefViewportWidth="800.0" vbarPolicy="ALWAYS">
+                        <ScrollPane fx:id="scrollableDescription" hbarPolicy="NEVER" prefHeight="300.0" prefViewportHeight="31.921875" prefViewportWidth="800.0" vbarPolicy="ALWAYS">
                            <content>
                               <Text fx:id="scrollableDescriptionLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="800.0">
                                  <VBox.margin>
@@ -100,14 +95,6 @@
                               </Text>
                            </content>
                         </ScrollPane>
-                        <Separator halignment="RIGHT">
-                           <VBox.margin>
-                              <Insets left="20.0" right="20.0" />
-                           </VBox.margin>
-                           <padding>
-                              <Insets left="20.0" right="20.0" />
-                           </padding>
-                        </Separator>
                      </children>
                   </VBox>
                </children>

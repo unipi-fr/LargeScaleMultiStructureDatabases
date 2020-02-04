@@ -173,8 +173,6 @@
     -fx-background-color: rgb(240.0, 240.0, 240.0);
 }
 
-
-
 .card-user-title {
     -fx-font-size: 20.0px;
 }
@@ -196,6 +194,51 @@
 }
 
 .card-user-button {
+    -fx-effect: null;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Material Design - Cards For Analytics                           	      *
+ *                                                                             *
+ ******************************************************************************/
+.card-analytic {
+    -fx-background-color: rgb(255.0, 255.0, 255.0);
+    -fx-background-radius: 4.0;
+    -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,
+        1.5);
+    -fx-padding: 15 20 15 20;
+}
+
+.card-analytic:hover {
+    -fx-background-color: rgb(240.0, 240.0, 240.0);
+}
+
+.card-analytic-title {
+    -fx-font-size: 20.0px;
+}
+
+.card-analytic-title .text {
+    -fx-fill: -fx-text-title-color;
+}
+
+.card-analytic-subtitle {
+    -fx-font-size: 16.0px;
+}
+
+.card-subtitle .text {
+    -fx-fill: -fx-text-subtitle-color;
+}
+
+.control-label-analytic {
+    -fx-font-size: 12.0px;
+}
+
+.control-label-analytic .text {
+    -fx-fill: -fx-text-control-title-color;
+}
+
+.card-analytic-button {
     -fx-effect: null;
 }
 

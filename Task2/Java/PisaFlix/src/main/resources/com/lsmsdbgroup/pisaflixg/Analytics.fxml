@@ -10,7 +10,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane alignment="CENTER" gridLinesVisible="true" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.AnalyticsController">
+<GridPane alignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.AnalyticsController">
    <columnConstraints>
       <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" />
    </columnConstraints>
@@ -20,37 +20,37 @@
       <RowConstraints fillHeight="false" minHeight="10.0" valignment="CENTER" vgrow="ALWAYS" />
    </rowConstraints>
    <children>
-      <VBox alignment="CENTER" onMouseClicked="#showAverageAnalytics" styleClass="card">
+      <VBox alignment="CENTER" onMouseClicked="#showAverageAnalytics" styleClass="card-analytic">
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../img/chart.png" />
                </image>
             </ImageView>
-            <Label styleClass="card-title" text="AVERAGE RATING" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-subtitle" text="Chosen a temporal interval, shows the mean value of movie rating grouped by genre/Director/Actor" />
+            <Label styleClass="card-analytic-title" text="AVERAGE RATING" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-analytic-subtitle" text="Chosen a temporal interval, shows the mean value of movie rating grouped by genre/Director/Actor" />
          </children>
       </VBox>
-      <VBox alignment="CENTER" onMouseClicked="#showEngageAnalytics" styleClass="card" GridPane.rowIndex="1">
+      <VBox alignment="CENTER" onMouseClicked="#showEngageAnalytics" styleClass="card-analytic" GridPane.rowIndex="1">
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../img/pie.png" />
                </image>
             </ImageView>
-            <Label styleClass="card-title" text="ENGAGEMENT ACTIVITY" />
-            <Label styleClass="card-subtitle" text="Chosen a film and two years shows the engagement of the chosen film by year, in the interval of time specified before" />
+            <Label styleClass="card-analytic-title" text="ENGAGEMENT ACTIVITY" />
+            <Label styleClass="card-analytic-subtitle" text="Chosen a film and two years shows the engagement of the chosen film by year, in the interval of time specified before" />
          </children>
       </VBox>
-      <VBox alignment="CENTER" onMouseClicked="#showRankingAnalytics" styleClass="card" GridPane.rowIndex="2">
+      <VBox alignment="CENTER" onMouseClicked="#showRankingAnalytics" styleClass="card-analytic" GridPane.rowIndex="2">
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../img/list.png" />
                </image>
             </ImageView>
-            <Label styleClass="card-title" text="RANKING" />
-            <Label styleClass="card-subtitle" text="Chosen a temporal interval, shows a table with the most involved user in the application" />
+            <Label styleClass="card-analytic-title" text="RANKING" />
+            <Label styleClass="card-analytic-subtitle" text="Chosen a temporal interval, shows a table with the most involved user in the application" />
          </children>
       </VBox>
    </children>

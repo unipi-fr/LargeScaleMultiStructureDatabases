@@ -96,7 +96,7 @@ public class FilmDetailPageController implements Initializable {
     }
 
     public void setDescription(String description) {
-        if (description.length() > 3000) {
+        if (description.length() > 2500) {
             scrollableDescriptionLabel.setText(description);
             descriptionLabel.setVisible(false);
             descriptionLabel.setManaged(false);
@@ -128,6 +128,7 @@ public class FilmDetailPageController implements Initializable {
     public void addComment(Comment comment) {
         String username = comment.getUser().getUsername();
         String timestamp;
+        
         if (comment.getLastModified() != null) {
             timestamp = comment.getTimestamp().toString() + ", Last Modified at: " + comment.getLastModified().toString();
         } else {
@@ -153,7 +154,7 @@ public class FilmDetailPageController implements Initializable {
         setDescription(film.getDescription().trim());
 
         Set<Comment> comments = film.getCommentSet();
-
+            
         comments.forEach((comment) -> {
             addComment(comment);
         });
@@ -210,6 +211,7 @@ public class FilmDetailPageController implements Initializable {
         comments.forEach((comment) -> {
             addComment(comment);
         });
+        
         refreshPageCount();
     }
 

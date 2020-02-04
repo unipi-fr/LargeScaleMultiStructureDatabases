@@ -14,6 +14,7 @@ import com.mongodb.client.AggregateIterable;
 import static com.mongodb.client.model.Accumulators.avg;
 import static com.mongodb.client.model.Accumulators.first;
 import static com.mongodb.client.model.Accumulators.sum;
+import com.mongodb.client.model.Aggregates;
 import static com.mongodb.client.model.Aggregates.group;
 import static com.mongodb.client.model.Aggregates.lookup;
 import static com.mongodb.client.model.Aggregates.match;
@@ -22,6 +23,7 @@ import static com.mongodb.client.model.Aggregates.sort;
 import static com.mongodb.client.model.Aggregates.unwind;
 import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Indexes.descending;
+import com.mongodb.client.model.Projections;
 import static com.mongodb.client.model.Projections.computed;
 import static com.mongodb.client.model.Projections.fields;
 import static com.mongodb.client.model.Projections.include;
@@ -57,12 +59,22 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
     
     private AggregateIterable<Document> engageAggregate(Date startDate, Date endDate, String film){
         return EngageCollection.aggregate(Arrays.asList(
-                match(eq("Film", film)), 
-                project(
+                match(and(eq("Film", film),
+                        gte("Timestamp", startDate), 
+                        lt("Timestamp", endDate))),
+                Aggregates.project(
+                        Projections.fields(Projections.include("Film"),
+                        new Document("View", new Document("$cond", Arrays.<Object>asList(new Document("$eq", Arrays.<Object>asList("$Type", "VIEW")),
+                                        1L, 0L))),
+                        new Document("Favourite", new Document("$cond", Arrays.<Object>asList(new Document("$eq", Arrays.<Object>asList("$Type", "FAVOURITE")),
+                                        1L, 0L))),
+                        new Document("Comment", new Document("$cond", Arrays.<Object>asList(new Document("$eq", Arrays.<Object>asList("$Type", "COMMENT")),
+                                        1L, 0L))))),
+                /*project(
                         fields(include("Film"), 
                         computed("View", eq("$cond", and(eq("if", Arrays.asList("$Type", "VIEW")), eq("then", 1L), eq("else", 0L)))), 
                         computed("Favourite", eq("$cond", and(eq("if", Arrays.asList("$Type", "FAVOURITE")), eq("then", 1L), eq("else", 0L)))), 
-                        computed("Comment", eq("$cond", and(eq("if", Arrays.asList("$Type", "COMMENT")), eq("then", 1L), eq("else", 0L)))))), 
+                        computed("Comment", eq("$cond", and(eq("if", Arrays.asList("$Type", "COMMENT")), eq("then", 1L), eq("else", 0L)))))),*/ 
                 group("$Film", sum("ViewCount", "$View"), sum("FavouriteCount", "$Favourite"), sum("CommentCount", "$Comment"))));
     }
 
@@ -201,11 +213,14 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
         return EngageCollection.aggregate(Arrays.asList(match(and(
                         gte("Timestamp", startDate), 
                         lt("Timestamp", endDate))), 
-                project(fields(
-                        include("Film"), 
-                        computed("isComment", eq("$cond", and(eq("if", Arrays.asList("$Type", "COMMENT")), eq("then", 1L), eq("else", 0L)))), 
-                        computed("isView", eq("$cond", and(eq("if", Arrays.asList("$Type", "VIEW")), eq("then", 1L), eq("else", 0L)))), 
-                        computed("isFavourite", eq("$cond", and(eq("if", Arrays.asList("$Type", "FAVOURITE")), eq("then", 1L), eq("else", 0L)))))), 
+                Aggregates.project(
+                        Projections.fields(Projections.include("Film"),
+                        new Document("isView", new Document("$cond", Arrays.<Object>asList(new Document("$eq", Arrays.<Object>asList("$Type", "VIEW")),
+                                        1L, 0L))),
+                        new Document("isFavourite", new Document("$cond", Arrays.<Object>asList(new Document("$eq", Arrays.<Object>asList("$Type", "FAVOURITE")),
+                                        1L, 0L))),
+                        new Document("isComment", new Document("$cond", Arrays.<Object>asList(new Document("$eq", Arrays.<Object>asList("$Type", "COMMENT")),
+                                        1L, 0L))))), 
                 group(eq("$toObjectId", "$Film"), 
                         sum("commentCount", "$isComment"), 
                         sum("viewCount", "$isView"), 
@@ -226,11 +241,14 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
                         gte("Timestamp", startDate), 
                         lt("Timestamp", endDate)), 
                     ne("User", "anonymous"))), 
-            project(fields(
-                include("User"), 
-                computed("isComment", eq("$cond", and(eq("if", Arrays.asList("$Type", "COMMENT")), eq("then", 1L), eq("else", 0L)))), 
-                computed("isView", eq("$cond", and(eq("if", Arrays.asList("$Type", "VIEW")), eq("then", 1L), eq("else", 0L)))), 
-                computed("isFavourite", eq("$cond", and(eq("if", Arrays.asList("$Type", "FAVOURITE")), eq("then", 1L), eq("else", 0L)))))), 
+            Aggregates.project(
+                        Projections.fields(Projections.include("User"),
+                        new Document("isView", new Document("$cond", Arrays.<Object>asList(new Document("$eq", Arrays.<Object>asList("$Type", "VIEW")),
+                                        1L, 0L))),
+                        new Document("isFavourite", new Document("$cond", Arrays.<Object>asList(new Document("$eq", Arrays.<Object>asList("$Type", "FAVOURITE")),
+                                        1L, 0L))),
+                        new Document("isComment", new Document("$cond", Arrays.<Object>asList(new Document("$eq", Arrays.<Object>asList("$Type", "COMMENT")),
+                                        1L, 0L))))), 
             group(eq("$toObjectId", "$User"), 
                     sum("commentCount", "$isComment"), 
                     sum("viewCount", "$isView"), 
@@ -280,7 +298,7 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
         }
         
         if(dbObject.containsKey("title_username")) {
-            title_username = dbObject.getString("title_username");
+            title_username = dbObject.get("title_username").toString();
         }
         
         if(dbObject.containsKey("commentCount")) {

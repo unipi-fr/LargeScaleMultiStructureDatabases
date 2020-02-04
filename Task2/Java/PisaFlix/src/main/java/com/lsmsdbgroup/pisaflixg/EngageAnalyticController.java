@@ -4,9 +4,14 @@ import com.lsmsdbgroup.pisaflix.AnalyticsClasses.EngageResult;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -47,7 +52,7 @@ public class EngageAnalyticController implements Initializable {
         xAxis.setLabel("");       
         yAxis.setLabel("Engage");
         
-        Vector years = new Vector();
+        ArrayList years = new ArrayList();
         for(int i = 1961; i < 2021; i++)
         {
             years.add(i);
@@ -58,19 +63,41 @@ public class EngageAnalyticController implements Initializable {
     }
     
     @FXML
-    private void calculateEngagement(){    
+    private void calculateEngagement(){
+        if(startCombo.getSelectionModel().isEmpty() || endCombo.getSelectionModel().isEmpty()){
+            App.printWarningDialog("No Year Selected", "", "You must select both Year");
+            return;
+        }
+        
         String filmTitle = titleTextField.getText();
         Set<Film> films = PisaFlixServices.filmService.getFilmsFiltered(filmTitle, null, null, 0);
         
         Film film = films.iterator().next();
         
-        Set<EngageResult> engageResults = PisaFlixServices.analyticService.engagementAnalytics(null, null, film);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         
-        EngageResult engageResult = engageResults.iterator().next();
-     
-        System.out.println("ViewCount - " + engageResult.getViewCount());
-        System.out.println("FavouriteCount - " + engageResult.getFavouriteCount());
-        System.out.println("CommentCount - " + engageResult.getCommentCount());
+        Integer startYear = (Integer) startCombo.getValue();
+        String startYearStr = startYear.toString();
+        
+        Integer endYear = ((Integer) endCombo.getValue()) + 1;
+        String endYearStr = endYear.toString();
+        
+        Date dStart = null;
+        Date dEnd = null;
+        try {
+            dStart = sdf.parse(startYearStr);
+            dEnd = sdf.parse(endYearStr);
+        } catch (ParseException ex) {
+            Logger.getLogger(EngageAnalyticController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        Set<EngageResult> engageResults = PisaFlixServices.analyticService.engagementAnalytics(dStart, dEnd, film);
+        
+        EngageResult engageResult;
+        if(engageResults != null)
+            engageResult = engageResults.iterator().next();
+        else
+            engageResult = new EngageResult(film.getId(), 0L, 0L, 0L);
         
         setBarChart(engageResult);
         setPieChart(engageResult);
