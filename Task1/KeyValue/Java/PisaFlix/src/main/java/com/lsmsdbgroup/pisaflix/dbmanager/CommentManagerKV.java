@@ -335,7 +335,7 @@ public class CommentManagerKV extends KeyValueDBManager implements CommentManage
                     int idUserAnalysed = Integer.parseInt(get(key));
                     
                     if(idUserAnalysed == idUser){
-                        Comment auxComment = CommentManagerKV.getIstance().getById(Integer.parseInt(keySplit[1]));
+                        Comment auxComment = getById(Integer.parseInt(keySplit[1]));
                         if(auxComment != null){
                             returnSet.add(auxComment);
                         }
