@@ -1,0 +1,825 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="Multi-package class diagram">
+  <ClassDiagramComponents>
+    <Class name="DBManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields>
+        <Field name="MongoClient" type="MongoClient" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="MongoDatabase" type="MongoDatabase" visibility="private" isStatic="true"/>
+        <Field name="userManager" type="UserManagerDatabaseInterface1" visibility="public" isStatic="true"/>
+        <Field name="filmManager" type="FilmManagerDatabaseInterface1" visibility="public" isStatic="true"/>
+        <Field name="commentManager" type="CommentManagerDatabaseInterface1" visibility="public" isStatic="true"/>
+        <Field name="engageManager" type="EngageManagerDatabaseInterface1" visibility="public" isStatic="true"/>
+        <Field name="analyticsManager" type="AnalyticsManagerDatabaseInterface1" visibility="public" isStatic="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="start" returnType="void" visibility="public" isStatic="true"/>
+        <Method name="stop" returnType="void" visibility="public" isStatic="true"/>
+        <Method name="getMongoClient" returnType="MongoClient" visibility="public" isStatic="true"/>
+        <Method name="getMongoDatabase" returnType="MongoDatabase" visibility="public" isStatic="true"/>
+      </Methods>
+    </Class>
+    <Class name="FilmManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="320.0" yPosition="20.0">
+      <Fields>
+        <Field name="FilmManager" type="FilmManager" visibility="private" isStatic="true"/>
+        <Field name="FilmCollection" type="MongoCollection&lt;Document&gt;" visibility="private" isStatic="true"/>
+        <Field name="sort" type="Document" visibility="private" isFinal="true"/>
+        <Field name="commentPageSize" type="int" visibility="private" isFinal="true"/>
+        <Field name="filmLimit" type="int" visibility="private" isFinal="true"/>
+        <Field name="maxAdultness" type="double" visibility="private"/>
+        <Field name="minAdultness" type="double" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="private"/>
+      </Constructors>
+      <Methods>
+        <Method name="getIstance" returnType="FilmManager" visibility="public" isStatic="true"/>
+        <Method name="getById" returnType="String" visibility="public">
+          <Argument type="String" name="filmId"/>
+        </Method>
+        <Method name="getAll" returnType="int" visibility="public">
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+        </Method>
+        <Method name="create" returnType="String" visibility="public">
+          <Argument type="String" name="title"/>
+          <Argument type="Date" name="publicationDate"/>
+          <Argument type="String" name="description"/>
+        </Method>
+        <Method name="update" returnType="String" visibility="public">
+          <Argument type="String" name="idFilm"/>
+          <Argument type="String" name="title"/>
+          <Argument type="Date" name="publicationDate"/>
+          <Argument type="String" name="description"/>
+        </Method>
+        <Method name="delete" returnType="String" visibility="public">
+          <Argument type="String" name="idFilm"/>
+        </Method>
+        <Method name="getFiltered" returnType="double" visibility="public">
+          <Argument type="String" name="titleFilter"/>
+          <Argument type="Date" name="startDateFilter"/>
+          <Argument type="Date" name="endDateFilter"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+          <Argument type="double" name="adultnessMargin"/>
+        </Method>
+        <Method name="addComment" returnType="String" visibility="public">
+          <Argument type="Film" name="film"/>
+          <Argument type="User" name="user"/>
+          <Argument type="String" name="text"/>
+        </Method>
+        <Method name="getRecentComments" returnType="Film" visibility="public">
+          <Argument type="Film" name="film"/>
+        </Method>
+        <Method name="getCommentPageSize" returnType="long" visibility="public"/>
+        <Method name="getComments" returnType="int" visibility="public">
+          <Argument type="Film" name="film"/>
+          <Argument type="int" name="skip"/>
+          <Argument type="int" name="limit"/>
+        </Method>
+        <Method name="deleteComment" returnType="Comment" visibility="public">
+          <Argument type="Comment" name="comment"/>
+        </Method>
+        <Method name="updateComment" returnType="Comment" visibility="public">
+          <Argument type="Comment" name="comment"/>
+        </Method>
+        <Method name="deleteReleted" returnType="User" visibility="public">
+          <Argument type="User" name="user"/>
+        </Method>
+        <Method name="count" returnType="Entity" visibility="public">
+          <Argument type="Entity" name="entity"/>
+        </Method>
+        <Method name="getFilmToBeClassified" returnType="int" visibility="public">
+          <Argument type="Date" name="date"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+        </Method>
+        <Method name="updateClass" returnType="double" visibility="public">
+          <Argument type="String" name="idFilm"/>
+          <Argument type="double" name="adultness"/>
+        </Method>
+        <Method name="getFilmToBeClusterized" returnType="Date" visibility="public">
+          <Argument type="int" name="sample"/>
+          <Argument type="Date" name="date"/>
+        </Method>
+        <Method name="updateCluster" returnType="Film" visibility="public">
+          <Argument type="Film" name="film"/>
+        </Method>
+        <Method name="resetClusters" returnType="void" visibility="public"/>
+        <Method name="CalcMinAdultness" returnType="double" visibility="public" isStatic="true"/>
+        <Method name="CalcMaxAdultness" returnType="double" visibility="public" isStatic="true"/>
+        <Method name="getMaxAdultness" returnType="double" visibility="public"/>
+        <Method name="getMinAdultness" returnType="double" visibility="public"/>
+        <Method name="getSuggestedFilms" returnType="double" visibility="public">
+          <Argument type="User" name="user"/>
+          <Argument type="double" name="adultnessMargin"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="EngageManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="620.0" yPosition="20.0">
+      <Fields>
+        <Field name="EngageManager" type="EngageManager" visibility="private" isStatic="true"/>
+        <Field name="EngageCollection" type="MongoCollection&lt;Document&gt;" visibility="protected"/>
+        <Field name="sort" type="Document" visibility="protected" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="protected"/>
+      </Constructors>
+      <Methods>
+        <Method name="getIstance" returnType="EngageManagerDatabaseInterface1" visibility="package" isStatic="true"/>
+        <Method name="create" returnType="EngageType" visibility="public">
+          <Argument type="User" name="user"/>
+          <Argument type="Film" name="film"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+        <Method name="delete" returnType="String" visibility="public">
+          <Argument type="String" name="idEngage"/>
+        </Method>
+        <Method name="deleteAllRelated" returnType="Entity" visibility="public">
+          <Argument type="Entity" name="entity"/>
+        </Method>
+        <Method name="getById" returnType="String" visibility="public">
+          <Argument type="String" name="engageId"/>
+        </Method>
+        <Method name="getEngageSet" returnType="EngageType" visibility="public">
+          <Argument type="Entity" name="entity"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+        <Method name="deleteFiltred" returnType="EngageType" visibility="public">
+          <Argument type="User" name="user"/>
+          <Argument type="Film" name="film"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+        <Method name="count" returnType="EngageType" visibility="public">
+          <Argument type="Entity" name="entity"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+        <Method name="count" returnType="EngageType" visibility="public">
+          <Argument type="User" name="user"/>
+          <Argument type="Film" name="film"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="UserManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="920.0" yPosition="20.0">
+      <Fields>
+        <Field name="UserManager" type="UserManager" visibility="private" isStatic="true"/>
+        <Field name="UserCollection" type="MongoCollection&lt;Document&gt;" visibility="private" isStatic="true"/>
+        <Field name="sort" type="Document" visibility="private" isFinal="true"/>
+        <Field name="UsersLimit" type="int" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getIstance" returnType="UserManager" visibility="public" isStatic="true"/>
+        <Method name="getById" returnType="String" visibility="public">
+          <Argument type="String" name="idUser"/>
+        </Method>
+        <Method name="create" returnType="int" visibility="public">
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="password"/>
+          <Argument type="String" name="firstName"/>
+          <Argument type="String" name="lastName"/>
+          <Argument type="String" name="email"/>
+          <Argument type="int" name="privilegeLevel"/>
+        </Method>
+        <Method name="delete" returnType="String" visibility="public">
+          <Argument type="String" name="idUser"/>
+        </Method>
+        <Method name="update" returnType="User" visibility="public">
+          <Argument type="User" name="user"/>
+        </Method>
+        <Method name="update" returnType="int" visibility="public">
+          <Argument type="String" name="userId"/>
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="firstName"/>
+          <Argument type="String" name="lastName"/>
+          <Argument type="String" name="email"/>
+          <Argument type="String" name="password"/>
+          <Argument type="int" name="privilegeLevel"/>
+        </Method>
+        <Method name="getAll" returnType="int" visibility="public">
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+        </Method>
+        <Method name="getByUsername" returnType="int" visibility="public">
+          <Argument type="String" name="username"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+        </Method>
+        <Method name="getByEmail" returnType="int" visibility="public">
+          <Argument type="String" name="email"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+        </Method>
+        <Method name="checkDuplicates" returnType="int" visibility="public">
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="email"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+        </Method>
+        <Method name="getFavourites" returnType="User" visibility="public">
+          <Argument type="User" name="user"/>
+        </Method>
+        <Method name="getFiltered" returnType="int" visibility="public">
+          <Argument type="String" name="usernameFilter"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+        </Method>
+        <Method name="updateSafeSearchSettings" returnType="double" visibility="public">
+          <Argument type="User" name="user"/>
+          <Argument type="double" name="adultnessMargin"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="CommentManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="1220.0" yPosition="20.0">
+      <Fields>
+        <Field name="CommentManager" type="CommentManager" visibility="private" isStatic="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="getIstance" returnType="CommentManager" visibility="public" isStatic="true"/>
+        <Method name="createComment" returnType="Comment" visibility="public">
+          <Argument type="Comment" name="comment"/>
+        </Method>
+        <Method name="update" returnType="String" visibility="public">
+          <Argument type="Comment" name="comment"/>
+          <Argument type="String" name="text"/>
+        </Method>
+        <Method name="getById" returnType="String" visibility="public">
+          <Argument type="String" name="idComment"/>
+        </Method>
+        <Method name="delete" returnType="Comment" visibility="public">
+          <Argument type="Comment" name="comment"/>
+        </Method>
+        <Method name="deleteAllRelated" returnType="Entity" visibility="public">
+          <Argument type="Entity" name="entity"/>
+        </Method>
+        <Method name="getAll" returnType="int" visibility="public">
+          <Argument type="Film" name="film"/>
+          <Argument type="int" name="skip"/>
+          <Argument type="int" name="limit"/>
+        </Method>
+        <Method name="count" returnType="Entity" visibility="public">
+          <Argument type="Entity" name="entity"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Interface name="FilmManagerDatabaseInterface" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="1520.0" yPosition="20.0">
+      <Methods>
+        <Method name="getById" returnType="String" visibility="package">
+          <Argument type="String" name="filmId"/>
+        </Method>
+        <Method name="getAll" returnType="int" visibility="package">
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+        </Method>
+        <Method name="create" returnType="String" visibility="package">
+          <Argument type="String" name="title"/>
+          <Argument type="Date" name="publicationDate"/>
+          <Argument type="String" name="description"/>
+        </Method>
+        <Method name="update" returnType="String" visibility="package">
+          <Argument type="String" name="idFilm"/>
+          <Argument type="String" name="title"/>
+          <Argument type="Date" name="publicationDate"/>
+          <Argument type="String" name="description"/>
+        </Method>
+        <Method name="delete" returnType="String" visibility="package">
+          <Argument type="String" name="idFilm"/>
+        </Method>
+        <Method name="addComment" returnType="String" visibility="package">
+          <Argument type="Film" name="film"/>
+          <Argument type="User" name="user"/>
+          <Argument type="String" name="text"/>
+        </Method>
+        <Method name="getRecentComments" returnType="Film" visibility="package">
+          <Argument type="Film" name="film"/>
+        </Method>
+        <Method name="getCommentPageSize" returnType="long" visibility="package"/>
+        <Method name="getFiltered" returnType="double" visibility="package">
+          <Argument type="String" name="titleFilter"/>
+          <Argument type="Date" name="startDateFilter"/>
+          <Argument type="Date" name="endDateFilter"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+          <Argument type="double" name="adultnessMargin"/>
+        </Method>
+        <Method name="getComments" returnType="int" visibility="package">
+          <Argument type="Film" name="film"/>
+          <Argument type="int" name="skip"/>
+          <Argument type="int" name="limit"/>
+        </Method>
+        <Method name="deleteComment" returnType="Comment" visibility="package">
+          <Argument type="Comment" name="comment"/>
+        </Method>
+        <Method name="updateComment" returnType="Comment" visibility="package">
+          <Argument type="Comment" name="comment"/>
+        </Method>
+        <Method name="deleteReleted" returnType="User" visibility="package">
+          <Argument type="User" name="user"/>
+        </Method>
+        <Method name="count" returnType="Entity" visibility="package">
+          <Argument type="Entity" name="entity"/>
+        </Method>
+        <Method name="updateClass" returnType="double" visibility="package">
+          <Argument type="String" name="idFilm"/>
+          <Argument type="double" name="adultness"/>
+        </Method>
+        <Method name="updateCluster" returnType="Film" visibility="package">
+          <Argument type="Film" name="film"/>
+        </Method>
+        <Method name="getFilmToBeClassified" returnType="int" visibility="package">
+          <Argument type="Date" name="date"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+        </Method>
+        <Method name="getFilmToBeClusterized" returnType="Date" visibility="package">
+          <Argument type="int" name="sample"/>
+          <Argument type="Date" name="date"/>
+        </Method>
+        <Method name="resetClusters" returnType="void" visibility="package"/>
+        <Method name="getSuggestedFilms" returnType="double" visibility="package">
+          <Argument type="User" name="user"/>
+          <Argument type="double" name="adultnessMargin"/>
+        </Method>
+        <Method name="getMinAdultness" returnType="double" visibility="package"/>
+        <Method name="getMaxAdultness" returnType="double" visibility="package"/>
+      </Methods>
+    </Interface>
+    <Interface name="UserManagerDatabaseInterface" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="1820.0" yPosition="20.0">
+      <Methods>
+        <Method name="getById" returnType="String" visibility="package">
+          <Argument type="String" name="userId"/>
+        </Method>
+        <Method name="create" returnType="int" visibility="package">
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="password"/>
+          <Argument type="String" name="firstName"/>
+          <Argument type="String" name="lastName"/>
+          <Argument type="String" name="email"/>
+          <Argument type="int" name="privilegeLevel"/>
+        </Method>
+        <Method name="delete" returnType="String" visibility="package">
+          <Argument type="String" name="userId"/>
+        </Method>
+        <Method name="update" returnType="User" visibility="package">
+          <Argument type="User" name="u"/>
+        </Method>
+        <Method name="update" returnType="int" visibility="package">
+          <Argument type="String" name="userId"/>
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="firstName"/>
+          <Argument type="String" name="lastName"/>
+          <Argument type="String" name="email"/>
+          <Argument type="String" name="password"/>
+          <Argument type="int" name="privilegeLevel"/>
+        </Method>
+        <Method name="getAll" returnType="int" visibility="package">
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+        </Method>
+        <Method name="getByUsername" returnType="int" visibility="package">
+          <Argument type="String" name="username"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+        </Method>
+        <Method name="getByEmail" returnType="int" visibility="package">
+          <Argument type="String" name="email"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+        </Method>
+        <Method name="checkDuplicates" returnType="int" visibility="package">
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="email"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+        </Method>
+        <Method name="getFiltered" returnType="int" visibility="package">
+          <Argument type="String" name="nameFilter"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+        </Method>
+        <Method name="getFavourites" returnType="User" visibility="package">
+          <Argument type="User" name="user"/>
+        </Method>
+        <Method name="updateSafeSearchSettings" returnType="double" visibility="package">
+          <Argument type="User" name="user"/>
+          <Argument type="double" name="adultnessMargin"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="EngageManagerDatabaseInterface" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="2120.0" yPosition="20.0">
+      <Methods>
+        <Method name="create" returnType="EngageType" visibility="package">
+          <Argument type="User" name="user"/>
+          <Argument type="Film" name="film"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+        <Method name="delete" returnType="String" visibility="package">
+          <Argument type="String" name="idEngage"/>
+        </Method>
+        <Method name="deleteAllRelated" returnType="Entity" visibility="package">
+          <Argument type="Entity" name="entity"/>
+        </Method>
+        <Method name="getById" returnType="String" visibility="package">
+          <Argument type="String" name="engageId"/>
+        </Method>
+        <Method name="getEngageSet" returnType="EngageType" visibility="package">
+          <Argument type="Entity" name="entity"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+        <Method name="deleteFiltred" returnType="EngageType" visibility="package">
+          <Argument type="User" name="user"/>
+          <Argument type="Film" name="film"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+        <Method name="count" returnType="EngageType" visibility="package">
+          <Argument type="Entity" name="entity"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+        <Method name="count" returnType="EngageType" visibility="package">
+          <Argument type="User" name="user"/>
+          <Argument type="Film" name="film"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="AnalyticsManagerDatabaseInterface" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="20.0" yPosition="420.0">
+      <Methods>
+        <Method name="ratingAnalytics" returnType="RatingType" visibility="package">
+          <Argument type="Date" name="startdate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="RatingType" name="typeOfRating"/>
+        </Method>
+        <Method name="rankingAnalytics" returnType="RankingType" visibility="package">
+          <Argument type="Date" name="startdate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="RankingType" name="typeOfRanking"/>
+        </Method>
+        <Method name="engagementAnalytics" returnType="Entity" visibility="package">
+          <Argument type="Date" name="startdate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="Entity" name="entity"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="CommentManagerDatabaseInterface" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="320.0" yPosition="420.0">
+      <Methods>
+        <Method name="createComment" returnType="Comment" visibility="package">
+          <Argument type="Comment" name="comment"/>
+        </Method>
+        <Method name="update" returnType="String" visibility="package">
+          <Argument type="Comment" name="comment"/>
+          <Argument type="String" name="text"/>
+        </Method>
+        <Method name="delete" returnType="Comment" visibility="package">
+          <Argument type="Comment" name="comment"/>
+        </Method>
+        <Method name="deleteAllRelated" returnType="Entity" visibility="package">
+          <Argument type="Entity" name="entity"/>
+        </Method>
+        <Method name="getById" returnType="String" visibility="package">
+          <Argument type="String" name="commentId"/>
+        </Method>
+        <Method name="getAll" returnType="int" visibility="package">
+          <Argument type="Film" name="film"/>
+          <Argument type="int" name="skip"/>
+          <Argument type="int" name="limit"/>
+        </Method>
+        <Method name="count" returnType="Entity" visibility="package">
+          <Argument type="Entity" name="entity"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Class name="AnalyticsManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="620.0" yPosition="420.0">
+      <Fields>
+        <Field name="AnalyticsManager" type="AnalyticsManager" visibility="private" isStatic="true"/>
+        <Field name="EngageCollection" type="MongoCollection&lt;Document&gt;" visibility="private"/>
+        <Field name="FilmCollection" type="MongoCollection&lt;Document&gt;" visibility="private"/>
+        <Field name="UserCollection" type="MongoCollection&lt;Document&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="private"/>
+      </Constructors>
+      <Methods>
+        <Method name="getIstance" returnType="AnalyticsManager" visibility="public" isStatic="true"/>
+        <Method name="engageAggregate" returnType="String" visibility="private">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="String" name="film"/>
+        </Method>
+        <Method name="engagementAnalytics" returnType="Entity" visibility="public">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="Entity" name="entity"/>
+        </Method>
+        <Method name="ratingAnalytics" returnType="RatingType" visibility="public">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="RatingType" name="typeOfRating"/>
+        </Method>
+        <Method name="aggregateByGenre" returnType="Date" visibility="private">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+        </Method>
+        <Method name="aggregateByDirector" returnType="Date" visibility="private">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+        </Method>
+        <Method name="aggregateByActor" returnType="Date" visibility="private">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+        </Method>
+        <Method name="rankingAnalytics" returnType="RankingType" visibility="public">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="RankingType" name="typeOfRanking"/>
+        </Method>
+        <Method name="aggregateEngageCollectionRankingByFilms" returnType="Date" visibility="private">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+        </Method>
+        <Method name="aggregateEngageCollectionRankingByUsers" returnType="Date" visibility="private">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+        </Method>
+        <Method name="aggregateFilmCollectionRankingByUsers" returnType="Date" visibility="private">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+        </Method>
+        <Method name="aggregateFilmCollectionRankingByFilms" returnType="Date" visibility="private">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+        </Method>
+        <Method name="createRankingResultfromDocument" returnType="Document" visibility="private">
+          <Argument type="Document" name="dbObject"/>
+        </Method>
+        <Method name="createAverageRatingResultfromDocument" returnType="Document" visibility="private">
+          <Argument type="Document" name="dbObject"/>
+        </Method>
+        <Method name="createEngageResultFromDocument" returnType="Document" visibility="private">
+          <Argument type="Document" name="doc"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Interface name="FilmManagerDatabaseInterface1" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="920.0" yPosition="420.0">
+      <Methods>
+        <Method name="getById" returnType="String" visibility="package">
+          <Argument type="String" name="filmId"/>
+        </Method>
+        <Method name="getAll" returnType="int" visibility="package">
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+        </Method>
+        <Method name="create" returnType="String" visibility="package">
+          <Argument type="String" name="title"/>
+          <Argument type="Date" name="publicationDate"/>
+          <Argument type="String" name="description"/>
+        </Method>
+        <Method name="update" returnType="String" visibility="package">
+          <Argument type="String" name="idFilm"/>
+          <Argument type="String" name="title"/>
+          <Argument type="Date" name="publicationDate"/>
+          <Argument type="String" name="description"/>
+        </Method>
+        <Method name="delete" returnType="String" visibility="package">
+          <Argument type="String" name="idFilm"/>
+        </Method>
+        <Method name="addComment" returnType="String" visibility="package">
+          <Argument type="Film" name="film"/>
+          <Argument type="User" name="user"/>
+          <Argument type="String" name="text"/>
+        </Method>
+        <Method name="getRecentComments" returnType="Film" visibility="package">
+          <Argument type="Film" name="film"/>
+        </Method>
+        <Method name="getCommentPageSize" returnType="long" visibility="package"/>
+        <Method name="getFiltered" returnType="double" visibility="package">
+          <Argument type="String" name="titleFilter"/>
+          <Argument type="Date" name="startDateFilter"/>
+          <Argument type="Date" name="endDateFilter"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+          <Argument type="double" name="adultnessMargin"/>
+        </Method>
+        <Method name="getComments" returnType="int" visibility="package">
+          <Argument type="Film" name="film"/>
+          <Argument type="int" name="skip"/>
+          <Argument type="int" name="limit"/>
+        </Method>
+        <Method name="deleteComment" returnType="Comment" visibility="package">
+          <Argument type="Comment" name="comment"/>
+        </Method>
+        <Method name="updateComment" returnType="Comment" visibility="package">
+          <Argument type="Comment" name="comment"/>
+        </Method>
+        <Method name="deleteReleted" returnType="User" visibility="package">
+          <Argument type="User" name="user"/>
+        </Method>
+        <Method name="count" returnType="Entity" visibility="package">
+          <Argument type="Entity" name="entity"/>
+        </Method>
+        <Method name="updateClass" returnType="double" visibility="package">
+          <Argument type="String" name="idFilm"/>
+          <Argument type="double" name="adultness"/>
+        </Method>
+        <Method name="updateCluster" returnType="Film" visibility="package">
+          <Argument type="Film" name="film"/>
+        </Method>
+        <Method name="getFilmToBeClassified" returnType="int" visibility="package">
+          <Argument type="Date" name="date"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+        </Method>
+        <Method name="getFilmToBeClusterized" returnType="Date" visibility="package">
+          <Argument type="int" name="sample"/>
+          <Argument type="Date" name="date"/>
+        </Method>
+        <Method name="resetClusters" returnType="void" visibility="package"/>
+        <Method name="getSuggestedFilms" returnType="double" visibility="package">
+          <Argument type="User" name="user"/>
+          <Argument type="double" name="adultnessMargin"/>
+        </Method>
+        <Method name="getMinAdultness" returnType="double" visibility="package"/>
+        <Method name="getMaxAdultness" returnType="double" visibility="package"/>
+      </Methods>
+    </Interface>
+    <Interface name="UserManagerDatabaseInterface1" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="1220.0" yPosition="420.0">
+      <Methods>
+        <Method name="getById" returnType="String" visibility="package">
+          <Argument type="String" name="userId"/>
+        </Method>
+        <Method name="create" returnType="int" visibility="package">
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="password"/>
+          <Argument type="String" name="firstName"/>
+          <Argument type="String" name="lastName"/>
+          <Argument type="String" name="email"/>
+          <Argument type="int" name="privilegeLevel"/>
+        </Method>
+        <Method name="delete" returnType="String" visibility="package">
+          <Argument type="String" name="userId"/>
+        </Method>
+        <Method name="update" returnType="User" visibility="package">
+          <Argument type="User" name="u"/>
+        </Method>
+        <Method name="update" returnType="int" visibility="package">
+          <Argument type="String" name="userId"/>
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="firstName"/>
+          <Argument type="String" name="lastName"/>
+          <Argument type="String" name="email"/>
+          <Argument type="String" name="password"/>
+          <Argument type="int" name="privilegeLevel"/>
+        </Method>
+        <Method name="getAll" returnType="int" visibility="package">
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+        </Method>
+        <Method name="getByUsername" returnType="int" visibility="package">
+          <Argument type="String" name="username"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+        </Method>
+        <Method name="getByEmail" returnType="int" visibility="package">
+          <Argument type="String" name="email"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+        </Method>
+        <Method name="checkDuplicates" returnType="int" visibility="package">
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="email"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+        </Method>
+        <Method name="getFiltered" returnType="int" visibility="package">
+          <Argument type="String" name="nameFilter"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+        </Method>
+        <Method name="getFavourites" returnType="User" visibility="package">
+          <Argument type="User" name="user"/>
+        </Method>
+        <Method name="updateSafeSearchSettings" returnType="double" visibility="package">
+          <Argument type="User" name="user"/>
+          <Argument type="double" name="adultnessMargin"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="EngageManagerDatabaseInterface1" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="1520.0" yPosition="420.0">
+      <Methods>
+        <Method name="create" returnType="EngageType" visibility="package">
+          <Argument type="User" name="user"/>
+          <Argument type="Film" name="film"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+        <Method name="delete" returnType="String" visibility="package">
+          <Argument type="String" name="idEngage"/>
+        </Method>
+        <Method name="deleteAllRelated" returnType="Entity" visibility="package">
+          <Argument type="Entity" name="entity"/>
+        </Method>
+        <Method name="getById" returnType="String" visibility="package">
+          <Argument type="String" name="engageId"/>
+        </Method>
+        <Method name="getEngageSet" returnType="EngageType" visibility="package">
+          <Argument type="Entity" name="entity"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+        <Method name="deleteFiltred" returnType="EngageType" visibility="package">
+          <Argument type="User" name="user"/>
+          <Argument type="Film" name="film"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+        <Method name="count" returnType="EngageType" visibility="package">
+          <Argument type="Entity" name="entity"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+        <Method name="count" returnType="EngageType" visibility="package">
+          <Argument type="User" name="user"/>
+          <Argument type="Film" name="film"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="AnalyticsManagerDatabaseInterface1" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="1820.0" yPosition="420.0">
+      <Methods>
+        <Method name="ratingAnalytics" returnType="RatingType" visibility="package">
+          <Argument type="Date" name="startdate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="RatingType" name="typeOfRating"/>
+        </Method>
+        <Method name="rankingAnalytics" returnType="RankingType" visibility="package">
+          <Argument type="Date" name="startdate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="RankingType" name="typeOfRanking"/>
+        </Method>
+        <Method name="engagementAnalytics" returnType="Entity" visibility="package">
+          <Argument type="Date" name="startdate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="Entity" name="entity"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="CommentManagerDatabaseInterface1" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="2120.0" yPosition="420.0">
+      <Methods>
+        <Method name="createComment" returnType="Comment" visibility="package">
+          <Argument type="Comment" name="comment"/>
+        </Method>
+        <Method name="update" returnType="String" visibility="package">
+          <Argument type="Comment" name="comment"/>
+          <Argument type="String" name="text"/>
+        </Method>
+        <Method name="delete" returnType="Comment" visibility="package">
+          <Argument type="Comment" name="comment"/>
+        </Method>
+        <Method name="deleteAllRelated" returnType="Entity" visibility="package">
+          <Argument type="Entity" name="entity"/>
+        </Method>
+        <Method name="getById" returnType="String" visibility="package">
+          <Argument type="String" name="commentId"/>
+        </Method>
+        <Method name="getAll" returnType="int" visibility="package">
+          <Argument type="Film" name="film"/>
+          <Argument type="int" name="skip"/>
+          <Argument type="int" name="limit"/>
+        </Method>
+        <Method name="count" returnType="Entity" visibility="package">
+          <Argument type="Entity" name="entity"/>
+        </Method>
+      </Methods>
+    </Interface>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" target="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.AnalyticsManager" target="com.lsmsdbgroup.pisaflix.dbmanager.AnalyticsManager" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.FilmManagerDatabaseInterface"/>
+    <HasRelation name="AnalyticsManager" source="com.lsmsdbgroup.pisaflix.dbmanager.AnalyticsManager" target="com.lsmsdbgroup.pisaflix.dbmanager.AnalyticsManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="filmManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.FilmManagerDatabaseInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="FilmManager" source="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" target="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="analyticsManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.AnalyticsManagerDatabaseInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="commentManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CommentManagerDatabaseInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.EngageManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.EngageManagerDatabaseInterface" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" target="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.EngageManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.EngageManagerDatabaseInterface"/>
+    <HasRelation name="userManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="UserManager" source="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" target="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" target="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CommentManagerDatabaseInterface"/>
+    <IsRelation name="is" source="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" target="com.lsmsdbgroup.pisaflix.dbmanager.EngageManager"/>
+    <HasRelation name="EngageManager" source="com.lsmsdbgroup.pisaflix.dbmanager.EngageManager" target="com.lsmsdbgroup.pisaflix.dbmanager.EngageManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="CommentManager" source="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" target="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.AnalyticsManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.AnalyticsManagerDatabaseInterface"/>
+    <HasRelation name="engageManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.EngageManagerDatabaseInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

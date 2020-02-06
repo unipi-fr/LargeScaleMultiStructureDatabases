@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="Multi-file class diagram">
+  <ClassDiagramComponents>
+    <Class name="AverageRatingResult" package="com.lsmsdbgroup.pisaflix.AnalyticsClasses" visibility="public" xPosition="2843.0" yPosition="1155.0">
+      <Fields>
+        <Field name="tag" type="String" visibility="private"/>
+        <Field name="averageRating" type="Double" visibility="private"/>
+        <Field name="count" type="Long" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="tag"/>
+          <Argument type="Double" name="averageRating"/>
+          <Argument type="Long" name="count"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getTag" returnType="String" visibility="public"/>
+        <Method name="getAverageRating" returnType="Double" visibility="public"/>
+        <Method name="setTag" returnType="void" visibility="public">
+          <Argument type="String" name="tag"/>
+        </Method>
+        <Method name="setAverageRating" returnType="void" visibility="public">
+          <Argument type="Double" name="averageRating"/>
+        </Method>
+        <Method name="getCount" returnType="Long" visibility="public"/>
+        <Method name="setCount" returnType="void" visibility="public">
+          <Argument type="Long" name="count"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="EngageResult" package="com.lsmsdbgroup.pisaflix.AnalyticsClasses" visibility="public" xPosition="2843.0" yPosition="856.0">
+      <Fields>
+        <Field name="idFilm" type="String" visibility="private"/>
+        <Field name="viewCount" type="Long" visibility="private"/>
+        <Field name="favouriteCount" type="Long" visibility="private"/>
+        <Field name="commentCount" type="Long" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="idFilm"/>
+          <Argument type="Long" name="view"/>
+          <Argument type="Long" name="favourite"/>
+          <Argument type="Long" name="comment"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getViewCount" returnType="Long" visibility="public"/>
+        <Method name="setViewCount" returnType="void" visibility="public">
+          <Argument type="Long" name="viewCount"/>
+        </Method>
+        <Method name="getFavouriteCount" returnType="Long" visibility="public"/>
+        <Method name="setFavouriteCount" returnType="void" visibility="public">
+          <Argument type="Long" name="favouriteCount"/>
+        </Method>
+        <Method name="getCommentCount" returnType="Long" visibility="public"/>
+        <Method name="setCommentCount" returnType="void" visibility="public">
+          <Argument type="Long" name="commentCount"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="RankingResult" package="com.lsmsdbgroup.pisaflix.AnalyticsClasses" visibility="public" xPosition="2620.0" yPosition="251.0">
+      <Fields>
+        <Field name="COMMENT_WEIGHT" type="Long" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="FAVOURITE_WEIGHT" type="Long" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="VIEW_WEIGHT" type="Long" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="id" type="String" visibility="private"/>
+        <Field name="title_username" type="String" visibility="private"/>
+        <Field name="commentCount" type="Long" visibility="private"/>
+        <Field name="favouriteCount" type="Long" visibility="private"/>
+        <Field name="viewCount" type="Long" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="String" name="id"/>
+          <Argument type="String" name="title_username"/>
+          <Argument type="Long" name="commentCount"/>
+          <Argument type="Long" name="favouriteCount"/>
+          <Argument type="Long" name="viewCount"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getId" returnType="String" visibility="public"/>
+        <Method name="getTitle_username" returnType="String" visibility="public"/>
+        <Method name="getCommentCount" returnType="Long" visibility="public"/>
+        <Method name="getViewCount" returnType="Long" visibility="public"/>
+        <Method name="getFavouriteCount" returnType="Long" visibility="public"/>
+        <Method name="getScore" returnType="Long" visibility="public"/>
+        <Method name="setId" returnType="void" visibility="public">
+          <Argument type="String" name="id"/>
+        </Method>
+        <Method name="setTitle_username" returnType="void" visibility="public">
+          <Argument type="String" name="title_username"/>
+        </Method>
+        <Method name="setCommentCount" returnType="void" visibility="public">
+          <Argument type="Long" name="commentCount"/>
+        </Method>
+        <Method name="setViewCount" returnType="void" visibility="public">
+          <Argument type="Long" name="viewCount"/>
+        </Method>
+        <Method name="setFavouriteCount" returnType="void" visibility="public">
+          <Argument type="Long" name="favouriteCount"/>
+        </Method>
+        <Method name="compareTo" returnType="int" visibility="public">
+          <Argument type="RankingResult" name="other"/>
+        </Method>
+        <Method name="merge" returnType="boolean" visibility="public">
+          <Argument type="RankingResult" name="other"/>
+        </Method>
+        <Method name="addOrMerge" returnType="void" visibility="public" isStatic="true">
+          <Argument type="List&lt;RankingResult&gt;" name="destination"/>
+          <Argument type="List&lt;RankingResult&gt;" name="surce"/>
+        </Method>
+        <Method name="addOrMerge" returnType="void" visibility="public" isStatic="true">
+          <Argument type="List&lt;RankingResult&gt;" name="setDestination"/>
+          <Argument type="RankingResult" name="itemToAdd"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+        <Method name="hashCode" returnType="int" visibility="public"/>
+        <Method name="equals" returnType="boolean" visibility="public">
+          <Argument type="Object" name="object"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="DBManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="1991.0" yPosition="462.0">
+      <Fields>
+        <Field name="MongoClient" type="MongoClient" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="MongoDatabase" type="MongoDatabase" visibility="private" isStatic="true"/>
+        <Field name="userManager" type="UserManagerDatabaseInterface" visibility="public" isStatic="true"/>
+        <Field name="filmManager" type="FilmManagerDatabaseInterface" visibility="public" isStatic="true"/>
+        <Field name="commentManager" type="CommentManagerDatabaseInterface" visibility="public" isStatic="true"/>
+        <Field name="engageManager" type="EngageManagerDatabaseInterface" visibility="public" isStatic="true"/>
+        <Field name="analyticsManager" type="AnalyticsManagerDatabaseInterface" visibility="public" isStatic="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="start" returnType="void" visibility="public" isStatic="true"/>
+        <Method name="stop" returnType="void" visibility="public" isStatic="true"/>
+        <Method name="getMongoClient" returnType="MongoClient" visibility="public" isStatic="true"/>
+        <Method name="getMongoDatabase" returnType="MongoDatabase" visibility="public" isStatic="true"/>
+      </Methods>
+    </Class>
+    <Class name="AnalyticsManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="2124.0" yPosition="931.0">
+      <Fields>
+        <Field name="AnalyticsManager" type="AnalyticsManager" visibility="private" isStatic="true"/>
+        <Field name="EngageCollection" type="MongoCollection&lt;Document&gt;" visibility="private"/>
+        <Field name="FilmCollection" type="MongoCollection&lt;Document&gt;" visibility="private"/>
+        <Field name="UserCollection" type="MongoCollection&lt;Document&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="private"/>
+      </Constructors>
+      <Methods>
+        <Method name="getIstance" returnType="AnalyticsManager" visibility="public" isStatic="true"/>
+        <Method name="engageAggregate" returnType="AggregateIterable&lt;Document&gt;" visibility="private">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="String" name="film"/>
+        </Method>
+        <Method name="engagementAnalytics" returnType="Set&lt;EngageResult&gt;" visibility="public">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="Entity" name="entity"/>
+        </Method>
+        <Method name="ratingAnalytics" returnType="Set&lt;AverageRatingResult&gt;" visibility="public">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="RatingType" name="typeOfRating"/>
+        </Method>
+        <Method name="aggregateByGenre" returnType="AggregateIterable&lt;Document&gt;" visibility="private">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+        </Method>
+        <Method name="aggregateByDirector" returnType="AggregateIterable&lt;Document&gt;" visibility="private">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+        </Method>
+        <Method name="aggregateByActor" returnType="AggregateIterable&lt;Document&gt;" visibility="private">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+        </Method>
+        <Method name="rankingAnalytics" returnType="Set&lt;RankingResult&gt;" visibility="public">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="RankingType" name="typeOfRanking"/>
+        </Method>
+        <Method name="aggregateEngageCollectionRankingByFilms" returnType="AggregateIterable&lt;Document&gt;" visibility="private">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+        </Method>
+        <Method name="aggregateEngageCollectionRankingByUsers" returnType="AggregateIterable&lt;Document&gt;" visibility="private">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+        </Method>
+        <Method name="aggregateFilmCollectionRankingByUsers" returnType="AggregateIterable&lt;Document&gt;" visibility="private">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+        </Method>
+        <Method name="aggregateFilmCollectionRankingByFilms" returnType="AggregateIterable&lt;Document&gt;" visibility="private">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+        </Method>
+        <Method name="createRankingResultfromDocument" returnType="RankingResult" visibility="private">
+          <Argument type="Document" name="dbObject"/>
+        </Method>
+        <Method name="createAverageRatingResultfromDocument" returnType="AverageRatingResult" visibility="private">
+          <Argument type="Document" name="dbObject"/>
+        </Method>
+        <Method name="createEngageResultFromDocument" returnType="EngageResult" visibility="private">
+          <Argument type="Document" name="doc"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Interface name="AnalyticsManagerDatabaseInterface" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="1991.0" yPosition="758.0">
+      <Methods>
+        <Method name="ratingAnalytics" returnType="Set&lt;AverageRatingResult&gt;" visibility="package">
+          <Argument type="Date" name="startdate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="RatingType" name="typeOfRating"/>
+        </Method>
+        <Method name="rankingAnalytics" returnType="Set&lt;RankingResult&gt;" visibility="package">
+          <Argument type="Date" name="startdate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="RankingType" name="typeOfRanking"/>
+        </Method>
+        <Method name="engagementAnalytics" returnType="Set&lt;EngageResult&gt;" visibility="package">
+          <Argument type="Date" name="startdate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="Entity" name="entity"/>
+        </Method>
+      </Methods>
+    </Interface>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.AnalyticsClasses.RankingResult" target="com.lsmsdbgroup.pisaflix.AnalyticsClasses.RankingResult" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.AnalyticsManager" target="com.lsmsdbgroup.pisaflix.AnalyticsClasses.AverageRatingResult" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="AnalyticsManager" source="com.lsmsdbgroup.pisaflix.dbmanager.AnalyticsManager" target="com.lsmsdbgroup.pisaflix.dbmanager.AnalyticsManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="analyticsManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.AnalyticsManagerDatabaseInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.AnalyticsManager" target="com.lsmsdbgroup.pisaflix.AnalyticsClasses.EngageResult" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.AnalyticsManager" target="com.lsmsdbgroup.pisaflix.AnalyticsClasses.RankingResult" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.AnalyticsManager" target="com.lsmsdbgroup.pisaflix.dbmanager.AnalyticsManager" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.AnalyticsManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.AnalyticsManagerDatabaseInterface"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
