@@ -49,8 +49,8 @@ public class KeyValueDBManager {
     
     
     protected void settings() {
-        String value = get("settingsPresents");
-        if (value == null || "false".equals(value)) {
+        String value = get("settingsPresent");
+        if (value == null) {
             put("settingsPresent", "true");
             put("setting:lastCommentKey", "0");
         }
