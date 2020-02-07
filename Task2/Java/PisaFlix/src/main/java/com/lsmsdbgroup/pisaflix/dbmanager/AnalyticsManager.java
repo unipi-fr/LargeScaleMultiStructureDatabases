@@ -3,6 +3,7 @@ package com.lsmsdbgroup.pisaflix.dbmanager;
 import com.lsmsdbgroup.pisaflix.AnalyticsClasses.AverageRatingResult;
 import com.lsmsdbgroup.pisaflix.AnalyticsClasses.EngageResult;
 import com.lsmsdbgroup.pisaflix.AnalyticsClasses.RankingResult;
+import com.lsmsdbgroup.pisaflix.Entities.Comment;
 import com.lsmsdbgroup.pisaflix.Entities.Entity;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.exceptions.NonConvertibleDocumentException;
@@ -22,6 +23,7 @@ import static com.mongodb.client.model.Aggregates.project;
 import static com.mongodb.client.model.Aggregates.sort;
 import static com.mongodb.client.model.Aggregates.unwind;
 import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Indexes.ascending;
 import static com.mongodb.client.model.Indexes.descending;
 import com.mongodb.client.model.Projections;
 import static com.mongodb.client.model.Projections.computed;
@@ -30,7 +32,9 @@ import static com.mongodb.client.model.Projections.include;
 import com.mongodb.client.model.UnwindOptions;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -61,7 +65,7 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
                         gte("Timestamp", startDate), 
                         lt("Timestamp", endDate))),
                 Aggregates.project(
-                        Projections.fields(Projections.include("Film"),
+                        Projections.fields(Projections.include("Film", "Timestamp"),
                         new Document("View", new Document("$cond", Arrays.<Object>asList(new Document("$eq", Arrays.<Object>asList("$Type", "VIEW")),
                                         1L, 0L))),
                         new Document("Favourite", new Document("$cond", Arrays.<Object>asList(new Document("$eq", Arrays.<Object>asList("$Type", "FAVOURITE")),
@@ -73,7 +77,8 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
                         computed("View", eq("$cond", and(eq("if", Arrays.asList("$Type", "VIEW")), eq("then", 1L), eq("else", 0L)))), 
                         computed("Favourite", eq("$cond", and(eq("if", Arrays.asList("$Type", "FAVOURITE")), eq("then", 1L), eq("else", 0L)))), 
                         computed("Comment", eq("$cond", and(eq("if", Arrays.asList("$Type", "COMMENT")), eq("then", 1L), eq("else", 0L)))))),*/ 
-                group("$Film", sum("ViewCount", "$View"), sum("FavouriteCount", "$Favourite"), sum("CommentCount", "$Comment"))));
+                group(eq("$year", "$Timestamp"), sum("ViewCount", "$View"), sum("FavouriteCount", "$Favourite"), sum("CommentCount", "$Comment")),
+                sort(ascending("_id"))));
     }
 
     @Override
@@ -84,6 +89,25 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
         Film film = DBManager.filmManager.getById(idFilm);
         DBManager.filmManager.getRecentComments(film);
         
+        HashMap<Integer, Integer> commentYear = new HashMap<Integer, Integer>();
+        
+        for(Comment comment: film.getCommentSet())
+        {
+            Date date = (Date) comment.getLastModified();
+            
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            int year = calendar.get(Calendar.YEAR);
+            
+            if(commentYear.containsKey(year))
+            {
+                int currentCount = commentYear.get(year);
+                commentYear.put(year, currentCount + 1);
+            } else {
+                commentYear.put(year, 1);
+            }
+        }
+        
         result = engageAggregate(startDate, endDate, idFilm);
         
         Set<EngageResult> res = new LinkedHashSet<>();
@@ -91,9 +115,14 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
         for (Document dbObject : result)
         {
             EngageResult engageResult = createEngageResultFromDocument(dbObject);
-            Long commentCount = engageResult.getCommentCount();
-            commentCount += film.getCommentSet().size();
-            engageResult.setCommentCount(commentCount);
+            Integer commentCount = commentYear.get(engageResult.getYear());
+            
+            if(commentCount != null)
+            {
+                commentCount += film.getCommentSet().size();
+                engageResult.setCommentCount(commentCount.longValue());
+            }
+            
             res.add(engageResult);
         }
         
@@ -338,12 +367,12 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
         EngageResult engageResult = null;
         
         if(doc.containsKey("_id")){
-            String idFilm = doc.get("_id").toString();
+            Integer year = doc.getInteger("_id");
             Long viewCount = doc.getLong("ViewCount");
             Long favouriteCount = doc.getLong("FavouriteCount");
             Long commentCount = doc.getLong("CommentCount");
             
-            engageResult = new EngageResult(idFilm, viewCount, favouriteCount, commentCount);
+            engageResult = new EngageResult(year, viewCount, favouriteCount, commentCount);
         }else{
             try {
                 throw new NonConvertibleDocumentException("Document not-convertible in EngageResult");
