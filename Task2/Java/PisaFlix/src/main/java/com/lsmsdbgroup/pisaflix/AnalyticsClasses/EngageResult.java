@@ -5,7 +5,7 @@ public class EngageResult {
     public static final Long FAVOURITE_WEIGHT = 2L;
     public static final Long VIEW_WEIGHT = 1L;
     
-    private int year;
+    private Integer year;
     private Long viewCount;
     private Long favouriteCount;
     private Long commentCount;
@@ -41,7 +41,7 @@ public class EngageResult {
         this.commentCount = commentCount;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 

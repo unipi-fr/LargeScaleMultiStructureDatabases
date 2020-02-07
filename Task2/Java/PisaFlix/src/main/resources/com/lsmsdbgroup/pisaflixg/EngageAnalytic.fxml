@@ -33,7 +33,13 @@
                 <NumberAxis fx:id="yAxis" minorTickCount="2" side="LEFT" />
               </yAxis>
             </BarChart>
-            <PieChart fx:id="pieChart" GridPane.columnIndex="1" />
+            <VBox alignment="CENTER" GridPane.columnIndex="1">
+               <children>
+                  <Label fx:id="yearLabel" />
+                  <Label fx:id="engageLabel" />
+                  <PieChart fx:id="pieChart" GridPane.columnIndex="1" />
+               </children>
+            </VBox>
          </children>
       </GridPane>
       <HBox alignment="CENTER" spacing="50.0">

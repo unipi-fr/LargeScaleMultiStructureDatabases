@@ -10,23 +10,29 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
+import javafx.scene.chart.XYChart.Data;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import org.controlsfx.control.textfield.TextFields;
+import javafx.scene.input.MouseEvent;
 
 public class EngageAnalyticController implements Initializable {
 
@@ -52,6 +58,14 @@ public class EngageAnalyticController implements Initializable {
 
     @FXML
     private PieChart pieChart;
+    
+    @FXML
+    private Label yearLabel;
+    
+    @FXML
+    private Label engageLabel;
+    
+    private HashMap<String, EngageResult> engageResultIndexedByYear;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -69,7 +83,8 @@ public class EngageAnalyticController implements Initializable {
 
         startCombo.getItems().setAll(years);
         endCombo.getItems().setAll(years);
-
+        
+        barChart.setLegendVisible(false);
     }
 
     @FXML
@@ -88,6 +103,7 @@ public class EngageAnalyticController implements Initializable {
             return;
         }
 
+        resetPieChart();
         String filmTitle = titleTextField.getText();
         Set<Film> films = PisaFlixServices.filmService.getFilmsFiltered(filmTitle, null, null, 0);
 
@@ -112,23 +128,33 @@ public class EngageAnalyticController implements Initializable {
 
         Set<EngageResult> engageResults = PisaFlixServices.analyticService.engagementAnalytics(dStart, dEnd, film);
 
+        engageResultIndexedByYear = new HashMap<>();
+        
+        for(EngageResult engageResult: engageResults){
+            engageResultIndexedByYear.put(engageResult.getYear().toString(), engageResult);
+        }
+            
         setBarChart(engageResults);
     }
 
     private void setBarChart(Set<EngageResult> engageResults){
         barChart.getData().clear();
-        XYChart.Series series = new XYChart.Series();
-        
-        for(EngageResult engageResult: engageResults){
-            series.getData().add(new XYChart.Data<>(""+engageResult.getYear(), engageResult.getEngage()));
-        }
+        Series series = new Series();
         
         barChart.getData().addAll(series);
+        
+        for(EngageResult engageResult: engageResults){
+            Data<String, Number> data = new Data<>(engageResult.getYear().toString(), engageResult.getEngage());
+            series.getData().add(data);
+            data.getNode().setOnMouseClicked(e -> setPieChart(data.getXValue()));
+        }
     }
 
-    private void setPieChart(EngageResult engageResult) {
+    private void setPieChart(String date) {
         pieChart.getData().clear();
 
+        EngageResult engageResult = engageResultIndexedByYear.get(date);
+        
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
                 new PieChart.Data("View", engageResult.getViewCount()),
                 new PieChart.Data("Favourite", engageResult.getFavouriteCount()),
@@ -136,6 +162,20 @@ public class EngageAnalyticController implements Initializable {
         );
 
         pieChart.setData(pieChartData);
+        
+        pieChartData.forEach(data ->
+            data.nameProperty().bind(Bindings.concat(data.getName(), " ", data.pieValueProperty()))
+        );
+        
         pieChart.setLabelsVisible(false);
+        
+        yearLabel.setText(date);
+        engageLabel.setText("Engage: "+engageResult.getEngage());
+    }
+    
+    private void resetPieChart(){
+        pieChart.getData().clear();
+        yearLabel.setText("");
+        engageLabel.setText("");
     }
 }

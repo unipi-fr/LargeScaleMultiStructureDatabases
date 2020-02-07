@@ -80,12 +80,11 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
                 group(eq("$year", "$Timestamp"), sum("ViewCount", "$View"), sum("FavouriteCount", "$Favourite"), sum("CommentCount", "$Comment")),
                 sort(ascending("_id"))));
     }
-
+    
     @Override
     public Set<EngageResult> engagementAnalytics(Date startDate, Date endDate, Entity entity) {
         AggregateIterable<Document> result;
         String idFilm = entity.getId();
-        
         Film film = DBManager.filmManager.getById(idFilm);
         DBManager.filmManager.getRecentComments(film);
         
@@ -93,7 +92,10 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
         
         for(Comment comment: film.getCommentSet())
         {
-            Date date = (Date) comment.getLastModified();
+            Date date = (Date) comment.getTimestamp();
+            
+            if(date.getTime() < startDate.getTime() || date.getTime() > endDate.getTime())
+                continue;
             
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
@@ -125,7 +127,6 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
             
             res.add(engageResult);
         }
-        
         return res;
     }
 
@@ -259,9 +260,9 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
                         include("commentCount", "favouriteCount", "viewCount")))));
    
     }
+    
     private AggregateIterable<Document> aggregateEngageCollectionRankingByUsers(Date startDate, Date endDate){
-        
-    return EngageCollection.aggregate(Arrays.asList(
+        return EngageCollection.aggregate(Arrays.asList(
             match(
                 and(
                     and(
@@ -288,8 +289,7 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
     }
     
     private AggregateIterable<Document> aggregateFilmCollectionRankingByUsers(Date startDate, Date endDate){
-        
-    return FilmCollection.aggregate(Arrays.asList(
+        return FilmCollection.aggregate(Arrays.asList(
             unwind("$RecentComments", new UnwindOptions().includeArrayIndex("CommentNumber").preserveNullAndEmptyArrays(false)), 
             match(
                     and(
@@ -300,9 +300,9 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
             unwind("$UserD", new UnwindOptions().includeArrayIndex("ArrayPosition").preserveNullAndEmptyArrays(false)), 
             project(fields(computed("title_username", "$UserD.Username"), include("commentCount")))));
     }
+    
     private AggregateIterable<Document> aggregateFilmCollectionRankingByFilms(Date startDate, Date endDate){
-        
-    return FilmCollection.aggregate(Arrays.asList(
+        return FilmCollection.aggregate(Arrays.asList(
             unwind("$RecentComments", new UnwindOptions().includeArrayIndex("CommentNumber").preserveNullAndEmptyArrays(false)), 
             match(
                 and(
