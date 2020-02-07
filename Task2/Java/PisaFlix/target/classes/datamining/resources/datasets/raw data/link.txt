@@ -1,0 +1,7 @@
+I dataset sono stati prelevati da:
+
+- Archivio contenente le trame dei film da wikipedia:
+https://storage.googleapis.com/kaggle-data-sets/64890/127736/bundle/archive.zip?GoogleAccessId=web-data@kaggle-161607.iam.gserviceaccount.com&Expires=1580406982&Signature=HNYU3qhvpaNcZn%2FNrPe6PrAQJyfn60nfUsxHoC1reODD%2B5jvnme0ZewyZ9QT1PLUfGXhLYoKM7RMxWZPcgVRdIM5QDuUmhjcIufg6wE4rCdIKV6LrsC8pVzXCwTqkAtygGagKnMKddJ4jXJ6tn6cK8Rgq5WZvoSi123qUiuBrxTJvWbNzwG8fugPBuz0UQnIGdHKs8wH50tggSIbzxj%2B5%2BCEmVr5i2PIW14cXrvhEl%2F3AczesTzH8QJi%2FwWP61r54yhkJ82oWKdENNt5gAkXTVz4Qz2%2FA7P5viup7oN9iPFhR9j7bOk9JI8%2BXavikMOAfOL6k7qPxJPbMSRj2lVfxA%3D%3D&response-content-disposition=attachment%3B+filename%3Dwikipedia-movie-plots.zip
+
+- CSV contenente i rating MPAA da IMDB:
+https://data.world/studentoflife/imdb-top-250-lists-and-5000-or-so-data-records/workspace/file?filename=IMDBdata_MainData.csv

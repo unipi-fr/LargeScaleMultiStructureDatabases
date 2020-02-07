@@ -23,6 +23,7 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import org.controlsfx.control.textfield.TextFields;
 
 public class EngageAnalyticController implements Initializable {
 
@@ -60,6 +61,15 @@ public class EngageAnalyticController implements Initializable {
         
         startCombo.getItems().setAll(years);
         endCombo.getItems().setAll(years);
+        
+    }
+    
+    @FXML
+    private void suggestions(){
+        if(titleTextField.getText() != null){
+            Set<Film> films = PisaFlixServices.filmService.getFilmsFiltered(titleTextField.getText(), null, null, 0);
+            TextFields.bindAutoCompletion(titleTextField, films);
+        }
     }
     
     @FXML

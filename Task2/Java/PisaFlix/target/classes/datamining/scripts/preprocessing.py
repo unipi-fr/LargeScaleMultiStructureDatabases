@@ -44,11 +44,14 @@ def tokenize_and_stem(text):
     return stems
 
 
+# Preprocessing con la tecnica tf-idf
 def tf_idf_preprocessing(dataset, min_df=0.1, max_df=0.9, max_features=None):
+    # Preleva soltanto le classi appropriate
     class_ADULTS = dataset[dataset["MPAA"] == "ADULTS"]
     class_CHILDREN = dataset[dataset["MPAA"] == "CHILDREN"]
     dataset = class_ADULTS.append(class_CHILDREN, ignore_index=True)
 
+    # Costruisce il vettore delle stopwords
     stopwords = prepareStopWords()
 
     # Vettorizzazzione dei plot utilizzando la "term frequency–inverse document frequency"
@@ -56,10 +59,13 @@ def tf_idf_preprocessing(dataset, min_df=0.1, max_df=0.9, max_features=None):
                                        stop_words=stopwords,
                                        use_idf=True, tokenizer=tokenize_and_stem, ngram_range=(1, 3))
     tfidf_matrix = tfidf_vectorizer.fit_transform(dataset.__getattr__("Plot"))  # esegue la vettorizzazzione
-    tfidf_vector = tfidf_matrix.toarray()
-    terms = tfidf_vectorizer.get_feature_names()  # lista dei termini presi in considerazione
-    result_dataset = dataset
 
+    # Vettore delle features
+    tfidf_vector = tfidf_matrix.toarray()
+    # Lista dei termini delle features selezionate
+    terms = tfidf_vectorizer.get_feature_names()
+
+    # Nel caso si voglia salvare i termini in un csv (per il "tag cloud")
     # log = open("../resources/elaborations/terms.csv", "w+")
     # log.write("Term")
     # log.close()
@@ -68,6 +74,9 @@ def tf_idf_preprocessing(dataset, min_df=0.1, max_df=0.9, max_features=None):
     #     log = open("../resources/elaborations/terms.csv", "a+")
     #     log.write('\n' + str(term))
     #     log.close()
+
+    # Unione della tabella originale con le features estratte
+    result_dataset = dataset
 
     for j in range(0, len(terms)):
         values = []
@@ -80,64 +89,93 @@ def tf_idf_preprocessing(dataset, min_df=0.1, max_df=0.9, max_features=None):
     return result_dataset
 
 
+# Preprocessing con la tecnica chi2 o mutual-info
 def select_k_best_preprocessing(dataset, method, n_features, vocabulary=None):
+    # Preleva soltanto le classi appropriate
     class_ADULTS = dataset[dataset["MPAA"] == "ADULTS"]
     class_CHILDREN = dataset[dataset["MPAA"] == "CHILDREN"]
     dataset = class_ADULTS.append(class_CHILDREN, ignore_index=True)
+
+    # Vettore delle classi
     y = dataset['MPAA']
 
+    # Costruisce il vettore delle stopwords
     stopwords = prepareStopWords()
 
+    # Esegue la semplice vettorizzazione, producendo una matrice sparsa con tutti i termini "tokenizzati"
     vectorizer = CountVectorizer(stop_words=stopwords, tokenizer=tokenize_and_stem, ngram_range=(1, 3),
                                  vocabulary=vocabulary)
     word_count_matrix = vectorizer.fit_transform(dataset.__getattr__("Plot"))
+    # I nomi delle features sono salvati a parte
     terms = vectorizer.get_feature_names()
 
+    # Seleziona le k features migliori secondo il metodo selezionato
     select_k = SelectKBest(method, k=n_features)
     selected_features = select_k.fit_transform(word_count_matrix, y)
-    mask = select_k.get_support()
 
+    # Filtra solo i termini selezionati
+    mask = select_k.get_support()
     selected_terms = []
     for bool, feature in zip(mask, terms):
         if bool:
             selected_terms.append(feature)
 
+    # Deve essere utilizzato uno sparse-dataframe perchè il risultato della vettorizzazione è in forma sparsa
     result_dataset = pandas.SparseDataFrame(selected_features, columns=selected_terms)
+    # Le features vengono standrdizzate (o normalizzate se si sostituisce la funzione) e i NAN vengono sostituiti con 0
     result_dataset = pandas.DataFrame(scale(result_dataset.fillna(0)), columns=selected_terms)
+    # Il dataset inizale viene unito alle features selezionate
     result_dataset = pandas.concat([dataset, result_dataset], axis=1)
 
     return result_dataset
 
 
+# Preprocessing con la tecnica chi2 o mutual-info e normalizzazione tf-idf
 def select_k_best_tfidf(dataset, method, n_features, vocabulary=None):
+    # Preleva soltanto le classi appropriate
     class_ADULTS = dataset[dataset["MPAA"] == "ADULTS"]
     class_CHILDREN = dataset[dataset["MPAA"] == "CHILDREN"]
     dataset = class_ADULTS.append(class_CHILDREN, ignore_index=True)
+
+    # Vettore delle classi
     y = dataset['MPAA']
 
+    # Costruisce il vettore delle stopwords
     stopwords = prepareStopWords()
 
+    # Esegue la semplice vettorizzazione, producendo una matrice sparsa con tutti i termini "tokenizzati"
     vectorizer = CountVectorizer(stop_words=stopwords, tokenizer=tokenize_and_stem, ngram_range=(1, 3),
                                  vocabulary=vocabulary)
     word_count_matrix = vectorizer.fit_transform(dataset.__getattr__("Plot"))
+
+    # I nomi delle features sono salvati a parte
     terms = vectorizer.get_feature_names()
 
+    # Seleziona le k features migliori secondo il metodo selezionato
     select_k = SelectKBest(method, k=n_features)
     selected_features = select_k.fit_transform(word_count_matrix, y)
-    mask = select_k.get_support()
 
+    # Filtra solo i termini selezionati
+    mask = select_k.get_support()
     selected_terms = []
     for bool, feature in zip(mask, terms):
         if bool:
             selected_terms.append(feature)
 
+    # Deve essere utilizzato uno sparse-dataframe perchè il risultato della vettorizzazione è in forma sparsa
     result_dataset = pandas.SparseDataFrame(selected_features, columns=selected_terms)
+    # I nan possono essere eliminati solo da un dataframe, ma vanno poi riassegnati i nomi delle features
     result_dataset = pandas.DataFrame(result_dataset.fillna(0), columns=selected_terms)
+    # Viene effettuata la normalizzazione tf-idf
     result_dataset = TfidfTransformer().fit_transform(result_dataset)
+    # Deve essere utilizzato uno sparse-dataframe perchè il risultato è in forma sparsa
     result_dataset = pandas.SparseDataFrame(result_dataset, columns=selected_terms)
+    # Si risostituiscono eventuali nan (Dovuti alla forma sparsa) con 0
     result_dataset = result_dataset.fillna(0)
+    # Il dataset inizale viene unito alle features selezionate
     result_dataset = pandas.concat([dataset, result_dataset], axis=1)
 
+    # Nel caso si voglia salvare i termini in un csv (per il "tag cloud")
     # log = open("../resources/elaborations/terms.csv", "w+")
     # log.write("Term")
     # log.close()
@@ -165,9 +203,8 @@ if __name__ == '__main__':
 
     # Per la classificazione con chi2
     # data = select_k_best_preprocessing(raw_dataset, chi2, 1385)
-    # data.to_csv("../resources/datasets/trainedData.csv", index=False)
+    # data.to_csv("../resources/datasets/preprocessedData_chi2.csv", index=False)
 
     # Per la classificazione tf-idf
     # data = tf_idf_preprocessing(dataset=raw_dataset, min_df=0.052, max_df=0.96, max_features=772)
-    # data.to_csv("../resources/datasets/trainedData_tf-idf.csv", index=False)
-
+    # data.to_csv("../resources/datasets/preprocessedData_tf-idf.csv", index=False)

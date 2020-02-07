@@ -9,7 +9,7 @@ import java.util.Set;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.AnalyticsManagerDatabaseInterface;
 
 public class AnalyticsService implements AnalyticsServiceInterface {
-    private AnalyticsManagerDatabaseInterface analyticsManager;
+    private final AnalyticsManagerDatabaseInterface analyticsManager;
 
     public AnalyticsService(AnalyticsManagerDatabaseInterface analyticsManager) {
         this.analyticsManager = analyticsManager;

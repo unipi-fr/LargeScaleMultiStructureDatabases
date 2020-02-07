@@ -1,6 +1,7 @@
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\dbmanager\AnalyticsManager.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\Entities\Engage.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\datamining\Clusterizer.java
+C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\DateConverter.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\EngageAnalyticController.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\EngageServiceInterface.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\LoginController.java
@@ -15,7 +16,6 @@ C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\EngageService.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\AnalyticsController.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\exceptions\InvalidPrivilegeLevelValueException.java
-C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\DateConverter.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\CommentService.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\Entities\Comment.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\FilmDetailPageController.java
@@ -28,6 +28,7 @@ C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflixg\BrowserController.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\dbmanager\FilmManager.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\dbmanager\Interfaces\FilmManagerDatabaseInterface.java
+C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\AnalyticsClasses\EngageResult.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\exceptions\InvalidCredentialsException.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\CommentServiceInterface.java
 C:\Users\ilpet\OneDrive\Documenti\GitHub\LargeScaleMultiStructureDatabases\Task2\Java\PisaFlix\src\main\java\com\lsmsdbgroup\pisaflix\pisaflixservices\UserService.java

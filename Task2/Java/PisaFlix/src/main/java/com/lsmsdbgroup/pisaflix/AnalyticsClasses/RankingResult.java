@@ -1,7 +1,7 @@
 package com.lsmsdbgroup.pisaflix.AnalyticsClasses;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 
 public class RankingResult implements Comparable<RankingResult>{
     public static final Long COMMENT_WEIGHT = 3L;
@@ -82,7 +82,7 @@ public class RankingResult implements Comparable<RankingResult>{
         if(thisScore > otherScore){
             return -1;
         }
-        if(thisScore == otherScore){
+        if(Objects.equals(thisScore, otherScore)){
             return 0;
         }
         // this.getScore() < other.getScore()
@@ -93,7 +93,7 @@ public class RankingResult implements Comparable<RankingResult>{
         if(this.id == null ? other.id != null : !this.id.equals(other.id)){
             return false;
         }
-        if(this.title_username == ""){
+        if("".equals(this.title_username)){
             this.title_username += other.getTitle_username();
         }
         this.commentCount += other.commentCount;
@@ -103,9 +103,9 @@ public class RankingResult implements Comparable<RankingResult>{
     }
     
     public static void addOrMerge(List<RankingResult> destination, List<RankingResult> surce){
-        for(RankingResult rs : surce){  
+        surce.forEach((rs) -> {  
             addOrMerge(destination,rs);
-        }
+        });
     }
     
     public static void addOrMerge(List<RankingResult> setDestination, RankingResult itemToAdd){

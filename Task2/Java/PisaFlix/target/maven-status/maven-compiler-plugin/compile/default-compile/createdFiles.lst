@@ -9,9 +9,11 @@ com\lsmsdbgroup\Scraping\WikiScraper.class
 com\lsmsdbgroup\pisaflix\Entities\Film.class
 com\lsmsdbgroup\pisaflix\dbmanager\AnalyticsManager.class
 com\lsmsdbgroup\pisaflix\dbmanager\UserManager.class
+com\lsmsdbgroup\pisaflix\pisaflixservices\DateConverter.class
 com\lsmsdbgroup\pisaflixg\LoginController.class
 com\lsmsdbgroup\pisaflixg\UserBrowserController$TileWorker.class
 com\lsmsdbgroup\pisaflixg\AddFilmController.class
+com\lsmsdbgroup\pisaflixg\RankingAnalyticController$RankingResultProperty.class
 com\datamining\Clusterizer.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\UserPrivileges.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\exceptions\InvalidCredentialsException.class
@@ -25,7 +27,6 @@ com\lsmsdbgroup\pisaflix\dbmanager\Interfaces\FilmManagerDatabaseInterface.class
 com\lsmsdbgroup\pisaflixg\AverageRatingAnalyticController.class
 com\lsmsdbgroup\pisaflixg\App.class
 com\lsmsdbgroup\pisaflix\dbmanager\DBManager.class
-com\lsmsdbgroup\pisaflix\DateConverter.class
 com\lsmsdbgroup\pisaflixg\WelcomeBackController.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\UserServiceInterface.class
 com\lsmsdbgroup\pisaflixg\UpdateProfileController.class
@@ -47,6 +48,7 @@ com\lsmsdbgroup\pisaflix\pisaflixservices\Interfaces\CommentServiceInterface.cla
 com\lsmsdbgroup\pisaflixg\FilmBrowserController$TileWorker.class
 com\lsmsdbgroup\pisaflixg\EngageAnalyticController.class
 com\lsmsdbgroup\pisaflix\Entities\Film$FilmType.class
+com\lsmsdbgroup\pisaflix\AnalyticsClasses\EngageResult.class
 com\lsmsdbgroup\pisaflixg\FilmDetailPageController.class
 com\lsmsdbgroup\pisaflix\pisaflixservices\CommentService.class
 com\lsmsdbgroup\pisaflix\dbmanager\EngageManager.class

@@ -24,7 +24,7 @@
             <Button fx:id="showResult" mnemonicParsing="false" onAction="#clickShowResult" text="Show results" />
          </children>
       </HBox>
-      <TableView fx:id="rankingTable" GridPane.rowIndex="1">
+      <TableView fx:id="rankingTable" onMouseClicked="#clickItem" GridPane.rowIndex="1">
         <columns>
           <TableColumn fx:id="positionColumn" prefWidth="75.0" text="Rank" />
           <TableColumn fx:id="titleUsernameColumn" prefWidth="750.0" text="Title/Username" />

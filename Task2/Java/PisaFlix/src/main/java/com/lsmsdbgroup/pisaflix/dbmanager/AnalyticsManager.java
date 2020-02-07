@@ -35,14 +35,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.bson.BsonNull;
-import org.bson.conversions.Bson;
-import org.bson.types.ObjectId;
 
 public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
     private static AnalyticsManager AnalyticsManager;
-    private MongoCollection<Document> EngageCollection;
-    private MongoCollection<Document> FilmCollection;
-    private MongoCollection<Document> UserCollection;
+    private final MongoCollection<Document> EngageCollection;
+    private final MongoCollection<Document> FilmCollection;
+    private final MongoCollection<Document> UserCollection;
 
     public static AnalyticsManager getIstance() {
         if (AnalyticsManager == null) {

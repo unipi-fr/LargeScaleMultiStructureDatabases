@@ -1,7 +1,7 @@
 package com.lsmsdbgroup.pisaflixg;
 
 import com.lsmsdbgroup.pisaflix.AnalyticsClasses.AverageRatingResult;
-import com.lsmsdbgroup.pisaflix.DateConverter;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.DateConverter;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.AnalyticsManagerDatabaseInterface.RatingType;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import java.net.URL;
