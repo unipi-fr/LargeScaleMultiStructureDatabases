@@ -1,6 +1,6 @@
 package com.lsmsdbgroup.pisaflixg;
 
-import com.lsmsdbgroup.Scraping.WikiScraper;
+import com.lsmsdbgroup.pisaflix.pisaflixservices.WikiScraper;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;

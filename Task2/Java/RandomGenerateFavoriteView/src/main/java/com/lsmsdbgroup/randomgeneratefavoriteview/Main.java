@@ -1,4 +1,4 @@
-package com.mazzogroup.randomgeneratefavoriteview;
+package com.lsmsdbgroup.randomgeneratefavoriteview;
 
 import java.util.ArrayList;
 import java.util.List;

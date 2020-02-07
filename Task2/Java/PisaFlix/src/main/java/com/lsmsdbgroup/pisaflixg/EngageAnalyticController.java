@@ -19,10 +19,8 @@ import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -32,7 +30,6 @@ import javafx.scene.chart.XYChart.Data;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 
 public class EngageAnalyticController implements Initializable {
 
@@ -84,6 +81,7 @@ public class EngageAnalyticController implements Initializable {
         startCombo.getItems().setAll(years);
         endCombo.getItems().setAll(years);
         
+        xAxis.setAnimated(false);
         barChart.setLegendVisible(false);
     }
 
@@ -130,10 +128,10 @@ public class EngageAnalyticController implements Initializable {
 
         engageResultIndexedByYear = new HashMap<>();
         
-        for(EngageResult engageResult: engageResults){
+        engageResults.forEach((engageResult) -> {
             engageResultIndexedByYear.put(engageResult.getYear().toString(), engageResult);
-        }
-            
+        });
+        
         setBarChart(engageResults);
     }
 
@@ -143,11 +141,12 @@ public class EngageAnalyticController implements Initializable {
         
         barChart.getData().addAll(series);
         
-        for(EngageResult engageResult: engageResults){
-            Data<String, Number> data = new Data<>(engageResult.getYear().toString(), engageResult.getEngage());
+        engageResults.stream().map((engageResult) -> new Data<>(engageResult.getYear().toString(), engageResult.getEngage())).map((data) -> {
             series.getData().add(data);
+            return data;
+        }).forEachOrdered((data) -> {
             data.getNode().setOnMouseClicked(e -> setPieChart(data.getXValue()));
-        }
+        });
     }
 
     private void setPieChart(String date) {

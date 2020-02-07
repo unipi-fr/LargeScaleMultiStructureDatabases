@@ -1,4 +1,4 @@
-package com.lsmsdbgroup.Scraping;
+package com.lsmsdbgroup.pisaflix.pisaflixservices;
 
 import javafx.concurrent.Task;
 import org.jsoup.Jsoup;

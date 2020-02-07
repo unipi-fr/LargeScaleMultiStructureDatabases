@@ -1,4 +1,4 @@
-package com.mazzogroup.randomgeneratefavoriteview;
+package com.lsmsdbgroup.randomgeneratefavoriteview;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -8,9 +8,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Projections;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import org.bson.Document;
 import org.bson.types.ObjectId;
