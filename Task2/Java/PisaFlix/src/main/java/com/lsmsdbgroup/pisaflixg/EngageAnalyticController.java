@@ -112,25 +112,17 @@ public class EngageAnalyticController implements Initializable {
 
         Set<EngageResult> engageResults = PisaFlixServices.analyticService.engagementAnalytics(dStart, dEnd, film);
 
-        EngageResult engageResult;
-        if (engageResults != null) {
-            engageResult = engageResults.iterator().next();
-        } else {
-            engageResult = new EngageResult(film.getId(), 0L, 0L, 0L);
-        }
-
-        setBarChart(engageResult);
-        setPieChart(engageResult);
+        setBarChart(engageResults);
     }
 
-    private void setBarChart(EngageResult engageResult) {
+    private void setBarChart(Set<EngageResult> engageResults){
         barChart.getData().clear();
         XYChart.Series series = new XYChart.Series();
-
-        series.getData().add(new XYChart.Data<>("View", engageResult.getViewCount()));
-        series.getData().add(new XYChart.Data<>("Favourite", engageResult.getFavouriteCount()));
-        series.getData().add(new XYChart.Data<>("Comment", engageResult.getCommentCount()));
-
+        
+        for(EngageResult engageResult: engageResults){
+            series.getData().add(new XYChart.Data<>(""+engageResult.getYear(), engageResult.getEngage()));
+        }
+        
         barChart.getData().addAll(series);
     }
 
