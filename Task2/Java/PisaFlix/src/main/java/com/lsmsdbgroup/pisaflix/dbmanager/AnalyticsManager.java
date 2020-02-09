@@ -88,10 +88,9 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
         Film film = DBManager.filmManager.getById(idFilm);
         DBManager.filmManager.getRecentComments(film);
         
-        HashMap<Integer, Integer> commentYear = new HashMap<Integer, Integer>();
+        HashMap<Integer, Integer> commentYear = new HashMap<>();
         
-        for(Comment comment: film.getCommentSet())
-        {
+        for(Comment comment: film.getCommentSet()){
             Date date = (Date) comment.getTimestamp();
             
             if(date.getTime() < startDate.getTime() || date.getTime() > endDate.getTime())
@@ -114,8 +113,7 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
         
         Set<EngageResult> res = new LinkedHashSet<>();
         
-        for (Document dbObject : result)
-        {
+        for (Document dbObject : result){
             EngageResult engageResult = createEngageResultFromDocument(dbObject);
             Integer commentCount = commentYear.get(engageResult.getYear());
             
@@ -207,7 +205,6 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
         AggregateIterable<Document> fromEngage;
         AggregateIterable<Document> fromFilm;
                 
-        
         switch(typeOfRanking){
             case FILM:
                 fromEngage = aggregateEngageCollectionRankingByFilms(startDate,endDate);
@@ -218,9 +215,9 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
                 fromFilm = aggregateFilmCollectionRankingByUsers(startDate,endDate);
                 break;
             default:
-                return new LinkedHashSet<>();
-            
+                return new LinkedHashSet<>();  
         }
+        
         for (Document dbObject : fromEngage)
         {
             RankingResult rr = createRankingResultfromDocument(dbObject);
@@ -359,7 +356,6 @@ public class AnalyticsManager implements AnalyticsManagerDatabaseInterface{
         }  
         
         return new AverageRatingResult("can't be converted", 0.0, 0L);
-        // non è bellissimo, se c'è tempo si aggiusta
         //return null;
     }
     

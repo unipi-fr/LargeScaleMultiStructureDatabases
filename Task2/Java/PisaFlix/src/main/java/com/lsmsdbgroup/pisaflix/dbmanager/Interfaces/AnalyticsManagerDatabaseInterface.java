@@ -15,10 +15,7 @@ public interface AnalyticsManagerDatabaseInterface {
      FILM,
      USER
     }  
-    
     Set<AverageRatingResult>  ratingAnalytics(Date startdate, Date endDate, RatingType typeOfRating);
-    //TODO: da decidere il tipo di ritorno
     Set<RankingResult> rankingAnalytics(Date startdate, Date endDate, RankingType typeOfRanking);
-    //TODO: da decidere il tipo di ritorno
     Set<EngageResult> engagementAnalytics(Date startdate, Date endDate, Entity entity);
 }
