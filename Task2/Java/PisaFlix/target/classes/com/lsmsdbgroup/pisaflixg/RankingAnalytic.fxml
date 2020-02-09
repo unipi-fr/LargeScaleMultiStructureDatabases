@@ -27,8 +27,8 @@
       <TableView fx:id="rankingTable" onMouseClicked="#clickItem" GridPane.rowIndex="1">
         <columns>
           <TableColumn fx:id="positionColumn" prefWidth="75.0" text="Rank" />
-          <TableColumn fx:id="titleUsernameColumn" prefWidth="750.0" text="Title/Username" />
-          <TableColumn fx:id="scoreColumn" prefWidth="75.0" text="Score" />
+          <TableColumn fx:id="titleUsernameColumn" prefWidth="689.0" text="Title/Username" />
+          <TableColumn fx:id="scoreColumn" prefWidth="136.0" text="Score (c,f,v)" />
         </columns>
          <GridPane.margin>
             <Insets bottom="10.0" left="100.0" right="100.0" />

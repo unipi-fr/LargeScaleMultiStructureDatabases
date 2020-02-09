@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="PisaFlix">
+  <ClassDiagramComponents>
+    <Class name="Comment" package="com.lsmsdbgroup.pisaflix.Entities" visibility="public" xPosition="1133.0" yPosition="806.0">
+      <Fields>
+        <Field name="idComment" type="String" visibility="private"/>
+        <Field name="text" type="String" visibility="private"/>
+        <Field name="recent" type="boolean" visibility="private"/>
+        <Field name="lastModified" type="Date" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="Document" name="commentDocument"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="GettersAndSetters" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Engage" package="com.lsmsdbgroup.pisaflix.Entities" visibility="public" xPosition="1133.0" yPosition="401.0">
+      <Fields>
+        <Field name="idEngage" type="String" visibility="protected"/>
+        <Field name="timestamp" type="Date" visibility="protected"/>
+        <Field name="film" type="Film" visibility="protected"/>
+        <Field name="user" type="User" visibility="protected"/>
+        <Field name="type" type="EngageType" visibility="protected"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="Document" name="engageDocument"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="GettersAndSetters" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Entity" package="com.lsmsdbgroup.pisaflix.Entities" visibility="public" isAbstract="true" xPosition="1133.0" yPosition="150.0">
+      <Fields/>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getId" returnType="String" visibility="public" isAbstract="true"/>
+      </Methods>
+    </Class>
+    <Class name="Film" package="com.lsmsdbgroup.pisaflix.Entities" visibility="public" xPosition="1525.0" yPosition="492.0">
+      <Fields>
+        <Field name="idFilm" type="String" visibility="private"/>
+        <Field name="title" type="String" visibility="private"/>
+        <Field name="publicationDate" type="Date" visibility="private"/>
+        <Field name="description" type="String" visibility="private"/>
+        <Field name="wikiPage" type="String" visibility="private"/>
+        <Field name="adultness" type="Double" visibility="private"/>
+        <Field name="cluster" type="int" visibility="private"/>
+        <Field name="tags" type="Set&lt;String&gt;" visibility="private"/>
+        <Field name="generaSet" type="Set&lt;String&gt;" visibility="private"/>
+        <Field name="castSet" type="Set&lt;String&gt;" visibility="private"/>
+        <Field name="directorSet" type="Set&lt;String&gt;" visibility="private"/>
+        <Field name="filmType" type="FilmType" visibility="private"/>
+        <Field name="userSet" type="Set&lt;User&gt;" visibility="private"/>
+        <Field name="commentSet" type="Set&lt;Comment&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="Document" name="filmDocument"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="GettersAndSetters" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="User" package="com.lsmsdbgroup.pisaflix.Entities" visibility="public" xPosition="761.0" yPosition="542.0">
+      <Fields>
+        <Field name="idUser" type="String" visibility="private"/>
+        <Field name="username" type="String" visibility="private"/>
+        <Field name="password" type="String" visibility="private"/>
+        <Field name="email" type="String" visibility="private"/>
+        <Field name="firstName" type="String" visibility="private"/>
+        <Field name="lastName" type="String" visibility="private"/>
+        <Field name="privilegeLevel" type="int" visibility="private"/>
+        <Field name="adultnessMargin" type="Double" visibility="private"/>
+        <Field name="filmSet" type="Set&lt;Film&gt;" visibility="private"/>
+        <Field name="commentSet" type="Set&lt;Comment&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="Document" name="userDocument"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="GettersAndSetters" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="filmSet" source="com.lsmsdbgroup.pisaflix.Entities.User" target="com.lsmsdbgroup.pisaflix.Entities.Film" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Film&gt;"/>
+    <HasRelation name="userSet" source="com.lsmsdbgroup.pisaflix.Entities.Film" target="com.lsmsdbgroup.pisaflix.Entities.User" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;User&gt;"/>
+    <IsRelation name="&lt;&lt;extend&gt;&gt;" source="com.lsmsdbgroup.pisaflix.Entities.Comment" target="com.lsmsdbgroup.pisaflix.Entities.Engage"/>
+    <IsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.Entities.Engage" target="com.lsmsdbgroup.pisaflix.Entities.Entity"/>
+    <HasRelation name="user" source="com.lsmsdbgroup.pisaflix.Entities.Engage" target="com.lsmsdbgroup.pisaflix.Entities.User" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="film" source="com.lsmsdbgroup.pisaflix.Entities.Engage" target="com.lsmsdbgroup.pisaflix.Entities.Film" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.Entities.Film" target="com.lsmsdbgroup.pisaflix.Entities.Entity"/>
+    <IsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.Entities.User" target="com.lsmsdbgroup.pisaflix.Entities.Entity"/>
+    <HasRelation name="commentSet" source="com.lsmsdbgroup.pisaflix.Entities.Film" target="com.lsmsdbgroup.pisaflix.Entities.Comment" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Comment&gt;"/>
+    <HasRelation name="commentSet" source="com.lsmsdbgroup.pisaflix.Entities.User" target="com.lsmsdbgroup.pisaflix.Entities.Comment" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Comment&gt;"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

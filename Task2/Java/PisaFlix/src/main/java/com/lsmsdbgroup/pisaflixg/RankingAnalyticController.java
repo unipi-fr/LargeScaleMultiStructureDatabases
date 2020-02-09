@@ -44,7 +44,7 @@ public class RankingAnalyticController implements Initializable {
         public RankingResultProperty(int position, RankingResult rr) {
             this.position = new SimpleStringProperty(position + "");
             this.title_username = new SimpleStringProperty(rr.getTitle_username());
-            this.score = new SimpleStringProperty(rr.getScore() + "");
+            this.score = new SimpleStringProperty(rr.getScore() + " (" + rr.getCommentCount() + "," + rr.getFavouriteCount() + "," + rr.getViewCount() + ")");
             this.id = rr.getId();
         }
 
