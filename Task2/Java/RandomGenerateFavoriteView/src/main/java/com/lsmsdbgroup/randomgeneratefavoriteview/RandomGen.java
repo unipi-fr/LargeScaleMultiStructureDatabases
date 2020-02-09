@@ -21,8 +21,8 @@ public class RandomGen {
     private MongoCollection<Document> FilmCollection;
     private MongoCollection<Document> UserCollection;
     
-    private List<ObjectId> filmSet;
-    private List<ObjectId> userSet;
+    public List<ObjectId> filmSet;
+    public List<ObjectId> userSet;
     
     private Date d1;
     private Date d2;
@@ -84,29 +84,29 @@ public class RandomGen {
         return userSet;
     }
     
-    public Document generateViewDocument(String film, String user)
+    public Document generateViewDocument(String film, String user, Date date)
     {
         Document viewDoc = new Document()
                 .append("Film", film)
-                .append("Timestamp", generateRandomIsoDate())
+                .append("Timestamp", date)
                 .append("Type", "VIEW")
                 .append("User", user);
         
         return viewDoc;
     }
     
-    public Document generateFavoriteDocument(String film, String user)
+    public Document generateFavoriteDocument(String film, String user, Date date)
     {
         Document viewDoc = new Document()
                 .append("Film", film)
-                .append("Timestamp", generateRandomIsoDate())
+                .append("Timestamp", date)
                 .append("Type", "FAVOURITE")
                 .append("User", user);
         
         return viewDoc;
     }
     
-    private Date generateRandomIsoDate(){
+    public Date generateRandomIsoDate(){
         Date randomDate = new Date(ThreadLocalRandom.current()
                               .nextLong(d1.getTime(), d2.getTime()));
         

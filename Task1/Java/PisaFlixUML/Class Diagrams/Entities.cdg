@@ -19,14 +19,14 @@
         <Method name="GettersAndSetters" returnType="void" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="Comment" package="com.lsmsdbgroup.pisaflix.Entities" visibility="public" xPosition="24.0" yPosition="475.0">
+    <Class name="Comment" package="com.lsmsdbgroup.pisaflix.Entities" visibility="public" xPosition="24.0" yPosition="607.0">
       <Fields>
         <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
         <Field name="idComment" type="Integer" visibility="private"/>
         <Field name="timestamp" type="Date" visibility="private"/>
         <Field name="text" type="String" visibility="private"/>
         <Field name="cinemaSet" type="Set&lt;Cinema&gt;" visibility="private"/>
-        <Field name="filmSet" type="Set&lt;Film&gt;" visibility="private"/>
+        <Field name="film" type="Set&lt;Film&gt;" visibility="private"/>
         <Field name="user" type="User" visibility="private"/>
       </Fields>
       <Constructors>
@@ -36,7 +36,7 @@
         <Method name="GettersAndSetters" returnType="void" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="Film" package="com.lsmsdbgroup.pisaflix.Entities" visibility="public" xPosition="667.0" yPosition="456.0">
+    <Class name="Film" package="com.lsmsdbgroup.pisaflix.Entities" visibility="public" xPosition="715.0" yPosition="607.0">
       <Fields>
         <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
         <Field name="idFilm" type="Integer" visibility="private"/>
@@ -54,7 +54,7 @@
         <Method name="GettersAndSetters" returnType="void" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="Projection" package="com.lsmsdbgroup.pisaflix.Entities" visibility="public" xPosition="675.0" yPosition="11.0">
+    <Class name="Projection" package="com.lsmsdbgroup.pisaflix.Entities" visibility="public" xPosition="715.0" yPosition="23.0">
       <Fields>
         <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
         <Field name="idProjection" type="Integer" visibility="private"/>
@@ -70,7 +70,7 @@
         <Method name="GettersAndSetters" returnType="void" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="User" package="com.lsmsdbgroup.pisaflix.Entities" visibility="public" xPosition="355.0" yPosition="217.0">
+    <Class name="User" package="com.lsmsdbgroup.pisaflix.Entities" visibility="public" xPosition="378.0" yPosition="277.0">
       <Fields>
         <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
         <Field name="idUser" type="Integer" visibility="private"/>
@@ -93,33 +93,21 @@
     </Class>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Cinema" target="com.lsmsdbgroup.pisaflix.Entities.Projection" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="projectionSet" source="com.lsmsdbgroup.pisaflix.Entities.Cinema" target="com.lsmsdbgroup.pisaflix.Entities.Projection" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Projection&gt;"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Projection" target="com.lsmsdbgroup.pisaflix.Entities.Cinema" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Film" target="com.lsmsdbgroup.pisaflix.Entities.Projection" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="idCinema" source="com.lsmsdbgroup.pisaflix.Entities.Projection" target="com.lsmsdbgroup.pisaflix.Entities.Cinema" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="userSet" source="com.lsmsdbgroup.pisaflix.Entities.Film" target="com.lsmsdbgroup.pisaflix.Entities.User" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;User&gt;"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Cinema" target="com.lsmsdbgroup.pisaflix.Entities.User" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="commentSet" source="com.lsmsdbgroup.pisaflix.Entities.Film" target="com.lsmsdbgroup.pisaflix.Entities.Comment" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Comment&gt;"/>
-    <HasRelation name="cinemaSet" source="com.lsmsdbgroup.pisaflix.Entities.User" target="com.lsmsdbgroup.pisaflix.Entities.Cinema" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Cinema&gt;"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Film" target="com.lsmsdbgroup.pisaflix.Entities.User" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.User" target="com.lsmsdbgroup.pisaflix.Entities.Comment" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="filmSet" source="com.lsmsdbgroup.pisaflix.Entities.Comment" target="com.lsmsdbgroup.pisaflix.Entities.Film" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Film&gt;"/>
-    <HasRelation name="commentSet" source="com.lsmsdbgroup.pisaflix.Entities.User" target="com.lsmsdbgroup.pisaflix.Entities.Comment" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Comment&gt;"/>
-    <HasRelation name="filmSet" source="com.lsmsdbgroup.pisaflix.Entities.User" target="com.lsmsdbgroup.pisaflix.Entities.Film" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Film&gt;"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Film" target="com.lsmsdbgroup.pisaflix.Entities.Comment" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Comment" target="com.lsmsdbgroup.pisaflix.Entities.Cinema" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Comment" target="com.lsmsdbgroup.pisaflix.Entities.User" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="user" source="com.lsmsdbgroup.pisaflix.Entities.Comment" target="com.lsmsdbgroup.pisaflix.Entities.User" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
     <HasRelation name="cinemaSet" source="com.lsmsdbgroup.pisaflix.Entities.Comment" target="com.lsmsdbgroup.pisaflix.Entities.Cinema" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Cinema&gt;"/>
-    <HasRelation name="idFilm" source="com.lsmsdbgroup.pisaflix.Entities.Projection" target="com.lsmsdbgroup.pisaflix.Entities.Film" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="filmSet" source="com.lsmsdbgroup.pisaflix.Entities.User" target="com.lsmsdbgroup.pisaflix.Entities.Film" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Film&gt;"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Film" target="com.lsmsdbgroup.pisaflix.Entities.Projection" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="userSet" source="com.lsmsdbgroup.pisaflix.Entities.Film" target="com.lsmsdbgroup.pisaflix.Entities.User" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;User&gt;"/>
+    <HasRelation name="commentSet" source="com.lsmsdbgroup.pisaflix.Entities.Film" target="com.lsmsdbgroup.pisaflix.Entities.Comment" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Comment&gt;"/>
+    <HasRelation name="projectionSet" source="com.lsmsdbgroup.pisaflix.Entities.Film" target="com.lsmsdbgroup.pisaflix.Entities.Projection" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Projection&gt;"/>
+    <HasRelation name="film" source="com.lsmsdbgroup.pisaflix.Entities.Comment" target="com.lsmsdbgroup.pisaflix.Entities.Film" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1" collectionType="Set&lt;Film&gt;"/>
+    <HasRelation name="user" source="com.lsmsdbgroup.pisaflix.Entities.Comment" target="com.lsmsdbgroup.pisaflix.Entities.User" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Projection" target="com.lsmsdbgroup.pisaflix.Entities.Film" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="commentSet" source="com.lsmsdbgroup.pisaflix.Entities.User" target="com.lsmsdbgroup.pisaflix.Entities.Comment" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Comment&gt;"/>
     <HasRelation name="commentSet" source="com.lsmsdbgroup.pisaflix.Entities.Cinema" target="com.lsmsdbgroup.pisaflix.Entities.Comment" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Comment&gt;"/>
     <HasRelation name="userSet" source="com.lsmsdbgroup.pisaflix.Entities.Cinema" target="com.lsmsdbgroup.pisaflix.Entities.User" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;User&gt;"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.User" target="com.lsmsdbgroup.pisaflix.Entities.Cinema" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.User" target="com.lsmsdbgroup.pisaflix.Entities.Film" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="projectionSet" source="com.lsmsdbgroup.pisaflix.Entities.Film" target="com.lsmsdbgroup.pisaflix.Entities.Projection" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Projection&gt;"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Projection" target="com.lsmsdbgroup.pisaflix.Entities.Film" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Comment" target="com.lsmsdbgroup.pisaflix.Entities.Film" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.Entities.Cinema" target="com.lsmsdbgroup.pisaflix.Entities.Comment" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="projectionSet" source="com.lsmsdbgroup.pisaflix.Entities.Cinema" target="com.lsmsdbgroup.pisaflix.Entities.Projection" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Projection&gt;"/>
+    <HasRelation name="idCinema" source="com.lsmsdbgroup.pisaflix.Entities.Projection" target="com.lsmsdbgroup.pisaflix.Entities.Cinema" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="cinemaSet" source="com.lsmsdbgroup.pisaflix.Entities.User" target="com.lsmsdbgroup.pisaflix.Entities.Cinema" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Set&lt;Cinema&gt;"/>
+    <HasRelation name="idFilm" source="com.lsmsdbgroup.pisaflix.Entities.Projection" target="com.lsmsdbgroup.pisaflix.Entities.Film" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
   </ClassDiagramRelations>
 </ClassDiagram>

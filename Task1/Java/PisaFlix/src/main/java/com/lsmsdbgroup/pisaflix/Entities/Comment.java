@@ -30,13 +30,15 @@ public class Comment implements Serializable {
         @JoinColumn(name = "idComment", referencedColumnName = "idComment")}, inverseJoinColumns = {
         @JoinColumn(name = "idCinema", referencedColumnName = "idCinema")})
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Cinema> cinemaSet = new LinkedHashSet<>();
+    private Set<Cinema> cinema = new LinkedHashSet<>();
+    // E' necessario usare un set ma rappresenta una singola entita'
 
     @JoinTable(name = "Film_has_Comment", joinColumns = {
         @JoinColumn(name = "idComment", referencedColumnName = "idComment")}, inverseJoinColumns = {
         @JoinColumn(name = "idFilm", referencedColumnName = "idFilm")})
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Film> filmSet = new LinkedHashSet<>();
+    private Set<Film> film = new LinkedHashSet<>();
+    // E' necessario usare un set ma rappresenta una singola entita'
 
     @JoinColumn(name = "idUser", referencedColumnName = "idUser")
     @ManyToOne(fetch = FetchType.EAGER)
@@ -61,7 +63,7 @@ public class Comment implements Serializable {
         this.timestamp = timestamp;
         this.text = text;
         this.user = user;
-        filmSet.add(film);
+        this.film.add(film);
 
     }
 
@@ -71,7 +73,7 @@ public class Comment implements Serializable {
         this.timestamp = timestamp;
         this.text = text;
         this.user = user;
-        cinemaSet.add(cinema);
+        this.cinema.add(cinema);
     }
 
     public Integer getIdComment() {
@@ -98,20 +100,20 @@ public class Comment implements Serializable {
         this.text = text;
     }
 
-    public Set<Cinema> getCinemaSet() {
-        return cinemaSet;
+    public Set<Cinema> getCinema() {
+        return cinema;
     }
 
-    public void setCinemaSet(Set<Cinema> cinemaSet) {
-        this.cinemaSet = cinemaSet;
+    public void setCinema(Set<Cinema> cinema) {
+        this.cinema = cinema;
     }
 
-    public Set<Film> getFilmSet() {
-        return filmSet;
+    public Set<Film> getFilm() {
+        return film;
     }
 
-    public void setFilmSet(Set<Film> filmSet) {
-        this.filmSet = filmSet;
+    public void setFilm(Set<Film> film) {
+        this.film = film;
     }
 
     public User getUser() {
@@ -147,15 +149,15 @@ public class Comment implements Serializable {
     @Override
     public String toString() {
 
-        if (!filmSet.isEmpty()) {
+        if (!film.isEmpty()) {
             return "[ idComment= " + idComment + " ]\nuser: " + user.toString()
                     + "\ntimestamp:" + timestamp.toString() + "\ntext:" + text
-                    + "\nfilm: " + filmSet.toString();
+                    + "\nfilm: " + film.toString();
         }
 
         return "[ idComment= " + idComment + " ]\nuser: " + user.toString()
                 + "\ntimestamp:" + timestamp.toString() + "\ntext:" + text
-                + "\ncinema: " + cinemaSet.toString();
+                + "\ncinema: " + cinema.toString();
 
     }
 

@@ -192,7 +192,7 @@ public class CommentController implements Initializable {
             }
 
             if (type == 0) {
-                Film film = comment.getFilmSet().iterator().next();
+                Film film = comment.getFilm().iterator().next();
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
                 Pane anchorPane = null;
@@ -209,7 +209,7 @@ public class CommentController implements Initializable {
                 filmDetailPageController.refreshFilm();
                 filmDetailPageController.refreshComment();
             } else {
-                Cinema cinema = comment.getCinemaSet().iterator().next();
+                Cinema cinema = comment.getCinema().iterator().next();
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("CinemaDetailPage.fxml"));
                 Pane anchorPane = null;
