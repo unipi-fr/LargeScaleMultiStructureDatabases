@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="Multi-package class diagram">
+  <ClassDiagramComponents>
+    <Class name="AnalyticsService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="216.0" yPosition="1334.0">
+      <Fields>
+        <Field name="analyticsManager" type="AnalyticsManagerDatabaseInterface" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="AnalyticsManagerDatabaseInterface" name="analyticsManager"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="engagementAnalytics" returnType="Entity" visibility="public">
+          <Argument type="Date" name="startdate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="Entity" name="entity"/>
+        </Method>
+        <Method name="ratingAnalytics" returnType="RatingType" visibility="public">
+          <Argument type="Date" name="startdate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="RatingType" name="typeOfRating"/>
+        </Method>
+        <Method name="rankingAnalytics" returnType="RankingType" visibility="public">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="RankingType" name="typeOfRanking"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="AuthenticationService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="2604.0" yPosition="732.0">
+      <Fields>
+        <Field name="loggedUser" type="User" visibility="private"/>
+        <Field name="userManager" type="UserManagerDatabaseInterface" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="package">
+          <Argument type="UserManagerDatabaseInterface" name="userManager"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="login" returnType="String" visibility="public">
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="password"/>
+        </Method>
+        <Method name="logout" returnType="void" visibility="public"/>
+        <Method name="isUserLogged" returnType="boolean" visibility="public"/>
+        <Method name="getInfoString" returnType="String" visibility="public"/>
+        <Method name="SHA256" returnType="String" visibility="private">
+          <Argument type="String" name="text"/>
+        </Method>
+        <Method name="getLoggedUser" returnType="User" visibility="public"/>
+        <Method name="checkUserPrivilegesForOperation" returnType="UserPrivileges" visibility="public">
+          <Argument type="UserPrivileges" name="privilegesToAchieve"/>
+        </Method>
+        <Method name="checkUserPrivilegesForOperation" returnType="String" visibility="public">
+          <Argument type="UserPrivileges" name="privilegesToAchieve"/>
+          <Argument type="String" name="operation"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="CommentService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="791.0" yPosition="15.0">
+      <Fields>
+        <Field name="commentManager" type="CommentManagerDatabaseInterface" visibility="private" isFinal="true"/>
+        <Field name="authenticationService" type="AuthenticationServiceInterface1" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="package">
+          <Argument type="CommentManagerDatabaseInterface" name="commentManager"/>
+          <Argument type="AuthenticationServiceInterface" name="authenticationService"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="update" returnType="Comment" visibility="public">
+          <Argument type="Comment" name="comment"/>
+        </Method>
+        <Method name="canUpdateOrDeleteComment" returnType="String" visibility="private">
+          <Argument type="Comment" name="comment"/>
+          <Argument type="String" name="operation"/>
+        </Method>
+        <Method name="getById" returnType="String" visibility="public">
+          <Argument type="String" name="id"/>
+        </Method>
+        <Method name="delete" returnType="Comment" visibility="public">
+          <Argument type="Comment" name="comment"/>
+        </Method>
+        <Method name="count" returnType="Entity" visibility="public">
+          <Argument type="Entity" name="user"/>
+        </Method>
+        <Method name="addComment" returnType="Film" visibility="public">
+          <Argument type="String" name="text"/>
+          <Argument type="User" name="user"/>
+          <Argument type="Film" name="film"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="EngageService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="2125.0" yPosition="1474.0">
+      <Fields>
+        <Field name="engageManager" type="EngageManagerDatabaseInterface" visibility="private" isFinal="true"/>
+        <Field name="authenticationService" type="AuthenticationServiceInterface1" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="package">
+          <Argument type="EngageManagerDatabaseInterface" name="engageManager"/>
+          <Argument type="AuthenticationServiceInterface" name="authenticationService"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="create" returnType="EngageType" visibility="public">
+          <Argument type="User" name="user"/>
+          <Argument type="Film" name="film"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+        <Method name="delete" returnType="String" visibility="public">
+          <Argument type="String" name="idEngage"/>
+        </Method>
+        <Method name="getById" returnType="String" visibility="public">
+          <Argument type="String" name="engageId"/>
+        </Method>
+        <Method name="getEngageSet" returnType="EngageType" visibility="public">
+          <Argument type="Entity" name="entity"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+        <Method name="deleteFiltred" returnType="EngageType" visibility="public">
+          <Argument type="User" name="user"/>
+          <Argument type="Film" name="film"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+        <Method name="count" returnType="EngageType" visibility="public">
+          <Argument type="Entity" name="entity"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+        <Method name="isAlreadyPresent" returnType="EngageType" visibility="public">
+          <Argument type="User" name="userLogged"/>
+          <Argument type="Film" name="film"/>
+          <Argument type="EngageType" name="entityType"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="FilmService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="1460.0" yPosition="379.0">
+      <Fields>
+        <Field name="filmManager" type="FilmManagerDatabaseInterface" visibility="private" isFinal="true"/>
+        <Field name="authenticationService" type="AuthenticationServiceInterface1" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="package">
+          <Argument type="FilmManagerDatabaseInterface" name="filmManager"/>
+          <Argument type="AuthenticationServiceInterface" name="authenticationService"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getFilmsFiltered" returnType="double" visibility="public">
+          <Argument type="String" name="titleFilter"/>
+          <Argument type="Date" name="startDateFilter"/>
+          <Argument type="Date" name="endDateFilter"/>
+          <Argument type="double" name="adultnessMargin"/>
+        </Method>
+        <Method name="getAll" returnType="Set&lt;Film&gt;" visibility="public"/>
+        <Method name="getById" returnType="String" visibility="public">
+          <Argument type="String" name="id"/>
+        </Method>
+        <Method name="addFilm" returnType="String" visibility="public">
+          <Argument type="String" name="title"/>
+          <Argument type="Date" name="publicationDate"/>
+          <Argument type="String" name="description"/>
+        </Method>
+        <Method name="deleteFilm" returnType="String" visibility="public">
+          <Argument type="String" name="idFilm"/>
+        </Method>
+        <Method name="updateFilm" returnType="Film" visibility="public">
+          <Argument type="Film" name="film"/>
+        </Method>
+        <Method name="getRecentComments" returnType="Film" visibility="public">
+          <Argument type="Film" name="film"/>
+        </Method>
+        <Method name="addComment" returnType="String" visibility="public">
+          <Argument type="Film" name="film"/>
+          <Argument type="User" name="user"/>
+          <Argument type="String" name="text"/>
+        </Method>
+        <Method name="getCommentPageSize" returnType="long" visibility="public"/>
+        <Method name="getCommentPage" returnType="int" visibility="public">
+          <Argument type="Film" name="film"/>
+          <Argument type="int" name="page"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="PisaFlixServices" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="841.0" yPosition="878.0">
+      <Fields>
+        <Field name="authenticationService" type="AuthenticationServiceInterface1" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="userService" type="UserServiceInterface1" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="filmService" type="FilmServiceInterface1" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="commentService" type="CommentServiceInterface1" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="engageService" type="EngageServiceInterface1" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="analyticService" type="AnalyticsServiceInterface1" visibility="public" isStatic="true" isFinal="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="UserService" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="2845.0" yPosition="1075.0">
+      <Fields>
+        <Field name="authenticationService" type="AuthenticationServiceInterface1" visibility="private" isFinal="true"/>
+        <Field name="userManager" type="UserManagerDatabaseInterface" visibility="private" isFinal="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="package">
+          <Argument type="UserManagerDatabaseInterface" name="userManager"/>
+          <Argument type="AuthenticationServiceInterface" name="authenticationService"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="deleteLoggedAccount" returnType="void" visibility="public"/>
+        <Method name="getById" returnType="String" visibility="public">
+          <Argument type="String" name="id"/>
+        </Method>
+        <Method name="getAll" returnType="Set&lt;User&gt;" visibility="public"/>
+        <Method name="getFiltered" returnType="String" visibility="public">
+          <Argument type="String" name="nameFilter"/>
+        </Method>
+        <Method name="updateUser" returnType="User" visibility="public">
+          <Argument type="User" name="user"/>
+        </Method>
+        <Method name="deleteUserAccount" returnType="User" visibility="public">
+          <Argument type="User" name="user"/>
+        </Method>
+        <Method name="changeUserPrivileges" returnType="UserPrivileges" visibility="public">
+          <Argument type="User" name="u"/>
+          <Argument type="UserPrivileges" name="newPrivilegeLevel"/>
+        </Method>
+        <Method name="checkDuplicates" returnType="String" visibility="private">
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="email"/>
+        </Method>
+        <Method name="getFavourites" returnType="User" visibility="public">
+          <Argument type="User" name="user"/>
+        </Method>
+        <Method name="register" returnType="String" visibility="public">
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="password"/>
+          <Argument type="String" name="email"/>
+          <Argument type="String" name="firstName"/>
+          <Argument type="String" name="lastName"/>
+        </Method>
+        <Method name="SHA256" returnType="String" visibility="private">
+          <Argument type="String" name="text"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Interface name="AnalyticsServiceInterface" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="216.0" yPosition="1140.0">
+      <Methods>
+        <Method name="ratingAnalytics" returnType="RatingType" visibility="package">
+          <Argument type="Date" name="startdate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="RatingType" name="typeOfRating"/>
+        </Method>
+        <Method name="rankingAnalytics" returnType="RankingType" visibility="package">
+          <Argument type="Date" name="startDate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="RankingType" name="typeOfRanking"/>
+        </Method>
+        <Method name="engagementAnalytics" returnType="Entity" visibility="package">
+          <Argument type="Date" name="startdate"/>
+          <Argument type="Date" name="endDate"/>
+          <Argument type="Entity" name="entity"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="AuthenticationServiceInterface" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="2548.0" yPosition="74.0">
+      <Methods>
+        <Method name="login" returnType="String" visibility="package">
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="password"/>
+        </Method>
+        <Method name="logout" returnType="void" visibility="package"/>
+        <Method name="isUserLogged" returnType="boolean" visibility="package"/>
+        <Method name="getInfoString" returnType="String" visibility="package"/>
+        <Method name="getLoggedUser" returnType="User" visibility="package"/>
+        <Method name="checkUserPrivilegesForOperation" returnType="UserPrivileges" visibility="package">
+          <Argument type="UserPrivileges" name="privilegesToAchieve"/>
+        </Method>
+        <Method name="checkUserPrivilegesForOperation" returnType="String" visibility="package">
+          <Argument type="UserPrivileges" name="privilegesToAchieve"/>
+          <Argument type="String" name="operation"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="CommentServiceInterface" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="297.0" yPosition="681.0">
+      <Methods>
+        <Method name="addComment" returnType="Film" visibility="package">
+          <Argument type="String" name="text"/>
+          <Argument type="User" name="user"/>
+          <Argument type="Film" name="film"/>
+        </Method>
+        <Method name="update" returnType="Comment" visibility="package">
+          <Argument type="Comment" name="comment"/>
+        </Method>
+        <Method name="getById" returnType="String" visibility="package">
+          <Argument type="String" name="id"/>
+        </Method>
+        <Method name="delete" returnType="Comment" visibility="package">
+          <Argument type="Comment" name="comment"/>
+        </Method>
+        <Method name="count" returnType="Entity" visibility="package">
+          <Argument type="Entity" name="user"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="EngageServiceInterface" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="772.0" yPosition="1286.0">
+      <Methods>
+        <Method name="create" returnType="EngageType" visibility="package">
+          <Argument type="User" name="user"/>
+          <Argument type="Film" name="film"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+        <Method name="delete" returnType="String" visibility="package">
+          <Argument type="String" name="idEngage"/>
+        </Method>
+        <Method name="getById" returnType="String" visibility="package">
+          <Argument type="String" name="engageId"/>
+        </Method>
+        <Method name="getEngageSet" returnType="EngageType" visibility="package">
+          <Argument type="Entity" name="entity"/>
+          <Argument type="int" name="limit"/>
+          <Argument type="int" name="skip"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+        <Method name="deleteFiltred" returnType="EngageType" visibility="package">
+          <Argument type="User" name="user"/>
+          <Argument type="Film" name="film"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+        <Method name="count" returnType="EngageType" visibility="package">
+          <Argument type="Entity" name="entity"/>
+          <Argument type="EngageType" name="type"/>
+        </Method>
+        <Method name="isAlreadyPresent" returnType="EngageType" visibility="package">
+          <Argument type="User" name="userLogged"/>
+          <Argument type="Film" name="film"/>
+          <Argument type="EngageType" name="entityType"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="FilmServiceInterface" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="779.0" yPosition="413.0">
+      <Methods>
+        <Method name="getFilmsFiltered" returnType="double" visibility="package">
+          <Argument type="String" name="titleFilter"/>
+          <Argument type="Date" name="startDateFilter"/>
+          <Argument type="Date" name="endDateFilter"/>
+        </Method>
+        <Method name="getAll" returnType="Set&lt;Film&gt;" visibility="package"/>
+        <Method name="getById" returnType="String" visibility="package">
+          <Argument type="String" name="id"/>
+        </Method>
+        <Method name="addFilm" returnType="String" visibility="package">
+          <Argument type="String" name="title"/>
+          <Argument type="Date" name="publicationDate"/>
+          <Argument type="String" name="description"/>
+        </Method>
+        <Method name="updateFilm" returnType="Film" visibility="package">
+          <Argument type="Film" name="film"/>
+        </Method>
+        <Method name="deleteFilm" returnType="String" visibility="package">
+          <Argument type="String" name="idFilm"/>
+        </Method>
+        <Method name="getRecentComments" returnType="Film" visibility="package">
+          <Argument type="Film" name="film"/>
+        </Method>
+        <Method name="addComment" returnType="String" visibility="package">
+          <Argument type="Film" name="film"/>
+          <Argument type="User" name="user"/>
+          <Argument type="String" name="text"/>
+        </Method>
+        <Method name="getCommentPageSize" returnType="long" visibility="package"/>
+        <Method name="getCommentPage" returnType="int" visibility="package">
+          <Argument type="Film" name="film"/>
+          <Argument type="int" name="page"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="UserServiceInterface" package="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces" visibility="public" xPosition="1460.0" yPosition="1181.0">
+      <Methods>
+        <Method name="deleteLoggedAccount" returnType="void" visibility="package"/>
+        <Method name="getById" returnType="String" visibility="package">
+          <Argument type="String" name="id"/>
+        </Method>
+        <Method name="getAll" returnType="Set&lt;User&gt;" visibility="package"/>
+        <Method name="getFiltered" returnType="String" visibility="package">
+          <Argument type="String" name="nameFilter"/>
+        </Method>
+        <Method name="register" returnType="String" visibility="package">
+          <Argument type="String" name="username"/>
+          <Argument type="String" name="password"/>
+          <Argument type="String" name="email"/>
+          <Argument type="String" name="firstName"/>
+          <Argument type="String" name="lastName"/>
+        </Method>
+        <Method name="updateUser" returnType="User" visibility="package">
+          <Argument type="User" name="user"/>
+        </Method>
+        <Method name="deleteUserAccount" returnType="User" visibility="package">
+          <Argument type="User" name="u"/>
+        </Method>
+        <Method name="changeUserPrivileges" returnType="UserPrivileges" visibility="package">
+          <Argument type="User" name="u"/>
+          <Argument type="UserPrivileges" name="newPrivilegeLevel"/>
+        </Method>
+        <Method name="getFavourites" returnType="User" visibility="package">
+          <Argument type="User" name="user"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Enum name="UserPrivileges" package="com.lsmsdbgroup.pisaflix.pisaflixservices" visibility="public" xPosition="2148.0" yPosition="1009.0">
+      <Literals>
+        <Literal name="NORMAL_USER"/>
+        <Literal name="SOCIAL_MODERATOR"/>
+        <Literal name="MODERATOR"/>
+        <Literal name="ADMIN"/>
+      </Literals>
+    </Enum>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.AuthenticationService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.AuthenticationServiceInterface"/>
+    <HasRelation name="userService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.UserServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="authenticationService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.EngageService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.AuthenticationServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.pisaflixservices.UserService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="analyticService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.AnalyticsServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="authenticationService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.UserService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.AuthenticationServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.AuthenticationServiceInterface" target="com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.EngageService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.EngageServiceInterface"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.UserServiceInterface" target="com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.FilmService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.FilmServiceInterface"/>
+    <HasRelation name="authenticationService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.AuthenticationServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="authenticationService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.CommentService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.AuthenticationServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="com.lsmsdbgroup.pisaflix.pisaflixservices.AuthenticationService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.UserService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.UserServiceInterface"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.AnalyticsService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.AnalyticsServiceInterface"/>
+    <HasRelation name="filmService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.FilmServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="engageService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.EngageServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.pisaflixservices.CommentService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.CommentServiceInterface"/>
+    <HasRelation name="commentService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.PisaFlixServices" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.CommentServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="authenticationService" source="com.lsmsdbgroup.pisaflix.pisaflixservices.FilmService" target="com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.AuthenticationServiceInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
