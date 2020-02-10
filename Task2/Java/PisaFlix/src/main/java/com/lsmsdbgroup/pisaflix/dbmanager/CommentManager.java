@@ -11,7 +11,8 @@ import com.mongodb.client.model.UpdateOptions;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
-public class CommentManager extends EngageManager implements CommentManagerDatabaseInterface  {
+public class CommentManager extends EngageManager implements CommentManagerDatabaseInterface {
+
     private static CommentManager CommentManager;
 
     public static CommentManager getIstance() {
@@ -20,22 +21,22 @@ public class CommentManager extends EngageManager implements CommentManagerDatab
         }
         return CommentManager;
     }
- 
-@Override
+
+    @Override
     public void createComment(Comment comment) {
         Document commentDocument = new Document()
                 .append("Text", comment.getText())
                 .append("User", comment.getUser().getId())
                 .append("Film", comment.getFilm().getId())
                 .append("Type", EngageType.COMMENT.toString());
-                
-        if(comment.getTimestamp()== null){           
+
+        if (comment.getTimestamp() == null) {
             commentDocument.put("Timestamp", new Date());
-        }else{
+        } else {
             commentDocument.put("Timestamp", comment.getTimestamp());
         }
-        
-        if(comment.getLastModified()!= null){           
+
+        if (comment.getLastModified() != null) {
             commentDocument.put("LastModified", comment.getTimestamp());
         }
         //Upsert insert if documnet does't already exists
@@ -51,13 +52,13 @@ public class CommentManager extends EngageManager implements CommentManagerDatab
 
     @Override
     public void update(Comment comment, String text) {
-        if(comment.isRecent()){
+        if (comment.isRecent()) {
             DBManager.filmManager.updateComment(comment);
             return;
         }
-        
+
         try {
-            EngageCollection.updateOne(eq("_id", new ObjectId(comment.getId())), new Document("$set", new Document("Text",text).append("LastModified", new Date())));
+            EngageCollection.updateOne(eq("_id", new ObjectId(comment.getId())), new Document("$set", new Document("Text", text).append("LastModified", new Date())));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in updating the Comment!");
@@ -72,40 +73,40 @@ public class CommentManager extends EngageManager implements CommentManagerDatab
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in retriving a comment!");
-        } 
+        }
         return comment;
     }
-    
+
     @Override
-    public void delete(Comment comment){
-        if(comment.isRecent() ){
-           DBManager.filmManager.deleteComment(comment); 
-        }else{
-           super.delete(comment.getId());
-        }       
+    public void delete(Comment comment) {
+        if (comment.isRecent()) {
+            DBManager.filmManager.deleteComment(comment);
+        } else {
+            super.delete(comment.getId());
+        }
     }
-    
+
     @Override
-    public void deleteAllRelated(Entity entity){
+    public void deleteAllRelated(Entity entity) {
         super.deleteAllRelated(entity); //Aggiungere il tipo!!!!!!!
     }
-    
+
     @Override
-    public Set<Comment> getAll(Film film, int skip, int limit){
+    public Set<Comment> getAll(Film film, int skip, int limit) {
         Set<Comment> commentSet = new LinkedHashSet<>();
-        try (MongoCursor<Document> cursor = EngageCollection.find(and(eq("Film", film.getId()), eq("Type",EngageType.COMMENT.toString()))).sort(sort).limit(limit).skip(skip).iterator()) {
-            while(cursor.hasNext()){
+        try (MongoCursor<Document> cursor = EngageCollection.find(and(eq("Film", film.getId()), eq("Type", EngageType.COMMENT.toString()))).sort(sort).limit(limit).skip(skip).iterator()) {
+            while (cursor.hasNext()) {
                 commentSet.add(new Comment(cursor.next()));
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in retriving the comments!");
-        } 
+        }
         return commentSet;
     }
-    
+
     @Override
-    public long count(Entity entity){
+    public long count(Entity entity) {
         return DBManager.engageManager.count(entity, EngageType.COMMENT) + DBManager.filmManager.count(entity);
     }
 }

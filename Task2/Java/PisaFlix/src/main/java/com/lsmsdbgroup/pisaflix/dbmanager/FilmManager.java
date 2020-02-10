@@ -115,15 +115,15 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
     @Override
     public Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int userLimit, int skip, double adultnessMargin) {
-        double margin = ((1.0 - adultnessMargin)*(maxAdultness - minAdultness))+minAdultness;
-        
+        double margin = ((1.0 - adultnessMargin) * (maxAdultness - minAdultness)) + minAdultness;
+
         int limit;
-        if(userLimit<filmLimit && userLimit != 0){
+        if (userLimit < filmLimit && userLimit != 0) {
             limit = userLimit;
-        }else{
+        } else {
             limit = filmLimit;
         }
-        
+
         Set<Film> filmSet = new LinkedHashSet<>();
         List filters = new ArrayList();
 
@@ -131,19 +131,19 @@ public class FilmManager implements FilmManagerDatabaseInterface {
             return getAll(limit, skip);
         }
 
-        if (titleFilter != null) {  
+        if (titleFilter != null) {
             for (String words : titleFilter.split(" ")) {
                 filters.add(regex("Title", ".*" + words.trim() + ".*", "i"));
                 filters.add(regex("Tags", ".*" + words.trim() + ".*", "i"));
             }
         }
 
-        Document countDocument = FilmCollection.aggregate(Arrays.asList(        //Conta i risultati che contengono ALMENO una parola inserita
+        Document countDocument = FilmCollection.aggregate(Arrays.asList( //Conta i risultati che contengono ALMENO una parola inserita
                 Aggregates.match(and(or(filters), lt("Adultness", margin))),
                 Aggregates.count())).first();
 
         if (countDocument != null && (int) countDocument.get("count") >= limit) {  //Se sono troppi rispetto a quelli mostrabili
-            countDocument = FilmCollection.aggregate(Arrays.asList(             //Conta i risultati con la stringa ESATTA inserita
+            countDocument = FilmCollection.aggregate(Arrays.asList( //Conta i risultati con la stringa ESATTA inserita
                     Aggregates.match(and(regex("Title", ".*" + titleFilter.trim() + ".*", "i"), lt("Adultness", margin))),
                     Aggregates.count())).first();
             if (countDocument != null && (int) countDocument.get("count") > 0) {//Se ce ne sono mostra quelli
@@ -282,9 +282,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         return count;
     }
 
-
     //******************* DATA MINING ******************************************
-
     @Override //Preleva dal database un campione di film con ultima classifica di data precedente a quella passata
     public Set<Film> getFilmToBeClassified(Date date, int limit, int skip) {
         Set<Film> filmSet = new LinkedHashSet<>();
@@ -357,38 +355,38 @@ public class FilmManager implements FilmManagerDatabaseInterface {
             System.out.println("A problem occurred in resetting the clusters!");
         }
     }
-    
+
     //Trova il valore di "adultess" minimo tra tutti i film del DB
     public static double CalcMinAdultness() {
         Document countDocument = null;
         try {
             countDocument = FilmCollection.aggregate(Arrays.asList(
-                new Document( "$group", new Document(new Document("_id", null).append("Min",new Document("$min", "$Adultness")))))).first();
+                    new Document("$group", new Document(new Document("_id", null).append("Min", new Document("$min", "$Adultness")))))).first();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred!");
         }
         return countDocument.getDouble("Min");
     }
-    
+
     //Trova il valore di "adultess" massimo tra tutti i film del DB
     public static double CalcMaxAdultness() {
         Document countDocument = null;
         try {
             countDocument = FilmCollection.aggregate(Arrays.asList(
-                new Document( "$group", new Document(new Document("_id", null).append("Max",new Document("$max", "$Adultness")))))).first();
+                    new Document("$group", new Document(new Document("_id", null).append("Max", new Document("$max", "$Adultness")))))).first();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred!");
         }
         return countDocument.getDouble("Max");
     }
-    
+
     @Override //Getter per il valore massimo di "adultness"
     public double getMaxAdultness() {
         return maxAdultness;
     }
-    
+
     @Override //Getter per il valore minimo di "adultness"
     public double getMinAdultness() {
         return minAdultness;
@@ -397,7 +395,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     //Preleva un campione di film suggeriti nel caso siano maggiori rispetto al limite massimo,
     @Override //altrimenti aggiunge anche alcuni film recenti fino a raggiungimeto del limite
     public Set<Film> getSuggestedFilms(User user, double adultnessMargin) {
-        double margin = ((1.0 - adultnessMargin)*(maxAdultness - minAdultness))+minAdultness;
+        double margin = ((1.0 - adultnessMargin) * (maxAdultness - minAdultness)) + minAdultness;
         List filters = new ArrayList();
         DBManager.userManager.getFavourites(user);
         user.getFilmSet().forEach((film) -> {

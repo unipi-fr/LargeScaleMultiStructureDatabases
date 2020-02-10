@@ -19,7 +19,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     private static UserManager UserManager;
     private static MongoCollection<Document> UserCollection;
     //It's equal to sorting by registration date, index not needed
-    private final Document sort = new Document("_id",-1);
+    private final Document sort = new Document("_id", -1);
     private final int UsersLimit = 27;
 
     public static UserManager getIstance() {
@@ -54,15 +54,15 @@ public class UserManager implements UserManagerDatabaseInterface {
                 .append("Password", password)
                 .append("Email", email)
                 .append("PrivilegeLevel", privilegeLevel);
-        if(lastName != null && !"".equals(lastName)){
+        if (lastName != null && !"".equals(lastName)) {
             userDocument.put("LastName", lastName);
         }
-        if(firstName != null && !"".equals(firstName)){
+        if (firstName != null && !"".equals(firstName)) {
             userDocument.put("FirstName", firstName);
         }
         //Upsert insert if documnet does't already exists
         UpdateOptions options = new UpdateOptions().upsert(true);
-        
+
         List uniqueFields = new ArrayList();
         uniqueFields.add(new Document("Username", username));
         uniqueFields.add(new Document("Email", email));
@@ -97,23 +97,23 @@ public class UserManager implements UserManagerDatabaseInterface {
     public void update(String userId, String username, String firstName, String lastName, String email, String password, int privilegeLevel) {
         // code to update a user
         Document userDocument = new Document();
-        
-        if(username != null && !"".equals(username)){
+
+        if (username != null && !"".equals(username)) {
             userDocument.put("Username", username);
         }
-        if(email != null && !"".equals(email)){
+        if (email != null && !"".equals(email)) {
             userDocument.put("Email", email);
         }
-        if(password != null && !"".equals(password)){
+        if (password != null && !"".equals(password)) {
             userDocument.put("Password", password);
         }
-        if(privilegeLevel >= 0){
+        if (privilegeLevel >= 0) {
             userDocument.put("PrivilegeLevel", privilegeLevel);
         }
-        if(lastName != null && !"".equals(lastName)){
+        if (lastName != null && !"".equals(lastName)) {
             userDocument.put("lastName", lastName);
         }
-        if(firstName != null && !"".equals(firstName)){
+        if (firstName != null && !"".equals(firstName)) {
             userDocument.put("lastName", firstName);
         }
         try {
@@ -142,7 +142,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     @Override
     public Set<User> getByUsername(String username, int limit, int skip) {
         Set<User> userSet = new LinkedHashSet<>();
-        try(MongoCursor<Document> cursor = UserCollection.find(eq("Username", username)).sort(sort).limit(limit).skip(skip).iterator()) {
+        try (MongoCursor<Document> cursor = UserCollection.find(eq("Username", username)).sort(sort).limit(limit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 userSet.add(new User(cursor.next()));
             }
@@ -156,7 +156,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     @Override
     public Set<User> getByEmail(String email, int limit, int skip) {
         Set<User> userSet = new LinkedHashSet<>();
-        try(MongoCursor<Document> cursor = UserCollection.find(eq("Email", email)).sort(sort).limit(limit).skip(skip).iterator()) {
+        try (MongoCursor<Document> cursor = UserCollection.find(eq("Email", email)).sort(sort).limit(limit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 userSet.add(new User(cursor.next()));
             }
@@ -170,7 +170,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     @Override
     public boolean checkDuplicates(String username, String email, int limit, int skip) {
         Set<User> userSet = new LinkedHashSet<>();
-        try(MongoCursor<Document> cursor = UserCollection.find(or(new Document("Username", username),new Document("Email", email))).sort(sort).limit(limit).skip(skip).iterator()) {
+        try (MongoCursor<Document> cursor = UserCollection.find(or(new Document("Username", username), new Document("Email", email))).sort(sort).limit(limit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 userSet.add(new User(cursor.next()));
             }
@@ -180,9 +180,9 @@ public class UserManager implements UserManagerDatabaseInterface {
         }
         return !userSet.isEmpty();
     }
-    
+
     @Override
-    public void getFavourites(User user){
+    public void getFavourites(User user) {
         Set<Engage> engageSet = DBManager.engageManager.getEngageSet(user, 0, 0, EngageType.FAVOURITE);
         user.getFilmSet().clear();
         engageSet.forEach((engage) -> {
@@ -191,31 +191,37 @@ public class UserManager implements UserManagerDatabaseInterface {
     }
 
     @Override
-    public Set<User> getFiltered(String usernameFilter, int limit, int skip) {
-        Set<User> userSet = new LinkedHashSet<>();        
+    public Set<User> getFiltered(String usernameFilter, int passedLimit, int skip) {
+        Set<User> userSet = new LinkedHashSet<>();
         List filters = new ArrayList();
-        
+
+        int limit;
+        if (UsersLimit > passedLimit && passedLimit != 0) {
+            limit = passedLimit;
+        } else {
+            limit = UsersLimit;
+        }
+
         if (usernameFilter == null) {
             usernameFilter = "";
         }
-        
+
         // i flag = case insensitive
-        filters.add(regex("Username", ".*" + usernameFilter + ".*","i"));
-        
-        try (MongoCursor<Document> cursor = UserCollection.find(or(filters)).sort(sort).limit(UsersLimit).skip(skip).iterator()) {
+        filters.add(regex("Username", ".*" + usernameFilter + ".*", "i"));
+
+        try (MongoCursor<Document> cursor = UserCollection.find(or(filters)).sort(sort).limit(limit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
-                userSet.add(new User(cursor.next()));          
+                userSet.add(new User(cursor.next()));
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.out.println("A problem occurred in retrieve users filtered!");
         }
-        
+
         return userSet;
     }
-    
-    /****************** DATA MINING *******************************************/
-    
+
+    //****************** DATA MINING ******************************************
     @Override
     public void updateSafeSearchSettings(User user, double adultnessMargin) {
         Document userDocument = new Document()

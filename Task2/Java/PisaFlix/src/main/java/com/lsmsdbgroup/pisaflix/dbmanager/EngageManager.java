@@ -9,7 +9,6 @@ import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.client.model.UpdateOptions;
-import com.mongodb.client.result.UpdateResult;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashSet;
@@ -30,8 +29,8 @@ public class EngageManager implements EngageManagerDatabaseInterface {
         }
         return EngageManager;
     }
-    //It's equal to sorting by publication date, index not needed
-    protected final Document sort = new Document("_id", -1);
+
+    protected final Document sort = new Document("Timestamp", -1);
 
     protected EngageManager() {
         EngageCollection = DBManager.getMongoDatabase().getCollection("EngageCollection");
@@ -160,7 +159,7 @@ public class EngageManager implements EngageManagerDatabaseInterface {
         return count;
     }
 
-    /*
+    
     public void rename() {
         Engage engage = null;
         try (MongoCursor<Document> cursor = EngageCollection.find(Filters.or(Filters.exists("idFilm"), Filters.exists("idUser"))).iterator()) {
@@ -206,6 +205,5 @@ public class EngageManager implements EngageManagerDatabaseInterface {
         DBManager.start();
         EngageManager.deleteRandom();
         DBManager.stop();
-    } */
-
+    } 
 }

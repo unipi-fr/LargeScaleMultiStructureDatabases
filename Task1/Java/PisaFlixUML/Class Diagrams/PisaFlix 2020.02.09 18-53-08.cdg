@@ -2,7 +2,7 @@
 
 <ClassDiagram name="PisaFlix">
   <ClassDiagramComponents>
-    <Class name="AnalyticsManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="1578.0" yPosition="849.0">
+    <Class name="AnalyticsManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="1998.0" yPosition="1632.0">
       <Fields>
         <Field name="AnalyticsManager" type="AnalyticsManager" visibility="private" isStatic="true"/>
         <Field name="EngageCollection" type="MongoCollection&lt;Document&gt;" visibility="private" isFinal="true"/>
@@ -73,7 +73,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="CommentManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="259.0" yPosition="1217.0">
+    <Class name="CommentManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="58.0" yPosition="1483.0">
       <Fields>
         <Field name="CommentManager" type="CommentManager" visibility="private" isStatic="true"/>
       </Fields>
@@ -106,7 +106,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="DBManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="1139.0" yPosition="1545.0">
+    <Class name="DBManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="1271.0" yPosition="1518.0">
       <Fields>
         <Field name="MongoClient" type="MongoClient" visibility="private" isStatic="true" isFinal="true"/>
         <Field name="MongoDatabase" type="MongoDatabase" visibility="private" isStatic="true"/>
@@ -124,7 +124,7 @@
         <Method name="getMongoDatabase" returnType="MongoDatabase" visibility="public" isStatic="true"/>
       </Methods>
     </Class>
-    <Class name="EngageManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="428.0" yPosition="1870.0">
+    <Class name="EngageManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="202.0" yPosition="2156.0">
       <Fields>
         <Field name="EngageManager" type="EngageManager" visibility="private" isStatic="true"/>
         <Field name="EngageCollection" type="MongoCollection&lt;Document&gt;" visibility="protected"/>
@@ -171,15 +171,13 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="FilmManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="341.0" yPosition="1003.0">
+    <Class name="FilmManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="69.0" yPosition="413.0">
       <Fields>
         <Field name="FilmManager" type="FilmManager" visibility="private" isStatic="true"/>
         <Field name="FilmCollection" type="MongoCollection&lt;Document&gt;" visibility="private" isStatic="true"/>
         <Field name="sort" type="Document" visibility="private" isFinal="true"/>
         <Field name="commentPageSize" type="int" visibility="private" isFinal="true"/>
         <Field name="filmLimit" type="int" visibility="private" isFinal="true"/>
-        <Field name="maxAdultness" type="double" visibility="private"/>
-        <Field name="minAdultness" type="double" visibility="private"/>
       </Fields>
       <Constructors>
         <Constructor visibility="private"/>
@@ -241,34 +239,9 @@
         <Method name="count" returnType="long" visibility="public">
           <Argument type="Entity" name="entity"/>
         </Method>
-        <Method name="getFilmToBeClassified" returnType="Set&lt;Film&gt;" visibility="public">
-          <Argument type="Date" name="date"/>
-          <Argument type="int" name="limit"/>
-          <Argument type="int" name="skip"/>
-        </Method>
-        <Method name="updateClass" returnType="void" visibility="public">
-          <Argument type="String" name="idFilm"/>
-          <Argument type="double" name="adultness"/>
-        </Method>
-        <Method name="getFilmToBeClusterized" returnType="Set&lt;Film&gt;" visibility="public">
-          <Argument type="int" name="sample"/>
-          <Argument type="Date" name="date"/>
-        </Method>
-        <Method name="updateCluster" returnType="void" visibility="public">
-          <Argument type="Film" name="film"/>
-        </Method>
-        <Method name="resetClusters" returnType="void" visibility="public"/>
-        <Method name="CalcMinAdultness" returnType="double" visibility="public" isStatic="true"/>
-        <Method name="CalcMaxAdultness" returnType="double" visibility="public" isStatic="true"/>
-        <Method name="getMaxAdultness" returnType="double" visibility="public"/>
-        <Method name="getMinAdultness" returnType="double" visibility="public"/>
-        <Method name="getSuggestedFilms" returnType="Set&lt;Film&gt;" visibility="public">
-          <Argument type="User" name="user"/>
-          <Argument type="double" name="adultnessMargin"/>
-        </Method>
       </Methods>
     </Class>
-    <Class name="UserManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="1092.0" yPosition="874.0">
+    <Class name="UserManager" package="com.lsmsdbgroup.pisaflix.dbmanager" visibility="public" xPosition="1703.0" yPosition="490.0">
       <Fields>
         <Field name="UserManager" type="UserManager" visibility="private" isStatic="true"/>
         <Field name="UserCollection" type="MongoCollection&lt;Document&gt;" visibility="private" isStatic="true"/>
@@ -340,7 +313,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="EngageAnalyticController" package="com.lsmsdbgroup.pisaflixg" visibility="public" xPosition="1533.0" yPosition="2543.0">
+    <Class name="EngageAnalyticController" package="com.lsmsdbgroup.pisaflixg" visibility="public" xPosition="1658.0" yPosition="3884.0">
       <Fields>
         <Field name="provider" type="SuggestionProvider&lt;Film&gt;" visibility="package"/>
         <Field name="xAxis" type="CategoryAxis" visibility="private"/>
@@ -371,7 +344,7 @@
         <Method name="resetPieChart" returnType="void" visibility="private"/>
       </Methods>
     </Class>
-    <Interface name="AnalyticsManagerDatabaseInterface" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="1433.0" yPosition="1086.0">
+    <Interface name="AnalyticsManagerDatabaseInterface" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="2099.0" yPosition="1473.0">
       <Methods>
         <Method name="ratingAnalytics" returnType="Set&lt;AverageRatingResult&gt;" visibility="package">
           <Argument type="Date" name="startdate"/>
@@ -390,7 +363,7 @@
         </Method>
       </Methods>
     </Interface>
-    <Interface name="CommentManagerDatabaseInterface" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="815.0" yPosition="1496.0">
+    <Interface name="CommentManagerDatabaseInterface" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="614.0" yPosition="1473.0">
       <Methods>
         <Method name="createComment" returnType="void" visibility="package">
           <Argument type="Comment" name="comment"/>
@@ -418,7 +391,7 @@
         </Method>
       </Methods>
     </Interface>
-    <Interface name="EngageManagerDatabaseInterface" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="1101.0" yPosition="1777.0">
+    <Interface name="EngageManagerDatabaseInterface" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="1160.0" yPosition="1995.0">
       <Methods>
         <Method name="create" returnType="void" visibility="package">
           <Argument type="User" name="user"/>
@@ -456,7 +429,7 @@
         </Method>
       </Methods>
     </Interface>
-    <Interface name="FilmManagerDatabaseInterface" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="713.0" yPosition="1117.0">
+    <Interface name="FilmManagerDatabaseInterface" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="831.0" yPosition="377.0">
       <Methods>
         <Method name="getById" returnType="Film" visibility="package">
           <Argument type="String" name="filmId"/>
@@ -513,32 +486,9 @@
         <Method name="count" returnType="long" visibility="package">
           <Argument type="Entity" name="entity"/>
         </Method>
-        <Method name="updateClass" returnType="void" visibility="package">
-          <Argument type="String" name="idFilm"/>
-          <Argument type="double" name="adultness"/>
-        </Method>
-        <Method name="updateCluster" returnType="void" visibility="package">
-          <Argument type="Film" name="film"/>
-        </Method>
-        <Method name="getFilmToBeClassified" returnType="Set&lt;Film&gt;" visibility="package">
-          <Argument type="Date" name="date"/>
-          <Argument type="int" name="limit"/>
-          <Argument type="int" name="skip"/>
-        </Method>
-        <Method name="getFilmToBeClusterized" returnType="Set&lt;Film&gt;" visibility="package">
-          <Argument type="int" name="sample"/>
-          <Argument type="Date" name="date"/>
-        </Method>
-        <Method name="resetClusters" returnType="void" visibility="package"/>
-        <Method name="getSuggestedFilms" returnType="Set&lt;Film&gt;" visibility="package">
-          <Argument type="User" name="user"/>
-          <Argument type="double" name="adultnessMargin"/>
-        </Method>
-        <Method name="getMinAdultness" returnType="double" visibility="package"/>
-        <Method name="getMaxAdultness" returnType="double" visibility="package"/>
       </Methods>
     </Interface>
-    <Interface name="UserManagerDatabaseInterface" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="1062.0" yPosition="1086.0">
+    <Interface name="UserManagerDatabaseInterface" package="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces" visibility="public" xPosition="1715.0" yPosition="1016.0">
       <Methods>
         <Method name="getById" returnType="User" visibility="package">
           <Argument type="String" name="userId"/>
@@ -602,22 +552,21 @@
     </Interface>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
-    <UseRelation source="com.lsmsdbgroup.pisaflix.dbmanager.AnalyticsManager" target="com.lsmsdbgroup.pisaflix.dbmanager.AnalyticsManager" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.EngageManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.EngageManagerDatabaseInterface"/>
-    <HasRelation name="engageManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.EngageManagerDatabaseInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.FilmManagerDatabaseInterface"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.AnalyticsManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.AnalyticsManagerDatabaseInterface"/>
-    <IsRelation name="is" source="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" target="com.lsmsdbgroup.pisaflix.dbmanager.EngageManager"/>
-    <HasRelation name="userManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
     <HasRelation name="CommentManager" source="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" target="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="UserManager" source="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" target="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.AnalyticsManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.AnalyticsManagerDatabaseInterface"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface"/>
     <HasRelation name="AnalyticsManager" source="com.lsmsdbgroup.pisaflix.dbmanager.AnalyticsManager" target="com.lsmsdbgroup.pisaflix.dbmanager.AnalyticsManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="commentManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CommentManagerDatabaseInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="FilmManager" source="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" target="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CommentManagerDatabaseInterface"/>
-    <HasRelation name="EngageManager" source="com.lsmsdbgroup.pisaflix.dbmanager.EngageManager" target="com.lsmsdbgroup.pisaflix.dbmanager.EngageManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" target="com.lsmsdbgroup.pisaflix.dbmanager.EngageManager"/>
     <HasRelation name="analyticsManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.AnalyticsManagerDatabaseInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="engageManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.EngageManagerDatabaseInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="FilmManager" source="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" target="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="userManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="UserManager" source="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" target="com.lsmsdbgroup.pisaflix.dbmanager.UserManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.FilmManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.FilmManagerDatabaseInterface"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.CommentManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CommentManagerDatabaseInterface"/>
     <HasRelation name="filmManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.FilmManagerDatabaseInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="commentManager" source="com.lsmsdbgroup.pisaflix.dbmanager.DBManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.CommentManagerDatabaseInterface" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="com.lsmsdbgroup.pisaflix.dbmanager.EngageManager" target="com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.EngageManagerDatabaseInterface"/>
+    <HasRelation name="EngageManager" source="com.lsmsdbgroup.pisaflix.dbmanager.EngageManager" target="com.lsmsdbgroup.pisaflix.dbmanager.EngageManager" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
   </ClassDiagramRelations>
 </ClassDiagram>
