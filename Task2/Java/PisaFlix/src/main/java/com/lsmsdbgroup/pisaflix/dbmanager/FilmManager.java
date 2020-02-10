@@ -50,7 +50,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     @Override
     public Set<Film> getAll(int limit, int skip) {
         Set<Film> filmSet = new LinkedHashSet<>();
-        try (MongoCursor<Document> cursor = FilmCollection.find().projection(Projections.exclude("RecentComments")).sort(sort).skip(skip).iterator()) {
+        try (MongoCursor<Document> cursor = FilmCollection.find().projection(Projections.exclude("RecentComments")).sort(sort).limit(limit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 filmSet.add(new Film(cursor.next()));
             }
@@ -114,8 +114,16 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     }
 
     @Override
-    public Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit, int skip, double adultnessMargin) {
+    public Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int userLimit, int skip, double adultnessMargin) {
         double margin = ((1.0 - adultnessMargin)*(maxAdultness - minAdultness))+minAdultness;
+        
+        int limit;
+        if(userLimit<filmLimit && userLimit != 0){
+            limit = userLimit;
+        }else{
+            limit = filmLimit;
+        }
+        
         Set<Film> filmSet = new LinkedHashSet<>();
         List filters = new ArrayList();
 
@@ -134,12 +142,12 @@ public class FilmManager implements FilmManagerDatabaseInterface {
                 Aggregates.match(and(or(filters), lt("Adultness", margin))),
                 Aggregates.count())).first();
 
-        if (countDocument != null && (int) countDocument.get("count") >= filmLimit) {  //Se sono troppi rispetto a quelli mostrabili
+        if (countDocument != null && (int) countDocument.get("count") >= limit) {  //Se sono troppi rispetto a quelli mostrabili
             countDocument = FilmCollection.aggregate(Arrays.asList(             //Conta i risultati con la stringa ESATTA inserita
                     Aggregates.match(and(regex("Title", ".*" + titleFilter.trim() + ".*", "i"), lt("Adultness", margin))),
                     Aggregates.count())).first();
             if (countDocument != null && (int) countDocument.get("count") > 0) {//Se ce ne sono mostra quelli
-                try (MongoCursor<Document> cursor = FilmCollection.find(and(regex("Title", ".*" + titleFilter.trim() + ".*", "i"), lt("Adultness", margin))).projection(Projections.exclude("RecentComments")).sort(sort).limit(filmLimit).skip(skip).iterator()) {
+                try (MongoCursor<Document> cursor = FilmCollection.find(and(regex("Title", ".*" + titleFilter.trim() + ".*", "i"), lt("Adultness", margin))).projection(Projections.exclude("RecentComments")).sort(sort).limit(limit).skip(skip).iterator()) {
                     while (cursor.hasNext()) {
                         filmSet.add(new Film(cursor.next()));
                     }
@@ -152,7 +160,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
             filters.add(and(gte("PublicationDate", startDateFilter), lt("PublicationDate", endDateFilter)));
         }
 
-        try (MongoCursor<Document> cursor = FilmCollection.find(and(or(filters), lt("Adultness", margin))).projection(Projections.exclude("RecentComments")).sort(sort).limit(filmLimit).skip(skip).iterator()) {
+        try (MongoCursor<Document> cursor = FilmCollection.find(and(or(filters), lt("Adultness", margin))).projection(Projections.exclude("RecentComments")).sort(sort).limit(limit).skip(skip).iterator()) {
             while (cursor.hasNext()) {
                 filmSet.add(new Film(cursor.next()));
             }
