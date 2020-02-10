@@ -196,7 +196,7 @@ public class UserManager implements UserManagerDatabaseInterface {
         List filters = new ArrayList();
 
         int limit;
-        if (UsersLimit > passedLimit && passedLimit != 0) {
+        if (passedLimit != 0) {
             limit = passedLimit;
         } else {
             limit = UsersLimit;

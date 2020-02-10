@@ -159,7 +159,7 @@ public class EngageManager implements EngageManagerDatabaseInterface {
         return count;
     }
 
-    
+    /*
     public void rename() {
         Engage engage = null;
         try (MongoCursor<Document> cursor = EngageCollection.find(Filters.or(Filters.exists("idFilm"), Filters.exists("idUser"))).iterator()) {
@@ -205,5 +205,5 @@ public class EngageManager implements EngageManagerDatabaseInterface {
         DBManager.start();
         EngageManager.deleteRandom();
         DBManager.stop();
-    } 
+    } */
 }

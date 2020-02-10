@@ -118,7 +118,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         double margin = ((1.0 - adultnessMargin) * (maxAdultness - minAdultness)) + minAdultness;
 
         int limit;
-        if (userLimit < filmLimit && userLimit != 0) {
+        if (userLimit != 0) {
             limit = userLimit;
         } else {
             limit = filmLimit;
