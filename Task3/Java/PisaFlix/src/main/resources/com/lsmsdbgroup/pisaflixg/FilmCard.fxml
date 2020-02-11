@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" maxHeight="203.0" minHeight="203.0" onMousePressed="#clickMouse" prefHeight="203.0" styleClass="card-film" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fx:id="poster" fitHeight="116.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="42.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@../../../img/Film.png" />
+         </image>
+         <VBox.margin>
+            <Insets top="5.0" />
+         </VBox.margin>
+      </ImageView>
+      <Label fx:id="titleLabel" alignment="CENTER" styleClass="card-film-title" text="Label" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="116.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <contextMenu>
+            <ContextMenu>
+              <items>
+                <MenuItem fx:id="modifyFilmMenuItem" mnemonicParsing="false" onAction="#modifyFilm" text="Modify" />
+                  <MenuItem fx:id="deleteFilmMenuItem" mnemonicParsing="false" onAction="#deleteFilm" text="Delete" />
+              </items>
+            </ContextMenu>
+         </contextMenu>
+         <tooltip>
+            <Tooltip fx:id="titleTool" />
+         </tooltip>
+         <VBox.margin>
+            <Insets bottom="-5.0" />
+         </VBox.margin>
+      </Label>
+      <Label fx:id="publishLabel" alignment="CENTER" styleClass="card-film-subtitle" text="Label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="142.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="-5.0" />
+         </VBox.margin>
+      </Label>
+   </children>
+</VBox>
