@@ -1,23 +1,28 @@
 package com.lsmsdbgroup.pisaflix.dbmanager;
 
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.*;
+import org.neo4j.driver.v1.AuthTokens;
+import org.neo4j.driver.v1.Driver;
+import org.neo4j.driver.v1.GraphDatabase;
 
-public class DBManager {
+public class DBManager{
+    
+    private static Driver driver;
 
     public static void start() {
+        driver = GraphDatabase.driver("bolt://localhost:7687", AuthTokens.basic("root", "root"));
     }
 
     public static void stop() {
+        driver.close();
     }
 
-    public static void getMongoClient() {
-    }
-
-    public static void getDB() {
-        /*if (MongoDatabase == null) {
+    public static Driver getDB() {
+        if (driver == null) {
             start();
         }
-        return MongoDatabase;*/
+        
+        return driver;
     }
 
     public static UserManagerDatabaseInterface userManager;
@@ -27,5 +32,4 @@ public class DBManager {
         filmManager = FilmManager.getIstance();
         userManager = UserManager.getIstance();
     }
-
 }

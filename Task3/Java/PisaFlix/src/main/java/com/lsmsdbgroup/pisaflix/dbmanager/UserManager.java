@@ -3,10 +3,13 @@ package com.lsmsdbgroup.pisaflix.dbmanager;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface;
+import org.neo4j.driver.v1.Driver;
 
 public class UserManager implements UserManagerDatabaseInterface {
 
     private static UserManager UserManager;
+    
+    private final Driver driver;
 
     public static UserManager getIstance() {
         if (UserManager == null) {
@@ -16,7 +19,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     }
 
     public UserManager() {
-        
+        driver = DBManager.getDB();
     }
 
     @Override
