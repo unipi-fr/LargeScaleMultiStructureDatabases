@@ -35,7 +35,7 @@ public class Film implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<User> userSet = new LinkedHashSet<>();
 
-    @ManyToMany(mappedBy = "filmSet", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "idFilm", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @OrderBy
     private Set<Comment> commentSet = new LinkedHashSet<>();
 
