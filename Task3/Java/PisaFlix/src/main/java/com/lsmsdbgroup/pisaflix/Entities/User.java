@@ -7,7 +7,7 @@ public class User extends Entity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    private String idUser;
+    private Long idUser;
     private String username;
     private String password;
     private String email;
@@ -20,11 +20,11 @@ public class User extends Entity implements Serializable {
     public User() {
     }
 
-    public User(String idUser) {
+    public User(Long idUser) {
         this.idUser = idUser;
     }
 
-    public User(String idUser, String username, String password, int privilegeLevel) {
+    public User(Long idUser, String username, String password, int privilegeLevel) {
         this.idUser = idUser;
         this.username = username;
         this.password = password;
@@ -32,11 +32,11 @@ public class User extends Entity implements Serializable {
     }
 
     @Override
-    public String getId() {
+    public Long getId() {
         return idUser;
     }
 
-    public void setIdUser(String idUser) {
+    public void setIdUser(Long idUser) {
         this.idUser = idUser;
     }
 

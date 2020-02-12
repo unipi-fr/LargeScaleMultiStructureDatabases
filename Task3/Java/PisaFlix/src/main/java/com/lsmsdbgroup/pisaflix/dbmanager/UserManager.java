@@ -23,7 +23,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     }
 
     @Override
-    public User getById(String idUser) {
+    public User getById(Long idUser) {
         User user = null;
         
         return user;
@@ -35,7 +35,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     }
 
     @Override
-    public void delete(String idUser) {
+    public void delete(Long idUser) {
         
     }
 
@@ -45,7 +45,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     }
 
     @Override
-    public void update(String userId, String username, String firstName, String lastName, String email, String password, int privilegeLevel) {
+    public void update(Long userId, String username, String firstName, String lastName, String email, String password, int privilegeLevel) {
         
     }
 

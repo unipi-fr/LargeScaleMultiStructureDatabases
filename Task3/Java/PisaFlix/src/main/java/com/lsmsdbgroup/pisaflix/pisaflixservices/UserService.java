@@ -29,7 +29,7 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public User getById(String id) {
+    public User getById(Long id) {
         User user = userManager.getById(id);
         return user;
     }

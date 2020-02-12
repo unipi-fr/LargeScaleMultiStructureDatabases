@@ -2,5 +2,5 @@ package com.lsmsdbgroup.pisaflix.Entities;
 
 public abstract class Entity {
     public Entity(){}
-    public abstract String getId();
+    public abstract Long getId();
 }

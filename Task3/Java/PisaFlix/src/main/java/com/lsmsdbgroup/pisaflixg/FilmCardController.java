@@ -25,7 +25,7 @@ public class FilmCardController implements Initializable {
     private final StringProperty titleProperty = new SimpleStringProperty();
     private final StringProperty pusblishDateProperty = new SimpleStringProperty();
 
-    private final String filmId;
+    private final Long filmId;
 
     private Film film;
 

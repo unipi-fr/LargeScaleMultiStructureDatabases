@@ -7,15 +7,15 @@ import java.util.*;
 
 public interface FilmManagerDatabaseInterface {
 
-    Film getById(String filmId);
+    Film getById(Long filmId);
 
     Set<Film> getAll();
 
     boolean create(String title, Date publicationDate);
 
-    void update(String idFilm, String title, Date publicationDate);
+    void update(Long idFilm, String title, Date publicationDate);
 
-    void delete(String idFilm);
+    void delete(Long idFilm);
 
     Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter);
 }
