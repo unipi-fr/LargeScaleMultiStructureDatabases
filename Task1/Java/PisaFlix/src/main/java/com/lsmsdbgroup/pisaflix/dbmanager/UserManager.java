@@ -174,7 +174,6 @@ public class UserManager implements UserManagerDatabaseInterface {
         try {
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
-            //TODO: da vedere se è sicuro <- SQLInjection
             users = new LinkedHashSet<>(entityManager.createQuery("SELECT u FROM User u WHERE u.username = '" + username + "'").getResultList());
             if (users == null) {
                 System.out.println("Users is empty!");
