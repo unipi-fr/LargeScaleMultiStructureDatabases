@@ -21,7 +21,7 @@ public class UserCardController implements Initializable {
     private final StringProperty userProperty = new SimpleStringProperty();
     private final StringProperty privilegeProperty = new SimpleStringProperty();
 
-    private final String userId;
+    private final Long userId;
 
     public UserCardController(User user) {
         this.user = user;

@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Film extends Entity implements Serializable {
     
-    private String idFilm;
+    private Long idFilm;
     private String title;
     private Date publicationDate;
     private String wikiPage;
@@ -15,27 +15,27 @@ public class Film extends Entity implements Serializable {
     public Film() {
     }
 
-    public Film(String idFilm) {
+    public Film(Long idFilm) {
         this.idFilm = idFilm;
     }
 
-    public Film(String idFilm, String title) {
+    public Film(Long idFilm, String title) {
         this.idFilm = idFilm;
         this.title = title;
     }
 
-    public Film(String idFilm, String title, Date publicationDate) {
+    public Film(Long idFilm, String title, Date publicationDate, String wikiPage) {
         this.idFilm = idFilm;
         this.title = title;
         this.publicationDate = publicationDate;
+        this.wikiPage = wikiPage;
     }
 
-    @Override
-    public String getId() {
+    public Long getId() {
         return idFilm;
     }
 
-    public void setIdFilm(String idFilm) {
+    public void setIdFilm(Long idFilm) {
         this.idFilm = idFilm;
     }
 

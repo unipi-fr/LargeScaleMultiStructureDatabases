@@ -31,7 +31,7 @@ public class FilmService implements FilmServiceInterface {
     }
 
     @Override
-    public Film getById(String id) {
+    public Film getById(Long id) {
         Film film;
         film = filmManager.getById(id);
         return film;
@@ -52,7 +52,7 @@ public class FilmService implements FilmServiceInterface {
     }
 
     @Override
-    public void deleteFilm(String idFilm) throws UserNotLoggedException, InvalidPrivilegeLevelException {
+    public void deleteFilm(Long idFilm) throws UserNotLoggedException, InvalidPrivilegeLevelException {
         authenticationService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "delete a film");
         filmManager.delete(idFilm);
     }

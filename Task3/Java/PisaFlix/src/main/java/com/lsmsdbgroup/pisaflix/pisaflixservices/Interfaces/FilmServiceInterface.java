@@ -10,11 +10,11 @@ public interface FilmServiceInterface {
 
     Set<Film> getAll();
 
-    Film getById(String id);
+    Film getById(Long id);
 
     boolean addFilm(String title, Date publicationDate) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
     void updateFilm(Film film) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
-    void deleteFilm(String idFilm) throws UserNotLoggedException, InvalidPrivilegeLevelException;
+    void deleteFilm(Long idFilm) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 }

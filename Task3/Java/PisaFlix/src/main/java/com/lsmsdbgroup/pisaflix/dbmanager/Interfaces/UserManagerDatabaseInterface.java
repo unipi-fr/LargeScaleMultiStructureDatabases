@@ -5,15 +5,15 @@ import java.util.Set;
 
 public interface UserManagerDatabaseInterface {
 
-    User getById(String userId);
+    User getById(Long userId);
 
     void create(String username, String password, String firstName, String lastName, String email, int privilegeLevel);
 
-    void delete(String userId);
+    void delete(Long userId);
 
     void update(User u);
 
-    void update(String userId, String username, String firstName, String lastName, String email, String password, int privilegeLevel);
+    void update(Long userId, String username, String firstName, String lastName, String email, String password, int privilegeLevel);
 
     Set<User> getAll();
 
