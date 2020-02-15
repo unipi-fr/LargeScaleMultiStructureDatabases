@@ -5,6 +5,7 @@ import com.lsmsdbgroup.pisaflix.Entities.Engage.EngageType;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface;
+import com.mongodb.WriteConcern;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import static com.mongodb.client.model.Filters.eq;
@@ -30,7 +31,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     }
 
     public UserManager() {
-        UserCollection = DBManager.getMongoDatabase().getCollection("UserCollection");
+        UserCollection = DBManager.getMongoDatabase().getCollection("UserCollection").withWriteConcern(WriteConcern.MAJORITY);
     }
 
     @Override

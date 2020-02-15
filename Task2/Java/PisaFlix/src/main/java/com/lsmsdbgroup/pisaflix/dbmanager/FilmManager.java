@@ -3,6 +3,7 @@ package com.lsmsdbgroup.pisaflix.dbmanager;
 import com.lsmsdbgroup.pisaflix.Entities.*;
 import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.FilmManagerDatabaseInterface;
+import com.mongodb.WriteConcern;
 import com.mongodb.client.*;
 import static com.mongodb.client.model.Filters.*;
 import com.mongodb.client.model.*;
@@ -29,7 +30,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     }
 
     private FilmManager() {
-        FilmCollection = DBManager.getMongoDatabase().getCollection("FilmCollection");
+        FilmCollection = DBManager.getMongoDatabase().getCollection("FilmCollection").withWriteConcern(WriteConcern.MAJORITY);
         maxAdultness = CalcMaxAdultness();
         minAdultness = CalcMinAdultness();
     }
