@@ -3,9 +3,9 @@ package com.lsmsdbgroup.pisaflix.dbmanager;
 import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.Entities.Engage.EngageType;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.EngageManagerDatabaseInterface;
+import com.mongodb.WriteConcern;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.client.model.UpdateOptions;
@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -33,7 +32,7 @@ public class EngageManager implements EngageManagerDatabaseInterface {
     protected final Document sort = new Document("Timestamp", -1);
 
     protected EngageManager() {
-        EngageCollection = DBManager.getMongoDatabase().getCollection("EngageCollection");
+        EngageCollection = DBManager.getMongoDatabase().getCollection("EngageCollection").withWriteConcern(WriteConcern.ACKNOWLEDGED);
     }
 
     @Override
