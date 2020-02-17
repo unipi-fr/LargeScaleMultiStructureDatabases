@@ -30,6 +30,15 @@ public class User extends Entity implements Serializable {
         this.password = password;
         this.privilegeLevel = privilegeLevel;
     }
+    
+    public User(Long idUser, String email, String username, int privilegeLevel, String firstName, String lastName) {
+        this.idUser = idUser;
+        this.email = email;
+        this.username = username;
+        this.privilegeLevel = privilegeLevel;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
     @Override
     public Long getId() {

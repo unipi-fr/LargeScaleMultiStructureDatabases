@@ -10,7 +10,6 @@ import org.neo4j.driver.v1.Session;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.Value;
 import static org.neo4j.driver.v1.Values.parameters;
-import org.neo4j.driver.v1.types.Node;
 
 public class FilmManager implements FilmManagerDatabaseInterface {
 
@@ -98,8 +97,12 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     public void update(Long filmId, String title, Date publicationDate) {
         try(Session session = driver.session())
         {
-            StatementResult result = session.run("merge (f:Film {ID: $id}) set f.Title = $title, f.PublicationDate = $publicationDate return f", 
-                    parameters("id", filmId,"title", title, "publicationDate", publicationDate.toString()));   
+            session.run("MERGE (f:Film {ID: $id}) "
+                    + "SET f.Title = $title, f.PublicationDate = $publicationDate "
+                    + "RETURN f", 
+                    parameters("id", filmId,
+                                "title", title, 
+                                "publicationDate", publicationDate.toString()));   
         }
     }
 
@@ -107,7 +110,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     public void delete(Long filmId) {
         try(Session session = driver.session())
         {
-            StatementResult result = session.run("MATCH (n:Film) WHERE ID(n) = $id DELETE n", parameters("id", filmId));
+            session.run("MATCH (n:Film) WHERE ID(n) = $id DELETE n", parameters("id", filmId));
         }
     }
 
