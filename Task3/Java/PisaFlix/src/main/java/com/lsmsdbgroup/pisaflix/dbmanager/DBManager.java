@@ -27,9 +27,11 @@ public class DBManager{
 
     public static UserManagerDatabaseInterface userManager;
     public static FilmManagerDatabaseInterface filmManager;
+    public static PostManagerDatabaseInterface postManager;
 
     static {
         filmManager = FilmManager.getIstance();
         userManager = UserManager.getIstance();
+        postManager = PostManager.getIstance();
     }
 }

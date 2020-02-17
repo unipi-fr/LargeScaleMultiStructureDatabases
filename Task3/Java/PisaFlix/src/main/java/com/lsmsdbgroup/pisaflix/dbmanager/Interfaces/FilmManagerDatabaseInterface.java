@@ -1,8 +1,6 @@
 package com.lsmsdbgroup.pisaflix.dbmanager.Interfaces;
 
-import com.lsmsdbgroup.pisaflix.Entities.Entity;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
-import com.lsmsdbgroup.pisaflix.Entities.User;
 import java.util.*;
 
 public interface FilmManagerDatabaseInterface {
