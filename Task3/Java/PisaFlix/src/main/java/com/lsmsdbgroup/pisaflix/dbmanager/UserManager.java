@@ -93,7 +93,8 @@ public class UserManager implements UserManagerDatabaseInterface {
     public void update(Long userId, String username, String firstName, String lastName, String email, String password, int privilegeLevel) {
         try(Session session = driver.session())
         {
-            session.run("MERGE (u:User {ID: $id}) "
+            session.run("MATCH (u:User) "
+                    + "WHERE ID(u) = $id"
                     + "SET u.Email: $email, u.FirtName: $firstName, u.LastName: $lastName, u.Password: $password, u.PrivilegeLevel: $privilegeLevel, u.Username: $username "
                     + "RETURN u",
                     parameters( "id", userId,

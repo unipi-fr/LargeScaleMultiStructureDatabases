@@ -10,7 +10,6 @@ import java.net.URL;
 import java.util.Optional;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
 public class App extends Application {

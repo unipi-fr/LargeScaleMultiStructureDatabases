@@ -8,9 +8,9 @@ public interface PostManagerDatabaseInterface {
     
     Post getById(Long idPost);
     
-    void create(String text, Date timestamp, User user, Film film);
+    void create(String text, User user, Film film);
     
     void delete(Long idPost);
     
-    void update(Long idPost, String text, Date timestamp, User user, Film film);
+    void update(Long idPost, String text, User user, Film film);
 }
