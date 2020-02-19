@@ -17,9 +17,9 @@ public class FilmService implements FilmServiceInterface {
     }
 
     @Override
-    public Set<Film> getFilmsFiltered(String titleFilter, Date startDateFilter, Date endDateFilter) {
+    public Set<Film> getFilmsFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit) {
         Set<Film> films = null;
-        films = filmManager.getFiltered(titleFilter, startDateFilter, endDateFilter);
+        films = filmManager.getFiltered(titleFilter, startDateFilter, endDateFilter, limit);
         return films;
     }
 
@@ -61,6 +61,11 @@ public class FilmService implements FilmServiceInterface {
     public void updateFilm(Film film) throws UserNotLoggedException, InvalidPrivilegeLevelException {
         authenticationService.checkUserPrivilegesForOperation(UserPrivileges.MODERATOR, "update a film");
         filmManager.update(film.getId(), film.getTitle(), film.getPublicationDate());
+    }
+    
+    @Override
+    public void follow(Film film, User user){
+        filmManager.follow(film, user);
     }
     
 }

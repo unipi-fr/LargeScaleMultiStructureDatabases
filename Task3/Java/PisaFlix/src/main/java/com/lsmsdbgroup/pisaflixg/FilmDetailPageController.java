@@ -136,7 +136,7 @@ public class FilmDetailPageController implements Initializable {
 
     @FXML
     private void setFollowUnfollow() {
-        
+        PisaFlixServices.filmService.follow(film, PisaFlixServices.authenticationService.getLoggedUser());
     }
 
 }

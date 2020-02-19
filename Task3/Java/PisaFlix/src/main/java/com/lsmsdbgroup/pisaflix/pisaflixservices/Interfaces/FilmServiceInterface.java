@@ -6,7 +6,7 @@ import java.util.*;
 
 public interface FilmServiceInterface {
 
-    Set<Film> getFilmsFiltered(String titleFilter, Date startDateFilter, Date endDateFilter);
+    Set<Film> getFilmsFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit);
 
     Set<Film> getAll();
 
@@ -17,4 +17,6 @@ public interface FilmServiceInterface {
     void updateFilm(Film film) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
     void deleteFilm(Long idFilm) throws UserNotLoggedException, InvalidPrivilegeLevelException;
+    
+    void follow(Film film, User user);
 }

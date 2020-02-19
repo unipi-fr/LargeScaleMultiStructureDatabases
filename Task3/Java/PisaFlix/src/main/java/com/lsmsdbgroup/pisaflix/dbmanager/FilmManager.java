@@ -116,11 +116,61 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     }
 
     @Override
-    public Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFiltern) {
+    public Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit) {
         Set<Film> filmSet = new LinkedHashSet<>();
         
-        filmSet = getAll();
+        int queryLimit = 0;
+        if(limit == 0){
+            queryLimit = this.limit;
+        }else{
+            queryLimit = limit;
+        }
+        
+        try(Session session = driver.session()){
+            
+            StatementResult result = null;
+            
+            if(startDateFilter == null || endDateFilter == null){
+                result = session.run("MATCH (n:Film) "
+                                               + "WHERE n.Title =~ '.*"+titleFilter+".*' "
+                                               + "RETURN n LIMIT " + queryLimit);
+            }else{
+                if(titleFilter == null){
+                    result = session.run("MATCH (n:Film) "
+                                               + "AND n.PublicationDate <= "+endDateFilter+" "
+                                               + "AND n.PublicationDate >= "+startDateFilter+" "
+                                               + "RETURN n LIMIT " + queryLimit);
+                }else{
+                    result = session.run("MATCH (n:Film) "
+                                               + "WHERE n.Title =~ '.*"+titleFilter+".*' "
+                                               + "AND n.PublicationDate <= "+endDateFilter+" "
+                                               + "AND n.PublicationDate >= "+startDateFilter+" "
+                                               + "RETURN n LIMIT " + queryLimit);
+                } 
+            }
+            
+            while(result.hasNext()){
+                Record record = result.next();
+                
+                Film film = getFilmFromRecord(record);
+                
+                filmSet.add(film);
+            }
+        }
         
         return filmSet;
+    }
+    
+    @Override
+    public void follow(Film film, User user) {
+        
+        try(Session session = driver.session()){
+            session.run("MATCH (u:User),(f:Film) " +
+                        "WHERE ID(u) = "+user.getId()+" AND ID(f) = "+film.getId()+" " +
+                        "CREATE (u)-[r:FOLLOWS]->(f) " +
+                        "RETURN r");
+
+        }
+        
     }
 }

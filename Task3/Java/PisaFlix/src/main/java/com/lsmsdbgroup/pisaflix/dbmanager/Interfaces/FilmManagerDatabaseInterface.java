@@ -1,6 +1,7 @@
 package com.lsmsdbgroup.pisaflix.dbmanager.Interfaces;
 
 import com.lsmsdbgroup.pisaflix.Entities.Film;
+import com.lsmsdbgroup.pisaflix.Entities.User;
 import java.util.*;
 
 public interface FilmManagerDatabaseInterface {
@@ -15,5 +16,7 @@ public interface FilmManagerDatabaseInterface {
 
     void delete(Long idFilm);
 
-    Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter);
+    Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit);
+    
+    void follow(Film film, User user);
 }

@@ -9,7 +9,6 @@ import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.Session;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.Transaction;
-import org.neo4j.driver.v1.TransactionWork;
 import static org.neo4j.driver.v1.Values.parameters;
 
 public class PostManager implements PostManagerDatabaseInterface{

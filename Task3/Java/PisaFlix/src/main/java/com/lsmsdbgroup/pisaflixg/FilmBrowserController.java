@@ -86,7 +86,7 @@ public class FilmBrowserController extends BrowserController implements Initiali
     @FXML
     public void searchFilms(String titleFilter, Date dateFilter) {
         try {
-            Set<Film> films = PisaFlixServices.filmService.getFilmsFiltered(titleFilter, dateFilter, dateFilter);
+            Set<Film> films = PisaFlixServices.filmService.getFilmsFiltered(titleFilter, dateFilter, dateFilter, 0);
             populateScrollPane(films);
         } catch (InterruptedException ex) {
             App.printErrorDialog("Films", "An error occurred searching the films", ex.toString() + "\n" + ex.getMessage());

@@ -31,13 +31,14 @@ public class User extends Entity implements Serializable {
         this.privilegeLevel = privilegeLevel;
     }
     
-    public User(Long idUser, String email, String username, int privilegeLevel, String firstName, String lastName) {
+    public User(Long idUser, String email, String username, int privilegeLevel, String firstName, String lastName, String password) {
         this.idUser = idUser;
         this.email = email;
         this.username = username;
         this.privilegeLevel = privilegeLevel;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.password = password;
     }
 
     @Override
