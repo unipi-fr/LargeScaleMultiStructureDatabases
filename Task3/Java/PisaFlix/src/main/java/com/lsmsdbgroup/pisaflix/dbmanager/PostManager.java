@@ -4,12 +4,17 @@ import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.Post;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.PostManagerDatabaseInterface;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import org.neo4j.driver.v1.Driver;
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.Session;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.Transaction;
 import static org.neo4j.driver.v1.Values.parameters;
+import org.neo4j.driver.v1.types.Node;
+import org.neo4j.driver.v1.types.Relationship;
 
 public class PostManager implements PostManagerDatabaseInterface{
 
@@ -26,6 +31,30 @@ public class PostManager implements PostManagerDatabaseInterface{
 
     private PostManager() {
         driver = DBManager.getDB();
+    }
+    
+    private static Post getPostFromRecord(Record record0, Record record1){
+        Node post = record0.get("p").asNode();
+        String text = post.get("Text").asString();
+        
+        Relationship relationship = record0.get("r").asRelationship();
+        LocalDateTime timestamp;
+        Date timestampDate;
+        if(relationship.hasType("RELATIVE"))
+        {
+            timestamp = relationship.get("Timestamp").asLocalDateTime();
+            timestampDate = Date.from( timestamp.atZone( ZoneId.systemDefault()).toInstant());
+            Long userId = record0.get("n").asNode().id();
+            User user = DBManager.userManager.getById(userId);
+        }
+        
+        Long userId = record0.get("n").asNode().id();
+        User user = DBManager.userManager.getById(userId);
+        
+        record1.get("");
+        
+            
+        return null;
     }
     
     @Override
@@ -46,10 +75,14 @@ public class PostManager implements PostManagerDatabaseInterface{
         Post post = null;
         
         StatementResult result = tx.run("MATCH (p:Post) where ID(p) = 5380 " +
-                                        "MATCH x=(p)-[r]-() RETURN x");
+                                        "MATCH (p)-[r]-(n) RETURN p, r, n");
         while (result.hasNext())
         {
-            Record record = result.next();
+            Record record0 = result.next();
+            Record record1 = result.next();
+            
+            getPostFromRecord(record0, record1);
+            
             int a = 5;
         }
         
