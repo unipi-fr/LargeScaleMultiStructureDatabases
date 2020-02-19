@@ -68,4 +68,19 @@ public class FilmService implements FilmServiceInterface {
         filmManager.follow(film, user);
     }
     
+    @Override
+    public boolean isFollowing(Film film, User user){
+        return filmManager.isFollowing(film, user);
+    }
+
+    @Override
+    public void unfollow(Film film, User user) {
+       filmManager.unfollow(film, user); 
+    }
+
+    @Override
+    public long countFollowers(Film film) {
+       return filmManager.countFollowers(film);
+    }
+    
 }

@@ -138,4 +138,19 @@ public class UserService implements UserServiceInterface {
 
         return null;
     }
+
+    @Override
+    public void follow(User follower, User followed) {
+        userManager.follow(follower, followed);
+    }
+
+    @Override
+    public boolean isFollowing(User follower, User followed) {
+        return userManager.isFollowing(follower, followed);
+    }
+
+    @Override
+    public void unfollow(User follower, User followed) {
+        userManager.unfollow(follower, followed);
+    }
 }

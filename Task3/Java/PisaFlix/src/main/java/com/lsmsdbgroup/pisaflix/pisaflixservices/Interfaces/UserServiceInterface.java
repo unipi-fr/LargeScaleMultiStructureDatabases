@@ -22,4 +22,10 @@ public interface UserServiceInterface {
     void deleteUserAccount(User u) throws UserNotLoggedException, InvalidPrivilegeLevelException;
 
     void changeUserPrivileges(User u, UserPrivileges newPrivilegeLevel) throws UserNotLoggedException, InvalidPrivilegeLevelException;
+    
+    void follow(User follower, User followed);
+
+    boolean isFollowing(User follower, User followed);
+
+    void unfollow(User follower, User followed);
 }

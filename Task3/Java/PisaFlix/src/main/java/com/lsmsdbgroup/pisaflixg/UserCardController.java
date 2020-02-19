@@ -53,6 +53,9 @@ public class UserCardController implements Initializable {
 
     @FXML
     private Button updatePrivilegeButton;
+    
+    @FXML
+    private Button followButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -60,7 +63,7 @@ public class UserCardController implements Initializable {
             user = PisaFlixServices.userService.getById(userId);
             usernameLabel.setText(userProperty.get());
             privilegeLabel.setText(privilegeProperty.get());
-
+            setFollowButton();
             Random random = new Random();
             int img = random.nextInt(3) + 1;
 
@@ -98,7 +101,10 @@ public class UserCardController implements Initializable {
     @FXML
     private void updatePrivilege() {
         try {
-
+            
+            followButton.setVisible(false);
+            followButton.setManaged(false);
+            
             userImageView.setVisible(false);
             userImageView.setManaged(false);
 
@@ -156,6 +162,9 @@ public class UserCardController implements Initializable {
 
             updatePrivilegeButton.setVisible(false);
             updatePrivilegeButton.setManaged(false);
+            
+            followButton.setVisible(true);
+            followButton.setManaged(true);
         } catch (Exception ex) {
             App.printErrorDialog("Update Privilege", "An error occurred updating the privilege", ex.toString() + "\n" + ex.getMessage());
         }
@@ -180,10 +189,36 @@ public class UserCardController implements Initializable {
             UserViewController userViewController = loader.getController();
 
             userViewController.setUser(user);
-
+            
             App.setMainPane(gridPane);
         } catch (Exception ex) {
             App.printErrorDialog("User Card", "An error occurred", ex.toString() + "\n" + ex.getMessage());
+        }
+    }
+    
+    @FXML
+    private void FollowUnfollow() {
+        if (PisaFlixServices.userService.isFollowing(PisaFlixServices.authenticationService.getLoggedUser(), user)) {
+            PisaFlixServices.userService.unfollow(PisaFlixServices.authenticationService.getLoggedUser(), user);
+            followButton.setText("+ Follow");
+        } else {
+            PisaFlixServices.userService.follow(PisaFlixServices.authenticationService.getLoggedUser(), user);
+            followButton.setText("- Unfollow");
+        }
+    }
+    
+    public void setFollowButton() {
+        if (PisaFlixServices.authenticationService.isUserLogged() && !user.equals(PisaFlixServices.authenticationService.getLoggedUser()) ) {
+            if (!PisaFlixServices.userService.isFollowing(PisaFlixServices.authenticationService.getLoggedUser(), user)) {
+                followButton.setText("+ Follow");
+            } else {
+                followButton.setText("- Unfollow");
+            }
+        }else{
+            followButton.setVisible(false);
+            followButton.setManaged(false);
+            userImageView.setFitHeight(116);
+            userImageView.setFitWidth(116);
         }
     }
 

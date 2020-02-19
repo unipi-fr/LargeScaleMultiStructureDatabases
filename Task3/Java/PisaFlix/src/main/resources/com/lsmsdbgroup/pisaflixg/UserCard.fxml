@@ -11,9 +11,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="cardVbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMousePressed="#mouseClicked" styleClass="card-film" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="cardVbox" alignment="CENTER" onMousePressed="#mouseClicked" prefHeight="338.0" prefWidth="0.0" styleClass="card-film" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fx:id="userImageView" fitHeight="116.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="userImageView" fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+         <VBox.margin>
+            <Insets bottom="-10.0" top="-10.0" />
+         </VBox.margin></ImageView>
       <Label fx:id="usernameLabel" alignment="CENTER" prefWidth="116.0" styleClass="card-film-title" text="Label">
          <font>
             <Font size="20.0" />
@@ -40,5 +43,6 @@
             <Insets top="10.0" />
          </VBox.margin>
       </Button>
+      <Button fx:id="followButton" layoutX="15.0" layoutY="292.0" mnemonicParsing="false" onAction="#FollowUnfollow" text="+ Follow" />
    </children>
 </VBox>

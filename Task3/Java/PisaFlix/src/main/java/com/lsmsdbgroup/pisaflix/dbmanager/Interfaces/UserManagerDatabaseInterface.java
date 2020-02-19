@@ -24,5 +24,15 @@ public interface UserManagerDatabaseInterface {
     boolean checkDuplicates(String username, String email);
 
     Set<User> getFiltered(String nameFilter);
+    
+    void follow(User follower, User followed);
+
+    boolean isFollowing(User follower, User followed);
+
+    void unfollow(User follower, User followed);
+    
+    long countFollowers(User user);
+            
+    long countFollowing(User user);
 
 }

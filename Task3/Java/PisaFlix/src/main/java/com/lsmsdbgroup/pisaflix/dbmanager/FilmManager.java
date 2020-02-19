@@ -165,12 +165,60 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     public void follow(Film film, User user) {
         
         try(Session session = driver.session()){
-            session.run("MATCH (u:User),(f:Film) " +
-                        "WHERE ID(u) = "+user.getId()+" AND ID(f) = "+film.getId()+" " +
-                        "CREATE (u)-[r:FOLLOWS]->(f) " +
-                        "RETURN r");
+            session.run("MATCH (u:User),(f:Film) " 
+                      + "WHERE ID(u) = "+user.getId()+" "
+                      + "AND ID(f) = "+film.getId()+" " 
+                      + "CREATE (u)-[r:FOLLOWS]->(f) " 
+                      + "RETURN r");
 
         }
         
     }
+    
+    @Override
+    public boolean isFollowing(Film film, User user){
+        
+        StatementResult result = null;
+        
+        try(Session session = driver.session()){
+            result = session.run("MATCH (u:User)-[r:FOLLOWS]->(f:Film) "
+                               + "WHERE ID(u) = "+user.getId()+" "
+                               + "AND ID(f) = "+film.getId()+" "
+                               + "RETURN r");
+
+        }
+        
+        return result.hasNext();
+        
+    }
+    
+    @Override
+    public void unfollow(Film film, User user){
+        
+        try(Session session = driver.session()){
+            session.run("MATCH (u:User)-[r:FOLLOWS]->(f:Film) "
+                               + "WHERE ID(u) = "+user.getId()+" "
+                               + "AND ID(f) = "+film.getId()+" "
+                               + "DELETE r");
+
+        }
+        
+    }
+    
+    @Override
+    public long countFollowers(Film film){
+        
+        StatementResult result = null;
+        
+        try(Session session = driver.session()){
+            result = session.run("MATCH (u:User)-[r:FOLLOWS]->(f:Film) "
+                               + "WHERE ID(f) = "+film.getId()+" "
+                               + "RETURN count(DISTINCT u) AS followers");
+
+        }
+
+        return result.next().get("followers").asLong();
+        
+    }
+     
 }

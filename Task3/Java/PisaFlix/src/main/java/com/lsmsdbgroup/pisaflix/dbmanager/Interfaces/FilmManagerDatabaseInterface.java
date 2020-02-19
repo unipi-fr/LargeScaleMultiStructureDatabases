@@ -19,4 +19,10 @@ public interface FilmManagerDatabaseInterface {
     Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit);
     
     void follow(Film film, User user);
+
+    boolean isFollowing(Film film, User user);
+
+    void unfollow(Film film, User user);
+    
+    long countFollowers(Film film);
 }

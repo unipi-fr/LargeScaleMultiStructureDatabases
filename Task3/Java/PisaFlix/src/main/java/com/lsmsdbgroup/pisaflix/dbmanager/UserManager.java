@@ -96,9 +96,8 @@ public class UserManager implements UserManagerDatabaseInterface {
     public void update(Long userId, String username, String firstName, String lastName, String email, String password, int privilegeLevel ) {
         try (Session session = driver.session()) {
             session.run("MATCH (u:User) "
-                    + "WHERE ID(u) = $id"
-                    + "SET u.Email: $email, u.FirtName: $firstName, u.LastName: $lastName, u.Password: $password, u.PrivilegeLevel: $privilegeLevel, u.Username: $username "
-                    + "RETURN u",
+                    + "WHERE ID(u) = $id "
+                    + "SET u.Email = $email, u.FirstName = $firstName, u.LastName = $lastName, u.Password = $password, u.PrivilegeLevel = $privilegeLevel, u.Username = $username ",
                     parameters("id", userId,
                             "username", username,
                             "password", password,
@@ -187,4 +186,82 @@ public class UserManager implements UserManagerDatabaseInterface {
 
         return userSet;
     }
+    
+    @Override
+    public void follow(User follower, User followed) {
+        
+        try(Session session = driver.session()){
+            session.run("MATCH (u1:User),(u2:User) " 
+                      + "WHERE ID(u1) = "+follower.getId()+" "
+                      + "AND ID(u2) = "+followed.getId()+" " 
+                      + "CREATE (u1)-[r:FOLLOWS]->(u2) " 
+                      + "RETURN r");
+
+        }
+        
+    }
+    
+    @Override
+    public boolean isFollowing(User follower, User followed){
+        
+        StatementResult result = null;
+        
+        try(Session session = driver.session()){
+            result = session.run("MATCH (u1:User)-[r:FOLLOWS]->(u2:User) "
+                               + "WHERE ID(u1) = "+follower.getId()+" "
+                               + "AND ID(u2) = "+followed.getId()+" "
+                               + "RETURN r");
+
+        }
+        
+        return result.hasNext();
+        
+    }
+    
+    @Override
+    public void unfollow(User follower, User followed){
+        
+        try(Session session = driver.session()){
+            session.run("MATCH (u1:User)-[r:FOLLOWS]->(u2:User) "
+                               + "WHERE ID(u1) = "+follower.getId()+" "
+                               + "AND ID(u2) = "+followed.getId()+" "
+                               + "DELETE r");
+
+        }
+        
+    }
+    
+    @Override
+    public long countFollowers(User user){
+        
+        StatementResult result = null;
+        
+        try(Session session = driver.session()){
+            result = session.run("MATCH (u1:User)-[r:FOLLOWS]->(u2:User) "
+                               + "WHERE ID(u2) = "+user.getId()+" "
+                               + "RETURN count(DISTINCT u1) AS followers");
+
+        }
+
+        return result.next().get("followers").asLong();
+        
+    }
+    
+    @Override
+    public long countFollowing(User user){
+        
+        StatementResult result = null;
+        
+        try(Session session = driver.session()){
+            result = session.run("MATCH (u1:User)-[:FOLLOWS]->(u2:User), (u1:User)-[:FOLLOWS]->(f:Film)"
+                               + "WHERE ID(u1) = "+user.getId()+" "
+                               + "RETURN count(DISTINCT u2) AS followingUsers, count(DISTINCT f) AS followingFilms");
+
+        }
+        
+        Record value = result.next();
+        return value.get("followingUsers").asLong() + value.get("followingFilms").asLong();
+        
+    }
+    
 }

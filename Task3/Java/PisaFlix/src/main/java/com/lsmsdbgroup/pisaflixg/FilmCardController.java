@@ -17,8 +17,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 
 public class FilmCardController implements Initializable {
 
@@ -27,7 +25,7 @@ public class FilmCardController implements Initializable {
 
     private final Long filmId;
 
-    private Film film;
+    private final Film film;
 
     public FilmCardController(Film film) {
         this.film = film;
@@ -56,6 +54,9 @@ public class FilmCardController implements Initializable {
 
     @FXML
     private ImageView poster;
+    
+    @FXML
+    private Button followButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -74,6 +75,7 @@ public class FilmCardController implements Initializable {
         }
         
         setPoster();
+        setFollowButton();
     }
 
     @FXML
@@ -131,6 +133,32 @@ public class FilmCardController implements Initializable {
             }
         } catch (Exception ex) {
             App.printErrorDialog("Film Poster", "An error occurred loading the film's poster", ex.toString() + "\n" + ex.getMessage());
+        }
+    }
+    
+    @FXML
+    private void FollowUnfollow() {
+        if (PisaFlixServices.filmService.isFollowing(film, PisaFlixServices.authenticationService.getLoggedUser())) {
+            PisaFlixServices.filmService.unfollow(film, PisaFlixServices.authenticationService.getLoggedUser());
+            followButton.setText("+ Follow");
+        } else {
+            PisaFlixServices.filmService.follow(film, PisaFlixServices.authenticationService.getLoggedUser());
+            followButton.setText("- Unfollow");
+        }
+    }
+    
+    public void setFollowButton() {
+        if (PisaFlixServices.authenticationService.isUserLogged()) {
+            if (!PisaFlixServices.filmService.isFollowing(film, PisaFlixServices.authenticationService.getLoggedUser())) {
+                followButton.setText("+ Follow");
+            } else {
+                followButton.setText("- Unfollow");
+            }
+        }else{
+            followButton.setVisible(false);
+            followButton.setManaged(false);
+            poster.setFitHeight(116);
+            poster.setFitWidth(116);
         }
     }
 }

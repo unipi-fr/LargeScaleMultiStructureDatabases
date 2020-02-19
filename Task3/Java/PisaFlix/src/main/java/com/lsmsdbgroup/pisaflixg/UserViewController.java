@@ -6,16 +6,16 @@ import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
-import javafx.beans.value.*;
-import javafx.collections.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
-import javafx.scene.layout.GridPane;
 
 public class UserViewController implements Initializable {
 
     private User user;
+    
+    @FXML
+    private Button FollowButton;
 
     @FXML
     private Label usernameLabel;
@@ -51,6 +51,13 @@ public class UserViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             user = PisaFlixServices.authenticationService.getLoggedUser();
+            
+            if (PisaFlixServices.authenticationService.isUserLogged() && user != PisaFlixServices.authenticationService.getLoggedUser()) {
+                FollowButton.setDisable(false);
+                setFollowButton();
+            }else{
+                FollowButton.setDisable(true);
+            }
 
             if (user != null) {
                 usernameLabel.setText(user.getUsername());
@@ -105,6 +112,13 @@ public class UserViewController implements Initializable {
             if (!this.user.equals(PisaFlixServices.authenticationService.getLoggedUser())) {
                 updateButton.setDisable(true);
             }
+            
+            if (PisaFlixServices.authenticationService.isUserLogged() && !this.user.equals(PisaFlixServices.authenticationService.getLoggedUser())) {
+                FollowButton.setDisable(false);
+                setFollowButton();
+            }else{
+                FollowButton.setDisable(true);
+            }
 
             postCounterLabel.setText("Posts: " + "");
             showPosts();
@@ -146,6 +160,27 @@ public class UserViewController implements Initializable {
             }
         } catch (Exception ex) {
             App.printErrorDialog("Delete User", "An error occurred deleting the user", ex.toString() + "\n" + ex.getMessage());
+        }
+    }
+    
+    @FXML
+    private void FollowUnfollow() {
+        if (PisaFlixServices.userService.isFollowing(PisaFlixServices.authenticationService.getLoggedUser(), user)) {
+            PisaFlixServices.userService.unfollow(PisaFlixServices.authenticationService.getLoggedUser(), user);
+            FollowButton.setText("+ Follow");
+        } else {
+            PisaFlixServices.userService.follow(PisaFlixServices.authenticationService.getLoggedUser(), user);
+            FollowButton.setText("- Unfollow");
+        }
+    }
+    
+    public void setFollowButton() {
+        if (PisaFlixServices.authenticationService.isUserLogged()) {
+            if (!PisaFlixServices.userService.isFollowing(PisaFlixServices.authenticationService.getLoggedUser(), user)) {
+                FollowButton.setText("+ Follow");
+            } else {
+                FollowButton.setText("- Unfollow");
+            }
         }
     }
 

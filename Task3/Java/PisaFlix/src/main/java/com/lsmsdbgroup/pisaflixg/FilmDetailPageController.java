@@ -5,7 +5,6 @@ import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.*;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Set;
 import java.util.ResourceBundle;
 import javafx.fxml.*;
 import javafx.scene.control.*;
@@ -44,9 +43,10 @@ public class FilmDetailPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            if (PisaFlixServices.authenticationService.isUserLogged())
+            if (PisaFlixServices.authenticationService.isUserLogged()) {
                 FollowButton.setDisable(false);
-            
+            }
+
             pagination.currentPageIndexProperty().addListener((obs, oldIndex, newIndex)
                     -> refreshPosts(newIndex.intValue()));
         } catch (Exception ex) {
@@ -66,35 +66,31 @@ public class FilmDetailPageController implements Initializable {
 
     private Pane createPost(String username, String timestamp, String commentStr/*, Post post*/) {
         Pane pane = new Pane();
-        
+
         try {
-            
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Comment.fxml"));
             //PostController postController = new PostController(username, timestamp, commentStr, 0);
             //postController.setPost(post);
             //loader.setController(postController);
             pane = loader.load();
-            
+
         } catch (IOException ex) {
-                App.printErrorDialog("Film Details", "IOException", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Film Details", "IOException", ex.toString() + "\n" + ex.getMessage());
         } catch (Exception ex) {
             App.printErrorDialog("Film Details", "An error occurred creating the comment", ex.toString() + "\n" + ex.getMessage());
         }
-        
+
         return pane;
     }
 
     public void addPost(/*Post post*/) {
         String username = "";
         String timestamp = "";
-        
+
         String commentStr = "";
 
         commentVBox.getChildren().add(createPost(username, timestamp, commentStr/*, post*/));
-    }
-
-    public void setFavoriteCount(long count) {
-        favoriteLabel.setText("(" + count + ")");
     }
 
     public void setFilm(Film film) {
@@ -106,20 +102,16 @@ public class FilmDetailPageController implements Initializable {
         setPublishDate(film.getPublicationDate().toString());
 
         //Set<Post> posts = film.getPostSet();
-            
         /*posts.forEach((post) -> {
             addPost(post);
         });*/
-
         WikiScraper scraper = new WikiScraper(film.getWikiPage());
         String url = scraper.scrapePosterLink();
-        if(url != null){
+        if (url != null) {
             moviePosterImageView.setImage(new Image("https:" + url));
         }
-    }
-
-    public void setFollowButton() {
         
+        favoriteLabel.setText("(" + PisaFlixServices.filmService.countFollowers(film) + ")");
     }
 
     public void refreshFilm() {
@@ -131,12 +123,28 @@ public class FilmDetailPageController implements Initializable {
     }
 
     public void refreshPosts(int page) {
-        
+
     }
 
     @FXML
     private void setFollowUnfollow() {
-        PisaFlixServices.filmService.follow(film, PisaFlixServices.authenticationService.getLoggedUser());
+        if (PisaFlixServices.filmService.isFollowing(film, PisaFlixServices.authenticationService.getLoggedUser())) {
+            PisaFlixServices.filmService.unfollow(film, PisaFlixServices.authenticationService.getLoggedUser());
+            FollowButton.setText("+ Follow");
+        } else {
+            PisaFlixServices.filmService.follow(film, PisaFlixServices.authenticationService.getLoggedUser());
+            FollowButton.setText("- Unfollow");
+        }
+    }
+    
+    public void setFollowButton() {
+        if (PisaFlixServices.authenticationService.isUserLogged()) {
+            if (!PisaFlixServices.filmService.isFollowing(film, PisaFlixServices.authenticationService.getLoggedUser())) {
+                FollowButton.setText("+ Follow");
+            } else {
+                FollowButton.setText("- Unfollow");
+            }
+        }
     }
 
 }

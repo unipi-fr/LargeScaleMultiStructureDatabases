@@ -19,4 +19,10 @@ public interface FilmServiceInterface {
     void deleteFilm(Long idFilm) throws UserNotLoggedException, InvalidPrivilegeLevelException;
     
     void follow(Film film, User user);
+
+    boolean isFollowing(Film film, User user);
+
+    void unfollow(Film film, User user);
+    
+    long countFollowers(Film film);
 }
