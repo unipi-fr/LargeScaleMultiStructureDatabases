@@ -1,5 +1,6 @@
 package com.lsmsdbgroup.pisaflix.pisaflixservices;
 
+import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface;
@@ -8,6 +9,7 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
@@ -41,8 +43,8 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public Set<User> getFiltered(String nameFilter) {
-        Set<User> users = userManager.getFiltered(nameFilter);
+    public Set<User> getFiltered(String nameFilter, int limit) {
+        Set<User> users = userManager.getFiltered(nameFilter, limit);
         return users;
     }
 
@@ -152,5 +154,41 @@ public class UserService implements UserServiceInterface {
     @Override
     public void unfollow(User follower, User followed) {
         userManager.unfollow(follower, followed);
+    }
+
+    @Override
+    public long countFollowers(User user) {
+        return userManager.countFollowers(user);
+    }
+
+    @Override
+    public long countFollowingUsers(User user) {
+        return userManager.countFollowing(user).get("followingUsers");
+    }
+
+    @Override
+    public long countFollowingFilms(User user) {
+        return userManager.countFollowing(user).get("followingFilms");
+    }
+
+    @Override
+    public long countTotalFollowing(User user) {
+        HashMap<String, Long> count = userManager.countFollowing(user);
+        return count.get("followingUsers") + count.get("followingFilms");
+    }
+
+    @Override
+    public Set<User> getFollowers(User user) {
+        return userManager.getFollowers(user);
+    }
+
+    @Override
+    public Set<User> getFollowingUsers(User user) {
+        return userManager.getFollowingUsers(user);
+    }
+
+    @Override
+    public Set<Film> getFollowingFilms(User user) {
+        return userManager.getFollowingFilms(user);
     }
 }

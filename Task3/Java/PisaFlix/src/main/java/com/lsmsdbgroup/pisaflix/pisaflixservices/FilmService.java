@@ -82,5 +82,10 @@ public class FilmService implements FilmServiceInterface {
     public long countFollowers(Film film) {
        return filmManager.countFollowers(film);
     }
+
+    @Override
+    public Set<User> getFollowers(Film film) {
+      return filmManager.getFollowers(film);
+    }
     
 }

@@ -25,7 +25,7 @@ public class UserBrowserController extends BrowserController implements Initiali
         try {
             super.initialize();
             filterTextField.setPromptText("Name filter");
-            searchUsers(null);
+            searchUsers("");
         } catch (Exception ex) {
             App.printErrorDialog("Users", "An error occurred loading the page", ex.toString() + "\n" + ex.getMessage());
         }
@@ -78,8 +78,7 @@ public class UserBrowserController extends BrowserController implements Initiali
                     return t;
                 });
                 progressIndicator.setProgress(0);
-                for (User user : users) {
-                    TileWorker tileWorker = new TileWorker(user);
+                users.stream().map((user) -> new TileWorker(user)).map((tileWorker) -> {
                     tileWorker.setOnSucceeded((succeededEvent) -> {
                         progressIndicator.setProgress(progressIndicator.getProgress() + 1 / Double.valueOf(users.size()));
                         if (!tileWorker.isCancelled()) {
@@ -95,8 +94,10 @@ public class UserBrowserController extends BrowserController implements Initiali
                             }
                         }
                     });
+                    return tileWorker;
+                }).forEachOrdered((tileWorker) -> {
                     executorService.execute(tileWorker);
-                }
+                });
                 executorService.shutdown();
                 filterTextField.setDisable(true);
                 searchButton.setDisable(true);
@@ -120,7 +121,7 @@ public class UserBrowserController extends BrowserController implements Initiali
 
     private void searchUsers(String usernameFilter) {
         try {
-            Set<User> users = PisaFlixServices.userService.getFiltered(usernameFilter);
+            Set<User> users = PisaFlixServices.userService.getFiltered(usernameFilter, 0);
 
             populateScrollPane(users);
         } catch (Exception ex) {

@@ -28,15 +28,15 @@
                   <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Text id="tableTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Favourite Films:" textAlignment="JUSTIFY" />
+                  <Text id="tableTitle" fx:id="listText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="JUSTIFY" />
                </children>
             </GridPane>
-            <ListView fx:id="favoriteList" prefHeight="353.0" prefWidth="1217.0" GridPane.rowIndex="1" />
+            <ListView fx:id="list" prefHeight="353.0" prefWidth="1217.0" GridPane.rowIndex="1" />
          </children>
       </VBox>
-      <HBox spacing="520.0">
+      <HBox spacing="300.0">
          <children>
-            <VBox spacing="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox spacing="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <VBox spacing="10.0">
                      <children>
@@ -46,7 +46,7 @@
                         <Label fx:id="emailLabel" prefHeight="25.0" prefWidth="323.0" text="e-mail" AnchorPane.bottomAnchor="360.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="166.0" AnchorPane.topAnchor="95.0" />
                      </children>
                   </VBox>
-                  <VBox>
+                  <VBox spacing="10.0">
                      <children>
                         <HBox alignment="CENTER_LEFT">
                            <children>
@@ -55,11 +55,20 @@
                                     <Image url="@../../../img/Favorites.png" />
                                  </image>
                               </ImageView>
-                              <Label fx:id="favoriteCounterLabel" alignment="CENTER" text="(-)">
-                                 <padding>
-                                    <Insets left="10.0" />
-                                 </padding>
-                              </Label>
+                              <VBox>
+                                 <children>
+                                    <Label fx:id="followingCount" alignment="CENTER" layoutX="10.0" layoutY="10.0" text="Following:">
+                                       <padding>
+                                          <Insets left="10.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label fx:id="followerCount" alignment="CENTER" text="Follower:">
+                                       <padding>
+                                          <Insets left="10.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </VBox>
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT">
@@ -69,7 +78,7 @@
                                     <Image url="@../../../img/Comments.png" />
                                  </image>
                               </ImageView>
-                              <Label fx:id="postCounterLabel" alignment="CENTER" text="(-)">
+                              <Label fx:id="postCounterLabel" alignment="CENTER" text="Post: ">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
@@ -78,6 +87,24 @@
                         </HBox>
                      </children>
                   </VBox>
+                  <HBox alignment="CENTER" spacing="15.0">
+                     <children>
+                        <Button fx:id="showFollowingUsersButton" minWidth="170.0" mnemonicParsing="false" onAction="#showFollowingUsers" text="Show Following Users">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="showFollowingFilmsButton" minWidth="170.0" mnemonicParsing="false" onAction="#showFollowingFilms" text="Show Following Films" AnchorPane.bottomAnchor="299.0" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="151.0" />
+                        <Button fx:id="showFollowersButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#showFollowers" text="Show Followers">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="-5.0" top="10.0" />
+                     </VBox.margin>
+                  </HBox>
                </children>
             </VBox>
             <VBox alignment="CENTER" spacing="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -101,6 +128,9 @@
                      </children>
                   </HBox>
                </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
             </VBox>
          </children>
       </HBox>

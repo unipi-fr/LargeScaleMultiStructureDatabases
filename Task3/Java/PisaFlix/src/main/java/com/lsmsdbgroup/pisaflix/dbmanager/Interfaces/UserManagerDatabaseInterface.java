@@ -1,7 +1,10 @@
 package com.lsmsdbgroup.pisaflix.dbmanager.Interfaces;
 
+import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.User;
+import java.util.HashMap;
 import java.util.Set;
+import org.neo4j.driver.v1.Record;
 
 public interface UserManagerDatabaseInterface {
 
@@ -23,7 +26,7 @@ public interface UserManagerDatabaseInterface {
 
     boolean checkDuplicates(String username, String email);
 
-    Set<User> getFiltered(String nameFilter);
+    Set<User> getFiltered(String nameFilter, int limit);
     
     void follow(User follower, User followed);
 
@@ -33,6 +36,15 @@ public interface UserManagerDatabaseInterface {
     
     long countFollowers(User user);
             
-    long countFollowing(User user);
+    HashMap<String, Long> countFollowing(User user);
+    
+    User getUserFromRecord(Record record);
+    
+    Set<User> getFollowers(User user);
+    
+    Set<User> getFollowingUsers(User user);
+    
+    Set<Film> getFollowingFilms(User user);
+     
 
 }

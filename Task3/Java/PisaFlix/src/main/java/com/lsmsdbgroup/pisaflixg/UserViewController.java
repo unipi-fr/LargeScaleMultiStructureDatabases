@@ -6,13 +6,23 @@ import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 
 public class UserViewController implements Initializable {
 
     private User user;
+    
+    private ChangeListener<Film> filmListener;
+    
+    private ChangeListener<User> userListener;
     
     @FXML
     private Button FollowButton;
@@ -30,13 +40,19 @@ public class UserViewController implements Initializable {
     private Label emailLabel;
 
     @FXML
-    private Label favoriteCounterLabel;
+    private Label followingCount;
+    
+    @FXML
+    private Label followerCount;
 
     @FXML
     private Label postCounterLabel;
 
     @FXML
-    private ListView favoriteList;
+    private ListView list;
+    
+    @FXML
+    private Text listText;
 
     @FXML
     private ImageView userImage;
@@ -76,6 +92,43 @@ public class UserViewController implements Initializable {
             
             if(user != null)
                 showPosts();
+            
+            filmListener = (ObservableValue<? extends Film> observable, Film oldValue, Film newValue) -> {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
+
+                GridPane gridPane = null;
+
+                try {
+                    gridPane = loader.load();
+                } catch (IOException ex) {
+                    System.out.println(ex.getMessage());
+                }
+
+                FilmDetailPageController filmDetailPageController = loader.getController();
+
+                filmDetailPageController.setFilm(newValue);
+
+                App.setMainPane(gridPane);
+            };
+            
+            userListener = (ObservableValue<? extends User> observable, User oldValue, User newValue) -> {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("UserView.fxml"));
+
+                GridPane gridPane = null;
+
+                try {
+                    gridPane = loader.load();
+                } catch (IOException ex) {
+                    System.out.println(ex.getMessage());
+                }
+
+                UserViewController userViewController = loader.getController();
+
+                userViewController.setUser(newValue);
+
+                App.setMainPane(gridPane);
+            };
+           
         } catch (Exception ex) {
             App.printErrorDialog("User Details", "An error occurred loading the user's details", ex.toString() + "\n" + ex.getMessage());
         }
@@ -120,7 +173,10 @@ public class UserViewController implements Initializable {
                 FollowButton.setDisable(true);
             }
 
-            postCounterLabel.setText("Posts: " + "");
+            postCounterLabel.setText("Post: " + "");
+            followingCount.setText("Following: " + PisaFlixServices.userService.countTotalFollowing(user));
+            followerCount.setText("Follower: " + PisaFlixServices.userService.countFollowers(user));
+            
             showPosts();
         } catch (Exception ex) {
             App.printErrorDialog("Users", "An error occurred loading the users", ex.toString() + "\n" + ex.getMessage());
@@ -183,5 +239,69 @@ public class UserViewController implements Initializable {
             }
         }
     }
+    
+    @FXML
+    private void showFollowers() {
+        try {
+            listText.setText("Followers List:"); 
+            Set<User> userSet = PisaFlixServices.userService.getFollowers(user);
+            
+            if(userSet.isEmpty()){
+                return;
+            }
+
+            ObservableList<User> observableUsers = FXCollections.observableArrayList(userSet);
+            list.setItems(observableUsers);
+
+            list.getSelectionModel().selectedItemProperty().removeListener(filmListener);
+            list.getSelectionModel().selectedItemProperty().addListener(userListener);
+            
+        } catch (Exception ex) {
+            App.printErrorDialog("Favorite Films", "An error occurred loading followers", ex.toString() + "\n" + ex.getMessage());
+        }
+    }
+    
+    @FXML
+    private void showFollowingFilms() {
+        try {
+            listText.setText("Following Films List:"); 
+            Set<Film> filmSet = PisaFlixServices.userService.getFollowingFilms(user);
+            
+            if(filmSet.isEmpty()){
+                return;
+            }
+
+            ObservableList<Film> observableFilms = FXCollections.observableArrayList(filmSet);
+            list.setItems(observableFilms);
+
+            list.getSelectionModel().selectedItemProperty().removeListener(userListener);
+            list.getSelectionModel().selectedItemProperty().addListener(filmListener);
+            
+        } catch (Exception ex) {
+            App.printErrorDialog("Favorite Films", "An error occurred loading following films", ex.toString() + "\n" + ex.getMessage());
+        }
+    }
+    
+    @FXML
+    private void showFollowingUsers() {
+        try {
+            listText.setText("Following Users List:"); 
+            Set<User> userSet = PisaFlixServices.userService.getFollowingUsers(user);
+
+            if(userSet.isEmpty()){
+                return;
+            }
+            
+            ObservableList<User> observableUsers = FXCollections.observableArrayList(userSet);
+            list.setItems(observableUsers);
+            
+            list.getSelectionModel().selectedItemProperty().removeListener(filmListener);
+            list.getSelectionModel().selectedItemProperty().addListener(userListener);
+            
+        } catch (Exception ex) {
+            App.printErrorDialog("Favorite Films", "An error occurred loading following users", ex.toString() + "\n" + ex.getMessage());
+        }
+    }
+    
 
 }

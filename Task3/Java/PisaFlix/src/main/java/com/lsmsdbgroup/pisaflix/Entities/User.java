@@ -124,7 +124,7 @@ public class User extends Entity implements Serializable {
 
     @Override
     public String toString() {
-        return "User[  idUser=" + idUser + " | Username=" + username + " | First Name=" + firstName + " | Last Name=" + lastName + " | Email=" + email + " | Privilege Level=" + privilegeLevel + "] ";
+        return username;
     }
 
 }

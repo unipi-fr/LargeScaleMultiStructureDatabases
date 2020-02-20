@@ -30,7 +30,8 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         driver = DBManager.getDB();
     }
     
-    private Film getFilmFromRecord(Record record){
+    @Override
+    public Film getFilmFromRecord(Record record){
         Value value = record.get("n");
         Long id = value.asNode().id();
 
@@ -218,6 +219,27 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         }
 
         return result.next().get("followers").asLong();
+        
+    }
+    
+    @Override
+    public Set<User> getFollowers(Film film){
+        
+        Set<User> userSet = new LinkedHashSet<>();
+        StatementResult result = null;
+        
+        try(Session session = driver.session()){
+            result = session.run("MATCH (u:User)-[r:FOLLOWS]->(f:User) "
+                               + "WHERE ID(f) = "+film.getId()+" "
+                               + "RETURN u");
+
+        }
+        
+        while(result.hasNext()){
+            userSet.add(DBManager.userManager.getUserFromRecord(result.next()));
+        }
+        
+        return userSet;
         
     }
      

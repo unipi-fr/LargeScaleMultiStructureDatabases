@@ -3,6 +3,7 @@ package com.lsmsdbgroup.pisaflix.dbmanager.Interfaces;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import java.util.*;
+import org.neo4j.driver.v1.Record;
 
 public interface FilmManagerDatabaseInterface {
 
@@ -25,4 +26,9 @@ public interface FilmManagerDatabaseInterface {
     void unfollow(Film film, User user);
     
     long countFollowers(Film film);
+    
+    Film getFilmFromRecord(Record record);
+    
+    Set<User> getFollowers(Film film);
+    
 }

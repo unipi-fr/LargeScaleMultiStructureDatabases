@@ -25,4 +25,7 @@ public interface FilmServiceInterface {
     void unfollow(Film film, User user);
     
     long countFollowers(Film film);
+    
+    Set<User> getFollowers(Film film);
+    
 }

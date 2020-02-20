@@ -1,5 +1,6 @@
 package com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces;
 
+import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.UserPrivileges;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
@@ -13,7 +14,7 @@ public interface UserServiceInterface {
 
     Set<User> getAll();
 
-    Set<User> getFiltered(String nameFilter);
+    Set<User> getFiltered(String nameFilter, int limit);
 
     void register(String username, String password, String email, String firstName, String lastName) throws InvalidFieldException;
 
@@ -28,4 +29,18 @@ public interface UserServiceInterface {
     boolean isFollowing(User follower, User followed);
 
     void unfollow(User follower, User followed);
+    
+    long countFollowers(User user);
+            
+    long countFollowingUsers(User user);
+    
+    long countFollowingFilms(User user);
+    
+    long countTotalFollowing(User user);
+    
+    Set<User> getFollowers(User user);
+    
+    Set<User> getFollowingUsers(User user);
+    
+    Set<Film> getFollowingFilms(User user);
 }

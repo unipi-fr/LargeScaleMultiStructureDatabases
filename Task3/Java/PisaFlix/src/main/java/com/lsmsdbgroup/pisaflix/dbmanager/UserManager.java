@@ -1,5 +1,6 @@
 package com.lsmsdbgroup.pisaflix.dbmanager;
 
+import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import java.util.*;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface;
@@ -29,7 +30,8 @@ public class UserManager implements UserManagerDatabaseInterface {
         driver = DBManager.getDB();
     }
 
-    private User getUserFromRecord(Record record) {
+    @Override
+    public User getUserFromRecord(Record record) {
         try {
             Value value = record.get("n");
             Long id = value.asNode().id();
@@ -179,12 +181,31 @@ public class UserManager implements UserManagerDatabaseInterface {
     }
 
     @Override
-    public Set<User> getFiltered(String usernameFilter) {
+    public Set<User> getFiltered(String usernameFilter, int limit) {
+            
         Set<User> userSet = new LinkedHashSet<>();
+        
+        int queryLimit = 0;
+        if(limit == 0){
+            queryLimit = this.limit;
+        }else{
+            queryLimit = limit;
+        }
 
-        userSet = getAll();
+        try (Session session = driver.session()) {
+            
+            StatementResult result = session.run("MATCH (n:User) "
+                                               + "WHERE n.Username =~ '.*"+usernameFilter+".*' "
+                                               + "RETURN n LIMIT " + queryLimit);
+
+            while (result.hasNext()) {
+                userSet.add(getUserFromRecord(result.next()));
+            }
+            
+        }
 
         return userSet;
+        
     }
     
     @Override
@@ -248,8 +269,9 @@ public class UserManager implements UserManagerDatabaseInterface {
     }
     
     @Override
-    public long countFollowing(User user){
+    public HashMap<String, Long> countFollowing(User user){
         
+        HashMap<String, Long> following = new HashMap<>();
         StatementResult result = null;
         
         try(Session session = driver.session()){
@@ -260,7 +282,72 @@ public class UserManager implements UserManagerDatabaseInterface {
         }
         
         Record value = result.next();
-        return value.get("followingUsers").asLong() + value.get("followingFilms").asLong();
+        following.put("followingUsers", value.get("followingUsers").asLong());
+        following.put("followingFilms", value.get("followingFilms").asLong());
+        return  following;
+        
+    }
+    
+    @Override
+    public Set<User> getFollowers(User user){
+        
+        Set<User> userSet = new LinkedHashSet<>();
+        StatementResult result = null;
+        
+        try(Session session = driver.session()){
+            result = session.run("MATCH (n:User)-[r:FOLLOWS]->(u:User) "
+                               + "WHERE ID(u) = "+user.getId()+" "
+                               + "RETURN n");
+
+        }
+        
+        while(result.hasNext()){
+            userSet.add(getUserFromRecord(result.next()));
+        }
+        
+        return userSet;
+        
+    }
+    
+    @Override
+    public Set<User> getFollowingUsers(User user){
+        
+        Set<User> userSet = new LinkedHashSet<>();
+        StatementResult result = null;
+        
+        try(Session session = driver.session()){
+            result = session.run("MATCH (u:User)-[:FOLLOWS]->(n:User) "
+                               + "WHERE ID(u) = "+user.getId()+" "
+                               + "RETURN n");
+
+        }
+        
+        while(result.hasNext()){
+            userSet.add(getUserFromRecord(result.next()));
+        }
+        
+        return userSet;
+        
+    }
+    
+    @Override
+    public Set<Film> getFollowingFilms(User user){
+        
+        Set<Film> filmSet = new LinkedHashSet<>();
+        StatementResult result = null;
+        
+        try(Session session = driver.session()){
+            result = session.run("MATCH (u:User)-[:FOLLOWS]->(n:Film) "
+                               + "WHERE ID(u) = "+user.getId()+" "
+                               + "RETURN n");
+
+        }
+        
+        while(result.hasNext()){
+            filmSet.add(DBManager.filmManager.getFilmFromRecord(result.next()));
+        }
+        
+        return filmSet;
         
     }
     
