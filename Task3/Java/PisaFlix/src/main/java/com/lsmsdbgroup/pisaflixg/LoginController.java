@@ -12,20 +12,30 @@ public class LoginController implements Initializable {
 
     @FXML
     private TextField usernameTextField;
+    
     @FXML
     private PasswordField passwordTextField;
+    
     @FXML
     private Button loginButton;
+    
     @FXML
     private Button registerButton;
+    
     @FXML
     private Label loginStatusLabel;
+    
     @FXML
     private Button logoutButton;
+    
     @FXML
     private Label errorLabel;
+    
     @FXML
     private Button showProfileButton;
+    
+    @FXML
+    private Button writeButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -33,6 +43,10 @@ public class LoginController implements Initializable {
             update();
             errorLabel.setVisible(false);
             errorLabel.setManaged(false);
+            showProfileButton.setVisible(false);
+            showProfileButton.setManaged(false);
+            writeButton.setVisible(false);
+            writeButton.setManaged(false);
         } catch (Exception ex) {
             App.printErrorDialog("Login", "There was an inizialization error", ex.toString() + "\n" + ex.getMessage());
         }
@@ -56,12 +70,16 @@ public class LoginController implements Initializable {
         if (logged) {
             this.loginStatusLabel.setText(PisaFlixServices.authenticationService.getInfoString());
         }
+        
         this.loginStatusLabel.setVisible(logged);
         this.loginStatusLabel.setManaged(logged);
         this.logoutButton.setVisible(logged);
         this.logoutButton.setManaged(logged);
         this.showProfileButton.setVisible(logged);
+        this.showProfileButton.setManaged(logged);
         this.logoutButton.setManaged(logged);
+        this.writeButton.setVisible(logged);
+        this.writeButton.setManaged(logged);
     }
 
     @FXML

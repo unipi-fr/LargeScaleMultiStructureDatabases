@@ -52,8 +52,6 @@ public class FilmDetailPageController implements Initializable {
         } catch (Exception ex) {
             App.printErrorDialog("Film Details", "An error occurred in inizialization", ex.toString() + "\n" + ex.getMessage());
         }
-
-        PisaFlixServices.postService.getById(5380L);
     }
 
     public void setTitleLabel(String title) {

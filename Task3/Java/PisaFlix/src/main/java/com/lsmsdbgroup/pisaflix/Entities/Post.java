@@ -2,24 +2,33 @@ package com.lsmsdbgroup.pisaflix.Entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class Post implements Serializable {
     private static long serialVersionUID = 1L;
     
     private Long idPost;
     
-    private String Text;
+    private String text;
     private Date timestamp;
     
     private User user;
-    private Film film;
+    private Set<Film> films;
     
-    Post(Long idPost, String text, Date timestamp, User user, Film film){
+    public Post(Long idPost, String text)
+    {
         this.idPost = idPost;
-        this.Text = text;
+        this.text = text;
+        films = new LinkedHashSet<>();
+    }
+    
+    public Post(Long idPost, String text, Date timestamp, User user, Set<Film> films){
+        this.idPost = idPost;
+        this.text = text;
         this.timestamp = timestamp;
         this.user = user;
-        this.film = film;
+        this.films = films;
     }
     
     public Long getIdPost() {
@@ -31,11 +40,11 @@ public class Post implements Serializable {
     }
     
     public String getText() {
-        return Text;
+        return text;
     }
 
-    public void setText(String Text) {
-        this.Text = Text;
+    public void setText(String text) {
+        this.text = text;
     }
 
     public Date getTimestamp() {
@@ -54,12 +63,16 @@ public class Post implements Serializable {
         this.user = user;
     }
 
-    public Film getFilm() {
-        return film;
+    public Set<Film> getFilmSet() {
+        return films;
     }
 
-    public void setFilm(Film film) {
-        this.film = film;
+    public void setFilmSet(Set<Film> films) {
+        this.films = films;
+    }
+    
+    public void addFilm(Film film){
+        films.add(film);
     }
     
     @Override

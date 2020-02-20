@@ -4,8 +4,8 @@ import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.Post;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.PostManagerDatabaseInterface;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import org.neo4j.driver.v1.Driver;
 import org.neo4j.driver.v1.Record;
@@ -33,28 +33,54 @@ public class PostManager implements PostManagerDatabaseInterface{
         driver = DBManager.getDB();
     }
     
-    private static Post getPostFromRecord(Record record0, Record record1){
-        Node post = record0.get("p").asNode();
-        String text = post.get("Text").asString();
+    private static Post getPostFromResult(StatementResult result){
+        Post post = null;
         
-        Relationship relationship = record0.get("r").asRelationship();
-        LocalDateTime timestamp;
-        Date timestampDate;
-        if(relationship.hasType("RELATIVE"))
+        if(!result.hasNext())
+            return null;
+        
+        Record record = result.next();
+        Node node = record.get("p").asNode();
+        
+        Long idPost = node.id();
+        String text = node.get("Text").asString();
+
+        post = new Post(idPost, text);
+        
+        getPostFromRecord(record, post);
+                
+        while (result.hasNext())
         {
-            timestamp = relationship.get("Timestamp").asLocalDateTime();
-            timestampDate = Date.from( timestamp.atZone( ZoneId.systemDefault()).toInstant());
-            Long userId = record0.get("n").asNode().id();
-            User user = DBManager.userManager.getById(userId);
+            record = result.next();
+            
+            getPostFromRecord(record, post);
         }
         
-        Long userId = record0.get("n").asNode().id();
-        User user = DBManager.userManager.getById(userId);
+        return post;
+    }
+    
+    private static void getPostFromRecord(Record record, Post post){
+        Relationship relationship = record.get("r").asRelationship();
         
-        record1.get("");
-        
+        ZonedDateTime timestamp;
+        Date timestampDate;
+        if(relationship.hasType("CREATE"))
+        {
+            timestamp = relationship.get("Timestamp").asZonedDateTime();
+            timestampDate = Date.from(timestamp.toInstant());
             
-        return null;
+            post.setTimestamp(timestampDate);
+            
+            Long userId = record.get("n").asNode().id();
+            User user = DBManager.userManager.getById(userId);
+            
+            post.setUser(user);
+        }else{
+            Long filmId = record.get("n").asNode().id();
+            Film film = DBManager.filmManager.getById(filmId);
+            
+            post.addFilm(film);
+        }
     }
     
     @Override
@@ -74,17 +100,11 @@ public class PostManager implements PostManagerDatabaseInterface{
     {
         Post post = null;
         
-        StatementResult result = tx.run("MATCH (p:Post) where ID(p) = 5380 " +
-                                        "MATCH (p)-[r]-(n) RETURN p, r, n");
-        while (result.hasNext())
-        {
-            Record record0 = result.next();
-            Record record1 = result.next();
-            
-            getPostFromRecord(record0, record1);
-            
-            int a = 5;
-        }
+        StatementResult result = tx.run("MATCH (p:Post) where ID(p) = $id " +
+                                        "MATCH (p)-[r]-(n) RETURN p, r, n",
+                                        parameters("id", idPost));
+       
+        post = getPostFromResult(result);
         
         return post;
     }
@@ -103,9 +123,9 @@ public class PostManager implements PostManagerDatabaseInterface{
                 "WITH u " +
                 "MATCH (f:Film) WHERE ID(f) = $filmId " +
                 "WITH u, f " +
-                "CREATE (p:Post {Text: $texte}) " +
+                "CREATE (p:Post {Text: $text}) " +
                 "CREATE (u)-[:CREATE {Timestamp: datetime()}]->(p) " +
-                "CREATE (f)-[:RELATIVE]->(p)",
+                "CREATE (p)-[:TAGS]->(f)",
                 parameters("userId", user.getId(),
                             "filmId", film.getId(),
                             "text", text));
@@ -114,12 +134,41 @@ public class PostManager implements PostManagerDatabaseInterface{
 
     @Override
     public void delete(Long idPost) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void update(Long idPost, String text, User user, Film film) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try(Session session = driver.session())
+        {
+            session.writeTransaction((Transaction t) -> deletePostNode(t, idPost));
+        }
     }
     
+    private static int deletePostNode(Transaction t, Long idPost)
+    {
+        t.run("MATCH(p:Post) where ID(p) = $id " +
+                "MATCH ()-[r1:CREATE]->(p) " +
+                "MATCH (p)-[r2:TAGS]->() " +
+                "DELETE r1, r2, p",
+                parameters("id", idPost));
+        
+        return 1;
+    }
+    
+    @Override
+    public void update(Long idPost, String text) {
+        try(Session session = driver.session())
+        {
+            session.writeTransaction((Transaction t) -> updatePostNode(t, idPost, text));
+        }
+    }
+    
+    private static int updatePostNode(Transaction t, Long idPost, String text)
+    {
+        t.run("MATCH (p:Post) where ID(p) = $id " +
+                "SET p.Text = $text " +
+                "WITH p " +
+                "MATCH ()-[r:CREATE]->(p) " +
+                "SET r.LastModified = datetime()",
+                parameters("id", idPost,
+                            "text", text));
+        
+        return 1;
+    }
 }

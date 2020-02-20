@@ -12,5 +12,5 @@ public interface PostServiceInterface {
     
     void delete(Long idPost);
     
-    void update(Long idPost, String text, User user, Film film);
+    void update(Long idPost, String text);
 }
