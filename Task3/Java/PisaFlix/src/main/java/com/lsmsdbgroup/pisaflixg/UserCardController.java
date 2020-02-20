@@ -16,18 +16,15 @@ import javafx.scene.layout.*;
 
 public class UserCardController implements Initializable {
 
-    private User user;
+    private final User user;
 
     private final StringProperty userProperty = new SimpleStringProperty();
     private final StringProperty privilegeProperty = new SimpleStringProperty();
-
-    private final Long userId;
 
     public UserCardController(User user) {
         this.user = user;
         userProperty.set(user.getUsername());
         privilegeProperty.set(UserPrivileges.valueOf(user.getPrivilegeLevel()));
-        userId = user.getId();
     }
 
     @FXML
@@ -60,7 +57,6 @@ public class UserCardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            user = PisaFlixServices.userService.getById(userId);
             usernameLabel.setText(userProperty.get());
             privilegeLabel.setText(privilegeProperty.get());
             setFollowButton();
@@ -139,15 +135,14 @@ public class UserCardController implements Initializable {
             }
 
             int level = UserPrivileges.getLevel(privilegeCombo.getValue().toString());
-
+            user.setPrivilegeLevel((int) privilegeCombo.getValue());
+            
             UserPrivileges userPrivilege = (UserPrivileges) privilegeCombo.getValue();
             try {
                 PisaFlixServices.userService.changeUserPrivileges(user, userPrivilege);
             } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
                 App.printErrorDialog("Updating Privilege", "An error occurred while updating the privileges", ex.getMessage());
-            }
-
-            user = PisaFlixServices.userService.getById(userId);
+            }            
 
             refreshUserCard();
 
@@ -210,7 +205,12 @@ public class UserCardController implements Initializable {
     public void setFollowButton() {
         if (PisaFlixServices.authenticationService.isUserLogged() && !user.equals(PisaFlixServices.authenticationService.getLoggedUser()) ) {
             if (!PisaFlixServices.userService.isFollowing(PisaFlixServices.authenticationService.getLoggedUser(), user)) {
-                followButton.setText("+ Follow");
+
+                if(user.type().equals("SUGGESTED")){
+                   followButton.setText("+ Suggested"); 
+                }else{
+                   followButton.setText("+ Follow"); 
+                }
             } else {
                 followButton.setText("- Unfollow");
             }

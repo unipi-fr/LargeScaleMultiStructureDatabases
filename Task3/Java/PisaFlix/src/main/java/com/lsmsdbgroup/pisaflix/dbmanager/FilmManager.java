@@ -15,8 +15,8 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
     private static FilmManager FilmManager;
     private final Driver driver;
-
-    private final int limit = 27;
+    
+    public final int limit = 27;
     
     public static FilmManager getIstance() {
         if (FilmManager == null) {
@@ -117,7 +117,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     }
 
     @Override
-    public Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit) {
+    public Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit, int skip) {
         Set<Film> filmSet = new LinkedHashSet<>();
         
         int queryLimit = 0;
@@ -134,19 +134,28 @@ public class FilmManager implements FilmManagerDatabaseInterface {
             if(startDateFilter == null || endDateFilter == null){
                 result = session.run("MATCH (n:Film) "
                                                + "WHERE n.Title =~ '.*"+titleFilter+".*' "
-                                               + "RETURN n LIMIT " + queryLimit);
+                                               + "RETURN n "
+                                               + "ORDER BY n.PublicationDate DESC "
+                                               + "SKIP " + skip + " "
+                                               + "LIMIT " + queryLimit);
             }else{
                 if(titleFilter == null){
                     result = session.run("MATCH (n:Film) "
                                                + "AND n.PublicationDate <= "+endDateFilter+" "
                                                + "AND n.PublicationDate >= "+startDateFilter+" "
-                                               + "RETURN n LIMIT " + queryLimit);
+                                               + "RETURN n "
+                                               + "ORDER BY n.PublicationDate DESC "
+                                               + "SKIP " + skip + " "
+                                               + "LIMIT " + queryLimit);
                 }else{
                     result = session.run("MATCH (n:Film) "
                                                + "WHERE n.Title =~ '.*"+titleFilter+".*' "
                                                + "AND n.PublicationDate <= "+endDateFilter+" "
                                                + "AND n.PublicationDate >= "+startDateFilter+" "
-                                               + "RETURN n LIMIT " + queryLimit);
+                                               + "RETURN n "
+                                               + "ORDER BY n.PublicationDate DESC "
+                                               + "SKIP " + skip + " "
+                                               + "LIMIT " + queryLimit);
                 } 
             }
             
@@ -242,5 +251,45 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         return userSet;
         
     }
+    
+    @Override
+    public Set<Film> getSuggestedFilms(User user, int limit){
+        
+        int queryLimit = 0;
+        if(limit == 0){
+            queryLimit = this.limit;
+        }else{
+            queryLimit = limit;
+        }
+        
+        Set<Film> filmSet = new LinkedHashSet<>();
+        StatementResult result = null;
+        
+        try(Session session = driver.session()){
+            result = session.run("MATCH (u1:User)-[:FOLLOWS]->(u2:User)-[:FOLLOWS]->(n:Film) "
+                               + "WHERE ID(u1) = "+user.getId()+" "
+                               + "AND NOT (u1)-[:FOLLOWS]->(n) "
+                               + "RETURN n "
+                               + "ORDER BY n.PublicationDate DESC "
+                               + "LIMIT " + queryLimit);
+
+        }
+        
+        while(result.hasNext()){
+            Film film = getFilmFromRecord(result.next());
+            film.setType("SUGGESTED");
+            filmSet.add(film);
+        }
+        
+        return filmSet;
+        
+    }
+
+    @Override
+    public int getLimit() {
+        return limit;
+    }
+    
+    
      
 }

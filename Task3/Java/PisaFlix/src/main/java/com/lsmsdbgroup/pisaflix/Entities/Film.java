@@ -9,6 +9,7 @@ public class Film extends Entity implements Serializable {
     private String title;
     private Date publicationDate;
     private String wikiPage;
+    private String type = "NORMAL";
 
     private Set<User> userSet = new LinkedHashSet<>();
 
@@ -61,6 +62,14 @@ public class Film extends Entity implements Serializable {
 
     public void setUserSet(Set<User> userSet) {
         this.userSet = userSet;
+    }
+    
+    public String type() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override

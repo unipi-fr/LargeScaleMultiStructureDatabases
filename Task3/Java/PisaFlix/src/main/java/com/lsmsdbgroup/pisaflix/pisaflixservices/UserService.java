@@ -37,14 +37,14 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public Set<User> getAll() {
-        Set<User> users = userManager.getAll();
+    public Set<User> getAll(int limit) {
+        Set<User> users = userManager.getAll(limit);
         return users;
     }
 
     @Override
-    public Set<User> getFiltered(String nameFilter, int limit) {
-        Set<User> users = userManager.getFiltered(nameFilter, limit);
+    public Set<User> getFiltered(String nameFilter, int limit, int skip) {
+        Set<User> users = userManager.getFiltered(nameFilter, limit, skip);
         return users;
     }
 
@@ -190,5 +190,32 @@ public class UserService implements UserServiceInterface {
     @Override
     public Set<Film> getFollowingFilms(User user) {
         return userManager.getFollowingFilms(user);
+    }
+
+    @Override
+    public Set<User> getSuggestedUsers(User user, int limit) {
+        return userManager.getSuggestedUsers(user, limit);
+    }
+
+    @Override
+    public Set<User> getMixedUsers(User user) {
+        
+        Set<User> mix= userManager.getSuggestedUsers(user, 0);
+        
+        if(mix.size() < userManager.getLimit()){
+            
+            mix.addAll(userManager.getFiltered("", userManager.getLimit() - mix.size(), 0));
+            
+        }
+        
+        
+        if(mix.size() < userManager.getLimit()){
+            
+            mix.addAll(userManager.getFiltered("", userManager.getLimit() - mix.size(), mix.size() + 27));
+            
+        }
+        
+        return mix;
+        
     }
 }

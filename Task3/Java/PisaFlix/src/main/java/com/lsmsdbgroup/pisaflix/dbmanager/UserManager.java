@@ -111,7 +111,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     }
 
     @Override
-    public Set<User> getAll() {
+    public Set<User> getAll(int limit) {
         Set<User> userSet = new LinkedHashSet<>();
 
         try (Session session = driver.session()) {
@@ -181,7 +181,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     }
 
     @Override
-    public Set<User> getFiltered(String usernameFilter, int limit) {
+    public Set<User> getFiltered(String usernameFilter, int limit, int skip) {
             
         Set<User> userSet = new LinkedHashSet<>();
         
@@ -196,7 +196,9 @@ public class UserManager implements UserManagerDatabaseInterface {
             
             StatementResult result = session.run("MATCH (n:User) "
                                                + "WHERE n.Username =~ '.*"+usernameFilter+".*' "
-                                               + "RETURN n LIMIT " + queryLimit);
+                                               + "RETURN n "
+                                               + "SKIP " + skip + " "
+                                               + "LIMIT " + queryLimit);
 
             while (result.hasNext()) {
                 userSet.add(getUserFromRecord(result.next()));
@@ -349,6 +351,43 @@ public class UserManager implements UserManagerDatabaseInterface {
         
         return filmSet;
         
+    }
+    
+    @Override
+    public Set<User> getSuggestedUsers(User user, int limit){
+        
+        int queryLimit = 0;
+        if(limit == 0){
+            queryLimit = this.limit;
+        }else{
+            queryLimit = limit;
+        }
+        
+        Set<User> userSet = new LinkedHashSet<>();
+        StatementResult result = null;
+        
+        try(Session session = driver.session()){
+            result = session.run("MATCH (u1:User)-[:FOLLOWS]->(u2:User)-[:FOLLOWS]->(n:User) "
+                               + "WHERE ID(u1) = "+user.getId()+" "
+                               + "AND NOT (u1)-[:FOLLOWS]->(n) "
+                               + "RETURN n "
+                               + "LIMIT " + queryLimit);
+
+        }
+        
+        while(result.hasNext()){
+            User suggestesUser = getUserFromRecord(result.next());
+            suggestesUser.setType("SUGGESTED");
+            userSet.add(suggestesUser);
+        }
+        
+        return userSet;
+        
+    }
+
+    @Override
+    public int getLimit() {
+        return limit;
     }
     
 }

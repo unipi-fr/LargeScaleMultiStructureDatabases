@@ -32,8 +32,15 @@ public class FilmBrowserController extends BrowserController implements Initiali
         try {
             super.initialize();
             filterTextField.setPromptText("Title filter");
-            filter();
-        } catch (Exception ex) {
+
+            if (PisaFlixServices.authenticationService.isUserLogged()) {
+                Set<Film> films = PisaFlixServices.filmService.getMixSuggestedRecent(PisaFlixServices.authenticationService.getLoggedUser());
+                populateScrollPane(films);
+            } else {
+                filter();
+            }
+
+        } catch (InterruptedException ex) {
             App.printErrorDialog("Films", "There was an inizialization error", ex.toString() + "\n" + ex.getMessage());
         }
     }
@@ -86,7 +93,7 @@ public class FilmBrowserController extends BrowserController implements Initiali
     @FXML
     public void searchFilms(String titleFilter, Date dateFilter) {
         try {
-            Set<Film> films = PisaFlixServices.filmService.getFilmsFiltered(titleFilter, dateFilter, dateFilter, 0);
+            Set<Film> films = PisaFlixServices.filmService.getFilmsFiltered(titleFilter, dateFilter, dateFilter, 0, 0);
             populateScrollPane(films);
         } catch (InterruptedException ex) {
             App.printErrorDialog("Films", "An error occurred searching the films", ex.toString() + "\n" + ex.getMessage());
@@ -119,9 +126,8 @@ public class FilmBrowserController extends BrowserController implements Initiali
                 t.setDaemon(true);
                 return t;
             });
-            
-            for (Film film : filmSet) {
-                TileWorker tileWorker = new TileWorker(film);
+
+            filmSet.stream().map((film) -> new TileWorker(film)).map((tileWorker) -> {
                 tileWorker.setOnSucceeded((succeededEvent) -> {
                     progressIndicator.setProgress(progressIndicator.getProgress() + 1 / Double.valueOf(filmSet.size()));
                     if (!tileWorker.isCancelled()) {
@@ -137,9 +143,11 @@ public class FilmBrowserController extends BrowserController implements Initiali
                         }
                     }
                 });
+                return tileWorker;
+            }).forEachOrdered((tileWorker) -> {
                 executorService.execute(tileWorker);
-            }
-            
+            });
+
             executorService.shutdown();
             filterTextField.setDisable(true);
             searchButton.setDisable(true);

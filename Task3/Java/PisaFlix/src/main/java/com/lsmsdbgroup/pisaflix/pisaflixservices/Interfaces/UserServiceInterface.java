@@ -12,9 +12,9 @@ public interface UserServiceInterface {
 
     User getById(Long id);
 
-    Set<User> getAll();
+    Set<User> getAll(int limit);
 
-    Set<User> getFiltered(String nameFilter, int limit);
+    Set<User> getFiltered(String nameFilter, int limit, int skip);
 
     void register(String username, String password, String email, String firstName, String lastName) throws InvalidFieldException;
 
@@ -43,4 +43,8 @@ public interface UserServiceInterface {
     Set<User> getFollowingUsers(User user);
     
     Set<Film> getFollowingFilms(User user);
+    
+    Set<User> getSuggestedUsers(User user, int limit);
+    
+    Set<User> getMixedUsers(User user);
 }

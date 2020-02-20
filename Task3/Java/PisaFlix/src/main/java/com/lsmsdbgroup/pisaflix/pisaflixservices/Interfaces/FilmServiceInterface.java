@@ -6,7 +6,7 @@ import java.util.*;
 
 public interface FilmServiceInterface {
 
-    Set<Film> getFilmsFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit);
+    Set<Film> getFilmsFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit, int skip);
 
     Set<Film> getAll();
 
@@ -27,5 +27,9 @@ public interface FilmServiceInterface {
     long countFollowers(Film film);
     
     Set<User> getFollowers(Film film);
+    
+    Set<Film> getSuggestedFilms(User user, int limit);
+    
+    Set<Film> getMixSuggestedRecent(User user);
     
 }

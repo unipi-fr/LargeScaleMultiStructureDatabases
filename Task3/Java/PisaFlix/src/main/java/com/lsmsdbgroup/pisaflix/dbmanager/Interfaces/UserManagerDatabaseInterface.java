@@ -8,6 +8,8 @@ import org.neo4j.driver.v1.Record;
 
 public interface UserManagerDatabaseInterface {
 
+    int getLimit();
+    
     User getById(Long userId);
 
     void create(String username, String password, String firstName, String lastName, String email, int privilegeLevel);
@@ -18,7 +20,7 @@ public interface UserManagerDatabaseInterface {
 
     void update(Long userId, String username, String firstName, String lastName, String email, String password, int privilegeLevel);
 
-    Set<User> getAll();
+    Set<User> getAll(int limit);
 
     Set<User> getByUsername(String username);
 
@@ -26,7 +28,7 @@ public interface UserManagerDatabaseInterface {
 
     boolean checkDuplicates(String username, String email);
 
-    Set<User> getFiltered(String nameFilter, int limit);
+    Set<User> getFiltered(String nameFilter, int limit, int skip);
     
     void follow(User follower, User followed);
 
@@ -46,5 +48,6 @@ public interface UserManagerDatabaseInterface {
     
     Set<Film> getFollowingFilms(User user);
      
-
+    Set<User> getSuggestedUsers(User user, int limit);
+            
 }

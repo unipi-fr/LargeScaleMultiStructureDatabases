@@ -25,7 +25,11 @@ public class UserBrowserController extends BrowserController implements Initiali
         try {
             super.initialize();
             filterTextField.setPromptText("Name filter");
-            searchUsers("");
+            if(PisaFlixServices.authenticationService.isUserLogged()){
+                populateScrollPane(PisaFlixServices.userService.getMixedUsers(PisaFlixServices.authenticationService.getLoggedUser()));
+            }else{
+                searchUsers("");
+            }
         } catch (Exception ex) {
             App.printErrorDialog("Users", "An error occurred loading the page", ex.toString() + "\n" + ex.getMessage());
         }
@@ -121,7 +125,7 @@ public class UserBrowserController extends BrowserController implements Initiali
 
     private void searchUsers(String usernameFilter) {
         try {
-            Set<User> users = PisaFlixServices.userService.getFiltered(usernameFilter, 0);
+            Set<User> users = PisaFlixServices.userService.getFiltered(usernameFilter, 0, 0);
 
             populateScrollPane(users);
         } catch (Exception ex) {

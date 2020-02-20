@@ -17,9 +17,9 @@ public class FilmService implements FilmServiceInterface {
     }
 
     @Override
-    public Set<Film> getFilmsFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit) {
+    public Set<Film> getFilmsFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit, int skip) {
         Set<Film> films = null;
-        films = filmManager.getFiltered(titleFilter, startDateFilter, endDateFilter, limit);
+        films = filmManager.getFiltered(titleFilter, startDateFilter, endDateFilter, limit, skip);
         return films;
     }
 
@@ -86,6 +86,32 @@ public class FilmService implements FilmServiceInterface {
     @Override
     public Set<User> getFollowers(Film film) {
       return filmManager.getFollowers(film);
+    }
+
+    @Override
+    public Set<Film> getSuggestedFilms(User user, int limit) {
+        return filmManager.getSuggestedFilms(user, limit);
+    }
+
+    @Override
+    public Set<Film> getMixSuggestedRecent(User user) {
+        
+        Set<Film> mix= filmManager.getSuggestedFilms(user, 0);
+        
+        if(mix.size() < filmManager.getLimit()){
+            
+            mix.addAll(filmManager.getFiltered("", null, null, filmManager.getLimit() - mix.size(), 0));
+            
+        }
+        
+        if(mix.size() < filmManager.getLimit()){
+            
+            mix.addAll(filmManager.getFiltered("", null, null, filmManager.getLimit() - mix.size(),mix.size() + 27));
+            
+        }
+        
+        return mix;
+        
     }
     
 }

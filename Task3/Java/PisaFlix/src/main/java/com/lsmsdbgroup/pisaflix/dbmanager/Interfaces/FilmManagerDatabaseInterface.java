@@ -6,6 +6,8 @@ import java.util.*;
 import org.neo4j.driver.v1.Record;
 
 public interface FilmManagerDatabaseInterface {
+    
+    int getLimit();
 
     Film getById(Long filmId);
 
@@ -17,7 +19,7 @@ public interface FilmManagerDatabaseInterface {
 
     void delete(Long idFilm);
 
-    Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit);
+    Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit, int skip);
     
     void follow(Film film, User user);
 
@@ -30,5 +32,7 @@ public interface FilmManagerDatabaseInterface {
     Film getFilmFromRecord(Record record);
     
     Set<User> getFollowers(Film film);
+    
+    Set<Film> getSuggestedFilms(User user, int limit);
     
 }

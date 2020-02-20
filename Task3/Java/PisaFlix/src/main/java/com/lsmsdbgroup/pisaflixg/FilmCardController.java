@@ -57,6 +57,9 @@ public class FilmCardController implements Initializable {
     
     @FXML
     private Button followButton;
+    
+    @FXML
+    private VBox card;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -150,7 +153,13 @@ public class FilmCardController implements Initializable {
     public void setFollowButton() {
         if (PisaFlixServices.authenticationService.isUserLogged()) {
             if (!PisaFlixServices.filmService.isFollowing(film, PisaFlixServices.authenticationService.getLoggedUser())) {
-                followButton.setText("+ Follow");
+                
+                if(film.type().equals("SUGGESTED")){
+                    followButton.setText("+ Suggested");
+                }else{
+                    followButton.setText("+ Follow");
+                }
+                
             } else {
                 followButton.setText("- Unfollow");
             }

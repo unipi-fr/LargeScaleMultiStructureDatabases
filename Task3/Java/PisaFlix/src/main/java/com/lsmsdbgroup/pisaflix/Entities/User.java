@@ -14,6 +14,7 @@ public class User extends Entity implements Serializable {
     private String firstName;
     private String lastName;
     private int privilegeLevel;
+    private String type = "NORMAL";
 
     private Set<Film> filmSet = new LinkedHashSet<>();
 
@@ -125,6 +126,14 @@ public class User extends Entity implements Serializable {
     @Override
     public String toString() {
         return username;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    public String type() {
+        return type;
     }
 
 }
