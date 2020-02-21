@@ -7,6 +7,7 @@ import com.lsmsdbgroup.pisaflix.dbmanager.DBManager;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.PostManagerDatabaseInterface;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.AuthenticationServiceInterface;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces.PostServiceInterface;
+import java.util.Set;
 
 public class PostService implements PostServiceInterface{
 
@@ -24,8 +25,8 @@ public class PostService implements PostServiceInterface{
     }
 
     @Override
-    public void create(String text, User user, Film film) {
-        postManager.create(text, user, film);
+    public void create(String text, User user, Set<Film> films) {
+        postManager.create(text, user, films);
     }
 
     @Override

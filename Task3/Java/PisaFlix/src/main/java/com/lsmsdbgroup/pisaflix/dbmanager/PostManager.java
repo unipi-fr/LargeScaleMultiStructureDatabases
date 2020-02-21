@@ -7,6 +7,7 @@ import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.PostManagerDatabaseInterfac
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.Set;
 import org.neo4j.driver.v1.Driver;
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.Session;
@@ -110,25 +111,40 @@ public class PostManager implements PostManagerDatabaseInterface{
     }
 
     @Override
-    public void create(String text, User user, Film film) {
+    public void create(String text, User user, Set<Film> films) {
         try(Session session = driver.session())
         {
-            session.writeTransaction((Transaction t) -> createPostNode(t, text, user, film));
+            session.writeTransaction((Transaction t) -> createPostNode(t, text, user, films));
         }
     }
     
-    private static int createPostNode(Transaction t, String text, User user, Film film){
-        t.run("MATCH (u:User) " + 
-                "WHERE ID(u) = $userId " + 
-                "WITH u " +
-                "MATCH (f:Film) WHERE ID(f) = $filmId " +
-                "WITH u, f " +
-                "CREATE (p:Post {Text: $text}) " +
-                "CREATE (u)-[:CREATE {Timestamp: datetime()}]->(p) " +
-                "CREATE (p)-[:TAGS]->(f)",
-                parameters("userId", user.getId(),
-                            "filmId", film.getId(),
-                            "text", text));
+    private static int createPostNode(Transaction t, String text, User user, Set<Film> films){
+        StatementResult result = t.run("MATCH (u:User) " + 
+                                        "WHERE ID(u) = $userId " + 
+                                        "WITH u " +
+                                        "CREATE (p:Post {Text: $text}) " +
+                                        "CREATE (u)-[:CREATE {Timestamp: datetime()}]->(p) " +
+                                        "RETURN ID(p) AS createdPostID",
+                                        parameters("userId", user.getId(),
+                                                    "text", text));
+        
+        if(!result.hasNext())
+            return 0;
+        
+        Long idPost = result.next().get("createdPostID").asLong();
+        
+        for(Film film: films){
+            t.run("MATCH (p: Post) " + 
+                    "WHERE ID(p) = $idPost " +
+                    "WITH p " +
+                    "MATCH (f: Film) " +
+                    "WHERE ID(f) = $idFilm " +
+                    "WITH p, f " +
+                    "CREATE (p)-[:TAGS]->(f)",
+                    parameters("idPost", idPost,
+                                "idFilm", film.getId()));               
+        }
+        
         return 1;
     }
 
