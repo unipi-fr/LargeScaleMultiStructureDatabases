@@ -92,22 +92,38 @@ public class FilmService implements FilmServiceInterface {
     public Set<Film> getSuggestedFilms(User user, int limit) {
         return filmManager.getSuggestedFilms(user, limit);
     }
+    
+    @Override
+    public Set<Film> getVerySuggestedFilms(User user, int limit) {
+        return filmManager.getVerySuggestedFilms(user, limit);
+    }
+    
+    @Override
+    public Set<Film> getFriendCommentedFilms(User user, int limit) {
+        return filmManager.getFriendCommentedFilms(user, limit);
+    }
 
     @Override
     public Set<Film> getMixSuggestedRecent(User user) {
         
-        Set<Film> mix= filmManager.getSuggestedFilms(user, 0);
+        Set<Film> mix= filmManager.getVerySuggestedFilms(user, 0);
         
         if(mix.size() < filmManager.getLimit()){
             
-            mix.addAll(filmManager.getFiltered("", null, null, filmManager.getLimit() - mix.size(), 0));
+            mix.addAll(filmManager.getSuggestedFilms(user, filmManager.getLimit() - mix.size()));
             
         }
         
         if(mix.size() < filmManager.getLimit()){
             
-            mix.addAll(filmManager.getFiltered("", null, null, filmManager.getLimit() - mix.size(),mix.size() + 27));
+            mix.addAll(filmManager.getFriendCommentedFilms(user, filmManager.getLimit() - mix.size()));
             
+        }
+        
+        if(mix.size() < filmManager.getLimit()){
+            
+            mix.addAll(filmManager.getFiltered("", null, null, filmManager.getLimit() - mix.size(), filmManager.getLimit()));
+            //TODO: creare un filtro per i film già scelti
         }
         
         return mix;

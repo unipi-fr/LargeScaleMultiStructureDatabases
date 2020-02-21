@@ -35,4 +35,8 @@ public interface FilmManagerDatabaseInterface {
     
     Set<Film> getSuggestedFilms(User user, int limit);
     
+    Set<Film> getVerySuggestedFilms(User user, int limit);
+    
+    Set<Film> getFriendCommentedFilms(User user, int limit);
+    
 }

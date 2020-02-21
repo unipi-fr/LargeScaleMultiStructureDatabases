@@ -4,7 +4,6 @@ import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.Post;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.PostManagerDatabaseInterface;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Set;
@@ -65,7 +64,7 @@ public class PostManager implements PostManagerDatabaseInterface{
         
         ZonedDateTime timestamp;
         Date timestampDate;
-        if(relationship.hasType("CREATE"))
+        if(relationship.hasType("CREATED"))
         {
             timestamp = relationship.get("Timestamp").asZonedDateTime();
             timestampDate = Date.from(timestamp.toInstant());
@@ -123,7 +122,7 @@ public class PostManager implements PostManagerDatabaseInterface{
                                         "WHERE ID(u) = $userId " + 
                                         "WITH u " +
                                         "CREATE (p:Post {Text: $text}) " +
-                                        "CREATE (u)-[:CREATE {Timestamp: datetime()}]->(p) " +
+                                        "CREATE (u)-[:CREATED {Timestamp: datetime()}]->(p) " +
                                         "RETURN ID(p) AS createdPostID",
                                         parameters("userId", user.getId(),
                                                     "text", text));
@@ -179,7 +178,7 @@ public class PostManager implements PostManagerDatabaseInterface{
         t.run("MATCH (p:Post) where ID(p) = $id " +
                 "SET p.Text = $text " +
                 "WITH p " +
-                "MATCH ()-[r:CREATE]->(p) " +
+                "MATCH ()-[r:CREATED]->(p) " +
                 "SET r.LastModified = datetime()",
                 parameters("id", idPost,
                             "text", text));

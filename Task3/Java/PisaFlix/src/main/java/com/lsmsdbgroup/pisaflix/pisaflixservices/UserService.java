@@ -196,23 +196,28 @@ public class UserService implements UserServiceInterface {
     public Set<User> getSuggestedUsers(User user, int limit) {
         return userManager.getSuggestedUsers(user, limit);
     }
+    
+    @Override
+    public Set<User> getVerySuggestedUsers(User user, int limit) {
+        return userManager.getVerySuggestedUsers(user, limit);
+    }
 
     @Override
     public Set<User> getMixedUsers(User user) {
         
-        Set<User> mix= userManager.getSuggestedUsers(user, 0);
+        Set<User> mix= userManager.getVerySuggestedUsers(user, 0);
         
         if(mix.size() < userManager.getLimit()){
             
-            mix.addAll(userManager.getFiltered("", userManager.getLimit() - mix.size(), 0));
+            mix.addAll(userManager.getSuggestedUsers(user, userManager.getLimit() - mix.size()));
             
         }
         
         
         if(mix.size() < userManager.getLimit()){
             
-            mix.addAll(userManager.getFiltered("", userManager.getLimit() - mix.size(), mix.size() + 27));
-            
+            mix.addAll(userManager.getFiltered("", userManager.getLimit() - mix.size(), userManager.getLimit()));
+            //TODO: creare un filtro per gli utenti già scelti
         }
         
         return mix;

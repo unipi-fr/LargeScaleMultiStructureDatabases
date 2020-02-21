@@ -34,13 +34,13 @@ public class FilmBrowserController extends BrowserController implements Initiali
             filterTextField.setPromptText("Title filter");
 
             if (PisaFlixServices.authenticationService.isUserLogged()) {
-                Set<Film> films = PisaFlixServices.filmService.getMixSuggestedRecent(PisaFlixServices.authenticationService.getLoggedUser());
-                populateScrollPane(films);
+               Set<Film> films = PisaFlixServices.filmService.getMixSuggestedRecent(PisaFlixServices.authenticationService.getLoggedUser());
+               populateScrollPane(films);
             } else {
                 filter();
             }
 
-        } catch (InterruptedException ex) {
+        } catch (Exception ex) {
             App.printErrorDialog("Films", "There was an inizialization error", ex.toString() + "\n" + ex.getMessage());
         }
     }

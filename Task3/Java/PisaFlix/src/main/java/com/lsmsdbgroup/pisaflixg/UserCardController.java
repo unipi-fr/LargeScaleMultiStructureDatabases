@@ -50,7 +50,7 @@ public class UserCardController implements Initializable {
 
     @FXML
     private Button updatePrivilegeButton;
-    
+
     @FXML
     private Button followButton;
 
@@ -97,10 +97,10 @@ public class UserCardController implements Initializable {
     @FXML
     private void updatePrivilege() {
         try {
-            
+
             followButton.setVisible(false);
             followButton.setManaged(false);
-            
+
             userImageView.setVisible(false);
             userImageView.setManaged(false);
 
@@ -136,13 +136,13 @@ public class UserCardController implements Initializable {
 
             int level = UserPrivileges.getLevel(privilegeCombo.getValue().toString());
             user.setPrivilegeLevel((int) privilegeCombo.getValue());
-            
+
             UserPrivileges userPrivilege = (UserPrivileges) privilegeCombo.getValue();
             try {
                 PisaFlixServices.userService.changeUserPrivileges(user, userPrivilege);
             } catch (UserNotLoggedException | InvalidPrivilegeLevelException ex) {
                 App.printErrorDialog("Updating Privilege", "An error occurred while updating the privileges", ex.getMessage());
-            }            
+            }
 
             refreshUserCard();
 
@@ -157,7 +157,7 @@ public class UserCardController implements Initializable {
 
             updatePrivilegeButton.setVisible(false);
             updatePrivilegeButton.setManaged(false);
-            
+
             followButton.setVisible(true);
             followButton.setManaged(true);
         } catch (Exception ex) {
@@ -168,8 +168,9 @@ public class UserCardController implements Initializable {
     @FXML
     private void mouseClicked(MouseEvent event) {
         try {
-            if (event.isSecondaryButtonDown())
+            if (event.isSecondaryButtonDown()) {
                 return;
+            }
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("UserView.fxml"));
 
@@ -184,13 +185,13 @@ public class UserCardController implements Initializable {
             UserViewController userViewController = loader.getController();
 
             userViewController.setUser(user);
-            
+
             App.setMainPane(gridPane);
         } catch (Exception ex) {
             App.printErrorDialog("User Card", "An error occurred", ex.toString() + "\n" + ex.getMessage());
         }
     }
-    
+
     @FXML
     private void FollowUnfollow() {
         if (PisaFlixServices.userService.isFollowing(PisaFlixServices.authenticationService.getLoggedUser(), user)) {
@@ -201,20 +202,27 @@ public class UserCardController implements Initializable {
             followButton.setText("- Unfollow");
         }
     }
-    
+
     public void setFollowButton() {
-        if (PisaFlixServices.authenticationService.isUserLogged() && !user.equals(PisaFlixServices.authenticationService.getLoggedUser()) ) {
+        if (PisaFlixServices.authenticationService.isUserLogged() && !user.equals(PisaFlixServices.authenticationService.getLoggedUser())) {
             if (!PisaFlixServices.userService.isFollowing(PisaFlixServices.authenticationService.getLoggedUser(), user)) {
 
-                if(user.type().equals("SUGGESTED")){
-                   followButton.setText("+ Suggested"); 
-                }else{
-                   followButton.setText("+ Follow"); 
+                if (user.type().equals("SUGGESTED")) {
+                    followButton.setText("+ Suggested");
                 }
+
+                if (user.type().equals("VERY SUGGESTED")) {
+                    followButton.setText("+ Very Suggested");
+                }
+
+                if (user.type().equals("NORMAL")) {
+                    followButton.setText("+ Follow");
+                }
+
             } else {
                 followButton.setText("- Unfollow");
             }
-        }else{
+        } else {
             followButton.setVisible(false);
             followButton.setManaged(false);
             userImageView.setFitHeight(116);

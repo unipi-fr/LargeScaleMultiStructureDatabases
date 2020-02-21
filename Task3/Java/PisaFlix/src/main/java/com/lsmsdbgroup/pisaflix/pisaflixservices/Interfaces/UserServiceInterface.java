@@ -46,5 +46,7 @@ public interface UserServiceInterface {
     
     Set<User> getSuggestedUsers(User user, int limit);
     
+     Set<User> getVerySuggestedUsers(User user, int limit);
+    
     Set<User> getMixedUsers(User user);
 }

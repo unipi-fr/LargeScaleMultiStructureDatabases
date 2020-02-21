@@ -30,6 +30,10 @@ public interface FilmServiceInterface {
     
     Set<Film> getSuggestedFilms(User user, int limit);
     
+    Set<Film> getVerySuggestedFilms(User user, int limit);
+    
     Set<Film> getMixSuggestedRecent(User user);
+    
+    Set<Film> getFriendCommentedFilms(User user, int limit);
     
 }

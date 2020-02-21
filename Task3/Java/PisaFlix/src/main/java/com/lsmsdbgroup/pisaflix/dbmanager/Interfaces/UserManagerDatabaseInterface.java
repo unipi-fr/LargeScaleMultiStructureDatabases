@@ -49,5 +49,7 @@ public interface UserManagerDatabaseInterface {
     Set<Film> getFollowingFilms(User user);
      
     Set<User> getSuggestedUsers(User user, int limit);
+    
+    Set<User> getVerySuggestedUsers(User user, int limit);
             
 }

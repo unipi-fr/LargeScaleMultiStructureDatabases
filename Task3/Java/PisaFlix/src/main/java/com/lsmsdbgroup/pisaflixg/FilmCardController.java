@@ -54,10 +54,10 @@ public class FilmCardController implements Initializable {
 
     @FXML
     private ImageView poster;
-    
+
     @FXML
     private Button followButton;
-    
+
     @FXML
     private VBox card;
 
@@ -76,7 +76,7 @@ public class FilmCardController implements Initializable {
             deleteFilmMenuItem.setVisible(true);
             modifyFilmMenuItem.setVisible(true);
         }
-        
+
         setPoster();
         setFollowButton();
     }
@@ -138,7 +138,7 @@ public class FilmCardController implements Initializable {
             App.printErrorDialog("Film Poster", "An error occurred loading the film's poster", ex.toString() + "\n" + ex.getMessage());
         }
     }
-    
+
     @FXML
     private void FollowUnfollow() {
         if (PisaFlixServices.filmService.isFollowing(film, PisaFlixServices.authenticationService.getLoggedUser())) {
@@ -149,25 +149,39 @@ public class FilmCardController implements Initializable {
             followButton.setText("- Unfollow");
         }
     }
-    
+
     public void setFollowButton() {
-        if (PisaFlixServices.authenticationService.isUserLogged()) {
-            if (!PisaFlixServices.filmService.isFollowing(film, PisaFlixServices.authenticationService.getLoggedUser())) {
-                
-                if(film.type().equals("SUGGESTED")){
-                    followButton.setText("+ Suggested");
-                }else{
-                    followButton.setText("+ Follow");
+        try {
+            if (PisaFlixServices.authenticationService.isUserLogged()) {
+                if (!PisaFlixServices.filmService.isFollowing(film, PisaFlixServices.authenticationService.getLoggedUser())) {
+                    
+                    if(film.type().equals("SUGGESTED")){
+                        followButton.setText("+ Suggested");
+                    }
+                    
+                    if(film.type().equals("VERY SUGGESTED")){
+                        followButton.setText("+ Very Suggested");
+                    }
+                    
+                    if(film.type().equals("NORMAL")){
+                        followButton.setText("+ Follow");
+                    }
+                    
+                    if(film.type().equals("FRIEND COMMENTED")){
+                        followButton.setText("Commented by Friend");
+                    }
+                    
+                } else {
+                    followButton.setText("- Unfollow");
                 }
-                
             } else {
-                followButton.setText("- Unfollow");
+                followButton.setVisible(false);
+                followButton.setManaged(false);
+                poster.setFitHeight(116);
+                poster.setFitWidth(116);
             }
-        }else{
-            followButton.setVisible(false);
-            followButton.setManaged(false);
-            poster.setFitHeight(116);
-            poster.setFitWidth(116);
+        } catch (Exception ex) {
+            System.out.println(ex.getLocalizedMessage());
         }
     }
 }
