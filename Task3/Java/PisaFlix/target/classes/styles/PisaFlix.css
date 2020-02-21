@@ -158,6 +158,53 @@
 
 /*******************************************************************************
  *                                                                             *
+ * Material Design - Cards For Tags 				                       				   *
+ *                                                                             *
+ ******************************************************************************/
+.card-tags {
+    -fx-background-color: rgb(255.0, 255.0, 255.0);
+    -fx-background-radius: 4.0;
+    -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,
+        1.5);
+    -fx-padding: 5 0 5 0;
+}
+
+.card-tags:hover {
+    -fx-background-color: rgb(240.0, 240.0, 240.0);
+}
+
+
+
+.card-tags-title {
+    -fx-font-size: 24.0px;
+}
+
+.card-tags-title .text {
+    -fx-fill: -fx-text-title-color;
+}
+
+.card-tags-subtitle {
+    -fx-font-size: 16.0px;
+}
+
+.card-subtitle .text {
+    -fx-fill: -fx-text-subtitle-color;
+}
+
+.control-label-tags {
+    -fx-font-size: 12.0px;
+}
+
+.control-label-tags .text {
+    -fx-fill: -fx-text-control-title-color;
+}
+
+.card-tags-button {
+    -fx-effect: null;
+}
+
+/*******************************************************************************
+ *                                                                             *
  * Material Design - Cards For User				                       				   *
  *                                                                             *
  ******************************************************************************/
