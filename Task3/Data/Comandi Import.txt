@@ -1,0 +1,5 @@
+LOAD CSV FROM "file:///Users.csv" as line
+Create(:User{Email:line[0], Password:line[1], PrivilegeLevel:toInteger(line[2]), Username:line[3], FirstName:line[4], LastName:line[5]})
+
+LOAD CSV FROM "file:///Film.csv" as line
+Create(:Film{PublicationDate:line[0], Title:line[1], WikiPage:line[2]})

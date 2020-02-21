@@ -8,6 +8,7 @@ import org.neo4j.driver.v1.Driver;
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.Session;
 import org.neo4j.driver.v1.StatementResult;
+import org.neo4j.driver.v1.Transaction;
 import org.neo4j.driver.v1.Value;
 import static org.neo4j.driver.v1.Values.parameters;
 
@@ -95,25 +96,47 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     }
 
     @Override
-    public void update(Long filmId, String title, Date publicationDate) {
+    public void update(Long idFilm, String title, Date publicationDate) {
         try(Session session = driver.session())
         {
             session.run("MATCH (f:Film) "
                     + "WHERE ID(f) = $id"
                     + "SET f.Title = $title, f.PublicationDate = $publicationDate "
                     + "RETURN f", 
-                    parameters("id", filmId,
+                    parameters("id", idFilm,
                                 "title", title, 
                                 "publicationDate", publicationDate.toString()));   
         }
     }
 
     @Override
-    public void delete(Long filmId) {
-        try(Session session = driver.session())
-        {
-            session.run("MATCH (n:Film) WHERE ID(n) = $id DELETE n", parameters("id", filmId));
+    public void delete(Long idFilm) {
+        
+        try(Session session = driver.session()){
+            
+            session.writeTransaction((Transaction t) -> deleteFilmRelationships(t, idFilm));
+            session.writeTransaction((Transaction t) -> deleteFilmNode(t, idFilm));
+            
         }
+        
+    }
+    
+    private static int deleteFilmRelationships(Transaction t, Long idFilm){
+        
+        t.run("MATCH (f:Film)-[r]-() WHERE ID(f) = $id DELETE r",
+               parameters("id", idFilm));
+        
+        return 1;
+        
+    }
+    
+    private static int deleteFilmNode(Transaction t, Long idFilm){
+        
+        t.run("MATCH (f:Film) WHERE ID(f) = $id DELETE f",
+               parameters("id", idFilm));
+        
+        return 1;
+        
     }
 
     @Override

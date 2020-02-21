@@ -143,9 +143,8 @@ public class PostManager implements PostManagerDatabaseInterface{
     private static int deletePostNode(Transaction t, Long idPost)
     {
         t.run("MATCH(p:Post) where ID(p) = $id " +
-                "MATCH ()-[r1:CREATE]->(p) " +
-                "MATCH (p)-[r2:TAGS]->() " +
-                "DELETE r1, r2, p",
+                "MATCH (p)-[r]-() " +
+                "DELETE r, p",
                 parameters("id", idPost));
         
         return 1;

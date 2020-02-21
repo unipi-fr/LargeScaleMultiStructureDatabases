@@ -8,6 +8,7 @@ import org.neo4j.driver.v1.Driver;
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.Session;
 import org.neo4j.driver.v1.StatementResult;
+import org.neo4j.driver.v1.Transaction;
 import org.neo4j.driver.v1.Value;
 import static org.neo4j.driver.v1.Values.parameters;
 
@@ -80,13 +81,35 @@ public class UserManager implements UserManagerDatabaseInterface {
                             "privilegeLevel", privilegeLevel));
         }
     }
-
+    
     @Override
     public void delete(Long idUser) {
-        try (Session session = driver.session()) {
-            session.run("MATCH (n:User) WHERE ID(n) = $id DELETE n",
-                    parameters("id", idUser));
+        
+        try(Session session = driver.session()){
+            
+            session.writeTransaction((Transaction t) -> deleteUserRelationships(t, idUser));
+            session.writeTransaction((Transaction t) -> deleteUserNode(t, idUser));
+            
         }
+        
+    }
+    
+    private static int deleteUserRelationships(Transaction t, Long idUser){
+        
+        t.run("MATCH (u:User)-[r]-() WHERE ID(u) = $id DELETE r",
+               parameters("id", idUser));
+        
+        return 1;
+        
+    }
+    
+    private static int deleteUserNode(Transaction t, Long idUser){
+        
+        t.run("MATCH (u:User) WHERE ID(u) = $id DELETE u",
+               parameters("id", idUser));
+        
+        return 1;
+        
     }
 
     @Override
