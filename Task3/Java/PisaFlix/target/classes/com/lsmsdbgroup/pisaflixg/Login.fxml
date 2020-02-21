@@ -39,7 +39,7 @@
          </VBox.margin>
       </Button>
        <Button fx:id="showProfileButton" mnemonicParsing="false" onMouseClicked="#showUser" text="Show Profile" />
-      <Button fx:id="writeButton" mnemonicParsing="false">
+      <Button fx:id="writeButton" mnemonicParsing="false" onMouseClicked="#writePost">
          <graphic>
             <ImageView fitHeight="35.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                <image>

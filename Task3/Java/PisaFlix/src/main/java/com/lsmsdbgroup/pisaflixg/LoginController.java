@@ -138,4 +138,9 @@ public class LoginController implements Initializable {
     private void showUser() {
         App.setMainPageReturnsController("UserView");
     }
+    
+    @FXML
+    private void writePost(){
+        App.setMainPageReturnsController("CreatePost");
+    }
 }

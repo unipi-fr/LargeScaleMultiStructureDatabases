@@ -196,7 +196,6 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     
     @Override
     public void follow(Film film, User user) {
-        
         try(Session session = driver.session()){
             session.run("MATCH (u:User),(f:Film) " 
                       + "WHERE ID(u) = "+user.getId()+" "
@@ -205,12 +204,10 @@ public class FilmManager implements FilmManagerDatabaseInterface {
                       + "RETURN r");
 
         }
-        
     }
     
     @Override
     public boolean isFollowing(Film film, User user){
-        
         StatementResult result = null;
         
         try(Session session = driver.session()){
@@ -222,7 +219,6 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         }
         
         return result.hasNext();
-        
     }
     
     @Override
@@ -233,9 +229,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
                                + "WHERE ID(u) = "+user.getId()+" "
                                + "AND ID(f) = "+film.getId()+" "
                                + "DELETE r");
-
         }
-        
     }
     
     @Override

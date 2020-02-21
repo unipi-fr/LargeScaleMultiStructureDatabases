@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -7,4 +9,48 @@
 <?import javafx.scene.layout.*?>
 
 
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.CreatePostController" />
+<VBox alignment="TOP_CENTER" spacing="15.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.CreatePostController">
+   <children>
+      <TextArea fx:id="postTextArea" prefHeight="300.0" promptText="Write a post" />
+      <HBox fx:id="tagsHBox" alignment="CENTER" prefHeight="70.0" spacing="10.0">
+         <children>
+            <Button fx:id="resetButton" mnemonicParsing="false" onMouseClicked="#resetTags" text="Reset" />
+         </children>
+      </HBox>
+      <VBox spacing="10.0">
+         <children>
+            <HBox alignment="TOP_CENTER" spacing="10.0">
+               <children>
+                  <TextField fx:id="filterTextField" layoutX="5.0" layoutY="5.0" promptText="Title Filter" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </TextField>
+                  <Button fx:id="searchButton" defaultButton="true" mnemonicParsing="false" onAction="#filter">
+                     <graphic>
+                        <ImageView fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../img/search.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <ScrollPane fitToHeight="true" fitToWidth="true">
+               <content>
+                  <TilePane fx:id="tilePane" hgap="5.0" prefColumns="7" prefRows="3" prefTileHeight="66.0" prefTileWidth="150.0" vgap="5.0">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" top="5.0" />
+                     </padding>
+                  </TilePane>
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
+      <Button fx:id="postButton" mnemonicParsing="false" onMouseClicked="#createPost" text="Post" />
+   </children>
+</VBox>
