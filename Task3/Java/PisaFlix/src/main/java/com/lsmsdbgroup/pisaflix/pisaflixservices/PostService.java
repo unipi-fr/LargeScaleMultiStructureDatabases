@@ -1,5 +1,6 @@
 package com.lsmsdbgroup.pisaflix.pisaflixservices;
 
+import com.lsmsdbgroup.pisaflix.Entities.Entity;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.Post;
 import com.lsmsdbgroup.pisaflix.Entities.User;
@@ -38,5 +39,10 @@ public class PostService implements PostServiceInterface{
     public void update(Long idPost, String text) {
         DBManager.postManager.update(idPost, text);
     }
-    
+
+    @Override
+    public int count(Entity entity) {
+       return DBManager.postManager.count(entity); 
+    }
+  
 }

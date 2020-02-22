@@ -1,6 +1,7 @@
 package com.lsmsdbgroup.pisaflix.dbmanager.Interfaces;
 
 import com.lsmsdbgroup.pisaflix.Entities.Film;
+import com.lsmsdbgroup.pisaflix.Entities.Post;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import java.util.*;
 import org.neo4j.driver.v1.Record;
@@ -38,5 +39,7 @@ public interface FilmManagerDatabaseInterface {
     Set<Film> getVerySuggestedFilms(User user, int limit);
     
     Set<Film> getFriendCommentedFilms(User user, int limit);
+
+    Set<Post> getRelatedPosts(Film film, int limit, long skip);
     
 }

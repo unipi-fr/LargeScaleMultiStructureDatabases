@@ -32,11 +32,11 @@
                   <RowConstraints prefHeight="551.0" vgrow="ALWAYS" />
                </rowConstraints>
                <children>
-                  <ScrollPane fx:id="commentScrollPane" fitToHeight="true" fitToWidth="true" layoutY="183.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0" GridPane.rowIndex="1">
+                  <ScrollPane fx:id="postScrollPane" fitToHeight="true" fitToWidth="true" layoutY="183.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0" GridPane.rowIndex="1">
                      <content>
                         <VBox>
                            <children>
-                              <VBox fx:id="commentVBox" alignment="TOP_CENTER" spacing="5.0">
+                              <VBox fx:id="postVBox" alignment="TOP_CENTER" spacing="5.0">
                                  <padding>
                                     <Insets left="5.0" right="5.0" top="1.0" />
                                  </padding>

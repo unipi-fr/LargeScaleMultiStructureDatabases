@@ -6,6 +6,7 @@ import com.lsmsdbgroup.pisaflix.pisaflixservices.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -23,7 +24,7 @@ public class FilmDetailPageController implements Initializable {
     private Label publishDateLabel;
 
     @FXML
-    private VBox commentVBox;
+    private VBox postVBox;
 
     @FXML
     private Button FollowButton;
@@ -48,7 +49,7 @@ public class FilmDetailPageController implements Initializable {
             }
 
             pagination.currentPageIndexProperty().addListener((obs, oldIndex, newIndex)
-                    -> refreshPosts(newIndex.intValue()));
+                    -> refreshPosts());
         } catch (Exception ex) {
             App.printErrorDialog("Film Details", "An error occurred in inizialization", ex.toString() + "\n" + ex.getMessage());
         }
@@ -62,33 +63,39 @@ public class FilmDetailPageController implements Initializable {
         publishDateLabel.setText(publishDate);
     }
 
-    private Pane createPost(String username, String timestamp, String commentStr/*, Post post*/) {
+    private Pane createPost(String username, String timestamp, String postStr) {
         Pane pane = new Pane();
 
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Comment.fxml"));
-            //PostController postController = new PostController(username, timestamp, commentStr, 0);
-            //postController.setPost(post);
-            //loader.setController(postController);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Post.fxml"));
             pane = loader.load();
 
         } catch (IOException ex) {
             App.printErrorDialog("Film Details", "IOException", ex.toString() + "\n" + ex.getMessage());
         } catch (Exception ex) {
-            App.printErrorDialog("Film Details", "An error occurred creating the comment", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Film Details", "An error occurred creating the posts", ex.toString() + "\n" + ex.getMessage());
         }
 
         return pane;
     }
 
-    public void addPost(/*Post post*/) {
-        String username = "";
-        String timestamp = "";
-
-        String commentStr = "";
-
-        commentVBox.getChildren().add(createPost(username, timestamp, commentStr/*, post*/));
+    private Pane createPost(String username, String timestamp, String postStr, Post post) {
+        Pane pane = new Pane();
+        try {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("Post.fxml"));
+                PostController postController = new PostController(username, timestamp, postStr, 0);
+                postController.setPost(post);
+                loader.setController(postController);
+                pane = loader.load();
+            } catch (IOException ex) {
+                App.printErrorDialog("Film Details", "IOException", ex.toString() + "\n" + ex.getMessage());
+            }
+        } catch (Exception ex) {
+            App.printErrorDialog("Film Details", "An error occurred creating the post", ex.toString() + "\n" + ex.getMessage());
+        }
+        return pane;
     }
 
     public void setFilm(Film film) {
@@ -99,10 +106,6 @@ public class FilmDetailPageController implements Initializable {
         setTitleLabel(film.getTitle());
         setPublishDate(film.getPublicationDate().toString());
 
-        //Set<Post> posts = film.getPostSet();
-        /*posts.forEach((post) -> {
-            addPost(post);
-        });*/
         WikiScraper scraper = new WikiScraper(film.getWikiPage());
         String url = scraper.scrapePosterLink();
         if (url != null) {
@@ -110,18 +113,32 @@ public class FilmDetailPageController implements Initializable {
         }
         
         favoriteLabel.setText("(" + PisaFlixServices.filmService.countFollowers(film) + ")");
+        
+        int count = PisaFlixServices.postService.count(film);
+        if (count == 0) {
+            pagination.pageCountProperty().setValue(1);
+        } else {
+            pagination.setPageCount((int) Math.ceil(count*1.0/PisaFlixServices.filmService.getPostPageSize()*1.0));
+        }
+        
+        refreshPosts();
+        
     }
 
     public void refreshFilm() {
         film = PisaFlixServices.filmService.getById(film.getId());
     }
 
-    public int getCurrentPage() {
-        return pagination.getCurrentPageIndex();
-    }
+    public void refreshPosts() {
+        
+        postVBox.getChildren().clear();
 
-    public void refreshPosts(int page) {
-
+        Set<Post> posts = PisaFlixServices.filmService.getRelatedPosts(film, pagination.getCurrentPageIndex());
+        
+        posts.forEach((post) -> {
+            postVBox.getChildren().add(createPost(post.getUser().getUsername(), post.getTimestamp().toString(), post.getText(), post));
+        });
+        
     }
 
     @FXML

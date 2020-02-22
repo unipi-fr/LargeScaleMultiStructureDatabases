@@ -14,13 +14,12 @@ public class Post implements Serializable {
     private Date timestamp;
     
     private User user;
-    private Set<Film> films;
+    private Set<Film> films = new LinkedHashSet<>();
     
     public Post(Long idPost, String text)
     {
         this.idPost = idPost;
         this.text = text;
-        films = new LinkedHashSet<>();
     }
     
     public Post(Long idPost, String text, Date timestamp, User user, Set<Film> films){
@@ -29,6 +28,10 @@ public class Post implements Serializable {
         this.timestamp = timestamp;
         this.user = user;
         this.films = films;
+    }
+
+    public Post() {
+        
     }
     
     public Long getIdPost() {
@@ -89,5 +92,9 @@ public class Post implements Serializable {
         }
         Post other = (Post) object;
         return !((this.idPost == null && other.idPost != null) || (this.idPost != null && !this.idPost.equals(other.idPost)));
+    }
+
+    public Object getLastModified() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

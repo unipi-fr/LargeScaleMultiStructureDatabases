@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="postVbox" alignment="CENTER_LEFT" spacing="10.0" styleClass="card" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="postLabel" text="Post" wrapText="true">
+         <contextMenu>
+            <ContextMenu fx:id="postMenu">
+               <items>
+                  <MenuItem fx:id="updateMenuItem" mnemonicParsing="false" onAction="#updatePost" text="Update" />
+                  <MenuItem fx:id="deleteMenuItem" mnemonicParsing="false" onAction="#deletePost" text="Delete" />
+               </items>
+            </ContextMenu>
+         </contextMenu>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+         <VBox.margin>
+            <Insets bottom="-10.0" top="-5.0" />
+         </VBox.margin>
+      </Label>
+      <TextArea fx:id="postTextArea" wrapText="true" />
+      <HBox fx:id="buttonHbox" alignment="CENTER" spacing="10.0">
+         <children>
+            <Button fx:id="cancelButton" mnemonicParsing="false" onMouseClicked="#cancelPost" text="cancel" />
+            <Button fx:id="updateButton" mnemonicParsing="false" onMouseClicked="#confirmPost" text="update" />
+         </children>
+      </HBox>
+      <Separator prefWidth="200.0" />
+      <AnchorPane>
+         <children>
+            <HBox layoutX="-22.0" layoutY="-7.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+               <children>
+                  <Label layoutX="-22.0" layoutY="-7.0" text="Written at: " />
+                  <Label fx:id="timestampLabel" alignment="CENTER_RIGHT" layoutX="170.0" text="TimeStamp" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <Label text="By: " />
+                  <Label fx:id="usernameLabel" layoutX="10.0" text="Username" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+         <VBox.margin>
+            <Insets bottom="-5.0" top="-10.0" />
+         </VBox.margin>
+      </AnchorPane>
+   </children>
+</VBox>

@@ -10,6 +10,7 @@ public class FilmService implements FilmServiceInterface {
 
     private final FilmManagerDatabaseInterface filmManager;
     private final AuthenticationServiceInterface authenticationService;
+    private final int postPageSize = 20;
 
     FilmService(FilmManagerDatabaseInterface filmManager, AuthenticationServiceInterface authenticationService) {
         this.filmManager = filmManager;
@@ -128,6 +129,16 @@ public class FilmService implements FilmServiceInterface {
         
         return mix;
         
+    }
+
+    @Override
+    public Set<Post> getRelatedPosts(Film film, int page) {
+        return filmManager.getRelatedPosts(film, postPageSize, postPageSize*page);
+    }
+
+    @Override
+    public int getPostPageSize() {
+        return postPageSize;
     }
     
 }

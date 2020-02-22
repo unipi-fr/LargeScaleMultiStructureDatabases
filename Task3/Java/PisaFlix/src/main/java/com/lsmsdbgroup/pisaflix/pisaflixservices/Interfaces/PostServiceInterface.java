@@ -1,5 +1,6 @@
 package com.lsmsdbgroup.pisaflix.pisaflixservices.Interfaces;
 
+import com.lsmsdbgroup.pisaflix.Entities.Entity;
 import com.lsmsdbgroup.pisaflix.Entities.Film;
 import com.lsmsdbgroup.pisaflix.Entities.Post;
 import com.lsmsdbgroup.pisaflix.Entities.User;
@@ -13,4 +14,6 @@ public interface PostServiceInterface {
     void delete(Long idPost);
     
     void update(Long idPost, String text);
+    
+    int count(Entity entity);
 }

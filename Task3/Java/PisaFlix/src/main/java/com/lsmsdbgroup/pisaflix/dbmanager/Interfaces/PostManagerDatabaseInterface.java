@@ -2,6 +2,7 @@ package com.lsmsdbgroup.pisaflix.dbmanager.Interfaces;
 
 import com.lsmsdbgroup.pisaflix.Entities.*;
 import java.util.Set;
+import org.neo4j.driver.v1.Record;
 
 public interface PostManagerDatabaseInterface {
             
@@ -12,4 +13,8 @@ public interface PostManagerDatabaseInterface {
     void delete(Long idPost);
     
     void update(Long idPost, String text);
+
+    Post getPostFromRecord(Record record);
+    
+    int count(Entity entity);
 }
