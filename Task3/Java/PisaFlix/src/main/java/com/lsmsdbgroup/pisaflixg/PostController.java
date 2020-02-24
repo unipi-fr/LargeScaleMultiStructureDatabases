@@ -123,7 +123,7 @@ public class PostController implements Initializable {
 
     private void refreshPosts() {
         FilmDetailPageController filmDetailPageController = App.getLoader().getController();
-        filmDetailPageController.refreshPosts(filmDetailPageController.getCurrentPage());
+        filmDetailPageController.refreshPosts();
     }
 
     @FXML

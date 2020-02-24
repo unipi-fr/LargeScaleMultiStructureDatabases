@@ -5,6 +5,8 @@ import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 import javafx.fxml.*;
@@ -22,15 +24,21 @@ public class FilmDetailPageController implements Initializable {
 
     @FXML
     private Label publishDateLabel;
+    
+    @FXML
+    private TextArea postArea;
 
     @FXML
     private VBox postVBox;
 
     @FXML
-    private Button FollowButton;
+    private Button followButton;
+    
+    @FXML
+    private Button postButton;
 
     @FXML
-    private Label favoriteLabel;
+    private Label followerLabel;
 
     @FXML
     private Pagination pagination;
@@ -45,7 +53,10 @@ public class FilmDetailPageController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             if (PisaFlixServices.authenticationService.isUserLogged()) {
-                FollowButton.setDisable(false);
+                followButton.setDisable(false);
+                postButton.setDisable(false);
+                postArea.setPromptText("Write here a post for the film...");
+                postArea.setEditable(true);
             }
 
             pagination.currentPageIndexProperty().addListener((obs, oldIndex, newIndex)
@@ -61,23 +72,6 @@ public class FilmDetailPageController implements Initializable {
 
     public void setPublishDate(String publishDate) {
         publishDateLabel.setText(publishDate);
-    }
-
-    private Pane createPost(String username, String timestamp, String postStr) {
-        Pane pane = new Pane();
-
-        try {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Post.fxml"));
-            pane = loader.load();
-
-        } catch (IOException ex) {
-            App.printErrorDialog("Film Details", "IOException", ex.toString() + "\n" + ex.getMessage());
-        } catch (Exception ex) {
-            App.printErrorDialog("Film Details", "An error occurred creating the posts", ex.toString() + "\n" + ex.getMessage());
-        }
-
-        return pane;
     }
 
     private Pane createPost(String username, String timestamp, String postStr, Post post) {
@@ -112,7 +106,7 @@ public class FilmDetailPageController implements Initializable {
             moviePosterImageView.setImage(new Image("https:" + url));
         }
         
-        favoriteLabel.setText("(" + PisaFlixServices.filmService.countFollowers(film) + ")");
+        followerLabel.setText("(" + PisaFlixServices.filmService.countFollowers(film) + ")");
         
         int count = PisaFlixServices.postService.count(film);
         if (count == 0) {
@@ -142,22 +136,39 @@ public class FilmDetailPageController implements Initializable {
     }
 
     @FXML
-    private void setFollowUnfollow() {
+    private void followUnfollow() {
         if (PisaFlixServices.filmService.isFollowing(film, PisaFlixServices.authenticationService.getLoggedUser())) {
             PisaFlixServices.filmService.unfollow(film, PisaFlixServices.authenticationService.getLoggedUser());
-            FollowButton.setText("+ Follow");
+            followButton.setText("+ Follow");
         } else {
             PisaFlixServices.filmService.follow(film, PisaFlixServices.authenticationService.getLoggedUser());
-            FollowButton.setText("- Unfollow");
+            followButton.setText("- Unfollow");
+        }
+        followerLabel.setText("(" + PisaFlixServices.filmService.countFollowers(film) + ")");
+    }
+    
+    @FXML
+    private void addPost() throws IOException {
+        try {
+            String post = postArea.getText();
+            User user = PisaFlixServices.authenticationService.getLoggedUser();
+            Set<Film> filmSet = new LinkedHashSet<>();
+            filmSet.add(film);
+            PisaFlixServices.postService.create(post, user, filmSet);
+
+            refreshFilm();
+            refreshPosts();
+        } catch (Exception ex) {
+            App.printErrorDialog("Comments", "An error occurred creating the post", ex.toString() + "\n" + ex.getMessage());
         }
     }
     
     public void setFollowButton() {
         if (PisaFlixServices.authenticationService.isUserLogged()) {
             if (!PisaFlixServices.filmService.isFollowing(film, PisaFlixServices.authenticationService.getLoggedUser())) {
-                FollowButton.setText("+ Follow");
+                followButton.setText("+ Follow");
             } else {
-                FollowButton.setText("- Unfollow");
+                followButton.setText("- Unfollow");
             }
         }
     }

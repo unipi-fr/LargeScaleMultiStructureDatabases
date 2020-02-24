@@ -77,16 +77,13 @@
                               <Insets top="-10.0" />
                            </VBox.margin>
                         </Label>
-                        <Separator halignment="RIGHT" layoutX="30.0" layoutY="78.0">
-                           <padding>
-                              <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
-                           </padding>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
+                        <Separator halignment="RIGHT">
                            <VBox.margin>
                               <Insets left="20.0" right="20.0" />
                            </VBox.margin>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
                         </Separator>
                      </children>
                   </VBox>
@@ -103,17 +100,19 @@
             </ImageView>
             <HBox fx:id="favoriteHBox" alignment="CENTER" spacing="5.0">
                <children>
-                  <Button fx:id="FollowButton" alignment="CENTER" disable="true" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#setFollowUnfollow" text="Follow" wrapText="true">
+                  <Button fx:id="followButton" alignment="CENTER" disable="true" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#followUnfollow" text="+ Follow" wrapText="true">
                      <rotationAxis>
                         <Point3D />
                      </rotationAxis>
                   </Button>
-                  <Label fx:id="favoriteLabel" alignment="CENTER" prefHeight="35.0" prefWidth="39.0" />
+                  <Label fx:id="followerLabel" alignment="CENTER" prefHeight="35.0" prefWidth="39.0" />
                </children>
                <padding>
                   <Insets left="5.0" />
                </padding>
             </HBox>
+            <TextArea fx:id="postArea" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" promptText="You must be logged to post..." wrapText="true" VBox.vgrow="ALWAYS" />
+            <Button fx:id="postButton" disable="true" mnemonicParsing="false" onAction="#addPost" text="Post" />
          </children>
          <padding>
             <Insets bottom="5.0" />
