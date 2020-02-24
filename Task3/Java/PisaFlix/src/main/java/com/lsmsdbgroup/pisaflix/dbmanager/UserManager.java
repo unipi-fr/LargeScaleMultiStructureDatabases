@@ -40,7 +40,7 @@ public class UserManager implements UserManagerDatabaseInterface {
             String username = value.get("Username").asString();
             String firstName = value.get("FirstName").asString();
             String lastName = value.get("LastName").asString();
-            int privilegeLevel = Integer.parseInt(value.get("PrivilegeLevel").asString());
+            int privilegeLevel = value.get("PrivilegeLevel").asInt();
             String email = value.get("Email").asString();
             String password = value.get("Password").asString();
 
@@ -208,7 +208,7 @@ public class UserManager implements UserManagerDatabaseInterface {
             
         Set<User> userSet = new LinkedHashSet<>();
         
-        int queryLimit;
+        int queryLimit = 0;
         if(limit == 0){
             queryLimit = this.limit;
         }else{
@@ -250,7 +250,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     @Override
     public boolean isFollowing(User follower, User followed){
         
-        StatementResult result;
+        StatementResult result = null;
         
         try(Session session = driver.session()){
             result = session.run("MATCH (u1:User)-[r:FOLLOWS]->(u2:User) "
@@ -280,7 +280,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     @Override
     public long countFollowers(User user){
         
-        StatementResult result;
+        StatementResult result = null;
         
         try(Session session = driver.session()){
             result = session.run("MATCH (u1:User)-[r:FOLLOWS]->(u2:User) "
@@ -297,7 +297,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     public HashMap<String, Long> countFollowing(User user){
         
         HashMap<String, Long> following = new HashMap<>();
-        StatementResult result;
+        StatementResult result = null;
         
         try(Session session = driver.session()){
             result = session.run("MATCH (u1:User)-[:FOLLOWS]->(u2:User), (u1:User)-[:FOLLOWS]->(f:Film)"
@@ -317,7 +317,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     public Set<User> getFollowers(User user){
         
         Set<User> userSet = new LinkedHashSet<>();
-        StatementResult result;
+        StatementResult result = null;
         
         try(Session session = driver.session()){
             result = session.run("MATCH (n:User)-[r:FOLLOWS]->(u:User) "
@@ -338,7 +338,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     public Set<User> getFollowingUsers(User user){
         
         Set<User> userSet = new LinkedHashSet<>();
-        StatementResult result;
+        StatementResult result = null;
         
         try(Session session = driver.session()){
             result = session.run("MATCH (u:User)-[:FOLLOWS]->(n:User) "
@@ -359,7 +359,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     public Set<Film> getFollowingFilms(User user){
         
         Set<Film> filmSet = new LinkedHashSet<>();
-        StatementResult result;
+        StatementResult result = null;
         
         try(Session session = driver.session()){
             result = session.run("MATCH (u:User)-[:FOLLOWS]->(n:Film) "
@@ -379,7 +379,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     @Override
     public Set<User> getSuggestedUsers(User user, int limit){
         
-        int queryLimit;
+        int queryLimit = 0;
         if(limit == 0){
             queryLimit = this.limit;
         }else{
@@ -387,7 +387,7 @@ public class UserManager implements UserManagerDatabaseInterface {
         }
         
         Set<User> userSet = new LinkedHashSet<>();
-        StatementResult result;
+        StatementResult result = null;
         
         try(Session session = driver.session()){
             result = session.run("MATCH (u1:User)-[:FOLLOWS]->(u2:User)-[:FOLLOWS]->(:User)-[:FOLLOWS]->(n:User) "
@@ -412,7 +412,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     @Override
     public Set<User> getVerySuggestedUsers(User user, int limit){
         
-        int queryLimit;
+        int queryLimit = 0;
         if(limit == 0){
             queryLimit = this.limit;
         }else{
@@ -420,7 +420,7 @@ public class UserManager implements UserManagerDatabaseInterface {
         }
         
         Set<User> userSet = new LinkedHashSet<>();
-        StatementResult result;
+        StatementResult result = null;
         
         try(Session session = driver.session()){
             result = session.run("MATCH (u1:User)-[:FOLLOWS]->(u2:User)-[:FOLLOWS]->(n:User) "
