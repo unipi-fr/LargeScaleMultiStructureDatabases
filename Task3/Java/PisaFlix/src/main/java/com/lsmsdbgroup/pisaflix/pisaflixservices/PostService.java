@@ -44,5 +44,10 @@ public class PostService implements PostServiceInterface{
     public int count(Entity entity) {
        return DBManager.postManager.count(entity); 
     }
+
+    @Override
+    public Set<Post> getPostFollowed(User user) {
+        return DBManager.postManager.getPostFollowed(user);
+    }
   
 }

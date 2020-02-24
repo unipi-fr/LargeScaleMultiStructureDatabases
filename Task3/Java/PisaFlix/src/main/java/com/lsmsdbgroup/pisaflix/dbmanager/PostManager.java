@@ -6,6 +6,7 @@ import com.lsmsdbgroup.pisaflix.Entities.Post;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.PostManagerDatabaseInterface;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import org.neo4j.driver.v1.Driver;
 import org.neo4j.driver.v1.Record;
@@ -18,6 +19,8 @@ public class PostManager implements PostManagerDatabaseInterface {
 
     private static PostManager postManager;
     private final Driver driver;
+    
+    private final int limit = 25;
 
     public static PostManager getIstance() {
         if (postManager == null) {
@@ -190,7 +193,7 @@ public class PostManager implements PostManagerDatabaseInterface {
             try (Session session = driver.session()) {
 
                 result = session.run("MATCH (u:User)-[:CREATED]->(p:Post) "
-                        + "WHERE ID(f) = $userId "
+                        + "WHERE ID(u) = $userId "
                         + "RETURN count(DISTINCT p) AS count",
                     parameters("userId", entity.getId()));
 
@@ -203,7 +206,41 @@ public class PostManager implements PostManagerDatabaseInterface {
         if(result == null) return 0;
         
         return result.next().get("count").asInt();
-
     }
-
+    
+    public Set<Post> getPostFollowed(User user){
+        Set<Post> posts = new LinkedHashSet<>();
+        
+        try (Session session = driver.session())
+        {
+            session.readTransaction((Transaction tx) -> getPostFollowed(tx, user));
+        }
+        
+        return posts;
+    }
+    
+    private Set<Post> getPostFollowed(Transaction tx, User user){
+        Set<Post> posts = new LinkedHashSet<>();
+        
+        StatementResult result = tx.run("MATCH(u:User) WHERE ID(u) = $id " 
+                                        + "MATCH (u)-[:FOLLOWS]-(f)-[:TAGS]-(p)-[r:CREATED]-() " 
+                                        + "RETURN p " 
+                                        + "ORDER BY r.Timestamp DESC " 
+                                        + "LIMIT " + limit
+                                        + "UNION " 
+                                        + "MATCH(u:User) WHERE ID(u) = $id " 
+                                        + "MATCH (u)-[:FOLLOWS]-(f)-[r:CREATED]-(p) " 
+                                        + "RETURN p " 
+                                        + "ORDER BY r.Timestamp DESC " 
+                                        + "LIMIT " + limit,
+                                parameters("id", user.getId()));
+        
+        while(result.hasNext()){
+            Post post = getPostFromRecord(result.next());
+            
+            posts.add(post);
+        }
+        
+        return posts;
+    }
 }

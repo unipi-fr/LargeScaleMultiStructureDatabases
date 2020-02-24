@@ -17,4 +17,6 @@ public interface PostManagerDatabaseInterface {
     Post getPostFromRecord(Record record);
     
     int count(Entity entity);
+    
+    Set<Post> getPostFollowed(User user);
 }

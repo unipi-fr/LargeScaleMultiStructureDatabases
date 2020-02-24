@@ -16,4 +16,6 @@ public interface PostServiceInterface {
     void update(Long idPost, String text);
     
     int count(Entity entity);
+    
+    Set<Post> getPostFollowed(User user);
 }
