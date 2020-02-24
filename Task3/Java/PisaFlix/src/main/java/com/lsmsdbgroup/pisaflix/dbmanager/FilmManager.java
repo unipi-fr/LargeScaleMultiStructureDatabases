@@ -161,7 +161,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     public Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit, int skip) {
         Set<Film> filmSet = new LinkedHashSet<>();
 
-        int queryLimit = 0;
+        int queryLimit;
         if (limit == 0) {
             queryLimit = this.limit;
         } else {
@@ -170,7 +170,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
         try (Session session = driver.session()) {
 
-            StatementResult result = null;
+            StatementResult result;
 
             if (startDateFilter == null || endDateFilter == null) {
                 result = session.run("MATCH (f:Film) "
@@ -234,7 +234,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
     @Override
     public boolean isFollowing(Film film, User user) {
-        StatementResult result = null;
+        StatementResult result;
 
         try (Session session = driver.session()) {
             result = session.run("MATCH (u:User)-[r:FOLLOWS]->(f:Film) "
@@ -245,6 +245,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
         } catch (Exception ex) {
             System.out.println("Is Following? error: " + ex.getLocalizedMessage());
+            return false;
         }
 
         return result.hasNext();
@@ -267,7 +268,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     @Override
     public long countFollowers(Film film) {
 
-        StatementResult result = null;
+        StatementResult result;
 
         try (Session session = driver.session()) {
             result = session.run("MATCH (u:User)-[r:FOLLOWS]->(f:Film) "
@@ -277,6 +278,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
         } catch (Exception ex) {
             System.out.println("Followers count error: " + ex.getLocalizedMessage());
+            return (long)0;
         }
 
         return result.next().get("followers").asLong();
@@ -287,7 +289,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     public Set<User> getFollowers(Film film) {
 
         Set<User> userSet = new LinkedHashSet<>();
-        StatementResult result = null;
+        StatementResult result;
 
         try (Session session = driver.session()) {
             result = session.run("MATCH (u:User)-[r:FOLLOWS]->(f:User) "
@@ -297,6 +299,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
         } catch (Exception ex) {
             System.out.println("Followers retrieval error: " + ex.getLocalizedMessage());
+            return userSet; //EMPTY!!!
         }
 
         while (result.hasNext()) {
@@ -310,7 +313,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     @Override
     public Set<Film> getFriendCommentedFilms(User user, int limit) {
 
-        int queryLimit = 0;
+        int queryLimit;
         if (limit == 0) {
             queryLimit = this.limit;
         } else {
@@ -318,7 +321,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         }
 
         Set<Film> filmSet = new LinkedHashSet<>();
-        StatementResult result = null;
+        StatementResult result;
 
         try (Session session = driver.session()) {
 
@@ -329,10 +332,11 @@ public class FilmManager implements FilmManagerDatabaseInterface {
                     + "RETURN f "
                     + "ORDER BY f.PublicationDate DESC "
                     + "LIMIT $limit",
-                    parameters("userId", user.getId(), "limit", limit));
+                    parameters("userId", user.getId(), "limit", queryLimit));
 
         } catch (Exception ex) {
             System.out.println("Films commented by friends retrieval error: " + ex.getLocalizedMessage());
+        return filmSet; //EMPTY!!!
         }
 
         while (result.hasNext()) {
@@ -348,7 +352,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     @Override
     public Set<Film> getSuggestedFilms(User user, int limit) {
 
-        int queryLimit = 0;
+        int queryLimit;
         if (limit == 0) {
             queryLimit = this.limit;
         } else {
@@ -356,7 +360,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         }
 
         Set<Film> filmSet = new LinkedHashSet<>();
-        StatementResult result = null;
+        StatementResult result;
 
         try (Session session = driver.session()) {
             result = session.run("MATCH (u1:User)-[:FOLLOWS]->(u2:User)-[:FOLLOWS]->(f:Film) "
@@ -365,10 +369,11 @@ public class FilmManager implements FilmManagerDatabaseInterface {
                     + "RETURN f "
                     + "ORDER BY f.PublicationDate DESC "
                     + "LIMIT $limit",
-                    parameters("userId", user.getId(), "limit", limit));
+                    parameters("userId", user.getId(), "limit", queryLimit));
 
         } catch (Exception ex) {
             System.out.println("Suggested films retrieval error: " + ex.getLocalizedMessage());
+            return filmSet; //EMPTY!!!
         }
 
         while (result.hasNext()) {
@@ -384,7 +389,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     @Override
     public Set<Film> getVerySuggestedFilms(User user, int limit) {
 
-        int queryLimit = 0;
+        int queryLimit;
         if (limit == 0) {
             queryLimit = this.limit;
         } else {
@@ -392,7 +397,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         }
 
         Set<Film> filmSet = new LinkedHashSet<>();
-        StatementResult result = null;
+        StatementResult result;
 
         try (Session session = driver.session()) {
             result = session.run("MATCH (u1:User)-[:FOLLOWS]->(u2:User)-[:FOLLOWS]->(f:Film) "
@@ -402,10 +407,11 @@ public class FilmManager implements FilmManagerDatabaseInterface {
                     + "RETURN f "
                     + "ORDER BY f.PublicationDate DESC "
                     + "LIMIT $limit",
-                    parameters("userId", user.getId(), "limit", limit));
+                    parameters("userId", user.getId(), "limit", queryLimit));
 
         } catch (Exception ex) {
             System.out.println("Very suggested films retrieval error: " + ex.getLocalizedMessage());
+            return filmSet; //EMPTY!!!
         }
 
         while (result.hasNext()) {
@@ -427,7 +433,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     public Set<Post> getRelatedPosts(Film film, int limit, long skip) {
 
         Set<Post> postSet = new LinkedHashSet<>();
-        StatementResult result = null;
+        StatementResult result;
 
         try (Session session = driver.session()) {
 
@@ -440,6 +446,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
         } catch (Exception ex) {
             System.out.println("Related films retrieval error: " + ex.getLocalizedMessage());
+            return postSet; //EMPTY!!!
         }
 
         while (result.hasNext()) {

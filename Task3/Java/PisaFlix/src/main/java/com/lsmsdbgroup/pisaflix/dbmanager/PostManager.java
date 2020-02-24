@@ -89,7 +89,7 @@ public class PostManager implements PostManagerDatabaseInterface {
             StatementResult result = session.run("MATCH (p:Post) "
                     + "WHERE ID(p) = $id "
                     + "RETURN p",
-                    parameters("id", post.getIdPost()));
+                    parameters("id", idPost));
 
             post = getPostFromRecord(result.next());
 
@@ -197,6 +197,9 @@ public class PostManager implements PostManagerDatabaseInterface {
             }
         }
 
+        // an error should be printed in either one of the previous catch
+        if(result == null) return 0;
+        
         return result.next().get("count").asInt();
 
     }

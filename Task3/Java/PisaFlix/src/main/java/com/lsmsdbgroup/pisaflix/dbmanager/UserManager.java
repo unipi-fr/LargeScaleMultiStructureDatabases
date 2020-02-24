@@ -223,7 +223,7 @@ public class UserManager implements UserManagerDatabaseInterface {
 
         Set<User> userSet = new LinkedHashSet<>();
 
-        int queryLimit = 0;
+        int queryLimit;
         if (limit == 0) {
             queryLimit = this.limit;
         } else {
@@ -237,7 +237,7 @@ public class UserManager implements UserManagerDatabaseInterface {
                     + "RETURN u "
                     + "SKIP $skip "
                     + "LIMIT $limit",
-                    parameters("skip", skip, "limit", limit, "usernameFilter", ".*" + usernameFilter + ".*"));
+                    parameters("skip", skip, "limit", queryLimit, "usernameFilter", ".*" + usernameFilter + ".*"));
 
             while (result.hasNext()) {
                 userSet.add(getUserFromRecord(result.next()));
@@ -271,7 +271,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     @Override
     public boolean isFollowing(User follower, User followed) {
 
-        StatementResult result = null;
+        StatementResult result;
 
         try (Session session = driver.session()) {
 
@@ -283,8 +283,9 @@ public class UserManager implements UserManagerDatabaseInterface {
 
         } catch (Exception ex) {
             System.out.println("Is following? error: " + ex.getLocalizedMessage());
+            return false;
         }
-
+        
         return result.hasNext();
 
     }
@@ -308,7 +309,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     @Override
     public long countFollowers(User user) {
 
-        StatementResult result = null;
+        StatementResult result;
 
         try (Session session = driver.session()) {
 
@@ -319,8 +320,9 @@ public class UserManager implements UserManagerDatabaseInterface {
 
         } catch (Exception ex) {
             System.out.println("Followers count error: " + ex.getLocalizedMessage());
+            return (long)0;
         }
-
+        
         return result.next().get("followers").asLong();
 
     }
@@ -330,7 +332,7 @@ public class UserManager implements UserManagerDatabaseInterface {
 
         HashMap<String, Long> following = new HashMap<>();
 
-        StatementResult result = null;
+        StatementResult result;
 
         try (Session session = driver.session()) {
 
@@ -341,8 +343,12 @@ public class UserManager implements UserManagerDatabaseInterface {
 
         } catch (Exception ex) {
             System.out.println("Following count error: " + ex.getLocalizedMessage());
+            // next 3 lines to prevent the usage of result as it is null
+            following.put("followingUsers", (long)0);
+            following.put("followingFilms", (long)0);
+            return following;
         }
-
+        
         Record value = result.next();
         following.put("followingUsers", value.get("followingUsers").asLong());
         following.put("followingFilms", value.get("followingFilms").asLong());
@@ -355,7 +361,7 @@ public class UserManager implements UserManagerDatabaseInterface {
 
         Set<User> userSet = new LinkedHashSet<>();
 
-        StatementResult result = null;
+        StatementResult result;
 
         try (Session session = driver.session()) {
             result = session.run("MATCH (u:User)-[r:FOLLOWS]->(followed:User) "
@@ -365,8 +371,9 @@ public class UserManager implements UserManagerDatabaseInterface {
 
         } catch (Exception ex) {
             System.out.println("Followers retrieval error: " + ex.getLocalizedMessage());
+            return userSet; //EMPTY!!!
         }
-
+        
         while (result.hasNext()) {
             userSet.add(getUserFromRecord(result.next()));
         }
@@ -380,7 +387,7 @@ public class UserManager implements UserManagerDatabaseInterface {
 
         Set<User> userSet = new LinkedHashSet<>();
 
-        StatementResult result = null;
+        StatementResult result;
 
         try (Session session = driver.session()) {
             result = session.run("MATCH (follower:User)-[:FOLLOWS]->(u:User) "
@@ -390,8 +397,9 @@ public class UserManager implements UserManagerDatabaseInterface {
 
         } catch (Exception ex) {
             System.out.println("Following users retrieval error: " + ex.getLocalizedMessage());
+            return userSet; //EMPTY!!!
         }
-
+        
         while (result.hasNext()) {
             userSet.add(getUserFromRecord(result.next()));
         }
@@ -405,7 +413,7 @@ public class UserManager implements UserManagerDatabaseInterface {
 
         Set<Film> filmSet = new LinkedHashSet<>();
 
-        StatementResult result = null;
+        StatementResult result;
 
         try (Session session = driver.session()) {
             result = session.run("MATCH (u:User)-[:FOLLOWS]->(f:Film) "
@@ -415,8 +423,9 @@ public class UserManager implements UserManagerDatabaseInterface {
 
         } catch (Exception ex) {
             System.out.println("Following films retrieval error: " + ex.getLocalizedMessage());
+            return filmSet; //EMPTY!!!
         }
-
+        
         while (result.hasNext()) {
             filmSet.add(DBManager.filmManager.getFilmFromRecord(result.next()));
         }
@@ -428,7 +437,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     @Override
     public Set<User> getSuggestedUsers(User user, int limit) {
 
-        int queryLimit = 0;
+        int queryLimit;
         if (limit == 0) {
             queryLimit = this.limit;
         } else {
@@ -437,7 +446,7 @@ public class UserManager implements UserManagerDatabaseInterface {
 
         Set<User> userSet = new LinkedHashSet<>();
 
-        StatementResult result = null;
+        StatementResult result;
 
         try (Session session = driver.session()) {
             result = session.run("MATCH (u1:User)-[:FOLLOWS]->(u2:User)-[:FOLLOWS]->(:User)-[:FOLLOWS]->(u:User) "
@@ -450,8 +459,9 @@ public class UserManager implements UserManagerDatabaseInterface {
 
         } catch (Exception ex) {
             System.out.println("Suggested users retrieval error: " + ex.getLocalizedMessage());
+            return userSet; //EMPTY!!!
         }
-
+        
         while (result.hasNext()) {
             User suggestesUser = getUserFromRecord(result.next());
             suggestesUser.setType("SUGGESTED");
@@ -465,7 +475,7 @@ public class UserManager implements UserManagerDatabaseInterface {
     @Override
     public Set<User> getVerySuggestedUsers(User user, int limit) {
 
-        int queryLimit = 0;
+        int queryLimit;
         if (limit == 0) {
             queryLimit = this.limit;
         } else {
@@ -473,7 +483,7 @@ public class UserManager implements UserManagerDatabaseInterface {
         }
 
         Set<User> userSet = new LinkedHashSet<>();
-        StatementResult result = null;
+        StatementResult result;
 
         try (Session session = driver.session()) {
             result = session.run("MATCH (u1:User)-[:FOLLOWS]->(u2:User)-[:FOLLOWS]->(u:User) "
@@ -485,8 +495,9 @@ public class UserManager implements UserManagerDatabaseInterface {
 
         } catch (Exception ex) {
             System.out.println("Very suggested users retrieval error: " + ex.getLocalizedMessage());
+            return userSet; //EMPTY!!!
         }
-
+        
         while (result.hasNext()) {
             User suggestesUser = getUserFromRecord(result.next());
             suggestesUser.setType("VERY SUGGESTED");
