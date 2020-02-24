@@ -242,11 +242,14 @@ public class UserViewController implements Initializable {
     
     @FXML
     private void showFollowers() {
+        
         try {
-            listText.setText("Followers List:"); 
+            
             Set<User> userSet = PisaFlixServices.userService.getFollowers(user);
+            listText.setText("Followers List:"); 
             
             if(userSet.isEmpty()){
+                list.getItems().clear();
                 return;
             }
 
@@ -268,6 +271,7 @@ public class UserViewController implements Initializable {
             Set<Film> filmSet = PisaFlixServices.userService.getFollowingFilms(user);
             
             if(filmSet.isEmpty()){
+                list.getItems().clear();
                 return;
             }
 
@@ -289,6 +293,7 @@ public class UserViewController implements Initializable {
             Set<User> userSet = PisaFlixServices.userService.getFollowingUsers(user);
 
             if(userSet.isEmpty()){
+                list.getItems().clear();
                 return;
             }
             

@@ -33,15 +33,27 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
     @Override
     public Film getFilmFromRecord(Record record) {
-        Value value = record.get("n");
-        Long id = value.asNode().id();
 
-        String title = value.get("Title").asString();
-        String publicationDateStr = value.get("PublicationDate").asString();
-        String wikiPage = value.get("WikiPage").asString();
+        Film film = null;
 
-        Date publicationDate = DateConverter.StringToDate(publicationDateStr);
-        return new Film(id, title, publicationDate, wikiPage);
+        try {
+
+            Value value = record.get("f");
+
+            Long id = value.asNode().id();
+            String title = value.get("Title").asString();
+            String publicationDateStr = value.get("PublicationDate").asString();
+            String wikiPage = value.get("WikiPage").asString();
+            Date publicationDate = DateConverter.StringToDate(publicationDateStr);
+
+            film = new Film(id, title, publicationDate, wikiPage);
+
+        } catch (Exception ex) {
+            System.out.println("Film from record error: " + ex.getLocalizedMessage());
+            System.out.println("Record not convertible: " + record);
+        }
+
+        return film;
     }
 
     @Override
@@ -49,13 +61,15 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         Film film = null;
 
         try (Session session = driver.session()) {
-            StatementResult result = session.run("MATCH (n:Film) WHERE ID(n) = $id RETURN n", parameters("id", filmId));
+            StatementResult result = session.run("MATCH (f:Film) WHERE ID(f) = $id RETURN f", parameters("id", filmId));
 
             while (result.hasNext()) {
                 Record record = result.next();
 
                 film = getFilmFromRecord(record);
             }
+        } catch (Exception ex) {
+            System.out.println("Post retrieval error: " + ex.getLocalizedMessage());
         }
 
         return film;
@@ -66,7 +80,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         Set<Film> filmSet = new LinkedHashSet<>();
 
         try (Session session = driver.session()) {
-            StatementResult result = session.run("MATCH (n:Film) RETURN n LIMIT " + limit);
+            StatementResult result = session.run("MATCH (f:Film) RETURN f LIMIT " + limit);
 
             while (result.hasNext()) {
                 Record record = result.next();
@@ -75,6 +89,8 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
                 filmSet.add(film);
             }
+        } catch (Exception ex) {
+            System.out.println("All films retrieval error: " + ex.getLocalizedMessage());
         }
 
         return filmSet;
@@ -87,6 +103,8 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         try (Session session = driver.session()) {
             session.run("CREATE (f: Film {Title: $title, PublicationDate: $publicationDate})", parameters("title", title, "publicationDate", publicationDate.toString()));
             success = true;
+        } catch (Exception ex) {
+            System.out.println("Create film error: " + ex.getLocalizedMessage());
         }
 
         return success;
@@ -102,6 +120,8 @@ public class FilmManager implements FilmManagerDatabaseInterface {
                     parameters("id", idFilm,
                             "title", title,
                             "publicationDate", publicationDate.toString()));
+        } catch (Exception ex) {
+            System.out.println("Update film error: " + ex.getLocalizedMessage());
         }
     }
 
@@ -113,22 +133,24 @@ public class FilmManager implements FilmManagerDatabaseInterface {
             session.writeTransaction((Transaction t) -> deleteFilmRelationships(t, idFilm));
             session.writeTransaction((Transaction t) -> deleteFilmNode(t, idFilm));
 
+        } catch (Exception ex) {
+            System.out.println("Delete film error: " + ex.getLocalizedMessage());
         }
 
     }
 
-    private static int deleteFilmRelationships(Transaction t, Long idFilm) {
+    private static int deleteFilmRelationships(Transaction transaction, Long idFilm) {
 
-        t.run("MATCH (f:Film)-[r]-() WHERE ID(f) = $id DELETE r",
+        transaction.run("MATCH (f:Film)-[r]-() WHERE ID(f) = $id DELETE r",
                 parameters("id", idFilm));
 
         return 1;
 
     }
 
-    private static int deleteFilmNode(Transaction t, Long idFilm) {
+    private static int deleteFilmNode(Transaction transaction, Long idFilm) {
 
-        t.run("MATCH (f:Film) WHERE ID(f) = $id DELETE f",
+        transaction.run("MATCH (f:Film) WHERE ID(f) = $id DELETE f",
                 parameters("id", idFilm));
 
         return 1;
@@ -151,30 +173,33 @@ public class FilmManager implements FilmManagerDatabaseInterface {
             StatementResult result = null;
 
             if (startDateFilter == null || endDateFilter == null) {
-                result = session.run("MATCH (n:Film) "
-                        + "WHERE n.Title =~ '.*" + titleFilter + ".*' "
-                        + "RETURN n "
-                        + "ORDER BY n.PublicationDate DESC "
-                        + "SKIP " + skip + " "
-                        + "LIMIT " + queryLimit);
+                result = session.run("MATCH (f:Film) "
+                        + "WHERE f.Title =~ $titleFilter "
+                        + "RETURN f "
+                        + "ORDER BY f.PublicationDate DESC "
+                        + "SKIP $skip "
+                        + "LIMIT $limit",
+                        parameters("skip", skip, "limit", queryLimit, "titleFilter", ".*" + titleFilter + ".*"));
             } else {
                 if (titleFilter == null) {
-                    result = session.run("MATCH (n:Film) "
-                            + "AND n.PublicationDate <= " + endDateFilter + " "
-                            + "AND n.PublicationDate >= " + startDateFilter + " "
-                            + "RETURN n "
-                            + "ORDER BY n.PublicationDate DESC "
-                            + "SKIP " + skip + " "
-                            + "LIMIT " + queryLimit);
+                    result = session.run("MATCH (f:Film) "
+                            + "WHERE f.PublicationDate <= $endDateFilter "
+                            + "AND f.PublicationDate >= $startDateFilter "
+                            + "RETURN f "
+                            + "ORDER BY f.PublicationDate DESC "
+                            + "SKIP $skip "
+                            + "LIMIT $limit",
+                            parameters("skip", skip, "limit", queryLimit, "endDateFilter", endDateFilter, "$startDateFilter", startDateFilter));
                 } else {
-                    result = session.run("MATCH (n:Film) "
-                            + "WHERE n.Title =~ '.*" + titleFilter + ".*' "
-                            + "AND n.PublicationDate <= " + endDateFilter + " "
-                            + "AND n.PublicationDate >= " + startDateFilter + " "
-                            + "RETURN n "
-                            + "ORDER BY n.PublicationDate DESC "
-                            + "SKIP " + skip + " "
-                            + "LIMIT " + queryLimit);
+                    result = session.run("MATCH (f:Film) "
+                            + "WHERE f.Title =~ $titleFilter "
+                            + "AND f.PublicationDate <= $endDateFilter "
+                            + "AND f.PublicationDate >= $startDateFilter "
+                            + "RETURN f "
+                            + "ORDER BY f.PublicationDate DESC "
+                            + "SKIP $skip "
+                            + "LIMIT $limit",
+                            parameters("skip", skip, "limit", queryLimit, "endDateFilter", endDateFilter, "$startDateFilter", startDateFilter, "titleFilter", ".*" + titleFilter + ".*"));
                 }
             }
 
@@ -185,6 +210,8 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
                 filmSet.add(film);
             }
+        } catch (Exception ex) {
+            System.out.println("Filtered films retrieval error: " + ex.getLocalizedMessage());
         }
 
         return filmSet;
@@ -194,11 +221,14 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     public void follow(Film film, User user) {
         try (Session session = driver.session()) {
             session.run("MATCH (u:User),(f:Film) "
-                    + "WHERE ID(u) = " + user.getId() + " "
-                    + "AND ID(f) = " + film.getId() + " "
+                    + "WHERE ID(u) = $userId "
+                    + "AND ID(f) = $filmId "
                     + "CREATE (u)-[r:FOLLOWS]->(f) "
-                    + "RETURN r");
+                    + "RETURN r",
+                    parameters("userId", user.getId(), "filmId", film.getId()));
 
+        } catch (Exception ex) {
+            System.out.println("Follow error: " + ex.getLocalizedMessage());
         }
     }
 
@@ -208,10 +238,13 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
         try (Session session = driver.session()) {
             result = session.run("MATCH (u:User)-[r:FOLLOWS]->(f:Film) "
-                    + "WHERE ID(u) = " + user.getId() + " "
-                    + "AND ID(f) = " + film.getId() + " "
-                    + "RETURN r");
+                    + "WHERE ID(u) = $userId "
+                    + "AND ID(f) = $filmId "
+                    + "RETURN r",
+                    parameters("userId", user.getId(), "filmId", film.getId()));
 
+        } catch (Exception ex) {
+            System.out.println("Is Following? error: " + ex.getLocalizedMessage());
         }
 
         return result.hasNext();
@@ -222,9 +255,12 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
         try (Session session = driver.session()) {
             session.run("MATCH (u:User)-[r:FOLLOWS]->(f:Film) "
-                    + "WHERE ID(u) = " + user.getId() + " "
-                    + "AND ID(f) = " + film.getId() + " "
-                    + "DELETE r");
+                    + "WHERE ID(u) = $userId "
+                    + "AND ID(f) = $filmId "
+                    + "DELETE r",
+                    parameters("userId", user.getId(), "filmId", film.getId()));
+        } catch (Exception ex) {
+            System.out.println("Unfollow error: " + ex.getLocalizedMessage());
         }
     }
 
@@ -235,9 +271,12 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
         try (Session session = driver.session()) {
             result = session.run("MATCH (u:User)-[r:FOLLOWS]->(f:Film) "
-                    + "WHERE ID(f) = " + film.getId() + " "
-                    + "RETURN count(DISTINCT u) AS followers");
+                    + "WHERE ID(f) = $filmId "
+                    + "RETURN count(DISTINCT u) AS followers",
+                    parameters("filmId", film.getId()));
 
+        } catch (Exception ex) {
+            System.out.println("Followers count error: " + ex.getLocalizedMessage());
         }
 
         return result.next().get("followers").asLong();
@@ -252,9 +291,12 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
         try (Session session = driver.session()) {
             result = session.run("MATCH (u:User)-[r:FOLLOWS]->(f:User) "
-                    + "WHERE ID(f) = " + film.getId() + " "
-                    + "RETURN u");
+                    + "WHERE ID(f) = $filmId "
+                    + "RETURN u",
+                    parameters("filmId", film.getId()));
 
+        } catch (Exception ex) {
+            System.out.println("Followers retrieval error: " + ex.getLocalizedMessage());
         }
 
         while (result.hasNext()) {
@@ -280,14 +322,17 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
         try (Session session = driver.session()) {
 
-            result = session.run("MATCH (u1:User)-[:FOLLOWS]->(u2:User)-[:CREATED]->(:Post)-[:TAGS]->(n:Film) "
-                    + "WHERE ID(u1) = " + user.getId() + " "
-                    + "AND NOT (u1)-[:FOLLOWS]->(n) "
-                    + "AND NOT (u2)-[:FOLLOWS]->(n) "
-                    + "RETURN n "
-                    + "ORDER BY n.PublicationDate DESC "
-                    + "LIMIT " + queryLimit);
+            result = session.run("MATCH (u1:User)-[:FOLLOWS]->(u2:User)-[:CREATED]->(:Post)-[:TAGS]->(f:Film) "
+                    + "WHERE ID(u1) = $userId "
+                    + "AND NOT (u1)-[:FOLLOWS]->(f) "
+                    + "AND NOT (u2)-[:FOLLOWS]->(f) "
+                    + "RETURN f "
+                    + "ORDER BY f.PublicationDate DESC "
+                    + "LIMIT $limit",
+                    parameters("userId", user.getId(), "limit", limit));
 
+        } catch (Exception ex) {
+            System.out.println("Films commented by friends retrieval error: " + ex.getLocalizedMessage());
         }
 
         while (result.hasNext()) {
@@ -314,13 +359,16 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         StatementResult result = null;
 
         try (Session session = driver.session()) {
-            result = session.run("MATCH (u1:User)-[:FOLLOWS]->(u2:User)-[:FOLLOWS]->(n:Film) "
-                    + "WHERE ID(u1) = " + user.getId() + " "
-                    + "AND NOT (u1)-[:FOLLOWS]->(n) "
-                    + "RETURN n "
-                    + "ORDER BY n.PublicationDate DESC "
-                    + "LIMIT " + queryLimit);
+            result = session.run("MATCH (u1:User)-[:FOLLOWS]->(u2:User)-[:FOLLOWS]->(f:Film) "
+                    + "WHERE ID(u1) = $userId "
+                    + "AND NOT (u1)-[:FOLLOWS]->(f) "
+                    + "RETURN f "
+                    + "ORDER BY f.PublicationDate DESC "
+                    + "LIMIT $limit",
+                    parameters("userId", user.getId(), "limit", limit));
 
+        } catch (Exception ex) {
+            System.out.println("Suggested films retrieval error: " + ex.getLocalizedMessage());
         }
 
         while (result.hasNext()) {
@@ -347,14 +395,17 @@ public class FilmManager implements FilmManagerDatabaseInterface {
         StatementResult result = null;
 
         try (Session session = driver.session()) {
-            result = session.run("MATCH (u1:User)-[:FOLLOWS]->(u2:User)-[:FOLLOWS]->(n:Film) "
-                    + "WHERE ID(u1) = " + user.getId() + " "
-                    + "AND NOT (u1)-[:FOLLOWS]->(n) "
-                    + "AND (u2)-[:CREATED]->(:Post)-[:TAGS]->(n) "
-                    + "RETURN n "
-                    + "ORDER BY n.PublicationDate DESC "
-                    + "LIMIT " + queryLimit);
+            result = session.run("MATCH (u1:User)-[:FOLLOWS]->(u2:User)-[:FOLLOWS]->(f:Film) "
+                    + "WHERE ID(u1) = $userId "
+                    + "AND NOT (u1)-[:FOLLOWS]->(f) "
+                    + "AND (u2)-[:CREATED]->(:Post)-[:TAGS]->(f) "
+                    + "RETURN f "
+                    + "ORDER BY f.PublicationDate DESC "
+                    + "LIMIT $limit",
+                    parameters("userId", user.getId(), "limit", limit));
 
+        } catch (Exception ex) {
+            System.out.println("Very suggested films retrieval error: " + ex.getLocalizedMessage());
         }
 
         while (result.hasNext()) {
@@ -380,14 +431,15 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
         try (Session session = driver.session()) {
 
-            result = session.run("MATCH (n:Post)-[:TAGS]->(f:Film) "
-                    + "WHERE ID(f) = " + film.getId() + " "
-                    + "RETURN n "
-                    + "SKIP " + skip + " "
-                    + "LIMIT " + limit);
+            result = session.run("MATCH (p:Post)-[:TAGS]->(f:Film) "
+                    + "WHERE ID(f) = $filmId "
+                    + "RETURN p "
+                    + "SKIP $skip "
+                    + "LIMIT $limit",
+                    parameters("filmId", film.getId(), "limit", limit, "skip", skip));
 
         } catch (Exception ex) {
-            System.out.println("Related Posts retrieval error: " + ex.getLocalizedMessage());
+            System.out.println("Related films retrieval error: " + ex.getLocalizedMessage());
         }
 
         while (result.hasNext()) {

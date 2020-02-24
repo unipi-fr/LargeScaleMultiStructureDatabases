@@ -12,7 +12,6 @@ import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.Session;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.Transaction;
-import org.neo4j.driver.v1.Value;
 import static org.neo4j.driver.v1.Values.parameters;
 
 public class PostManager implements PostManagerDatabaseInterface {
@@ -36,41 +35,47 @@ public class PostManager implements PostManagerDatabaseInterface {
     public Post getPostFromRecord(Record record) {
 
         Post post = new Post();
-        Value value = record.get("n");
 
-        post.setIdPost(value.asNode().id());
-        post.setText(value.get("Text").asString());
-        setPostRelations(post);
+        try {
+
+            post.setIdPost(record.get("p").asNode().id());
+            post.setText(record.get("p").get("Text").asString());
+
+            try (Session session = driver.session()) {
+                session.writeTransaction((Transaction t) -> setPostRelations(t, post));
+            } catch (Exception ex) {
+                System.out.println("Post relations retrieval error: " + ex.getLocalizedMessage());
+            }
+
+        } catch (Exception ex) {
+            System.out.println("Post from record error: " + ex.getLocalizedMessage());
+            System.out.println("Record not convertible: " + record);
+        }
 
         return post;
     }
 
-    private void setPostRelations(Post post) {
+    private int setPostRelations(Transaction transaction, Post post) {
 
-        try (Session session = driver.session()) {
+        StatementResult result = transaction.run("MATCH (u:User)-[c:CREATED]->(p:Post)-[:TAGS]->(:Film) "
+                + "WHERE ID(p) = $id "
+                + "RETURN u, c",
+                parameters("id", post.getIdPost()));
 
-            StatementResult result = session.run("MATCH (u:User)-[c:CREATED]->(p:Post)-[:TAGS]->(:Film) "
-                    + "WHERE ID(p) = $id "
-                    + "RETURN u, c",
-                    parameters("id", post.getIdPost()));
+        Record record = result.next();
+        post.setUser(DBManager.userManager.getById(record.get("u").asNode().id()));
+        post.setTimestamp(Date.from(record.get("c").get("Timestamp").asZonedDateTime().toInstant()));
 
-            Record record = result.next();
-            post.setUser(DBManager.userManager.getById(record.get("u").asNode().id()));
-            post.setTimestamp(Date.from(record.get("c").get("Timestamp").asZonedDateTime().toInstant()));
+        result = transaction.run("MATCH (:User)-[:CREATED]->(p:Post)-[:TAGS]->(f:Film) "
+                + "WHERE ID(p) = $id "
+                + "RETURN f",
+                parameters("id", post.getIdPost()));
 
-            result = session.run("MATCH (:User)-[:CREATED]->(p:Post)-[:TAGS]->(f:Film) "
-                    + "WHERE ID(p) = $id "
-                    + "RETURN f",
-                    parameters("id", post.getIdPost()));
-
-            while (result.hasNext()) {
-                record = result.next();
-                post.getFilmSet().add(DBManager.filmManager.getById(record.get("f").asNode().id()));
-            }
-
-        } catch (Exception ex) {
-            System.out.println("Post relations retrieval error: " + ex.getLocalizedMessage());
+        while (result.hasNext()) {
+            post.getFilmSet().add(DBManager.filmManager.getById(result.next().get("f").asNode().id()));
         }
+
+        return 1;
 
     }
 
@@ -81,13 +86,15 @@ public class PostManager implements PostManagerDatabaseInterface {
 
         try (Session session = driver.session()) {
 
-            StatementResult result = session.run("MATCH (n:Post) "
-                    + "WHERE ID(n) = $id "
-                    + "RETURN n",
-                    parameters("id", idPost));
+            StatementResult result = session.run("MATCH (p:Post) "
+                    + "WHERE ID(p) = $id "
+                    + "RETURN p",
+                    parameters("id", post.getIdPost()));
 
             post = getPostFromRecord(result.next());
 
+        } catch (Exception ex) {
+            System.out.println("Post retrieval error: " + ex.getLocalizedMessage());
         }
 
         return post;
@@ -98,11 +105,13 @@ public class PostManager implements PostManagerDatabaseInterface {
     public void create(String text, User user, Set<Film> films) {
         try (Session session = driver.session()) {
             session.writeTransaction((Transaction t) -> createPostNode(t, text, user, films));
+        } catch (Exception ex) {
+            System.out.println("Post creation error: " + ex.getLocalizedMessage());
         }
     }
 
-    private static int createPostNode(Transaction t, String text, User user, Set<Film> films) {
-        StatementResult result = t.run("MATCH (u:User) "
+    private static int createPostNode(Transaction transaction, String text, User user, Set<Film> films) {
+        StatementResult result = transaction.run("MATCH (u:User) "
                 + "WHERE ID(u) = $userId "
                 + "WITH u "
                 + "CREATE (p:Post {Text: $text}) "
@@ -118,7 +127,7 @@ public class PostManager implements PostManagerDatabaseInterface {
         Long idPost = result.next().get("createdPostID").asLong();
 
         films.forEach((film) -> {
-            t.run("MATCH (p: Post) "
+            transaction.run("MATCH (p: Post) "
                     + "WHERE ID(p) = $idPost "
                     + "WITH p "
                     + "MATCH (f: Film) "
@@ -135,41 +144,33 @@ public class PostManager implements PostManagerDatabaseInterface {
     @Override
     public void delete(Long idPost) {
         try (Session session = driver.session()) {
-            session.writeTransaction((Transaction t) -> deletePostNode(t, idPost));
+            session.run("MATCH(p:Post) where ID(p) = $id "
+                    + "MATCH (p)-[r]-() "
+                    + "DELETE r, p",
+                    parameters("id", idPost));
+        } catch (Exception ex) {
+            System.out.println("Delete post error: " + ex.getLocalizedMessage());
         }
-    }
-
-    private static int deletePostNode(Transaction t, Long idPost) {
-        t.run("MATCH(p:Post) where ID(p) = $id "
-                + "MATCH (p)-[r]-() "
-                + "DELETE r, p",
-                parameters("id", idPost));
-
-        return 1;
     }
 
     @Override
     public void update(Long idPost, String text) {
         try (Session session = driver.session()) {
-            session.writeTransaction((Transaction t) -> updatePostNode(t, idPost, text));
+            session.run("MATCH (p:Post) where ID(p) = $id "
+                    + "SET p.Text = $text "
+                    + "WITH p "
+                    + "MATCH ()-[r:CREATED]->(p) "
+                    + "SET r.LastModified = datetime()",
+                    parameters("id", idPost,
+                            "text", text));
+        } catch (Exception ex) {
+            System.out.println("Update post error: " + ex.getLocalizedMessage());
         }
-    }
-
-    private static int updatePostNode(Transaction t, Long idPost, String text) {
-        t.run("MATCH (p:Post) where ID(p) = $id "
-                + "SET p.Text = $text "
-                + "WITH p "
-                + "MATCH ()-[r:CREATED]->(p) "
-                + "SET r.LastModified = datetime()",
-                parameters("id", idPost,
-                        "text", text));
-
-        return 1;
     }
 
     @Override
     public int count(Entity entity) {
-        
+
         StatementResult result = null;
 
         if (entity.getClass() == Film.class) {
@@ -197,7 +198,7 @@ public class PostManager implements PostManagerDatabaseInterface {
         }
 
         return result.next().get("count").asInt();
-        
+
     }
 
 }
