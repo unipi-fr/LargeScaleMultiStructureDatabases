@@ -216,11 +216,16 @@ public class UserService implements UserServiceInterface {
         
         if(mix.size() < userManager.getLimit()){
             
-            mix.addAll(userManager.getFiltered("", userManager.getLimit() - mix.size(), userManager.getLimit()));
-            //TODO: creare un filtro per gli utenti già scelti
+            mix.addAll(userManager.getDifferentUsers(mix, userManager.getLimit() - mix.size()));
+            
         }
         
         return mix;
         
+    }
+
+    @Override
+    public Set<User> getDifferentUsers(Set<User> userSet, int limit) {
+        return userManager.getDifferentUsers(userSet, limit);
     }
 }

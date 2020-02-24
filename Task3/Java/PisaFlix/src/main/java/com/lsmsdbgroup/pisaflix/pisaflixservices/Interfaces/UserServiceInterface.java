@@ -15,6 +15,8 @@ public interface UserServiceInterface {
     Set<User> getAll(int limit);
 
     Set<User> getFiltered(String nameFilter, int limit, int skip);
+    
+    Set<User> getDifferentUsers(Set<User> userSet, int limit);
 
     void register(String username, String password, String email, String firstName, String lastName) throws InvalidFieldException;
 

@@ -123,8 +123,8 @@ public class FilmService implements FilmServiceInterface {
         
         if(mix.size() < filmManager.getLimit()){
             
-            mix.addAll(filmManager.getFiltered("", null, null, filmManager.getLimit() - mix.size(), filmManager.getLimit()));
-            //TODO: creare un filtro per i film già scelti
+            mix.addAll(filmManager.getDifferentFilms(mix, filmManager.getLimit() - mix.size()));
+            
         }
         
         return mix;
@@ -139,6 +139,11 @@ public class FilmService implements FilmServiceInterface {
     @Override
     public int getPostPageSize() {
         return postPageSize;
+    }
+
+    @Override
+    public Set<Film> getDifferentFilms(Set<Film> filmSet, int limit) {
+        return filmManager.getDifferentFilms(filmSet, limit);
     }
     
 }

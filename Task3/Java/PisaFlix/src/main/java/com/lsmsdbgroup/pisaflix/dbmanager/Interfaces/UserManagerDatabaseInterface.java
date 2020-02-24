@@ -30,6 +30,8 @@ public interface UserManagerDatabaseInterface {
 
     Set<User> getFiltered(String nameFilter, int limit, int skip);
     
+    Set<User> getDifferentUsers(Set<User> userSet, int limit);
+    
     void follow(User follower, User followed);
 
     boolean isFollowing(User follower, User followed);

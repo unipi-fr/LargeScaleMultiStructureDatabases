@@ -35,6 +35,8 @@ public interface FilmServiceInterface {
     Set<Film> getMixSuggestedRecent(User user);
     
     Set<Film> getFriendCommentedFilms(User user, int limit);
+    
+    Set<Film> getDifferentFilms(Set<Film> filmSet, int limit);
 
     Set<Post> getRelatedPosts(Film film, int page);
 

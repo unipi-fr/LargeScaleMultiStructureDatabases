@@ -216,6 +216,44 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
         return filmSet;
     }
+    
+    @Override
+    public Set<Film> getDifferentFilms(Set<Film> filmSet, int limit) {
+
+        Set<Film> differentFilmSet = new LinkedHashSet<>();
+        List<Long> idList = new ArrayList<>();
+
+        int queryLimit;
+        if (limit == 0) {
+            queryLimit = this.limit;
+        } else {
+            queryLimit = limit;
+        }
+        
+        filmSet.forEach((film) -> {
+            idList.add(film.getId());
+        });
+
+        try (Session session = driver.session()) {
+
+            StatementResult result = session.run("MATCH (f:Film) "
+                    + "WHERE NOT id(f) IN $ids "
+                    + "RETURN f "
+                    + "ORDER BY f.PublicationDate DESC "
+                    + "LIMIT $limit",
+                    parameters("limit", queryLimit, "ids", idList));
+
+            while (result.hasNext()) {
+                differentFilmSet.add(getFilmFromRecord(result.next()));
+            }
+
+        } catch (Exception ex) {
+            System.out.println("Different films retrieval error: " + ex.getLocalizedMessage());
+        }
+
+        return differentFilmSet;
+
+    }
 
     @Override
     public void follow(Film film, User user) {

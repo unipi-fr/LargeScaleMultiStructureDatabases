@@ -22,6 +22,8 @@ public interface FilmManagerDatabaseInterface {
 
     Set<Film> getFiltered(String titleFilter, Date startDateFilter, Date endDateFilter, int limit, int skip);
     
+    Set<Film> getDifferentFilms(Set<Film> filmSet, int limit);
+    
     void follow(Film film, User user);
 
     boolean isFollowing(Film film, User user);

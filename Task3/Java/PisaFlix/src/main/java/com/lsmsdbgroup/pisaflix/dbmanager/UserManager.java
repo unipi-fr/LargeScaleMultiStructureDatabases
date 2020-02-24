@@ -250,6 +250,43 @@ public class UserManager implements UserManagerDatabaseInterface {
         return userSet;
 
     }
+    
+    @Override
+    public Set<User> getDifferentUsers(Set<User> userSet, int limit) {
+
+        Set<User> differentUserSet = new LinkedHashSet<>();
+        List<Long> idList = new ArrayList<>();
+
+        int queryLimit;
+        if (limit == 0) {
+            queryLimit = this.limit;
+        } else {
+            queryLimit = limit;
+        }
+        
+        userSet.forEach((user) -> {
+            idList.add(user.getId());
+        });
+
+        try (Session session = driver.session()) {
+
+            StatementResult result = session.run("MATCH (u:User) "
+                    + "WHERE NOT id(u) IN $ids "
+                    + "RETURN u "
+                    + "LIMIT $limit",
+                    parameters("limit", queryLimit, "ids", idList));
+
+            while (result.hasNext()) {
+                differentUserSet.add(getUserFromRecord(result.next()));
+            }
+
+        } catch (Exception ex) {
+            System.out.println("Different users retrieval error: " + ex.getLocalizedMessage());
+        }
+
+        return differentUserSet;
+
+    }
 
     @Override
     public void follow(User follower, User followed) {

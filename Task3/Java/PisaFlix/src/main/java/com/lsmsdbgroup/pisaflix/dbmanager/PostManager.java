@@ -177,8 +177,9 @@ public class PostManager implements PostManagerDatabaseInterface {
             try (Session session = driver.session()) {
 
                 result = session.run("MATCH (p:Post)-[:TAGS]->(f:Film) "
-                        + "WHERE ID(f) = " + entity.getId() + " "
-                        + "RETURN count(DISTINCT p) AS count");
+                        + "WHERE ID(f) = $filmId "
+                        + "RETURN count(DISTINCT p) AS count",
+                    parameters("filmId", entity.getId()));
 
             } catch (Exception ex) {
                 System.out.println("Related posts count error: " + ex.getLocalizedMessage());
@@ -189,8 +190,9 @@ public class PostManager implements PostManagerDatabaseInterface {
             try (Session session = driver.session()) {
 
                 result = session.run("MATCH (u:User)-[:CREATED]->(p:Post) "
-                        + "WHERE ID(f) = " + entity.getId() + " "
-                        + "RETURN count(DISTINCT p) AS count");
+                        + "WHERE ID(f) = $userId "
+                        + "RETURN count(DISTINCT p) AS count",
+                    parameters("userId", entity.getId()));
 
             } catch (Exception ex) {
                 System.out.println("Related posts count error: " + ex.getLocalizedMessage());
