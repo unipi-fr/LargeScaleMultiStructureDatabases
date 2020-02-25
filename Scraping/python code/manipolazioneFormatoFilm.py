@@ -7,7 +7,6 @@ import dateutil.parser
 
 
 
-
 def remove_non_printable(s):
     return ''.join(c for c in s if c in string.printable)
 
@@ -23,22 +22,19 @@ def parse_date(text):
 
 
 
-with open('../Data/wiki_movies.tsv', encoding="utf8") as tsvfile:
+with open('Film.tsv', encoding="utf8") as tsvfile:
     reader = csv.reader(tsvfile, dialect='excel-tab')
-
+    setTitoli = set()
     lista = []
 
     for row in reader:
-        lista.append(row)
+        setTitoli.add(row[0])
 
-for i in range(len(lista)):
-    if i == 0:
-        continue
-    data = 
-    lista[i][0] = anno
+    lista = list(setTitoli)
 
-with open('../Data/wiki_movies_stripped.tsv', mode='w' , newline = '', encoding="utf8") as movies_dateISO:
-    writer = csv.writer(movies_dateISO, dialect='excel-tab')
+with open('FilmUnici.tsv', mode='w' , newline = '', encoding="utf8") as movies:
+    writer = csv.writer(movies, dialect='excel-tab')
 
-    writer.writerows(lista)
+    for titolo in lista:
+        writer.writerow([titolo])
 

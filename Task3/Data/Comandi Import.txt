@@ -1,5 +1,19 @@
+PER IMPORTARE I DATI RICOPIARE TUTTI I FILE CSV NELLA CARTELLA IMPORT ALL'INTERNO DELLA CARTELLA D'ISTALLAZIONE DI NEO4J
+
+1) Comando import utenti
 LOAD CSV FROM "file:///Users.csv" as line
 Create(:User{Email:line[0], Password:line[1], PrivilegeLevel:toInteger(line[2]), Username:line[3], FirstName:line[4], LastName:line[5]})
 
+2) Comando import Film
 LOAD CSV FROM "file:///Film.csv" as line
 Create(:Film{PublicationDate:line[0], Title:line[1], WikiPage:line[2]})
+
+3) Comando import relazione Follows tra utenti
+LOAD CSV FROM "file:///FollowUsers.csv" AS csvLine
+MATCH (u1:User), (u2:User) WHERE u1.Username=csvLine[0] AND u2.Username=csvLine[1]
+CREATE (u1)-[r:FOLLOWS]->(u2)
+
+4) Comando import relazione Follows tra utenti e film
+LOAD CSV FROM "file:///FollowFilms.csv" AS csvLine
+MATCH (u:User), (f:Film) WHERE u.Username=csvLine[0] AND f.Title=csvLine[1]
+CREATE (u)-[r:FOLLOWS]->(f)

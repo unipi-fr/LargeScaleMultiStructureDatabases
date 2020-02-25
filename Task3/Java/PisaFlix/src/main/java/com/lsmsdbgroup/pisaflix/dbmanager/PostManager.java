@@ -208,6 +208,7 @@ public class PostManager implements PostManagerDatabaseInterface {
         return result.next().get("count").asInt();
     }
     
+    @Override
     public Set<Post> getPostFollowed(User user){
         Set<Post> posts = new LinkedHashSet<>();
         
