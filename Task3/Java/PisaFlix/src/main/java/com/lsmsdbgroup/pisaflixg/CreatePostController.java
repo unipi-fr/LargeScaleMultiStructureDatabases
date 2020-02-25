@@ -73,7 +73,7 @@ public class CreatePostController implements Initializable {
     }
     
     private void searchFilm(String title){
-        Set<Film> films = PisaFlixServices.filmService.getFilmsFiltered(title, null, null, 21, 0);
+        Set<Film> films = PisaFlixServices.filmService.getFilmsFiltered(title, null, null, 35, 0);
         
         populate(films);
     }

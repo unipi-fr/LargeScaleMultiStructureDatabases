@@ -166,7 +166,7 @@
     -fx-background-radius: 4.0;
     -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,
         1.5);
-    -fx-padding: 5 0 5 0;
+    -fx-padding: 2 0 2 0;
 }
 
 .card-tags:hover {
@@ -176,7 +176,7 @@
 
 
 .card-tags-title {
-    -fx-font-size: 24.0px;
+    -fx-font-size: 16.0px;
 }
 
 .card-tags-title .text {
@@ -184,7 +184,7 @@
 }
 
 .card-tags-subtitle {
-    -fx-font-size: 16.0px;
+    -fx-font-size: 12.0px;
 }
 
 .card-subtitle .text {

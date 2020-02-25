@@ -8,11 +8,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <VBox alignment="TOP_CENTER" spacing="15.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lsmsdbgroup.pisaflixg.CreatePostController">
    <children>
       <TextArea fx:id="postTextArea" prefHeight="300.0" promptText="Write a post" />
-      <HBox fx:id="tagsHBox" alignment="CENTER" prefHeight="70.0" spacing="10.0">
+      <HBox fx:id="tagsHBox" alignment="CENTER" prefHeight="40.0" spacing="10.0">
          <children>
             <Button fx:id="resetButton" mnemonicParsing="false" onMouseClicked="#resetTags" text="Reset" />
          </children>
@@ -42,7 +41,7 @@
             </HBox>
             <ScrollPane fitToHeight="true" fitToWidth="true">
                <content>
-                  <TilePane fx:id="tilePane" hgap="5.0" prefColumns="7" prefRows="3" prefTileHeight="66.0" prefTileWidth="150.0" vgap="5.0">
+                  <TilePane fx:id="tilePane" hgap="5.0" prefColumns="7" prefTileHeight="40.0" prefTileWidth="150.0" vgap="5.0">
                      <padding>
                         <Insets bottom="5.0" left="5.0" top="5.0" />
                      </padding>
