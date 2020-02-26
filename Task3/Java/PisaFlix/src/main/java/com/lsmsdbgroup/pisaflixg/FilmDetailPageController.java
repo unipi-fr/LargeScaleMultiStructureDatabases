@@ -5,6 +5,7 @@ import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.ResourceBundle;
@@ -98,7 +99,11 @@ public class FilmDetailPageController implements Initializable {
         setFollowButton();
 
         setTitleLabel(film.getTitle());
-        setPublishDate(film.getPublicationDate().toString());
+        
+        Calendar cld = Calendar.getInstance();
+        cld.setTime(film.getPublicationDate());
+        
+        setPublishDate(String.valueOf(cld.get(Calendar.YEAR)));
 
         WikiScraper scraper = new WikiScraper(film.getWikiPage());
         String url = scraper.scrapePosterLink();

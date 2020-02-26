@@ -42,10 +42,14 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
             Long id = value.asNode().id();
             String title = value.get("Title").asString();
-            String publicationDateStr = value.get("PublicationDate").asString();
+            int publicationDateInt = value.get("PublicationDate").asInt();
             String wikiPage = value.get("WikiPage").asString();
-            Date publicationDate = DateConverter.StringToDate(publicationDateStr);
-
+            
+            // With A Calendar object I can create a Date with just the year
+            Calendar cld = Calendar.getInstance();
+            cld.set(Calendar.YEAR, publicationDateInt);
+            Date publicationDate = cld.getTime();
+            
             film = new Film(id, title, publicationDate, wikiPage);
 
         } catch (Exception ex) {
@@ -99,9 +103,12 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     @Override
     public boolean create(String title, Date publicationDate) {
         boolean success = false;
-
+        Calendar cld = Calendar.getInstance();
+        cld.setTime(publicationDate);
+        int publicationYear = cld.get(Calendar.YEAR);
+        
         try (Session session = driver.session()) {
-            session.run("CREATE (f: Film {Title: $title, PublicationDate: $publicationDate})", parameters("title", title, "publicationDate", publicationDate.toString()));
+            session.run("CREATE (f: Film {Title: $title, PublicationDate: $publicationDate})", parameters("title", title, "publicationDate", publicationYear));
             success = true;
         } catch (Exception ex) {
             System.out.println("Create film error: " + ex.getLocalizedMessage());
@@ -112,6 +119,12 @@ public class FilmManager implements FilmManagerDatabaseInterface {
 
     @Override
     public void update(Long idFilm, String title, Date publicationDate) {
+        
+        Calendar cld = Calendar.getInstance();
+        cld.setTime(publicationDate);
+        int publicationYear = cld.get(Calendar.YEAR);
+        
+        
         try (Session session = driver.session()) {
             session.run("MATCH (f:Film) "
                     + "WHERE ID(f) = $id "
@@ -119,7 +132,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
                     + "RETURN f",
                     parameters("id", idFilm,
                             "title", title,
-                            "publicationDate", publicationDate.toString()));
+                            "publicationDate", publicationYear));
         } catch (Exception ex) {
             System.out.println("Update film error: " + ex.getLocalizedMessage());
         }
