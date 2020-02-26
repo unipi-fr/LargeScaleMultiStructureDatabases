@@ -173,9 +173,11 @@ public class UserViewController implements Initializable {
                 FollowButton.setDisable(true);
             }
 
-            postCounterLabel.setText("Post: " + "");
+            postCounterLabel.setText("Post: " + PisaFlixServices.postService.count(user));
             followingCount.setText("Following: " + PisaFlixServices.userService.countTotalFollowing(user));
             followerCount.setText("Follower: " + PisaFlixServices.userService.countFollowers(user));
+            
+            addTags();
             
             showPosts();
         } catch (Exception ex) {
@@ -306,6 +308,10 @@ public class UserViewController implements Initializable {
         } catch (Exception ex) {
             App.printErrorDialog("Favorite Films", "An error occurred loading following users", ex.toString() + "\n" + ex.getMessage());
         }
+    }
+
+    private void addTags() {
+        
     }
     
 

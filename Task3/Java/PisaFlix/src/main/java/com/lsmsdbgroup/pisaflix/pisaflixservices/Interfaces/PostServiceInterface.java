@@ -17,5 +17,8 @@ public interface PostServiceInterface {
     
     int count(Entity entity);
     
-    Set<Post> getPostFollowed(User user);
+    Set<Post> getPostFollowed(User user, int currentPageIndex);
+
+    public int countFollowed(User user);
+
 }

@@ -12,7 +12,13 @@
 
 <VBox fx:id="postVbox" alignment="CENTER_LEFT" spacing="10.0" styleClass="card" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="postLabel" text="Post" wrapText="true">
+      <HBox fx:id="tags" spacing="3.0">
+         <padding>
+            <Insets bottom="-20.0" />
+         </padding>
+      </HBox>
+      <Separator prefWidth="200.0" />
+      <Label fx:id="postLabel" text="Post" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <contextMenu>
             <ContextMenu fx:id="postMenu">
                <items>
@@ -51,10 +57,13 @@
             <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
                   <Label text="By: " />
-                  <Label fx:id="usernameLabel" layoutX="10.0" text="Username" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                  <Label fx:id="usernameLabel" layoutX="10.0" onMouseClicked="#goToProfile" text="Username" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
                      <font>
                         <Font size="14.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Label>
                </children>
             </HBox>

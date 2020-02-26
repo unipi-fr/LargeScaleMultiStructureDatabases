@@ -46,8 +46,13 @@ public class PostService implements PostServiceInterface{
     }
 
     @Override
-    public Set<Post> getPostFollowed(User user) {
-        return DBManager.postManager.getPostFollowed(user);
+    public Set<Post> getPostFollowed(User user, int currentPageIndex) {
+        return DBManager.postManager.getPostFollowed(user, currentPageIndex);
+    }
+
+    @Override
+    public int countFollowed(User user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
   
 }

@@ -19,7 +19,7 @@ public class PostManager implements PostManagerDatabaseInterface {
 
     private static PostManager postManager;
     private final Driver driver;
-    
+
     private final int limit = 25;
 
     public static PostManager getIstance() {
@@ -182,7 +182,7 @@ public class PostManager implements PostManagerDatabaseInterface {
                 result = session.run("MATCH (p:Post)-[:TAGS]->(f:Film) "
                         + "WHERE ID(f) = $filmId "
                         + "RETURN count(DISTINCT p) AS count",
-                    parameters("filmId", entity.getId()));
+                        parameters("filmId", entity.getId()));
 
             } catch (Exception ex) {
                 System.out.println("Related posts count error: " + ex.getLocalizedMessage());
@@ -195,7 +195,7 @@ public class PostManager implements PostManagerDatabaseInterface {
                 result = session.run("MATCH (u:User)-[:CREATED]->(p:Post) "
                         + "WHERE ID(u) = $userId "
                         + "RETURN count(DISTINCT p) AS count",
-                    parameters("userId", entity.getId()));
+                        parameters("userId", entity.getId()));
 
             } catch (Exception ex) {
                 System.out.println("Related posts count error: " + ex.getLocalizedMessage());
@@ -203,45 +203,51 @@ public class PostManager implements PostManagerDatabaseInterface {
         }
 
         // an error should be printed in either one of the previous catch
-        if(result == null) return 0;
-        
+        if (result == null) {
+            return 0;
+        }
+
         return result.next().get("count").asInt();
     }
-    
+
     @Override
-    public Set<Post> getPostFollowed(User user){
+    public Set<Post> getPostFollowed(User user, int currentPageIndex) {
         Set<Post> posts = new LinkedHashSet<>();
-        
-        try (Session session = driver.session())
-        {
-            session.readTransaction((Transaction tx) -> getPostFollowed(tx, user));
+
+        try (Session session = driver.session()) {
+            posts = session.readTransaction((Transaction tx) -> getPostFollowed(tx, user, currentPageIndex));
         }
-        
+
         return posts;
     }
-    
-    private Set<Post> getPostFollowed(Transaction tx, User user){
+
+    private Set<Post> getPostFollowed(Transaction tx, User user, int currentPageIndex) {
         Set<Post> posts = new LinkedHashSet<>();
-        
-        StatementResult result = tx.run("MATCH(u:User) WHERE ID(u) = $id " 
-                                        + "MATCH (u)-[:FOLLOWS]-(f)-[:TAGS]-(p)-[r:CREATED]-() " 
-                                        + "RETURN p " 
-                                        + "ORDER BY r.Timestamp DESC " 
-                                        + "LIMIT " + limit
-                                        + "UNION " 
-                                        + "MATCH(u:User) WHERE ID(u) = $id " 
-                                        + "MATCH (u)-[:FOLLOWS]-(f)-[r:CREATED]-(p) " 
-                                        + "RETURN p " 
-                                        + "ORDER BY r.Timestamp DESC " 
-                                        + "LIMIT " + limit,
-                                parameters("id", user.getId()));
-        
-        while(result.hasNext()){
-            Post post = getPostFromRecord(result.next());
-            
-            posts.add(post);
+
+        StatementResult result = tx.run("MATCH (u:User)-[:FOLLOWS]->(:User)-[r:CREATED]->(p:Post) "
+                    + "WHERE ID(u) = $userId "
+                    + "RETURN p "
+                    + "ORDER BY r.Timestamp DESC "
+                    + "SKIP $skip "
+                    + "LIMIT $limit",
+                    parameters("userId", user.getId(), "limit", limit, "skip", currentPageIndex));
+
+        while (result.hasNext()) {
+            posts.add(getPostFromRecord(result.next()));
         }
         
+        result = tx.run("MATCH (u:User)-[:FOLLOWS]->(:Film)<-[:TAGS]-(p:Post)-[r:CREATED]-(:User) "
+                    + "WHERE ID(u) = $userId "
+                    + "RETURN p "
+                    + "ORDER BY r.Timestamp DESC "
+                    + "SKIP $skip "
+                    + "LIMIT $limit",
+                    parameters("userId", user.getId(), "limit", limit, "skip", currentPageIndex));
+
+        while (result.hasNext()) {
+            posts.add(getPostFromRecord(result.next()));
+        }
+
         return posts;
     }
 }

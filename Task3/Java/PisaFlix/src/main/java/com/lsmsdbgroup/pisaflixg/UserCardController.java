@@ -134,8 +134,7 @@ public class UserCardController implements Initializable {
                 return;
             }
 
-            int level = UserPrivileges.getLevel(privilegeCombo.getValue().toString());
-            user.setPrivilegeLevel((int) privilegeCombo.getValue());
+            user.setPrivilegeLevel(UserPrivileges.getLevel(privilegeCombo.getValue().toString()));
 
             UserPrivileges userPrivilege = (UserPrivileges) privilegeCombo.getValue();
             try {

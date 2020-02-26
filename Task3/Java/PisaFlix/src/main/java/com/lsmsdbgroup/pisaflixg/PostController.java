@@ -3,12 +3,17 @@ package com.lsmsdbgroup.pisaflixg;
 import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import javafx.beans.property.*;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.*;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 public class PostController implements Initializable {
@@ -62,12 +67,16 @@ public class PostController implements Initializable {
     @FXML
     private Button updateButton;
 
+    @FXML
+    private HBox tags;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
             usernameLabel.setText(usernameProperty.get());
             timestampLabel.setText(timestampProperty.get());
             postLabel.setText(postProperty.get());
+            usernameLabel.getStyleClass().add("hover");
 
             postLabel.setMinHeight(Region.USE_PREF_SIZE);
 
@@ -87,6 +96,8 @@ public class PostController implements Initializable {
             } else {
                 updateMenuItem.setVisible(false);
             }
+
+            createTags();
 
         } catch (Exception ex) {
             App.printErrorDialog("Post", "An error occurred loading the post", ex.toString() + "\n" + ex.getMessage());
@@ -184,4 +195,70 @@ public class PostController implements Initializable {
             App.printErrorDialog("Delete Post", "An error occurred in deleting the post", ex.toString() + "\n" + ex.getMessage());
         }
     }
+
+    @FXML
+    private void goToProfile(MouseEvent event) {
+        try {
+
+            if (event.isSecondaryButtonDown()) {
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("UserView.fxml"));
+
+            GridPane gridPane = null;
+
+            try {
+                gridPane = loader.load();
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+
+            UserViewController userViewController = loader.getController();
+
+            userViewController.setUser(post.getUser());
+
+            App.setMainPane(gridPane);
+        } catch (Exception ex) {
+            App.printErrorDialog("Go to profile", "An error occurred", ex.toString() + "\n" + ex.getMessage());
+        }
+    }
+
+    private void createTags() {
+        for (Film film : post.getFilmSet()) {
+            Label tag = new Label("#" + film.getTitle());
+            tag.getStyleClass().add("tag");
+            tag.setCursor(Cursor.HAND);
+            tag.setOnMouseClicked((new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.isSecondaryButtonDown()) {
+                        return;
+                    }
+
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
+                        App.setLoader(loader);
+                        GridPane gridPane = null;
+
+                        try {
+                            gridPane = loader.load();
+                        } catch (IOException ex) {
+                            System.out.println(ex.getMessage());
+                        }
+
+                        FilmDetailPageController filmDetailPageController = loader.getController();
+
+                        filmDetailPageController.setFilm(film);
+
+                        App.setMainPane(gridPane);
+                    } catch (Exception ex) {
+                        App.printErrorDialog("Film Details", "An error occurred loading the film's details", ex.toString() + "\n" + ex.getMessage());
+                    }
+                }
+            }));
+            tags.getChildren().add(tag);
+        }
+    }
+
 }
