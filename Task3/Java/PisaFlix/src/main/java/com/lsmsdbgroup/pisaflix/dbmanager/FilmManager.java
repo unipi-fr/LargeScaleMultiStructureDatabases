@@ -114,7 +114,7 @@ public class FilmManager implements FilmManagerDatabaseInterface {
     public void update(Long idFilm, String title, Date publicationDate) {
         try (Session session = driver.session()) {
             session.run("MATCH (f:Film) "
-                    + "WHERE ID(f) = $id"
+                    + "WHERE ID(f) = $id "
                     + "SET f.Title = $title, f.PublicationDate = $publicationDate "
                     + "RETURN f",
                     parameters("id", idFilm,

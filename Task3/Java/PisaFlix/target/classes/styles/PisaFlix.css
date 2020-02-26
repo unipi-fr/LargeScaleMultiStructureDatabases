@@ -57,7 +57,19 @@
 }
 
 .label{
-    word-wrap: break-word
+    word-wrap: break-word;
+}
+
+.smaller{
+    -fx-font-size: 12.0px;
+}
+
+.smallest{
+    -fx-font-size: 9.0px;
+}
+
+.red {
+    -fx-background-color: rgb(240.0, 0, 0);
 }
 
 /*******************************************************************************
@@ -72,7 +84,6 @@
         1.5);
     -fx-padding: 15 15 15 15;
 }
-
 
 .card:hover {
     -fx-background-color: rgb(240.0, 240.0, 240.0);

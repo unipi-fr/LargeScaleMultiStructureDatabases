@@ -147,6 +147,8 @@ public class FilmCardController implements Initializable {
         } else {
             PisaFlixServices.filmService.follow(film, PisaFlixServices.authenticationService.getLoggedUser());
             followButton.setText("- Unfollow");
+            followButton.getStyleClass().remove("smallest");
+            followButton.getStyleClass().remove("smaller");
         }
     }
 
@@ -161,6 +163,7 @@ public class FilmCardController implements Initializable {
                     
                     if(film.type().equals("VERY SUGGESTED")){
                         followButton.setText("+ Very Suggested");
+                        followButton.getStyleClass().add("smaller");
                     }
                     
                     if(film.type().equals("NORMAL")){
@@ -169,6 +172,7 @@ public class FilmCardController implements Initializable {
                     
                     if(film.type().equals("FRIEND COMMENTED")){
                         followButton.setText("Commented by Friend");
+                        followButton.getStyleClass().add("smallest");
                     }
                     
                 } else {

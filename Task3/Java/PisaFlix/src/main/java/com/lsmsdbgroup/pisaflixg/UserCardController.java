@@ -200,6 +200,8 @@ public class UserCardController implements Initializable {
         } else {
             PisaFlixServices.userService.follow(PisaFlixServices.authenticationService.getLoggedUser(), user);
             followButton.setText("- Unfollow");
+            followButton.getStyleClass().remove("smallest");
+            followButton.getStyleClass().remove("smaller");
         }
     }
 
@@ -213,6 +215,7 @@ public class UserCardController implements Initializable {
 
                 if (user.type().equals("VERY SUGGESTED")) {
                     followButton.setText("+ Very Suggested");
+                    followButton.getStyleClass().add("smaller");
                 }
 
                 if (user.type().equals("NORMAL")) {
