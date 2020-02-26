@@ -20,6 +20,10 @@ public interface PostManagerDatabaseInterface {
     
     Set<Post> getPostFollowed(User user, int currentPageIndex);
     
-    int CountPostFollowed(User user);
+    int countPostFollowed(User user);
+    
+    Set<Post> getUserPosts(User user, int currentPageIndex);
+    
+    int countUserPosts(User user);
             
 }

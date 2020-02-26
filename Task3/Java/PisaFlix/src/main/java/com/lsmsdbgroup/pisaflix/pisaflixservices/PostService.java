@@ -52,7 +52,17 @@ public class PostService implements PostServiceInterface{
 
     @Override
     public int countPostFollowed(User user) {
-        return DBManager.postManager.CountPostFollowed(user);
+        return DBManager.postManager.countPostFollowed(user);
+    }
+
+    @Override
+    public Set<Post> getUserPosts(User user, int currentPageIndex) {
+        return DBManager.postManager.getPostFollowed(user, currentPageIndex);
+    }
+
+    @Override
+    public int countUserPosts(User user) {
+        return DBManager.postManager.countPostFollowed(user);
     }
   
 }

@@ -237,7 +237,7 @@ public class PostManager implements PostManagerDatabaseInterface {
     }
 
     @Override
-    public int CountPostFollowed(User user) {
+    public int countPostFollowed(User user) {
 
         int count = 0;
 
@@ -247,6 +247,54 @@ public class PostManager implements PostManagerDatabaseInterface {
                     + "WHERE ID(u) = $userId "
                     + "AND ((u)-[:FOLLOWS]->(:User)-[r]->(p) "
                     + "OR (u)-[:FOLLOWS]->(:Film)<-[:TAGS]-(p)<-[r]-(:User)) "
+                    + "RETURN count(DISTINCT p) AS count",
+                    parameters("userId", user.getId()));
+
+            if (result.hasNext()) {
+                count += result.next().get("count").asInt();
+            }
+
+        } catch (Exception ex) {
+            System.out.println("Followed posts count error: " + ex.getLocalizedMessage());
+        }
+
+        return count;
+
+    }
+    
+    @Override
+    public Set<Post> getUserPosts(User user, int currentPageIndex) {
+
+        Set<Post> posts = new LinkedHashSet<>();
+
+        try (Session session = driver.session()) {
+            StatementResult result = session.run("MATCH (u:User)-[r:CREATED]-(p:Post) "
+                    + "WHERE ID(u) = $userId "
+                    + "RETURN p "
+                    + "ORDER BY r.Timestamp DESC "
+                    + "SKIP $skip "
+                    + "LIMIT $limit",
+                    parameters("userId", user.getId(), "limit", limit, "skip", currentPageIndex));
+
+            while (result.hasNext()) {
+                posts.add(getPostFromRecord(result.next()));
+            }
+        } catch (Exception ex) {
+            System.out.println("Followed posts retrieval error: " + ex.getLocalizedMessage());
+        }
+
+        return posts;
+    }
+
+    @Override
+    public int countUserPosts(User user) {
+
+        int count = 0;
+
+        try (Session session = driver.session()) {
+
+            StatementResult result = session.run("MATCH (u:User)-[r:CREATED]-(p:Post) "
+                    + "WHERE ID(u) = $userId "
                     + "RETURN count(DISTINCT p) AS count",
                     parameters("userId", user.getId()));
 
