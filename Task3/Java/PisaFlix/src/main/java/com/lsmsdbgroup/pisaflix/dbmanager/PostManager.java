@@ -219,7 +219,8 @@ public class PostManager implements PostManagerDatabaseInterface {
             StatementResult result = session.run("MATCH  (u:User), ()-[r:CREATED]-(p:Post) "
                     + "WHERE ID(u) = $userId "
                     + "AND ((u)-[:FOLLOWS]->(:User)-[r]->(p) "
-                    + "OR (u)-[:FOLLOWS]->(:Film)<-[:TAGS]-(p)<-[r]-(:User)) "
+                    + "OR (u)-[:FOLLOWS]->(:Film)<-[:TAGS]-(p)<-[r]-(:User) "
+                    + "AND NOT (u)-[r]-(p)) "
                     + "RETURN p "
                     + "ORDER BY r.Timestamp DESC "
                     + "SKIP $skip "
@@ -246,7 +247,8 @@ public class PostManager implements PostManagerDatabaseInterface {
             StatementResult result = session.run("MATCH  (u:User), ()-[r:CREATED]-(p:Post) "
                     + "WHERE ID(u) = $userId "
                     + "AND ((u)-[:FOLLOWS]->(:User)-[r]->(p) "
-                    + "OR (u)-[:FOLLOWS]->(:Film)<-[:TAGS]-(p)<-[r]-(:User)) "
+                    + "OR (u)-[:FOLLOWS]->(:Film)<-[:TAGS]-(p)<-[r]-(:User) "
+                    + "AND NOT (u)-[r]-(p)) "
                     + "RETURN count(DISTINCT p) AS count",
                     parameters("userId", user.getId()));
 
