@@ -22,12 +22,12 @@ public class HomeController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             if(PisaFlixServices.authenticationService.isUserLogged()){
-                refreshPosts();
+                pagination();
             }
             pagination.currentPageIndexProperty().addListener((obs, oldIndex, newIndex)
                     -> refreshPosts());
         } catch (Exception ex) {
-            App.printErrorDialog("Film Details", "An error occurred in inizialization", ex.toString() + "\n" + ex.getMessage());
+            App.printErrorDialog("Home", "An error occurred in inizialization", ex.toString() + "\n" + ex.getMessage());
         }
     }
 
@@ -49,9 +49,9 @@ public class HomeController implements Initializable {
         return pane;
     }
 
-    public void pagination(User user) {
+    public void pagination() {
 
-        int count = PisaFlixServices.postService.countFollowed(user);
+        int count = PisaFlixServices.postService.countPostFollowed(PisaFlixServices.authenticationService.getLoggedUser());
         if (count == 0) {
             pagination.pageCountProperty().setValue(1);
         } else {

@@ -174,6 +174,7 @@ public class PostManager implements PostManagerDatabaseInterface {
     @Override
     public int count(Entity entity) {
 
+        int count = 0;
         StatementResult result = null;
 
         if (entity.getClass() == Film.class) {
@@ -202,52 +203,63 @@ public class PostManager implements PostManagerDatabaseInterface {
             }
         }
 
-        // an error should be printed in either one of the previous catch
-        if (result == null) {
-            return 0;
+        if (result.hasNext()) {
+            count += result.next().get("count").asInt();
         }
 
-        return result.next().get("count").asInt();
+        return count;
     }
 
     @Override
     public Set<Post> getPostFollowed(User user, int currentPageIndex) {
+
         Set<Post> posts = new LinkedHashSet<>();
 
         try (Session session = driver.session()) {
-            posts = session.readTransaction((Transaction tx) -> getPostFollowed(tx, user, currentPageIndex));
-        }
-
-        return posts;
-    }
-
-    private Set<Post> getPostFollowed(Transaction tx, User user, int currentPageIndex) {
-        Set<Post> posts = new LinkedHashSet<>();
-
-        StatementResult result = tx.run("MATCH (u:User)-[:FOLLOWS]->(:User)-[r:CREATED]->(p:Post) "
+            StatementResult result = session.run("MATCH  (u:User), ()-[r:CREATED]-(p:Post) "
                     + "WHERE ID(u) = $userId "
+                    + "AND ((u)-[:FOLLOWS]->(:User)-[r]->(p) "
+                    + "OR (u)-[:FOLLOWS]->(:Film)<-[:TAGS]-(p)<-[r]-(:User)) "
                     + "RETURN p "
                     + "ORDER BY r.Timestamp DESC "
                     + "SKIP $skip "
                     + "LIMIT $limit",
                     parameters("userId", user.getId(), "limit", limit, "skip", currentPageIndex));
 
-        while (result.hasNext()) {
-            posts.add(getPostFromRecord(result.next()));
-        }
-        
-        result = tx.run("MATCH (u:User)-[:FOLLOWS]->(:Film)<-[:TAGS]-(p:Post)-[r:CREATED]-(:User) "
-                    + "WHERE ID(u) = $userId "
-                    + "RETURN p "
-                    + "ORDER BY r.Timestamp DESC "
-                    + "SKIP $skip "
-                    + "LIMIT $limit",
-                    parameters("userId", user.getId(), "limit", limit, "skip", currentPageIndex));
-
-        while (result.hasNext()) {
-            posts.add(getPostFromRecord(result.next()));
+            while (result.hasNext()) {
+                posts.add(getPostFromRecord(result.next()));
+            }
+        } catch (Exception ex) {
+            System.out.println("Followed posts retrieval error: " + ex.getLocalizedMessage());
         }
 
         return posts;
     }
+
+    @Override
+    public int CountPostFollowed(User user) {
+
+        int count = 0;
+
+        try (Session session = driver.session()) {
+
+            StatementResult result = session.run("MATCH  (u:User), ()-[r:CREATED]-(p:Post) "
+                    + "WHERE ID(u) = $userId "
+                    + "AND ((u)-[:FOLLOWS]->(:User)-[r]->(p) "
+                    + "OR (u)-[:FOLLOWS]->(:Film)<-[:TAGS]-(p)<-[r]-(:User)) "
+                    + "RETURN count(DISTINCT p) AS count",
+                    parameters("userId", user.getId()));
+
+            if (result.hasNext()) {
+                count += result.next().get("count").asInt();
+            }
+
+        } catch (Exception ex) {
+            System.out.println("Followed posts count error: " + ex.getLocalizedMessage());
+        }
+
+        return count;
+
+    }
+
 }

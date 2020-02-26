@@ -51,8 +51,8 @@ public class PostService implements PostServiceInterface{
     }
 
     @Override
-    public int countFollowed(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int countPostFollowed(User user) {
+        return DBManager.postManager.CountPostFollowed(user);
     }
   
 }

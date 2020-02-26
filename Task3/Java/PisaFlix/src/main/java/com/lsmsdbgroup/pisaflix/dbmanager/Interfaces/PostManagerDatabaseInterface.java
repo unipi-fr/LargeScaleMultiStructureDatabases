@@ -19,4 +19,7 @@ public interface PostManagerDatabaseInterface {
     int count(Entity entity);
     
     Set<Post> getPostFollowed(User user, int currentPageIndex);
+    
+    int CountPostFollowed(User user);
+            
 }
