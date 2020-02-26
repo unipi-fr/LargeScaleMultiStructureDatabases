@@ -24,5 +24,7 @@ public interface PostServiceInterface {
     Set<Post> getUserPosts(User user, int currentPageIndex);
     
     int countUserPosts(User user);
+    
+    int getHomePostPerPageLimit();
 
 }

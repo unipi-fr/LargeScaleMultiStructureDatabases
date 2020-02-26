@@ -21,7 +21,7 @@ public class HomeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            if(PisaFlixServices.authenticationService.isUserLogged()){
+            if (PisaFlixServices.authenticationService.isUserLogged()) {
                 pagination();
             }
             pagination.currentPageIndexProperty().addListener((obs, oldIndex, newIndex)
@@ -55,7 +55,8 @@ public class HomeController implements Initializable {
         if (count == 0) {
             pagination.pageCountProperty().setValue(1);
         } else {
-            pagination.setPageCount((int) Math.ceil(count * 1.0 / PisaFlixServices.filmService.getPostPageSize() * 1.0));
+            System.out.println();
+            pagination.setPageCount((int) Math.ceil(count * 1.0 / PisaFlixServices.postService.getHomePostPerPageLimit() * 1.0));
         }
 
         refreshPosts();
@@ -63,7 +64,7 @@ public class HomeController implements Initializable {
     }
 
     public void refreshPosts() {
-        
+
         postVBox.getChildren().clear();
 
         Set<Post> posts = PisaFlixServices.postService.getPostFollowed(PisaFlixServices.authenticationService.getLoggedUser(), pagination.getCurrentPageIndex());
@@ -71,7 +72,7 @@ public class HomeController implements Initializable {
         posts.forEach((post) -> {
             postVBox.getChildren().add(createPost(post.getUser().getUsername(), post.getTimestamp().toString(), post.getText(), post));
         });
-        
+
     }
 
 }

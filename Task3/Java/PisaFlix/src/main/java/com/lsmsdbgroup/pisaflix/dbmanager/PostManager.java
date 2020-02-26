@@ -219,8 +219,8 @@ public class PostManager implements PostManagerDatabaseInterface {
             StatementResult result = session.run("MATCH  (u:User), ()-[r:CREATED]-(p:Post) "
                     + "WHERE ID(u) = $userId "
                     + "AND ((u)-[:FOLLOWS]->(:User)-[r]->(p) "
-                    + "OR (u)-[:FOLLOWS]->(:Film)<-[:TAGS]-(p)<-[r]-(:User) "
-                    + "AND NOT (u)-[r]-(p)) "
+                    + "OR (u)-[:FOLLOWS]->(:Film)<-[:TAGS]-(p)<-[r]-(:User)) "
+                    + "AND NOT (u)-[r]->(p) "
                     + "RETURN p "
                     + "ORDER BY r.Timestamp DESC "
                     + "SKIP $skip "
@@ -247,8 +247,8 @@ public class PostManager implements PostManagerDatabaseInterface {
             StatementResult result = session.run("MATCH  (u:User), ()-[r:CREATED]-(p:Post) "
                     + "WHERE ID(u) = $userId "
                     + "AND ((u)-[:FOLLOWS]->(:User)-[r]->(p) "
-                    + "OR (u)-[:FOLLOWS]->(:Film)<-[:TAGS]-(p)<-[r]-(:User) "
-                    + "AND NOT (u)-[r]-(p)) "
+                    + "OR (u)-[:FOLLOWS]->(:Film)<-[:TAGS]-(p)<-[r]-(:User)) "
+                    + "AND NOT (u)-[r]->(p) "
                     + "RETURN count(DISTINCT p) AS count",
                     parameters("userId", user.getId()));
 
@@ -263,7 +263,7 @@ public class PostManager implements PostManagerDatabaseInterface {
         return count;
 
     }
-    
+
     @Override
     public Set<Post> getUserPosts(User user, int currentPageIndex) {
 
@@ -310,6 +310,11 @@ public class PostManager implements PostManagerDatabaseInterface {
 
         return count;
 
+    }
+
+    @Override
+    public int getLimit() {
+        return limit;
     }
 
 }

@@ -25,5 +25,7 @@ public interface PostManagerDatabaseInterface {
     Set<Post> getUserPosts(User user, int currentPageIndex);
     
     int countUserPosts(User user);
+    
+    int getLimit();
             
 }
