@@ -10,6 +10,11 @@ import java.io.IOException;
 import javafx.beans.property.StringProperty;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.SequentialTransition;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.*;
 import javafx.scene.control.*;
@@ -17,6 +22,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.util.Duration;
 
 public class FilmCardController implements Initializable {
 
@@ -39,6 +45,9 @@ public class FilmCardController implements Initializable {
 
     @FXML
     private Label publishLabel;
+    
+    @FXML
+    private Label suggestLabel;
 
     @FXML
     private MenuItem deleteFilmMenuItem;
@@ -57,9 +66,10 @@ public class FilmCardController implements Initializable {
 
     @FXML
     private Button followButton;
-
-    @FXML
-    private VBox card;
+    
+    private ParallelTransition parallelTransitionUp;
+    
+    private ParallelTransition parallelTransitionDown;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -76,11 +86,99 @@ public class FilmCardController implements Initializable {
             deleteFilmMenuItem.setVisible(true);
             modifyFilmMenuItem.setVisible(true);
         }
+        
+        if(PisaFlixServices.authenticationService.isUserLogged())
+        {
+            initializeAnimation();
+            titleLabel.getStyleClass().remove("card-film-title");
+            titleLabel.getStyleClass().add("card-film-title-hider");
+            
+            publishLabel.getStyleClass().remove("card-film-subtitle");
+            publishLabel.getStyleClass().add("card-film-subtitle-hider");
+        } 
+        
+        
 
         setPoster();
         setFollowButton();
     }
 
+    private void initializeAnimation(){
+        ScaleTransition scaleTransitionUp = 
+            new ScaleTransition(Duration.millis(250), poster);
+        scaleTransitionUp.setFromX(1);
+        scaleTransitionUp.setFromY(1);
+        scaleTransitionUp.setToX(0.8);
+        scaleTransitionUp.setToY(0.8);
+        
+        TranslateTransition translateTransitionTitleUp =
+            new TranslateTransition(Duration.millis(250), titleLabel);
+        translateTransitionTitleUp.setFromY(0);
+        translateTransitionTitleUp.setToY(-25);
+        translateTransitionTitleUp.setCycleCount(1);
+        translateTransitionTitleUp.setAutoReverse(true);
+        
+        TranslateTransition translateTransitionPosterUp =
+            new TranslateTransition(Duration.millis(250), poster);
+        translateTransitionPosterUp.setFromY(0);
+        translateTransitionPosterUp.setToY(-10);
+        translateTransitionPosterUp.setCycleCount(1);
+        translateTransitionPosterUp.setAutoReverse(true);
+        
+        TranslateTransition translateTransitionDateUp =
+            new TranslateTransition(Duration.millis(250), publishLabel);
+        translateTransitionDateUp.setFromY(0);
+        translateTransitionDateUp.setToY(-25);
+        translateTransitionDateUp.setCycleCount(1);
+        translateTransitionDateUp.setAutoReverse(true);
+        
+        parallelTransitionUp = new ParallelTransition();
+        
+        parallelTransitionUp.getChildren().addAll(
+                scaleTransitionUp,
+                translateTransitionTitleUp,
+                translateTransitionDateUp,
+                translateTransitionPosterUp
+        );
+        
+        ScaleTransition scaleTransitionDown = 
+            new ScaleTransition(Duration.millis(250), poster);
+        scaleTransitionDown.setFromX(0.8);
+        scaleTransitionDown.setFromY(0.8);
+        scaleTransitionDown.setToX(1);
+        scaleTransitionDown.setToY(1);
+        
+        TranslateTransition translateTransitionTitleDown =
+            new TranslateTransition(Duration.millis(250), titleLabel);
+        translateTransitionTitleDown.setFromY(-25);
+        translateTransitionTitleDown.setToY(0);
+        translateTransitionTitleDown.setCycleCount(1);
+        translateTransitionTitleDown.setAutoReverse(true);
+        
+        TranslateTransition translateTransitionPosterDown =
+            new TranslateTransition(Duration.millis(250), poster);
+        translateTransitionPosterDown.setFromY(-10);
+        translateTransitionPosterDown.setToY(0);
+        translateTransitionPosterDown.setCycleCount(1);
+        translateTransitionPosterDown.setAutoReverse(true);
+        
+        TranslateTransition translateTransitionDateDown =
+            new TranslateTransition(Duration.millis(250), publishLabel);
+        translateTransitionDateDown.setFromY(-25);
+        translateTransitionDateDown.setToY(0);
+        translateTransitionDateDown.setCycleCount(1);
+        translateTransitionDateDown.setAutoReverse(true);
+        
+        parallelTransitionDown = new ParallelTransition();
+        
+        parallelTransitionDown.getChildren().addAll(
+                scaleTransitionDown,
+                translateTransitionTitleDown,
+                translateTransitionDateDown,
+                translateTransitionPosterDown
+        );
+    }
+    
     @FXML
     private void clickMouse(MouseEvent event) {
         if (event.isSecondaryButtonDown()) {
@@ -147,8 +245,6 @@ public class FilmCardController implements Initializable {
         } else {
             PisaFlixServices.filmService.follow(film, PisaFlixServices.authenticationService.getLoggedUser());
             followButton.setText("- Unfollow");
-            followButton.getStyleClass().remove("smallest");
-            followButton.getStyleClass().remove("smaller");
         }
     }
 
@@ -158,21 +254,19 @@ public class FilmCardController implements Initializable {
                 if (!PisaFlixServices.filmService.isFollowing(film, PisaFlixServices.authenticationService.getLoggedUser())) {
                     
                     if(film.type().equals("SUGGESTED")){
-                        followButton.setText("+ Suggested");
+                        suggestLabel.setText("Suggested");
                     }
                     
                     if(film.type().equals("VERY SUGGESTED")){
-                        followButton.setText("+ Very Suggested");
-                        followButton.getStyleClass().add("smaller");
+                        suggestLabel.setText("Very Suggested");
                     }
                     
                     if(film.type().equals("NORMAL")){
-                        followButton.setText("+ Follow");
+                        suggestLabel.setText("");
                     }
                     
                     if(film.type().equals("FRIEND COMMENTED")){
-                        followButton.setText("Commented by Friend");
-                        followButton.getStyleClass().add("smallest");
+                        suggestLabel.setText("Commented by Friend");
                     }
                     
                 } else {
@@ -181,11 +275,25 @@ public class FilmCardController implements Initializable {
             } else {
                 followButton.setVisible(false);
                 followButton.setManaged(false);
+                suggestLabel.setVisible(false);
+                suggestLabel.setManaged(false);
                 poster.setFitHeight(116);
                 poster.setFitWidth(116);
             }
         } catch (Exception ex) {
             System.out.println(ex.getLocalizedMessage());
         }
+    }
+    
+    @FXML
+    private void animationUp(){
+        if(PisaFlixServices.authenticationService.isUserLogged())
+            parallelTransitionUp.play();
+    }
+    
+    @FXML
+    private void animationDown(){
+        if(PisaFlixServices.authenticationService.isUserLogged())
+            parallelTransitionDown.play(); 
     }
 }

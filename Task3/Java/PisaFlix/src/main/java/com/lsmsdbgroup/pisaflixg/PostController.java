@@ -3,6 +3,7 @@ package com.lsmsdbgroup.pisaflixg;
 import com.lsmsdbgroup.pisaflix.Entities.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.*;
 import com.lsmsdbgroup.pisaflix.pisaflixservices.exceptions.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -13,6 +14,8 @@ import javafx.fxml.*;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
@@ -69,6 +72,9 @@ public class PostController implements Initializable {
 
     @FXML
     private HBox tags;
+    
+    @FXML
+    private ImageView userImageView;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -96,6 +102,14 @@ public class PostController implements Initializable {
             } else {
                 updateMenuItem.setVisible(false);
             }
+            
+            Random random = new Random();
+            int img = random.nextInt(3) + 1;
+
+            File file = new File("src/main/resources/img/user" + img + ".png");
+
+            Image image = new Image(file.toURI().toString());
+            userImageView.setImage(image);
 
             createTags();
 

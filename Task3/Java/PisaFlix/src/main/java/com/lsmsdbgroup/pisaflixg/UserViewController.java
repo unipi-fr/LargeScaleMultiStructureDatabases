@@ -72,7 +72,8 @@ public class UserViewController implements Initializable {
                 FollowButton.setDisable(false);
                 setFollowButton();
             }else{
-                FollowButton.setDisable(true);
+                FollowButton.setVisible(false);
+                FollowButton.setManaged(false);
             }
 
             if (user != null) {
@@ -159,18 +160,22 @@ public class UserViewController implements Initializable {
             emailLabel.setText(user.getEmail());
 
             if (!canUpdateOrDeleteProfile()) {
-                deleteButton.setDisable(true);
+                deleteButton.setVisible(false);
+                deleteButton.setManaged(false);
+                
             }
 
             if (!this.user.equals(PisaFlixServices.authenticationService.getLoggedUser())) {
-                updateButton.setDisable(true);
+                updateButton.setVisible(false);
+                updateButton.setManaged(false);
             }
             
             if (PisaFlixServices.authenticationService.isUserLogged() && !this.user.equals(PisaFlixServices.authenticationService.getLoggedUser())) {
                 FollowButton.setDisable(false);
                 setFollowButton();
             }else{
-                FollowButton.setDisable(true);
+                FollowButton.setVisible(false);
+                FollowButton.setManaged(false);
             }
 
             postCounterLabel.setText("Post: " + PisaFlixServices.postService.count(user));

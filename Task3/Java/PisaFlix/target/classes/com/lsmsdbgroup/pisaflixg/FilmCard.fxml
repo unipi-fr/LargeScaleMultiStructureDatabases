@@ -11,17 +11,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="card" alignment="CENTER" maxHeight="203.0" onMousePressed="#clickMouse" styleClass="card-film" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+
+<AnchorPane onMouseClicked="#clickMouse" onMouseEntered="#animationUp" onMouseExited="#animationDown" prefHeight="190.0" styleClass="card-film" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fx:id="poster" fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="42.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <image>
-            <Image url="@../../../img/Film.png" />
-         </image>
-         <VBox.margin>
-            <Insets top="-5.0" />
-         </VBox.margin>
-      </ImageView>
-      <Label fx:id="titleLabel" alignment="CENTER" maxWidth="116.0" styleClass="card-film-title" text="Label" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="116.0">
+      <Label fx:id="suggestLabel" alignment="CENTER" text="Label" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Button fx:id="followButton" layoutX="14.0" layoutY="163.0" mnemonicParsing="false" onAction="#FollowUnfollow" styleClass="smaller" text="+ Follow" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Label fx:id="titleLabel" alignment="CENTER" layoutY="143.0" maxWidth="116.0" prefWidth="116.0" styleClass="card-film-title" text="Label" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
          <font>
             <Font size="20.0" />
          </font>
@@ -37,21 +32,31 @@
             <Tooltip fx:id="titleTool" />
          </tooltip>
          <VBox.margin>
-            <Insets bottom="-5.0" />
+            <Insets />
          </VBox.margin>
       </Label>
-      <Label fx:id="publishLabel" alignment="CENTER" maxWidth="116.0" styleClass="card-film-subtitle" text="Label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="142.0">
+      <Label fx:id="publishLabel" alignment="CENTER" layoutY="169.0" maxWidth="116.0" styleClass="card-film-subtitle" text="Label" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="178.0">
          <font>
             <Font size="16.0" />
          </font>
          <VBox.margin>
-            <Insets bottom="-5.0" />
+            <Insets />
          </VBox.margin>
       </Label>
-      <Button fx:id="followButton" mnemonicParsing="false" onAction="#FollowUnfollow" text="+ Follow">
-         <VBox.margin>
-            <Insets top="10.0" />
-         </VBox.margin>
-      </Button>
+      <VBox alignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
+         <children>
+            <ImageView fx:id="poster" fitHeight="116.0" fitWidth="116.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="74.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@../../../img/Film.png" />
+               </image>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </ImageView>
+         </children>
+         <padding>
+            <Insets bottom="5.0" top="10.0" />
+         </padding>
+      </VBox>
    </children>
-</VBox>
+</AnchorPane>

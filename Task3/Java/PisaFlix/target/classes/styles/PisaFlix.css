@@ -140,7 +140,7 @@
     -fx-background-radius: 4.0;
     -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,
         1.5);
-    -fx-padding: 15 0 15 0;
+    -fx-padding: 0 0 0 0;
 }
 
 .card-film:hover {
@@ -153,12 +153,22 @@
     -fx-font-size: 20.0px;
 }
 
+.card-film-title-hider {
+    -fx-font-size: 20.0px;
+    -fx-background-color: rgb(255.0, 255.0, 255.0);
+}
+
 .card-film-title .text {
     -fx-fill: -fx-text-title-color;
 }
 
 .card-film-subtitle {
     -fx-font-size: 16.0px;
+}
+
+.card-film-subtitle-hider {
+    -fx-font-size: 16.0px;
+    -fx-background-color: rgb(255.0, 255.0, 255.0);
 }
 
 .card-subtitle .text {

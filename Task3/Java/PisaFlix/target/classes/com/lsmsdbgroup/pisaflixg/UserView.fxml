@@ -34,9 +34,9 @@
             <ListView fx:id="list" prefHeight="353.0" prefWidth="1217.0" GridPane.rowIndex="1" />
          </children>
       </VBox>
-      <HBox spacing="300.0">
+      <AnchorPane>
          <children>
-            <VBox spacing="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox spacing="15.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                <children>
                   <VBox spacing="10.0">
                      <children>
@@ -107,7 +107,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox alignment="CENTER" spacing="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox alignment="CENTER" layoutX="784.0" layoutY="10.0" spacing="5.0" styleClass="card-tags" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                <children>
                   <ImageView fx:id="userImage" fitHeight="256.0" fitWidth="256.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="329.0" AnchorPane.leftAnchor="342.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="14.0">
                      <image>
@@ -119,20 +119,22 @@
                         <Button fx:id="FollowButton" minWidth="80.0" mnemonicParsing="false" onAction="#FollowUnfollow" text="+ Follow">
                            <HBox.margin>
                               <Insets />
-                           </HBox.margin></Button>
+                           </HBox.margin>
+                        </Button>
                         <Button fx:id="updateButton" mnemonicParsing="false" onMouseClicked="#updateProfile" text="Update Profile" AnchorPane.bottomAnchor="299.0" AnchorPane.leftAnchor="336.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="151.0" />
                         <Button fx:id="deleteButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#deleteProfile" text="Delete Profile">
                            <HBox.margin>
-                              <Insets right="10.0" />
-                           </HBox.margin></Button>
+                              <Insets />
+                           </HBox.margin>
+                        </Button>
                      </children>
                   </HBox>
                </children>
                <HBox.margin>
-                  <Insets />
+                  <Insets top="10.0" />
                </HBox.margin>
             </VBox>
          </children>
-      </HBox>
+      </AnchorPane>
    </children>
 </GridPane>

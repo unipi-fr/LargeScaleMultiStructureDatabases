@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.shape.*?>
@@ -44,7 +45,7 @@
       <Separator prefWidth="200.0" />
       <AnchorPane>
          <children>
-            <HBox layoutX="-22.0" layoutY="-7.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+            <HBox alignment="CENTER_LEFT" layoutX="-22.0" layoutY="-7.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label layoutX="-22.0" layoutY="-7.0" text="Written at: " />
                   <Label fx:id="timestampLabel" alignment="CENTER_RIGHT" layoutX="170.0" text="TimeStamp" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="0.0">
@@ -54,7 +55,7 @@
                   </Label>
                </children>
             </HBox>
-            <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <HBox alignment="CENTER_LEFT" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label text="By: " />
                   <Label fx:id="usernameLabel" layoutX="10.0" onMouseClicked="#goToProfile" text="Username" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
@@ -65,6 +66,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Label>
+                  <ImageView fx:id="userImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </HBox>
          </children>
