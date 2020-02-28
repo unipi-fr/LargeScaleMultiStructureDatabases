@@ -5,6 +5,10 @@ E COPIATELI NELLA CARTELLA IMPORT ALL'INTERNO DELLA CARTELLA D'ISTALLAZIONE DI N
 LOAD CSV FROM "file:///Users.csv" as line
 Create(:User{Email:line[0], Password:line[1], PrivilegeLevel:toInteger(line[2]), Username:line[3], FirstName:line[4], LastName:line[5]})
 
+CREATE CONSTRAINT ON (u:User) ASSERT u.Username IS UNIQUE
+
+CREATE CONSTRAINT ON (u:User) ASSERT u.Email IS UNIQUE
+
 		2) Comando import Film
 LOAD CSV FROM "file:///Film.csv" as line
 Create(:Film{PublicationDate:toInteger(line[0]), Title:line[1], WikiPage:line[2]})

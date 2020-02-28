@@ -107,7 +107,7 @@ public class FilmService implements FilmServiceInterface {
     @Override
     public Set<Film> getMixSuggestedRecent(User user) {
         
-        Set<Film> mix= filmManager.getVerySuggestedFilms(user, 0);
+        Set<Film> mix= filmManager.getVerySuggestedFilms(user, filmManager.getLimit());
         
         if(mix.size() < filmManager.getLimit()){
             

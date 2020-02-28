@@ -205,7 +205,7 @@ public class UserService implements UserServiceInterface {
     @Override
     public Set<User> getMixedUsers(User user) {
         
-        Set<User> mix= userManager.getVerySuggestedUsers(user, 0);
+        Set<User> mix= userManager.getVerySuggestedUsers(user, userManager.getLimit());
         
         if(mix.size() < userManager.getLimit()){
             

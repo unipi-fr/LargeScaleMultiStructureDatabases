@@ -65,9 +65,11 @@ public class PostManager implements PostManagerDatabaseInterface {
                 + "RETURN u, c",
                 parameters("id", post.getIdPost()));
 
-        Record record = result.next();
-        post.setUser(DBManager.userManager.getById(record.get("u").asNode().id()));
-        post.setTimestamp(Date.from(record.get("c").get("Timestamp").asZonedDateTime().toInstant()));
+        if (result.hasNext()) {
+            Record record = result.next();
+            post.setUser(DBManager.userManager.getById(record.get("u").asNode().id()));
+            post.setTimestamp(Date.from(record.get("c").get("Timestamp").asZonedDateTime().toInstant()));
+        }
 
         result = transaction.run("MATCH (:User)-[:CREATED]->(p:Post)-[:TAGS]->(f:Film) "
                 + "WHERE ID(p) = $id "
@@ -216,7 +218,7 @@ public class PostManager implements PostManagerDatabaseInterface {
         Set<Post> posts = new LinkedHashSet<>();
 
         try (Session session = driver.session()) {
-            StatementResult result = session.run("MATCH  (u:User), ()-[r:CREATED]-(p:Post) "
+            StatementResult result = session.run("MATCH  (u:User), ()-[r:CREATED]->(p:Post) "
                     + "WHERE ID(u) = $userId "
                     + "AND ((u)-[:FOLLOWS]->(:User)-[r]->(p) "
                     + "OR (u)-[:FOLLOWS]->(:Film)<-[:TAGS]-(p)<-[r]-(:User)) "
@@ -244,7 +246,7 @@ public class PostManager implements PostManagerDatabaseInterface {
 
         try (Session session = driver.session()) {
 
-            StatementResult result = session.run("MATCH  (u:User), ()-[r:CREATED]-(p:Post) "
+            StatementResult result = session.run("MATCH  (u:User), ()-[r:CREATED]->(p:Post) "
                     + "WHERE ID(u) = $userId "
                     + "AND ((u)-[:FOLLOWS]->(:User)-[r]->(p) "
                     + "OR (u)-[:FOLLOWS]->(:Film)<-[:TAGS]-(p)<-[r]-(:User)) "
@@ -270,7 +272,7 @@ public class PostManager implements PostManagerDatabaseInterface {
         Set<Post> posts = new LinkedHashSet<>();
 
         try (Session session = driver.session()) {
-            StatementResult result = session.run("MATCH (u:User)-[r:CREATED]-(p:Post) "
+            StatementResult result = session.run("MATCH (u:User)-[r:CREATED]->(p:Post) "
                     + "WHERE ID(u) = $userId "
                     + "RETURN p "
                     + "ORDER BY r.Timestamp DESC "
@@ -295,7 +297,7 @@ public class PostManager implements PostManagerDatabaseInterface {
 
         try (Session session = driver.session()) {
 
-            StatementResult result = session.run("MATCH (u:User)-[r:CREATED]-(p:Post) "
+            StatementResult result = session.run("MATCH (u:User)-[r:CREATED]->(p:Post) "
                     + "WHERE ID(u) = $userId "
                     + "RETURN count(DISTINCT p) AS count",
                     parameters("userId", user.getId()));
