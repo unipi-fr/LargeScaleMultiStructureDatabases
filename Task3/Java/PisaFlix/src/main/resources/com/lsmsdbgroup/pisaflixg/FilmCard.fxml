@@ -11,8 +11,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane onMouseClicked="#clickMouse" onMouseEntered="#animationUp" onMouseExited="#animationDown" prefHeight="190.0" styleClass="card-film" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="cardPane" onMouseClicked="#clickMouse" onMouseEntered="#animationUp" onMouseExited="#animationDown" prefHeight="190.0" styleClass="card-film" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label fx:id="suggestLabel" alignment="CENTER" text="Label" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Button fx:id="followButton" layoutX="14.0" layoutY="163.0" mnemonicParsing="false" onAction="#FollowUnfollow" styleClass="smaller" text="+ Follow" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />

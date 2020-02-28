@@ -7,12 +7,16 @@ import java.io.*;
 import javafx.beans.property.StringProperty;
 import java.net.URL;
 import java.util.*;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.util.Duration;
 
 public class UserCardController implements Initializable {
 
@@ -21,15 +25,24 @@ public class UserCardController implements Initializable {
     private final StringProperty userProperty = new SimpleStringProperty();
     private final StringProperty privilegeProperty = new SimpleStringProperty();
 
+    private int status;
+    
     public UserCardController(User user) {
         this.user = user;
         userProperty.set(user.getUsername());
         privilegeProperty.set(UserPrivileges.valueOf(user.getPrivilegeLevel()));
+        status = 0;
     }
 
     @FXML
+    private AnchorPane cardPane;
+    
+    @FXML
     private VBox cardVbox;
 
+    @FXML
+    private VBox imageVBox;
+    
     @FXML
     private ImageView userImageView;
 
@@ -38,6 +51,9 @@ public class UserCardController implements Initializable {
 
     @FXML
     private Label privilegeLabel;
+    
+    @FXML
+    private Label suggestLabel;
 
     @FXML
     private ComboBox privilegeCombo;
@@ -53,6 +69,10 @@ public class UserCardController implements Initializable {
 
     @FXML
     private Button followButton;
+    
+    private ParallelTransition parallelTransitionUp;
+    
+    private ParallelTransition parallelTransitionDown;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -88,10 +108,75 @@ public class UserCardController implements Initializable {
             } else {
                 updatePrivilegeMenuItem.setVisible(true);
             }
+            
+            if(PisaFlixServices.authenticationService.isUserLogged()){
+                initializeAnimation();
+                cardVbox.getStyleClass().add("hider");
+            }
+            
         } catch (Exception ex) {
             App.printErrorDialog("User Card", "An error occurred loading the user card", ex.toString() + "\n" + ex.getMessage());
         }
-
+    }
+    
+    private void initializeAnimation(){
+        ScaleTransition scaleTransitionUp = 
+            new ScaleTransition(Duration.millis(250), userImageView);
+        scaleTransitionUp.setFromX(1);
+        scaleTransitionUp.setFromY(1);
+        scaleTransitionUp.setToX(0.8);
+        scaleTransitionUp.setToY(0.8);
+        
+        TranslateTransition translateTransitionVBoxUp =
+            new TranslateTransition(Duration.millis(250), cardVbox);
+        translateTransitionVBoxUp.setFromY(0);
+        translateTransitionVBoxUp.setToY(-25);
+        translateTransitionVBoxUp.setCycleCount(1);
+        translateTransitionVBoxUp.setAutoReverse(true);
+        
+        TranslateTransition translateTransitionPosterUp =
+            new TranslateTransition(Duration.millis(250), userImageView);
+        translateTransitionPosterUp.setFromY(0);
+        translateTransitionPosterUp.setToY(-10);
+        translateTransitionPosterUp.setCycleCount(1);
+        translateTransitionPosterUp.setAutoReverse(true);
+        
+        parallelTransitionUp = new ParallelTransition();
+        
+        parallelTransitionUp.getChildren().addAll(
+                scaleTransitionUp,
+                translateTransitionVBoxUp,
+                translateTransitionPosterUp
+        );
+        
+        ScaleTransition scaleTransitionDown = 
+            new ScaleTransition(Duration.millis(250), userImageView);
+        scaleTransitionDown.setFromX(0.8);
+        scaleTransitionDown.setFromY(0.8);
+        scaleTransitionDown.setToX(1);
+        scaleTransitionDown.setToY(1);
+        
+        TranslateTransition translateTransitionVBoxDown =
+            new TranslateTransition(Duration.millis(250), cardVbox);
+        translateTransitionVBoxDown.setFromY(-25);
+        translateTransitionVBoxDown.setToY(0);
+        translateTransitionVBoxDown.setCycleCount(1);
+        translateTransitionVBoxDown.setAutoReverse(true);
+        
+        TranslateTransition translateTransitionPosterDown =
+            new TranslateTransition(Duration.millis(250), userImageView);
+        translateTransitionPosterDown.setFromY(-10);
+        translateTransitionPosterDown.setToY(0);
+        translateTransitionPosterDown.setCycleCount(1);
+        translateTransitionPosterDown.setAutoReverse(true);
+        
+        parallelTransitionDown = new ParallelTransition();
+        
+        parallelTransitionDown.getChildren().addAll(
+                scaleTransitionDown,
+                translateTransitionVBoxDown,
+                translateTransitionPosterDown
+        );
     }
 
     @FXML
@@ -101,8 +186,8 @@ public class UserCardController implements Initializable {
             followButton.setVisible(false);
             followButton.setManaged(false);
 
-            userImageView.setVisible(false);
-            userImageView.setManaged(false);
+            imageVBox.setVisible(false);
+            imageVBox.setManaged(false);
 
             privilegeCombo.setVisible(true);
             privilegeCombo.setManaged(true);
@@ -112,10 +197,16 @@ public class UserCardController implements Initializable {
 
             updatePrivilegeButton.setVisible(true);
             updatePrivilegeButton.setManaged(true);
+           
+            AnchorPane.setTopAnchor(cardVbox, 5.0);
+            status = 1;
+            
 
             int userPrivilege = user.getPrivilegeLevel();
 
             privilegeCombo.getSelectionModel().select(userPrivilege);
+            
+            parallelTransitionDown.play();
         } catch (Exception ex) {
             App.printErrorDialog("Update Privilege", "An error occurred updating the privilege", ex.toString() + "\n" + ex.getMessage());
         }
@@ -145,8 +236,8 @@ public class UserCardController implements Initializable {
 
             refreshUserCard();
 
-            userImageView.setVisible(true);
-            userImageView.setManaged(true);
+            imageVBox.setVisible(true);
+            imageVBox.setManaged(true);
 
             privilegeCombo.setVisible(false);
             privilegeCombo.setManaged(false);
@@ -159,6 +250,9 @@ public class UserCardController implements Initializable {
 
             followButton.setVisible(true);
             followButton.setManaged(true);
+            
+            AnchorPane.setTopAnchor(cardVbox, 146.0);
+            status = 0;
         } catch (Exception ex) {
             App.printErrorDialog("Update Privilege", "An error occurred updating the privilege", ex.toString() + "\n" + ex.getMessage());
         }
@@ -199,8 +293,6 @@ public class UserCardController implements Initializable {
         } else {
             PisaFlixServices.userService.follow(PisaFlixServices.authenticationService.getLoggedUser(), user);
             followButton.setText("- Unfollow");
-            followButton.getStyleClass().remove("smallest");
-            followButton.getStyleClass().remove("smaller");
         }
     }
 
@@ -209,16 +301,15 @@ public class UserCardController implements Initializable {
             if (!PisaFlixServices.userService.isFollowing(PisaFlixServices.authenticationService.getLoggedUser(), user)) {
 
                 if (user.type().equals("SUGGESTED")) {
-                    followButton.setText("+ Suggested");
+                    suggestLabel.setText("Suggested");
                 }
 
                 if (user.type().equals("VERY SUGGESTED")) {
-                    followButton.setText("+ Very Suggested");
-                    followButton.getStyleClass().add("smaller");
+                    suggestLabel.setText("Very Suggested");
                 }
 
                 if (user.type().equals("NORMAL")) {
-                    followButton.setText("+ Follow");
+                    suggestLabel.setText("");
                 }
 
             } else {
@@ -227,9 +318,22 @@ public class UserCardController implements Initializable {
         } else {
             followButton.setVisible(false);
             followButton.setManaged(false);
+            suggestLabel.setVisible(false);
+            suggestLabel.setManaged(false);
             userImageView.setFitHeight(116);
             userImageView.setFitWidth(116);
         }
     }
 
+    @FXML
+    private void animationUp(){
+        if(PisaFlixServices.authenticationService.isUserLogged() && status == 0)
+            parallelTransitionUp.play();
+    }
+    
+    @FXML
+    private void animationDown(){
+        if(PisaFlixServices.authenticationService.isUserLogged() && status == 0)
+            parallelTransitionDown.play();
+    }
 }

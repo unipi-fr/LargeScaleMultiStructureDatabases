@@ -147,7 +147,9 @@
     -fx-background-color: rgb(240.0, 240.0, 240.0);
 }
 
-
+.hider {
+    -fx-background-color: rgb(255.0, 255.0, 255.0);
+}
 
 .card-film-title {
     -fx-font-size: 20.0px;
