@@ -14,6 +14,8 @@ import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class UserViewController implements Initializable {
@@ -40,7 +42,10 @@ public class UserViewController implements Initializable {
     private Label emailLabel;
 
     @FXML
-    private Label followingCount;
+    private Label followingUserCount;
+    
+    @FXML
+    private Label followingFilmCount;
     
     @FXML
     private Label followerCount;
@@ -62,6 +67,12 @@ public class UserViewController implements Initializable {
 
     @FXML
     private Button updateButton;
+    
+    @FXML
+    private Pane postPane;
+    
+    @FXML
+    private VBox listVBox;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -81,6 +92,10 @@ public class UserViewController implements Initializable {
                 firstnameLabel.setText(user.getFirstName());
                 lastnameLabel.setText(user.getLastName());
                 emailLabel.setText(user.getEmail());
+                postCounterLabel.setText("" + PisaFlixServices.postService.count(user));
+                followingUserCount.setText("" + PisaFlixServices.userService.countFollowingUsers(user));
+                followingFilmCount.setText("" + PisaFlixServices.userService.countFollowingFilms(user));
+                followerCount.setText("" + PisaFlixServices.userService.countFollowers(user));
             }
 
             Random random = new Random();
@@ -171,16 +186,18 @@ public class UserViewController implements Initializable {
             }
             
             if (PisaFlixServices.authenticationService.isUserLogged() && !this.user.equals(PisaFlixServices.authenticationService.getLoggedUser())) {
-                FollowButton.setDisable(false);
+                FollowButton.setVisible(true);
+                FollowButton.setManaged(true);
                 setFollowButton();
             }else{
                 FollowButton.setVisible(false);
                 FollowButton.setManaged(false);
             }
 
-            postCounterLabel.setText("Post: " + PisaFlixServices.postService.count(user));
-            followingCount.setText("Following: " + PisaFlixServices.userService.countTotalFollowing(user));
-            followerCount.setText("Follower: " + PisaFlixServices.userService.countFollowers(user));
+            postCounterLabel.setText("" + PisaFlixServices.postService.count(user));
+            followingUserCount.setText("" + PisaFlixServices.userService.countFollowingUsers(user));
+            followingFilmCount.setText("" + PisaFlixServices.userService.countFollowingFilms(user));
+            followerCount.setText("" + PisaFlixServices.userService.countFollowers(user));
             
             addTags();
             
@@ -249,8 +266,8 @@ public class UserViewController implements Initializable {
     
     @FXML
     private void showFollowers() {
-        
         try {
+            setRow2(true);
             
             Set<User> userSet = PisaFlixServices.userService.getFollowers(user);
             listText.setText("Followers List:"); 
@@ -274,6 +291,8 @@ public class UserViewController implements Initializable {
     @FXML
     private void showFollowingFilms() {
         try {
+            setRow2(true);
+            
             listText.setText("Following Films List:"); 
             Set<Film> filmSet = PisaFlixServices.userService.getFollowingFilms(user);
             
@@ -296,6 +315,8 @@ public class UserViewController implements Initializable {
     @FXML
     private void showFollowingUsers() {
         try {
+            setRow2(true);
+            
             listText.setText("Following Users List:"); 
             Set<User> userSet = PisaFlixServices.userService.getFollowingUsers(user);
 
@@ -314,7 +335,29 @@ public class UserViewController implements Initializable {
             App.printErrorDialog("Favorite Films", "An error occurred loading following users", ex.toString() + "\n" + ex.getMessage());
         }
     }
+    
+    @FXML
+    private void showPost(){
+        setRow2(false);
+        
+        postPane.getChildren().clear();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("PostView.fxml"));
+            Pane pane = loader.load();
+            postPane.getChildren().add(pane);
+        } catch (IOException ex) {
+            App.printErrorDialog("Films", "An error occurred creating the film card", ex.toString() + "\n" + ex.getMessage());
+        }
+    }
 
+    private void setRow2(boolean status){
+        listVBox.setVisible(status);
+        listVBox.setManaged(status);
+        
+        postPane.setVisible(!status);
+        postPane.setManaged(!status);
+    }
+    
     private void addTags() {
         
     }

@@ -252,7 +252,7 @@ public class UserCardController implements Initializable {
             followButton.setManaged(true);
             
             AnchorPane.setTopAnchor(cardVbox, 146.0);
-            status = 0;
+            status = 2;
         } catch (Exception ex) {
             App.printErrorDialog("Update Privilege", "An error occurred updating the privilege", ex.toString() + "\n" + ex.getMessage());
         }
@@ -335,5 +335,8 @@ public class UserCardController implements Initializable {
     private void animationDown(){
         if(PisaFlixServices.authenticationService.isUserLogged() && status == 0)
             parallelTransitionDown.play();
+        
+        if(status == 2)
+            status = 0;
     }
 }

@@ -10,8 +10,10 @@ import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
-public class HomeController implements Initializable {
+public class PostViewController implements Initializable {
 
+    private int type = 0;
+    
     @FXML
     private VBox postVBox;
 
@@ -20,14 +22,19 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
-            if (PisaFlixServices.authenticationService.isUserLogged()) {
-                pagination();
+        if(type == 0)
+        {
+            try {
+                if (PisaFlixServices.authenticationService.isUserLogged()) {
+                    int count = PisaFlixServices.postService.countPostFollowed(PisaFlixServices.authenticationService.getLoggedUser());
+                    pagination(count);
+                }
+                
+                pagination.currentPageIndexProperty().addListener((obs, oldIndex, newIndex)
+                        -> refreshPosts(PisaFlixServices.postService.getPostFollowed(PisaFlixServices.authenticationService.getLoggedUser(), pagination.getCurrentPageIndex())));
+            } catch (Exception ex) {
+                App.printErrorDialog("Home", "An error occurred in inizialization", ex.toString() + "\n" + ex.getMessage());
             }
-            pagination.currentPageIndexProperty().addListener((obs, oldIndex, newIndex)
-                    -> refreshPosts());
-        } catch (Exception ex) {
-            App.printErrorDialog("Home", "An error occurred in inizialization", ex.toString() + "\n" + ex.getMessage());
         }
     }
 
@@ -49,9 +56,7 @@ public class HomeController implements Initializable {
         return pane;
     }
 
-    public void pagination() {
-
-        int count = PisaFlixServices.postService.countPostFollowed(PisaFlixServices.authenticationService.getLoggedUser());
+    public void pagination(int count) {
         if (count == 0) {
             pagination.pageCountProperty().setValue(1);
         } else {
@@ -59,15 +64,15 @@ public class HomeController implements Initializable {
             pagination.setPageCount((int) Math.ceil(count * 1.0 / PisaFlixServices.postService.getHomePostPerPageLimit() * 1.0));
         }
 
-        refreshPosts();
+        Set<Post> posts = PisaFlixServices.postService.getPostFollowed(PisaFlixServices.authenticationService.getLoggedUser(), pagination.getCurrentPageIndex());
+        
+        refreshPosts(posts);
 
     }
 
-    public void refreshPosts() {
+    public void refreshPosts(Set<Post> posts) {
 
         postVBox.getChildren().clear();
-
-        Set<Post> posts = PisaFlixServices.postService.getPostFollowed(PisaFlixServices.authenticationService.getLoggedUser(), pagination.getCurrentPageIndex());
 
         posts.forEach((post) -> {
             postVBox.getChildren().add(createPost(post.getUser().getUsername(), post.getTimestamp().toString(), post.getText(), post));

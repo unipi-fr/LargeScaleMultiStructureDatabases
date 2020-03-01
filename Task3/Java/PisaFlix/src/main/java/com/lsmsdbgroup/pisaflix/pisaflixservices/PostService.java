@@ -57,7 +57,7 @@ public class PostService implements PostServiceInterface{
 
     @Override
     public Set<Post> getUserPosts(User user, int currentPageIndex) {
-        return DBManager.postManager.getPostFollowed(user, DBManager.postManager.getLimit()*currentPageIndex);
+        return DBManager.postManager.getUserPosts(user, DBManager.postManager.getLimit()*currentPageIndex);
     }
 
     @Override

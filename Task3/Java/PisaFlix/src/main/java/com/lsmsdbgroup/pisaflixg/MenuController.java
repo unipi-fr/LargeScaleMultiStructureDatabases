@@ -46,7 +46,7 @@ public class MenuController implements Initializable {
 
     @FXML
     private void clickHomeButton() {
-        App.setMainPageReturnsController("Home");
+        App.setMainPageReturnsController("PostView");
     }
     
     @FXML

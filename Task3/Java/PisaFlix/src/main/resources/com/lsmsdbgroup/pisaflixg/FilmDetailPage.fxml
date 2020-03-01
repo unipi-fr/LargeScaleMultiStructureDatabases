@@ -38,7 +38,7 @@
                            <children>
                               <VBox fx:id="postVBox" alignment="TOP_CENTER" spacing="5.0">
                                  <padding>
-                                    <Insets left="5.0" right="5.0" top="1.0" />
+                                    <Insets left="5.0" right="5.0" />
                                  </padding>
                               </VBox>
                               <Pagination fx:id="pagination">
@@ -74,16 +74,13 @@
                               <Insets left="10.0" />
                            </padding>
                            <VBox.margin>
-                              <Insets top="-10.0" />
+                              <Insets />
                            </VBox.margin>
                         </Label>
                         <Separator halignment="RIGHT">
                            <VBox.margin>
-                              <Insets left="20.0" right="20.0" />
+                              <Insets />
                            </VBox.margin>
-                           <padding>
-                              <Insets left="20.0" right="20.0" />
-                           </padding>
                         </Separator>
                      </children>
                   </VBox>
