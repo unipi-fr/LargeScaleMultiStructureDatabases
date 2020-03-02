@@ -69,10 +69,21 @@ public class UserViewController implements Initializable {
     private Button updateButton;
     
     @FXML
-    private Pane postPane;
+    private ScrollPane postScrollPane;
     
     @FXML
     private VBox listVBox;
+    
+    @FXML
+    private VBox postVBox;
+    
+    private int loadMoreCount;
+    
+    @FXML
+    private Button loadMoreButton;
+    
+    @FXML
+    private Label noMoreCommentsLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -105,9 +116,6 @@ public class UserViewController implements Initializable {
 
             Image image = new Image(file.toURI().toString());
             userImage.setImage(image);
-            
-            if(user != null)
-                showPosts();
             
             filmListener = (ObservableValue<? extends Film> observable, Film oldValue, Film newValue) -> {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("FilmDetailPage.fxml"));
@@ -145,6 +153,8 @@ public class UserViewController implements Initializable {
                 App.setMainPane(gridPane);
             };
            
+            showPost();
+            
         } catch (Exception ex) {
             App.printErrorDialog("User Details", "An error occurred loading the user's details", ex.toString() + "\n" + ex.getMessage());
         }
@@ -199,16 +209,10 @@ public class UserViewController implements Initializable {
             followingFilmCount.setText("" + PisaFlixServices.userService.countFollowingFilms(user));
             followerCount.setText("" + PisaFlixServices.userService.countFollowers(user));
             
-            addTags();
-            
-            showPosts();
+            showPost();
         } catch (Exception ex) {
             App.printErrorDialog("Users", "An error occurred loading the users", ex.toString() + "\n" + ex.getMessage());
         }
-    }
-
-    private void showPosts() {
-        
     }
 
     @FXML
@@ -336,31 +340,91 @@ public class UserViewController implements Initializable {
         }
     }
     
-    @FXML
-    private void showPost(){
-        setRow2(false);
-        
-        postPane.getChildren().clear();
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("PostView.fxml"));
-            Pane pane = loader.load();
-            postPane.getChildren().add(pane);
-        } catch (IOException ex) {
-            App.printErrorDialog("Films", "An error occurred creating the film card", ex.toString() + "\n" + ex.getMessage());
-        }
-    }
-
     private void setRow2(boolean status){
         listVBox.setVisible(status);
         listVBox.setManaged(status);
         
-        postPane.setVisible(!status);
-        postPane.setManaged(!status);
+        postScrollPane.setVisible(!status);
+        postScrollPane.setManaged(!status);
     }
     
-    private void addTags() {
+    private Pane createPost(String username, String timestamp, String postStr, Post post) {
+        Pane pane = new Pane();
+        try {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("Post.fxml"));
+                PostController postController = new PostController(username, timestamp, postStr, 0);
+                postController.setPost(post);
+                loader.setController(postController);
+                pane = loader.load();
+            } catch (IOException ex) {
+                App.printErrorDialog("Film Details", "IOException", ex.toString() + "\n" + ex.getMessage());
+            }
+        } catch (Exception ex) {
+            App.printErrorDialog("Film Details", "An error occurred creating the post", ex.toString() + "\n" + ex.getMessage());
+        }
+        return pane;
+    }
+    
+    private void addPost(Post post){
+        
+        String username = post.getUser().getUsername();
+        String timestamp = post.getTimestamp().toString();
+        String postStr = post.getText();
+        
+        postVBox.getChildren().add(createPost(username, timestamp, postStr, post));
+    }
+    
+    @FXML
+    private void showPost(){
+        setRow2(false);
+        
+        loadMoreButton.setVisible(true);
+        loadMoreButton.setManaged(true);
+        noMoreCommentsLabel.setManaged(false);
+        noMoreCommentsLabel.setVisible(false);
+            
+        loadMoreCount = 0;
+        listText.setText("Post List:");
+        
+        postVBox.getChildren().clear();
+        
+        Set<Post> posts = PisaFlixServices.postService.getUserPosts(user, loadMoreCount);
+        
+        if(posts.isEmpty())
+        {
+            loadMoreButton.setVisible(false);
+            loadMoreButton.setManaged(false);
+            noMoreCommentsLabel.setManaged(true);
+            noMoreCommentsLabel.setVisible(true);
+            
+            return;
+        }
+        
+        for(Post post: posts){
+            addPost(post);
+        }
         
     }
     
-
+    @FXML
+    private void loadMore(){
+        loadMoreCount += 1;
+        
+        Set<Post> posts = PisaFlixServices.postService.getUserPosts(user, loadMoreCount);
+        
+        if(posts.isEmpty())
+        {
+            loadMoreButton.setVisible(false);
+            loadMoreButton.setManaged(false);
+            noMoreCommentsLabel.setManaged(true);
+            noMoreCommentsLabel.setVisible(true);
+            
+            return;
+        }
+        
+        for(Post post: posts){
+            addPost(post);
+        }
+    }
 }
