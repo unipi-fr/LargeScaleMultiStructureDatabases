@@ -85,6 +85,9 @@ public class CreatePostController implements Initializable {
     }
     
     public void addTag(Film film){
+        if(tagFilms.contains(film))
+            return;
+        
         Pane pane = createCardPane(film, 0);
         
         tagsHBox.getChildren().add(pane);

@@ -10,7 +10,7 @@ import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
-public class PostViewController implements Initializable {
+public class HomeController implements Initializable {
 
     private int type = 0;
     
