@@ -204,7 +204,9 @@ public class PostManager implements PostManagerDatabaseInterface {
                 System.out.println("Related posts count error: " + ex.getLocalizedMessage());
             }
         }
-
+        
+        if(result == null)return 0;
+        
         if (result.hasNext()) {
             count += result.next().get("count").asInt();
         }
