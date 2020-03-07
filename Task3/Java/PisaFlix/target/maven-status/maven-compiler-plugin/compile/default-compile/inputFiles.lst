@@ -17,7 +17,7 @@
 /Users/alessandromadonna/Documents/GitHub/LargeScaleMultiStructureDatabases/Task3/Java/PisaFlix/src/main/java/com/lsmsdbgroup/pisaflix/pisaflixservices/UserService.java
 /Users/alessandromadonna/Documents/GitHub/LargeScaleMultiStructureDatabases/Task3/Java/PisaFlix/src/main/java/com/lsmsdbgroup/pisaflix/pisaflixservices/exceptions/InvalidPrivilegeLevelException.java
 /Users/alessandromadonna/Documents/GitHub/LargeScaleMultiStructureDatabases/Task3/Java/PisaFlix/src/main/java/com/lsmsdbgroup/pisaflix/dbmanager/Interfaces/UserManagerDatabaseInterface.java
-/Users/alessandromadonna/Documents/GitHub/LargeScaleMultiStructureDatabases/Task3/Java/PisaFlix/src/main/java/com/lsmsdbgroup/pisaflixg/PostViewController.java
+/Users/alessandromadonna/Documents/GitHub/LargeScaleMultiStructureDatabases/Task3/Java/PisaFlix/src/main/java/com/lsmsdbgroup/pisaflixg/HomeController.java
 /Users/alessandromadonna/Documents/GitHub/LargeScaleMultiStructureDatabases/Task3/Java/PisaFlix/src/main/java/com/lsmsdbgroup/pisaflixg/AddFilmController.java
 /Users/alessandromadonna/Documents/GitHub/LargeScaleMultiStructureDatabases/Task3/Java/PisaFlix/src/main/java/com/lsmsdbgroup/pisaflix/pisaflixservices/DateConverter.java
 /Users/alessandromadonna/Documents/GitHub/LargeScaleMultiStructureDatabases/Task3/Java/PisaFlix/src/main/java/com/lsmsdbgroup/pisaflix/pisaflixservices/exceptions/InvalidPrivilegeLevelValueException.java

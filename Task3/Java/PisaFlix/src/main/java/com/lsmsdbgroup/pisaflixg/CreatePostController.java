@@ -106,10 +106,22 @@ public class CreatePostController implements Initializable {
     
     @FXML
     private void createPost(){
+        if(tagFilms.isEmpty()){
+            App.printErrorDialog("Create Post", "Crete Post Error", "You must enter at least a tag");
+            return;
+        }
+        
+        if(!App.printConfirmationDialog("Create Post", "Create Post confirmation", "Are you sure to create this post"))
+            return;
+        
         String text = postTextArea.getText();
         
         User user = PisaFlixServices.authenticationService.getLoggedUser();
         
         PisaFlixServices.postService.create(text, user, tagFilms);
+        
+        resetTags();
+        
+        postTextArea.setText("");
     }
 }

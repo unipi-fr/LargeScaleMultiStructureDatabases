@@ -1,5 +1,6 @@
 com/lsmsdbgroup/pisaflix/pisaflixservices/WikiScraper.class
 com/lsmsdbgroup/pisaflixg/UpdateProfileController.class
+com/lsmsdbgroup/pisaflixg/HomeController.class
 com/lsmsdbgroup/pisaflix/Entities/Post.class
 com/lsmsdbgroup/pisaflixg/UserBrowserController.class
 com/lsmsdbgroup/pisaflix/dbmanager/Interfaces/FilmManagerDatabaseInterface.class
@@ -40,7 +41,6 @@ com/lsmsdbgroup/pisaflix/pisaflixservices/UserPrivileges.class
 com/lsmsdbgroup/pisaflixg/PostController.class
 com/lsmsdbgroup/pisaflix/pisaflixservices/exceptions/InvalidCredentialsException.class
 com/lsmsdbgroup/pisaflixg/LoginController.class
-com/lsmsdbgroup/pisaflixg/PostViewController.class
 com/lsmsdbgroup/pisaflix/pisaflixservices/exceptions/InvalidFieldException.class
 com/lsmsdbgroup/pisaflix/pisaflixservices/Interfaces/AuthenticationServiceInterface.class
 com/lsmsdbgroup/pisaflixg/FilmBrowserController$TileWorker.class
