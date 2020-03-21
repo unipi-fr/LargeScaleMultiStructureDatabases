@@ -60,10 +60,6 @@ public class UpdateProfileController implements Initializable {
     @FXML
     private void updateProfile() {
         try {
-            user.setUsername(usernameTextField.getText());
-            user.setFirstName(firstnameTextField.getText());
-            user.setLastName(lastnameTextField.getText());
-            user.setEmail(emailTextField.getText());
 
             String newpass = newpassPass.getText();
             String confirmpass = confirmPass.getText();
@@ -82,7 +78,12 @@ public class UpdateProfileController implements Initializable {
                 return;
             }
 
-            PisaFlixServices.userService.updateUser(user);
+            PisaFlixServices.userService.updateUser(new User(user.getId(), emailTextField.getText(), usernameTextField.getText(), user.getPrivilegeLevel(), firstnameTextField.getText(), lastnameTextField.getText(), newpass));
+            
+            user.setUsername(usernameTextField.getText());
+            user.setFirstName(firstnameTextField.getText());
+            user.setLastName(lastnameTextField.getText());
+            user.setEmail(emailTextField.getText());
 
             UserViewController uvc = (UserViewController) App.setMainPageReturnsController("UserView");
             uvc.setUser(user);

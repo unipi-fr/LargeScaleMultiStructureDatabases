@@ -12,28 +12,28 @@ public class LoginController implements Initializable {
 
     @FXML
     private TextField usernameTextField;
-    
+
     @FXML
     private PasswordField passwordTextField;
-    
+
     @FXML
     private Button loginButton;
-    
+
     @FXML
     private Button registerButton;
-    
+
     @FXML
     private Label loginStatusLabel;
-    
+
     @FXML
     private Button logoutButton;
-    
+
     @FXML
     private Label errorLabel;
-    
+
     @FXML
     private Button showProfileButton;
-    
+
     @FXML
     private Button writeButton;
 
@@ -43,10 +43,6 @@ public class LoginController implements Initializable {
             update();
             errorLabel.setVisible(false);
             errorLabel.setManaged(false);
-            showProfileButton.setVisible(false);
-            showProfileButton.setManaged(false);
-            writeButton.setVisible(false);
-            writeButton.setManaged(false);
         } catch (Exception ex) {
             App.printErrorDialog("Login", "There was an inizialization error", ex.toString() + "\n" + ex.getMessage());
         }
@@ -70,7 +66,7 @@ public class LoginController implements Initializable {
         if (logged) {
             this.loginStatusLabel.setText(PisaFlixServices.authenticationService.getInfoString());
         }
-        
+
         this.loginStatusLabel.setVisible(logged);
         this.loginStatusLabel.setManaged(logged);
         this.logoutButton.setVisible(logged);
@@ -80,6 +76,10 @@ public class LoginController implements Initializable {
         this.logoutButton.setManaged(logged);
         this.writeButton.setVisible(logged);
         this.writeButton.setManaged(logged);
+        showProfileButton.setVisible(logged);
+        showProfileButton.setManaged(logged);
+        writeButton.setVisible(logged);
+        writeButton.setManaged(logged);
     }
 
     @FXML
@@ -138,9 +138,9 @@ public class LoginController implements Initializable {
     private void showUser() {
         App.setMainPageReturnsController("UserView");
     }
-    
+
     @FXML
-    private void writePost(){
+    private void writePost() {
         App.setMainPageReturnsController("CreatePost");
     }
 }
