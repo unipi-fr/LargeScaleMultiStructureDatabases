@@ -255,14 +255,14 @@ public class CommentManagerKV extends KeyValueDBManager implements CommentManage
     private Comment getFilmCommentById(int commentId, String idUser, String idFilm, String text, String timestamp){
     
         User user = UserManagerKV.getIstance().getById(Integer.parseInt(idUser), false);
-        Film film = FilmManagerKV.getIstance().getById(Integer.parseInt(idFilm), false);
+        Film film = new Film(Integer.parseInt(idFilm));  //FilmManagerKV.getIstance().getById(Integer.parseInt(idFilm), false);
         Date date;
         try{
             date = dateFormat.parse(timestamp);
         }catch(ParseException ex){ex.printStackTrace(System.out); return null;}
 
         // controllo oggetti ottenuti....
-        if(user == null || film == null){
+        if(user == null){
             System.err.println("Error: impossible to retireve data");
             return null;
         }
@@ -274,7 +274,7 @@ public class CommentManagerKV extends KeyValueDBManager implements CommentManage
     private Comment getCinemaCommentById(int commentId, String idUser, String idCinema, String text, String timestamp){
     
         User user = UserManagerKV.getIstance().getById(Integer.parseInt(idUser), false);
-        Cinema cinema = CinemaManagerKV.getIstance().getById(Integer.parseInt(idCinema), false);
+        Cinema cinema = new Cinema(Integer.parseInt(idCinema));//CinemaManagerKV.getIstance().getById(Integer.parseInt(idCinema), false);
         Date date;
         try{
             date = dateFormat.parse(timestamp);
