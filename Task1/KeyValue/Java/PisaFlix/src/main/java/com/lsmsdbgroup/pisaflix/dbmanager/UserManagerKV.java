@@ -1,17 +1,11 @@
 package com.lsmsdbgroup.pisaflix.dbmanager;
 
-import com.lsmsdbgroup.pisaflix.Entities.Comment;
 import com.lsmsdbgroup.pisaflix.Entities.User;
 import com.lsmsdbgroup.pisaflix.dbmanager.Interfaces.UserManagerDatabaseInterface;
-import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import org.iq80.leveldb.DB;
-import org.iq80.leveldb.DBIterator;
-import static org.iq80.leveldb.impl.Iq80DBFactory.asString;
-import static org.iq80.leveldb.impl.Iq80DBFactory.bytes;
 
 public class UserManagerKV extends KeyValueDBManager implements UserManagerDatabaseInterface{
     
@@ -40,6 +34,7 @@ public class UserManagerKV extends KeyValueDBManager implements UserManagerDatab
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
             user = entityManager.find(User.class, userId);
+            entityManager.getTransaction().commit();
             if (user == null) {
                 System.out.println("User not found!");
             }
