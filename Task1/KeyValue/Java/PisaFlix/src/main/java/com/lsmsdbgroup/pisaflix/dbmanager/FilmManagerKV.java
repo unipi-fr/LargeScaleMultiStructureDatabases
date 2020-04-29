@@ -35,6 +35,7 @@ public class FilmManagerKV extends KeyValueDBManager implements FilmManagerDatab
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
             film = entityManager.find(Film.class, filmId);
+            entityManager.getTransaction().commit();
             
             // ricorda di recuperare i commenti e di settarli nel caso in cui
             // retreiveComments è settato a true (per evitare la ricorsione infinita)

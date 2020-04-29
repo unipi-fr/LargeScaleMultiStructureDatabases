@@ -55,7 +55,7 @@ public class CinemaManagerKV extends KeyValueDBManager implements CinemaManagerD
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
             cinema = entityManager.find(Cinema.class, cinemaId);
-            
+            entityManager.getTransaction().commit();
             // ricorda di recuperare i commenti e di settarli nel caso in cui
             // retreiveComments è settato a true (per evitare la ricorsione infinita)
             if(retreiveComments){
